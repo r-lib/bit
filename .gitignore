@@ -2,5 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-src/.o
-src/.dll
+src/*.o
+src/*.dll
