@@ -1,0 +1,6 @@
+//CC = gcc-4.8 -std=gnu99 -fsanitize=address -fno-omit-frame-pointer
+//CXX = g++-4.8 -fsanitize=address -fno-omit-frame-pointer
+//F77 = gfortran-4.8 -fsanitize=address
+//FC = gfortran-4.8 -fsanitize=address
+//PKG_CFLAGS=-pedantic -O2
+
