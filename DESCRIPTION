@@ -1,0 +1,27 @@
+Package: bit
+Type: Package
+Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
+Version: 4.0.0
+Date: 2020-03-06
+Author: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Depends:
+    R (>= 2.9.2)
+Suggests:
+    testthat (>= 0.11.0),
+    knitr,
+    rmarkdown,
+    microbenchmark,
+    ff (>= 4.0.0)
+Description: Provided are classes for boolean and skewed boolean vectors,
+    fast boolean methods, fast unique and non-unique integer sorting,
+    fast set operations on sorted and unsorted sets of integers, and
+    foundations for ff (range indices, compression, chunked processing).
+License: GPL-2 | GPL-3
+LazyLoad: yes
+ByteCompile: yes
+Encoding: UTF-8
+URL: http://ff.r-forge.r-project.org/
+Packaged: 2011-01-18 17:22:41 UTC; Jens Oehlschlaegel
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
