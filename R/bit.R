@@ -1414,23 +1414,18 @@ as.bitwhich.bit <- function(x, range=NULL, poslength=NULL, ...){
 
 #' Test for NA in bit and bitwhich
 #'
-#' @name is.na
+#' @name is.na.bit
 #' @param x a \code{\link{bit}} or  \code{\link{bitwhich}} vector
 #'
 #' @return vector of same type with all elements \code{FALSE}
 #' @seealso \code{\link{is.na}}
-#' @export
 #'
 #' @examples
 #' is.na(bit(6))
 #' is.na(bitwhich(6))
-NULL
-
-#' @describeIn is.na method for \code{\link{is.na}} from \code{\link{bit}}
-#' @export
 is.na.bit <- function(x)bit(length(x))
 
-#' @describeIn is.na method for \code{\link{is.na}} from \code{\link{bitwhich}}
+#' @describeIn is.na.bit method for \code{\link{is.na}} from \code{\link{bitwhich}}
 #' @export
 is.na.bitwhich <- function(x)bitwhich(length(x))
 

@@ -24,4 +24,4 @@ Encoding: UTF-8
 URL: http://ff.r-forge.r-project.org/
 Packaged: 2011-01-18 17:22:41 UTC; Jens Oehlschlaegel
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
