@@ -3,7 +3,9 @@ Type: Package
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
 Version: 4.0.0
 Date: 2020-04-12
-Author: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Authors@R: c(person("Jens", "Oehlschlägel", role = c('aut', 'cre'),
+	             email = "Jens.Oehlschlaegel@truecluster.com"),
+             person("Brian", "Ripley", role = 'ctb'))
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends:
     R (>= 2.9.2)
@@ -12,6 +14,7 @@ Suggests:
     knitr,
     rmarkdown,
     microbenchmark,
+    roxygen2,
     ff (>= 4.0.0)
 Description: Provided are classes for boolean and skewed boolean vectors,
     fast boolean methods, fast unique and non-unique integer sorting,

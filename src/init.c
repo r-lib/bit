@@ -43,7 +43,7 @@ extern SEXP R_bit_setdiff(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_setequal(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_set_integer(SEXP, SEXP, SEXP);
 extern SEXP R_bit_set_logical(SEXP, SEXP, SEXP);
-extern SEXP R_bit_shiftcopy(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP R_bit_shiftcopy(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_sort(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_sort_unique(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_sum(SEXP, SEXP);
@@ -130,7 +130,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"R_bit_setequal",            (DL_FUNC) &R_bit_setequal,            5},
     {"R_bit_set_integer",         (DL_FUNC) &R_bit_set_integer,         3},
     {"R_bit_set_logical",         (DL_FUNC) &R_bit_set_logical,         3},
-    {"R_bit_shiftcopy",           (DL_FUNC) &R_bit_shiftcopy,           5},
+    {"R_bit_shiftcopy",           (DL_FUNC) &R_bit_shiftcopy,           4},
     {"R_bit_sort",                (DL_FUNC) &R_bit_sort,                5},
     {"R_bit_sort_unique",         (DL_FUNC) &R_bit_sort_unique,         5},
     {"R_bit_sum",                 (DL_FUNC) &R_bit_sum,                 2},

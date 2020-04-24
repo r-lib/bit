@@ -223,28 +223,31 @@ SEXP R_firstNA(SEXP x_){
   switch(TYPEOF(x_)) {
   case REALSXP:
     realx = REAL(x_);
-    for (i=0;i<n;i++)
+    for (i=0;i<n;i++){
       if (ISNA(realx[i])){
         y[0] = i+1;
         break;
       }
-      break;
+    }
+    break;
   case LGLSXP:
     intx = LOGICAL(x_);
-    for (i=0;i<n;i++)
+    for (i=0;i<n;i++){
       if (intx[i] == NA_LOGICAL){
         y[0] = i+1;
         break;
       }
-      break;
+    }
+    break;
   case INTSXP:
     intx = INTEGER(x_);
-    for (i=0;i<n;i++)
+    for (i=0;i<n;i++){
       if (intx[i] == NA_INTEGER){
         y[0] = i+1;
         break;
       }
-      break;
+    }
+    break;
   case CPLXSXP:
   case STRSXP:
   default:

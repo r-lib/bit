@@ -61,12 +61,13 @@ void int_quicksort2(ValueT *x, IndexT l, IndexT r)
     i = l-1; j = r; 
     for (;;){
       while (LT(x[++i], v)); // sentinel stop of for loop
-      while (LT(v, x[--j])) 
+      while (LT(v, x[--j])){
         if (j <= i)       // explicit stop of for loop
           break;
-        if (j <= i) 
-          break;
-        EXCH(x[i], x[j], t);
+      }  
+      if (j <= i) 
+        break;
+      EXCH(x[i], x[j], t);
     }
     EXCH(x[i], x[r], t);
     int_quicksort2(x, l, i-1);

@@ -844,7 +844,7 @@ c.bit <- function(...){
   x <- bit(nnew)
   for (i in seq_len(nl)){
     b <- as.bit(l[[i]])
-    .Call(C_R_bit_shiftcopy, bsource_=b, btarget_=x, otarget_=offsets[i], n_=nold[i], FALSE)
+    .Call(C_R_bit_shiftcopy, bsource_=b, btarget_=x, otarget_=offsets[i], n_=nold[i])
   }
   x
 }

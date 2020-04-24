@@ -1,4 +1,4 @@
-        CHANGES IN bit VERSION 1.1-14
+        CHANGES IN bit VERSION 4.0.0
  
 NEW FEATURES
 
@@ -93,8 +93,18 @@ BUG FIXES
       comes to NAs or ZEROs in subscripts
     o length<-.bit no longer tries to access memory before it is allocated
     o as.bit.bitwhich now handles non-positive bitwhich correctly
+    o declare as static many functions/variables in bit.c. (Thanks to Brian Ripley)
+    
+    
 
+        CHANGES IN bit VERSION 1.1-14
 
+BUG FIXES
+
+    o bit[i] and bit[i]<-v now check for non-positive integers
+      which prevents a segfault when bit[NA] or bit[NA]<-v   
+
+      
 
         CHANGES IN bit VERSION 1.1-13
 

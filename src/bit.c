@@ -7,11 +7,16 @@
 # Provided 'as is', use at your own risk
 */
 
+#include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
 
 #include "merge.h"
 #include "sort.h"
+
+// 0 = no checks  1 = only index checks  2 = also range checks
+#define C_LEVEL_CHECKS 0 
+
 
 // Configuration: set this to 32 or 64 and keep in sync with .BITS in bit.R
 #define BITS 32
@@ -27,15 +32,15 @@
 ~ bitwise not
 */
 
-#if BITS==64
+#if BITS == 64
 typedef unsigned long long int bitint;
 #else
 typedef unsigned int bitint;
 #endif
 
-bitint *mask0, *mask1;
+static bitint *mask0, *mask1;
 
-void bit_init(int   bits){
+static void bit_init(int   bits){
   if (bits != BITS)
     error("R .BITS and C BITS are not in sync");
   if (bits-1 != LASTBIT)
@@ -52,7 +57,7 @@ void bit_init(int   bits){
   }
 }
 
-void bit_done(){
+static void bit_done(){
   free(mask0);
   free(mask1);
 }
@@ -73,7 +78,7 @@ SEXP R_bit_done(){
 copy 'n' bits from 'bfrom' to 'bto' with offset 'oto'
 NOTE that remaining target bits AFTER the copied area are overwritten with zero
 */
-void bit_shiftcopy(
+static void bit_shiftcopy(
     bitint *bsource /* bit source */
 , bitint *btarget /* bit target */
 , int otarget     /* offset target */
@@ -128,7 +133,7 @@ if (target_j==target_j1){
 // { --- bit reversal ---
 
 // copy bits to reverse order
-void bit_reverse(bitint *s, bitint *t, int n){
+static void bit_reverse(bitint *s, bitint *t, int n){
   register int sk;
   register int sj;
   register bitint sw;
@@ -180,7 +185,7 @@ void bit_reverse(bitint *s, bitint *t, int n){
 // { --- transfer between bit and logical for certain range of b ---
 
 // get logical from range of bit
-void bit_get(bitint *b, int *l, int from, int to){
+static void bit_get(bitint *b, int *l, int from, int to){
   from--;
   to--;
   register bitint word;
@@ -211,7 +216,7 @@ void bit_get(bitint *b, int *l, int from, int to){
 }
 
 // set range of bit from logical
-void bit_set(bitint *b, int *l, int from, int to){
+static void bit_set(bitint *b, int *l, int from, int to){
   from--;
   to--;
   register bitint word = 0;  /* this init only to keep compiler quiet */
@@ -253,8 +258,11 @@ void bit_set(bitint *b, int *l, int from, int to){
     }
 }
 
+
+
+
 // dito but recycles logical
-void bit_set_recycle(bitint *b, int *l, int from, int to, int nl){
+static void bit_set_recycle(bitint *b, int *l, int from, int to, int nl){
   from--;
   to--;
   register bitint word = 0;  /* this init only to keep compiler quiet */
@@ -302,8 +310,17 @@ void bit_set_recycle(bitint *b, int *l, int from, int to, int nl){
     }
 }
 
+
+
+
+
+
+
+
+
+
 // dito but with scalar logical
-void bit_set_one(bitint *b, int l, int from, int to){
+static void bit_set_one(bitint *b, int l, int from, int to){
   from--;
   to--;
   register bitint word = 0;  /* this init only to keep compiler quiet */
@@ -352,7 +369,7 @@ void bit_set_one(bitint *b, int l, int from, int to){
 
 // { --- transfer from bit to which for certain range of b ---
 
-void bit_which_positive(bitint *b, int *l, int from, int to
+static void bit_which_positive(bitint *b, int *l, int from, int to
                           , int offset // shifts which by offset
 ){
   register int i=from + offset;
@@ -392,7 +409,7 @@ void bit_which_positive(bitint *b, int *l, int from, int to
 }
 
 
-void bit_which_negative(bitint *b, int *l, int from, int to){
+static void bit_which_negative(bitint *b, int *l, int from, int to){
   register int i= -to;
   from--;
   to--;
@@ -437,7 +454,7 @@ void bit_which_negative(bitint *b, int *l, int from, int to){
 // extract at positive unsorted subscripts i
 // skip over ZEROs
 // NAs and out of range (and negative) mapped to NA
-int bit_extract_unsorted(bitint *b, int nb, int *i, int ni, int *l){
+static int bit_extract_unsorted(bitint *b, int nb, int *i, int ni, int *l){
   register int ii, il, ib, j, k;
   for (ii=0,il=0; ii<ni; ii++){
     if (i[ii]!=0){ // skip over zero
@@ -475,21 +492,23 @@ int bit_extract_unsorted(bitint *b, int nb, int *i, int ni, int *l){
 //   i[ni] = w
 //   or inclusion if 
 //   i[ni] < w
-int bit_extract_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
+static int bit_extract_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
   register int jb, k, w, il=0;
   int j, n = nb/BITS;
   ni--; // serves as index into i 
   for (j=0,jb=-1; j<n; j++,jb-=BITS){
     for (k=0; k<BITS; k++){
       w = jb-k; 
-      while( i[ni] > w )
+      while( i[ni] > w ){
         if (ni>0)
           ni--;
-        else goto finmain;
-        // filter transformation
-        if ( i[ni] < w){
-          l[il++] = b[j] & mask1[k] ? 1 : 0;
-        }
+        else 
+          goto finmain;
+      }
+      // filter transformation
+      if ( i[ni] < w){
+        l[il++] = b[j] & mask1[k] ? 1 : 0;
+      }
     }
   }
   n = nb%BITS;
@@ -497,13 +516,15 @@ int bit_extract_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
   
   for (; k<n; k++){
     w = jb-k ;
-    while( i[ni] > w )
+    while( i[ni] > w ){
       if (ni>0)
         ni--;
-      else goto finrest;
-      if ( i[ni] < w){
-        l[il++] = b[j] & mask1[k] ? 1 : 0;
-      }
+      else 
+        goto finrest;
+    }
+    if ( i[ni] < w){
+      l[il++] = b[j] & mask1[k] ? 1 : 0;
+    }
   }
   return il;
   
@@ -531,7 +552,7 @@ int bit_extract_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
 // replace at positive unsorted subscripts i
 // skip over ZEROs and NAs (and negative)
 // there is never positive out of range because vector was extended
-void bit_replace_unsorted(bitint *b, int *i, int ni, int *l){
+static void bit_replace_unsorted(bitint *b, int *i, int ni, int *l){
   register int ii, il, ib, j, k;
   for (ii=0,il=0; ii<ni; ii++){
     if (i[ii]>0){
@@ -548,7 +569,7 @@ void bit_replace_unsorted(bitint *b, int *i, int ni, int *l){
 }
 
 // dito but l is allowed to be shorter than i
-void bit_replace_unsorted_recycle(bitint *b, int *i, int ni, int *l, int nl){
+static void bit_replace_unsorted_recycle(bitint *b, int *i, int ni, int *l, int nl){
   register int ii, il, ib, j, k;
   for (ii=0,il=0; ii<ni; ii++){
     if (i[ii]>0){
@@ -566,7 +587,7 @@ void bit_replace_unsorted_recycle(bitint *b, int *i, int ni, int *l, int nl){
 }
 
 // dito but with scalar l
-void bit_replace_unsorted_one(bitint *b, int *i, int ni, int l){
+static void bit_replace_unsorted_one(bitint *b, int *i, int ni, int l){
   register int ii, ib, j, k;
   if (l==NA_INTEGER)
     l = FALSE;
@@ -586,35 +607,19 @@ void bit_replace_unsorted_one(bitint *b, int *i, int ni, int l){
 // replace at all but negative sorted subscripts i
 // there is never ZERO or NA or positive out of range
 // only neg may contain out of range but needs no checking
-void bit_replace_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
+static void bit_replace_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
   register int jb, k, w, il=0;
   int j, n = nb/BITS;
   ni--; // serves as index into i 
   for (j=0,jb=-1; j<n; j++,jb-=BITS){
     for (k=0; k<BITS; k++){
       w = jb-k; 
-      while( i[ni] > w )
+      while( i[ni] > w ){
         if (ni>0)
           ni--;
-        else goto finmain;
-        if ( i[ni] < w){
-          if (l[il]==FALSE || l[il]==NA_INTEGER)  // testing both allows l to be integer (not only logical)
-            b[j] &= mask0[k];
-          else
-            b[j] |= mask1[k];
-          il++;
-        }
-    }
-  }
-  n = nb%BITS;
-  k=0;
-  
-  for (; k<n; k++){
-    w = jb-k; 
-    while( i[ni] > w )
-      if (ni>0)
-        ni--;
-      else goto finrest;
+        else 
+          goto finmain;
+      }
       if ( i[ni] < w){
         if (l[il]==FALSE || l[il]==NA_INTEGER)  // testing both allows l to be integer (not only logical)
           b[j] &= mask0[k];
@@ -622,6 +627,26 @@ void bit_replace_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
           b[j] |= mask1[k];
         il++;
       }
+    }
+  }
+  n = nb%BITS;
+  k=0;
+  
+  for (; k<n; k++){
+    w = jb-k; 
+    while( i[ni] > w ){
+      if (ni>0)
+        ni--;
+      else 
+        goto finrest;
+    }
+    if ( i[ni] < w){
+      if (l[il]==FALSE || l[il]==NA_INTEGER)  // testing both allows l to be integer (not only logical)
+        b[j] &= mask0[k];
+      else
+        b[j] |= mask1[k];
+      il++;
+    }
   }
   return;
   
@@ -643,7 +668,7 @@ void bit_replace_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
       }
     }
     n = nb%BITS;
-  k = 0;
+    k = 0;
   
   finrest:
     for (; k<n; k++){
@@ -662,39 +687,21 @@ void bit_replace_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
 // replace at all but negative sorted subscripts i
 // there is never ZERO or NA or positive out of range
 // only neg may contain out of range but needs no checking
-void bit_replace_but_sorted_recycle(bitint *b, int nb, int *i, int ni, int *l, int nl){
+static void bit_replace_but_sorted_recycle(bitint *b, int nb, int *i, int ni, int *l, int nl){
   register int jb, k, w, il=0;
   int j, n = nb/BITS;
   ni--; // serves as index into i 
   for (j=0,jb=-1; j<n; j++,jb-=BITS){
     for (k=0; k<BITS; k++){
       w = jb-k; 
-      while( i[ni] > w )
+      while( i[ni] > w ){
         if (ni>0)
           ni--;
-        else goto finmain;
-        if ( i[ni] < w){
-          //Rprintf("1 main j=%d k=%d w=%d il=%d\n", j, k, w, il);
-          if (l[il]==FALSE || l[il]==NA_INTEGER)  // testing both allows l to be integer (not only logical)
-            b[j] &= mask0[k];
-          else
-            b[j] |= mask1[k];
-          if (++il>=nl)
-            il -= nl;  // recycle l
-        }
-    }
-  }
-  n = nb%BITS;
-  k=0;
-  
-  for (; k<n; k++){
-    w = jb-k; 
-    while( i[ni] > w )
-      if (ni>0)
-        ni--;
-      else goto finrest;
+        else 
+          goto finmain;
+      }
       if ( i[ni] < w){
-        //Rprintf("1 rest j=%d k=%d w=%d il=%d\n", j, k, w, il);
+        //Rprintf("1 main j=%d k=%d w=%d il=%d\n", j, k, w, il);
         if (l[il]==FALSE || l[il]==NA_INTEGER)  // testing both allows l to be integer (not only logical)
           b[j] &= mask0[k];
         else
@@ -702,6 +709,28 @@ void bit_replace_but_sorted_recycle(bitint *b, int nb, int *i, int ni, int *l, i
         if (++il>=nl)
           il -= nl;  // recycle l
       }
+    }
+  }
+  n = nb%BITS;
+  k=0;
+  
+  for (; k<n; k++){
+    w = jb-k; 
+    while( i[ni] > w ){
+      if (ni>0)
+        ni--;
+      else 
+        goto finrest;
+    }
+    if ( i[ni] < w){
+      //Rprintf("1 rest j=%d k=%d w=%d il=%d\n", j, k, w, il);
+      if (l[il]==FALSE || l[il]==NA_INTEGER)  // testing both allows l to be integer (not only logical)
+        b[j] &= mask0[k];
+      else
+        b[j] |= mask1[k];
+      if (++il>=nl)
+        il -= nl;  // recycle l
+    }
   }
   return;
   
@@ -727,7 +756,7 @@ void bit_replace_but_sorted_recycle(bitint *b, int nb, int *i, int ni, int *l, i
       }
     }
     n = nb%BITS;
-  k = 0;
+    k = 0;
   
   finrest:
     for (; k<n; k++){
@@ -747,23 +776,25 @@ void bit_replace_but_sorted_recycle(bitint *b, int nb, int *i, int ni, int *l, i
 // replace at all but negative sorted subscripts i
 // there is never ZERO or NA or positive out of range
 // only neg may contain out of range but needs no checking
-void bit_replace_but_sorted_one(bitint *b, int nb, int *i, int ni, int l){
+static void bit_replace_but_sorted_one(bitint *b, int nb, int *i, int ni, int l){
   register int jb, k, w;
   int j, n = nb/BITS;
   ni--; // serves as index into i 
   for (j=0,jb=-1; j<n; j++,jb-=BITS){
     for (k=0; k<BITS; k++){
       w = jb-k; 
-      while( i[ni] > w )
+      while( i[ni] > w ){
         if (ni>0)
           ni--;
-        else goto finmain;
-        if ( i[ni] < w){
-          if (l==FALSE || l==NA_INTEGER)  // testing both allows l to be integer (not only logical)
-            b[j] &= mask0[k];
-          else
-            b[j] |= mask1[k];
-        }
+        else 
+          goto finmain;
+      }
+      if ( i[ni] < w){
+        if (l==FALSE || l==NA_INTEGER)  // testing both allows l to be integer (not only logical)
+          b[j] &= mask0[k];
+        else
+          b[j] |= mask1[k];
+      }
     }
   }
   n = nb%BITS;
@@ -771,16 +802,18 @@ void bit_replace_but_sorted_one(bitint *b, int nb, int *i, int ni, int l){
   
   for (; k<n; k++){
     w = jb-k; 
-    while( i[ni] > w )
+    while( i[ni] > w ){
       if (ni>0)
         ni--;
-      else goto finrest;
-      if ( i[ni] < w){
-        if (l==FALSE || l==NA_INTEGER)  // testing both allows l to be integer (not only logical)
-          b[j] &= mask0[k];
-        else
-          b[j] |= mask1[k];
-      }
+      else 
+        goto finrest;
+    }
+    if ( i[ni] < w){
+      if (l==FALSE || l==NA_INTEGER)  // testing both allows l to be integer (not only logical)
+        b[j] &= mask0[k];
+      else
+        b[j] |= mask1[k];
+    }
   }
   return;
   
@@ -800,7 +833,7 @@ void bit_replace_but_sorted_one(bitint *b, int nb, int *i, int ni, int l){
       }
     }
     n = nb%BITS;
-  k = 0;
+    k = 0;
   
   finrest:
     for (; k<n; k++){
@@ -820,7 +853,7 @@ void bit_replace_but_sorted_one(bitint *b, int nb, int *i, int ni, int l){
 // allows y outside low high and NAs
 
 // set all bits in low-high at y-low to TRUE
-void bit_rangediff_int2bit_lr(int low, int high, int *y, int ny, bitint *b){
+static void bit_rangediff_int2bit_lr(int low, int high, int *y, int ny, bitint *b){
   register int i, x, j, k;
   for (i=0; i<ny; i++){
     x = y[i];
@@ -835,7 +868,7 @@ void bit_rangediff_int2bit_lr(int low, int high, int *y, int ny, bitint *b){
 }
 
 // set all bits in low-high at high-y to TRUE
-void bit_rangediff_int2bit_rl(int low, int high, int *y, int ny, bitint *b){
+static void bit_rangediff_int2bit_rl(int low, int high, int *y, int ny, bitint *b){
   register int i, x, j, k;
   for (i=0; i<ny; i++){
     x = y[i];
@@ -851,7 +884,7 @@ void bit_rangediff_int2bit_rl(int low, int high, int *y, int ny, bitint *b){
 
 
 // write from low to high values with zero-bit with original sign
-int bit_rangediff_bit2int_lr(int low, int high, bitint *b, int *ret){
+static int bit_rangediff_bit2int_lr(int low, int high, bitint *b, int *ret){
   register int n, jb, j, k;
   register int u = 0;
   n = (high-low+1)/BITS;
@@ -870,7 +903,7 @@ int bit_rangediff_bit2int_lr(int low, int high, bitint *b, int *ret){
 }
 
 // write from high to low values with zero-bit with original sign
-int bit_rangediff_bit2int_rl(int low, int high, bitint *b, int *ret){
+static int bit_rangediff_bit2int_rl(int low, int high, bitint *b, int *ret){
   register int n, jb, j, k;
   register int u = 0;
   n = (high-low+1)/BITS;
@@ -891,7 +924,7 @@ int bit_rangediff_bit2int_rl(int low, int high, bitint *b, int *ret){
 }
 
 // write from low to high values with zero-bit with reversed sign
-int bit_rangediff_bit2int_lr_rev(int low, int high, bitint *b, int *ret){
+static int bit_rangediff_bit2int_lr_rev(int low, int high, bitint *b, int *ret){
   register int n, jb, j, k;
   register int u = 0;
   n = (high-low+1)/BITS;
@@ -910,7 +943,7 @@ int bit_rangediff_bit2int_lr_rev(int low, int high, bitint *b, int *ret){
 }
 
 // write from high to low values with zero-bit with reversed sign
-int bit_rangediff_bit2int_rl_rev(int low, int high, bitint *b, int *ret){
+static int bit_rangediff_bit2int_rl_rev(int low, int high, bitint *b, int *ret){
   register int n, jb, j, k;
   register int u = 0;
   n = (high-low+1)/BITS;
@@ -935,7 +968,7 @@ int bit_rangediff_bit2int_rl_rev(int low, int high, bitint *b, int *ret){
 // allows NAs in i but all i must be within bit range of offset
 
 // set all bits at i-low to TRUE and return number of NAs
-int bit_sort_int2bit_lr(int *i, int ni, int low, bitint *b){
+static int bit_sort_int2bit_lr(int *i, int ni, int low, bitint *b){
   register int ii, ib, j, k, sumNA=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -951,7 +984,7 @@ int bit_sort_int2bit_lr(int *i, int ni, int low, bitint *b){
 }
 
 // set all bits but at high-i to TRUE and return number of NAs
-int bit_sort_int2bit_rl(int *i, int ni, int high, bitint *b){
+static int bit_sort_int2bit_rl(int *i, int ni, int high, bitint *b){
   register int ii, ib, j, k, sumNA=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -968,7 +1001,7 @@ int bit_sort_int2bit_rl(int *i, int ni, int high, bitint *b){
 
 
 // write all TRUE bit positions+offset to i
-int bit_sort_bit2int_lr(bitint *b, int nb, int low, int *i){
+static int bit_sort_bit2int_lr(bitint *b, int nb, int low, int *i){
   register int j, jb, k, ii=0, n= nb/BITS;
   for (j=0,jb=0; j<n; j++,jb+=BITS){
     for (k=0; k<BITS; k++){
@@ -985,7 +1018,7 @@ int bit_sort_bit2int_lr(bitint *b, int nb, int low, int *i){
 }
 
 
-int bit_sort_bit2int_rl(bitint *b, int nb, int high, int *i){
+static int bit_sort_bit2int_rl(bitint *b, int nb, int high, int *i){
   register int j, jb, k, ii=0, n= nb/BITS;
   for (j=0,jb=0; j<n; j++,jb+=BITS){
     for (k=0; k<BITS; k++){
@@ -1005,7 +1038,7 @@ int bit_sort_bit2int_rl(bitint *b, int nb, int high, int *i){
 
 // receives integers in x and returns sorted in y // [[Rcpp::export]]
 // while making use of b
-int *bit_sort(bitint *b, int nb, int offset, int ni, int *x, int*y, int depth){
+static int *bit_sort(bitint *b, int nb, int offset, int ni, int *x, int*y, int depth){
   int ib, r, w, j, k, n= nb/BITS;
   int *z;
   // walk front to back and check bit values of x-offset
@@ -1076,7 +1109,7 @@ int *bit_sort(bitint *b, int nb, int offset, int ni, int *x, int*y, int depth){
 
 // returns all positions where i-offset is not duplicated
 // treat NA like all other values (except for the fact that it is not mapped into the bit vector)
-int bit_unique_compareNA(int *i, int ni, int offset, bitint *b, int *ret){
+static int bit_unique_compareNA(int *i, int ni, int offset, bitint *b, int *ret){
   register int ii, ib, j, k, u=0, hasNA=FALSE;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1099,7 +1132,7 @@ int bit_unique_compareNA(int *i, int ni, int offset, bitint *b, int *ret){
 
 // returns all positions where i-offset is not duplicated
 // NAs are never marked as duplicated and hence always returned in the unique set
-int bit_unique_incomparableNA(int *i, int ni, int offset, bitint *b, int *ret){
+static int bit_unique_incomparableNA(int *i, int ni, int offset, bitint *b, int *ret){
   register int ii, ib, j, k, u=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1119,7 +1152,7 @@ int bit_unique_incomparableNA(int *i, int ni, int offset, bitint *b, int *ret){
 
 // returns all positions where i-offset is not duplicated
 // NAs are always marked as duplicated and hence never returned in the unique set
-int bit_unique_removeNA(int *i, int ni, int offset, bitint *b, int *ret){
+static int bit_unique_removeNA(int *i, int ni, int offset, bitint *b, int *ret){
   register int ii, ib, j, k, u=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] != NA_INTEGER){
@@ -1137,7 +1170,7 @@ int bit_unique_removeNA(int *i, int ni, int offset, bitint *b, int *ret){
 
 // set all bits where i-offset is duplicated
 // treat NA like all other values (except for the fact that it is not mapped into the bit vector)
-void bit_duplicated_compareNA(int *i, int ni, int offset, bitint *b, bitint *ret){
+static void bit_duplicated_compareNA(int *i, int ni, int offset, bitint *b, bitint *ret){
   register int ii, ib, j, k, hasNA = FALSE;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1164,7 +1197,7 @@ void bit_duplicated_compareNA(int *i, int ni, int offset, bitint *b, bitint *ret
 
 // set all bits where i-offset is duplicated
 // NAs are never marked as duplicated and hence always returned in the unique set
-void bit_duplicated_incomparableNA(int *i, int ni, int offset, bitint *b, bitint *ret){
+static void bit_duplicated_incomparableNA(int *i, int ni, int offset, bitint *b, bitint *ret){
   register int ii, ib, j, k;
   for (ii=0; ii<ni; ii++){
     if (i[ii] != NA_INTEGER){
@@ -1184,7 +1217,7 @@ void bit_duplicated_incomparableNA(int *i, int ni, int offset, bitint *b, bitint
 
 // set all bits where i-offset is duplicated
 // NAs are always marked as duplicated and hence never returned in the unique set
-void bit_duplicated_removeNA(int *i, int ni, int offset, bitint *b, bitint *ret){
+static void bit_duplicated_removeNA(int *i, int ni, int offset, bitint *b, bitint *ret){
   register int ii, ib, j, k;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1206,7 +1239,7 @@ void bit_duplicated_removeNA(int *i, int ni, int offset, bitint *b, bitint *ret)
 }
 
 
-int bit_anyDuplicated_compareNA(int *i, int ni, int offset, bitint *b){
+static int bit_anyDuplicated_compareNA(int *i, int ni, int offset, bitint *b){
   register int ii, ib, j, k, hasNA=FALSE, s=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1230,7 +1263,7 @@ int bit_anyDuplicated_compareNA(int *i, int ni, int offset, bitint *b){
 }
 
 // check whether any i-offset is duplicated
-int bit_anyDuplicated_incomparableNA(int *i, int ni, int offset, bitint *b){
+static int bit_anyDuplicated_incomparableNA(int *i, int ni, int offset, bitint *b){
   register int ii, ib, j, k, s=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] != NA_INTEGER){
@@ -1247,7 +1280,7 @@ int bit_anyDuplicated_incomparableNA(int *i, int ni, int offset, bitint *b){
   return s;
 }
 
-int bit_anyDuplicated_removeNA(int *i, int ni, int offset, bitint *b){
+static int bit_anyDuplicated_removeNA(int *i, int ni, int offset, bitint *b){
   register int ii, ib, j, k, s=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1268,7 +1301,7 @@ int bit_anyDuplicated_removeNA(int *i, int ni, int offset, bitint *b){
 }
 
 // return number of bits where i-offset is duplicated and the number of NAs
-void bit_sumDuplicatedNA(int *i, int ni, int offset, bitint *b, int *ret){
+static void bit_sumDuplicatedNA(int *i, int ni, int offset, bitint *b, int *ret){
   register int ii, ib, j, k, s=0, sumNA=0;
   for (ii=0; ii<ni; ii++){
     if (i[ii] == NA_INTEGER){
@@ -1290,7 +1323,7 @@ void bit_sumDuplicatedNA(int *i, int ni, int offset, bitint *b, int *ret){
 
 // match x in t by first bitmapping t to trange and then verifying each x in trange
 // table has NAs and each NA is mapped to TRUE
-void bit_in_table_NA(int *t, int nt, int *x, int nx, int tmin, int tmax, bitint *b, bitint *ret){
+static void bit_in_table_NA(int *t, int nt, int *x, int nx, int tmin, int tmax, bitint *b, bitint *ret){
   register int i, n = nx/BITS;
   register int bt, jt, kt;
   register int bx, jx, kx;
@@ -1333,7 +1366,7 @@ void bit_in_table_NA(int *t, int nt, int *x, int nx, int tmin, int tmax, bitint 
 
 // match x in t by first bitmapping t to trange and then verifying each x in trange
 // table has no NAs and each NA is mapped to FALSE (do nothing)
-void bit_in_table_NoNA(int *t, int nt, int *x, int nx, int tmin, int tmax, bitint *b, bitint *ret){
+static void bit_in_table_NoNA(int *t, int nt, int *x, int nx, int tmin, int tmax, bitint *b, bitint *ret){
   register int i, n = nx/BITS;
   register int bt, jt, kt;
   register int bx, jx, kx;
@@ -1370,7 +1403,7 @@ void bit_in_table_NoNA(int *t, int nt, int *x, int nx, int tmin, int tmax, bitin
 
 // match x in larger t by bitmapping t to xrange and then verifying x in xrange
 // table has NAs and each NA is mapped to TRUE
-void bit_table_in_NA(int *t, int nt, int *x, int nx, int xmin, int xmax, bitint *b, bitint *ret){
+static void bit_table_in_NA(int *t, int nt, int *x, int nx, int xmin, int xmax, bitint *b, bitint *ret){
   register int i, n = nx/BITS;
   register int bt, jt, kt;
   register int bx, jx, kx;
@@ -1430,7 +1463,7 @@ void bit_table_in_NA(int *t, int nt, int *x, int nx, int xmin, int xmax, bitint 
 }
 
 
-void bit_table_in_NoNA(int *t, int nt, int *x, int nx, int xmin, int xmax, bitint *b, bitint *ret){
+static void bit_table_in_NoNA(int *t, int nt, int *x, int nx, int xmin, int xmax, bitint *b, bitint *ret){
   register int i, n = nx/BITS;
   register int bt, jt, kt;
   register int bx, jx, kx;
@@ -1465,7 +1498,7 @@ void bit_table_in_NoNA(int *t, int nt, int *x, int nx, int xmin, int xmax, bitin
 }
 
 
-int bit_union_NA(int *x, int nx, int *y, int ny, int low, bitint *b, int *ret){
+static int bit_union_NA(int *x, int nx, int *y, int ny, int low, bitint *b, int *ret){
   register int i;
   register int ib, j, k;
   register int hasNA = FALSE;
@@ -1505,7 +1538,7 @@ int bit_union_NA(int *x, int nx, int *y, int ny, int low, bitint *b, int *ret){
   return u;
 }
 
-int bit_union_NoNA(int *x, int nx, int *y, int ny, int low, bitint *b, int *ret){
+static int bit_union_NoNA(int *x, int nx, int *y, int ny, int low, bitint *b, int *ret){
   register int i;
   register int ib, j, k;
   register int u = 0;
@@ -1532,7 +1565,7 @@ int bit_union_NoNA(int *x, int nx, int *y, int ny, int low, bitint *b, int *ret)
 
 
 // the first set (x) determines the order, hence we first register the second set
-int bit_intersect_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
+static int bit_intersect_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
   register int i;
   register int ib, j, k;
   register int hasNA = FALSE;
@@ -1570,7 +1603,7 @@ int bit_intersect_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *
   return u;
 }
 
-int bit_intersect_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
+static int bit_intersect_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
   register int i;
   register int ib, j, k;
   register int u = 0;
@@ -1600,7 +1633,7 @@ int bit_intersect_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint
 
 
 // the first set (x) determines the order, hence we first register the second set
-int bit_setdiff_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
+static int bit_setdiff_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
   register int i;
   register int ib, j, k;
   register int hasNA = FALSE;
@@ -1638,7 +1671,7 @@ int bit_setdiff_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *b,
   return u;
 }
 
-int bit_setdiff_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
+static int bit_setdiff_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *b, int *ret){
   register int i;
   register int ib, j, k;
   register int hasNA = FALSE;
@@ -1673,7 +1706,7 @@ int bit_setdiff_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *
 }
 
 
-int bit_symdiff_NA(int *x, int nx, int *y, int ny, int low, int xhasNA, int yhasNA, bitint *bx, bitint *by, int *ret){
+static int bit_symdiff_NA(int *x, int nx, int *y, int ny, int low, int xhasNA, int yhasNA, bitint *bx, bitint *by, int *ret){
   register int i;
   register int j, k;
   register int u = 0;
@@ -1767,7 +1800,7 @@ int bit_symdiff_NA(int *x, int nx, int *y, int ny, int low, int xhasNA, int yhas
 }
 
 
-int bit_symdiff_NoNA(int *x, int nx, int *y, int ny, int low, bitint *bx, bitint *by, int *ret){
+static int bit_symdiff_NoNA(int *x, int nx, int *y, int ny, int low, bitint *bx, bitint *by, int *ret){
   register int i;
   register int j, k;
   register int u = 0;
@@ -1804,7 +1837,7 @@ int bit_symdiff_NoNA(int *x, int nx, int *y, int ny, int low, bitint *bx, bitint
 
 
 
-int bit_setequal_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *bx, bitint *by){
+static int bit_setequal_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *bx, bitint *by){
   register int i;
   register int ib, j, k;
   for (i=0; i<nx; i++){
@@ -1834,7 +1867,7 @@ int bit_setequal_NA(int *x, int nx, int *y, int ny, int low, int high, bitint *b
   return TRUE;
 }
 
-int bit_setequal_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *bx, bitint *by){
+static int bit_setequal_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint *bx, bitint *by){
   register int i;
   register int ib, j, k;
   for (i=0; i<nx; i++){
@@ -1868,7 +1901,7 @@ int bit_setequal_NoNA(int *x, int nx, int *y, int ny, int low, int high, bitint 
 
 
 
-void bit_not(bitint *b, int n){
+static void bit_not(bitint *b, int n){
   register int i, ni= n/BITS;
   int k = n%BITS;
   for (i=0; i<ni; i++){
@@ -1884,7 +1917,7 @@ void bit_not(bitint *b, int n){
 }
 
 
-void bit_and(bitint *b1, bitint *b2, bitint *ret, int n){
+static void bit_and(bitint *b1, bitint *b2, bitint *ret, int n){
   register int i, ni= n/BITS;
   int k = n%BITS;
   for (i=0; i<ni; i++){
@@ -1899,7 +1932,7 @@ void bit_and(bitint *b1, bitint *b2, bitint *ret, int n){
   }
 }
 
-void bit_or(bitint *b1, bitint *b2, bitint *ret, int n){
+static void bit_or(bitint *b1, bitint *b2, bitint *ret, int n){
   register int i, ni= n/BITS;
   int k = n%BITS;
   for (i=0; i<ni; i++){
@@ -1914,7 +1947,7 @@ void bit_or(bitint *b1, bitint *b2, bitint *ret, int n){
   }
 }
 
-void bit_xor(bitint *b1, bitint *b2, bitint *ret, int n){
+static void bit_xor(bitint *b1, bitint *b2, bitint *ret, int n){
   register int i, ni= n/BITS;
   int k = n%BITS;
   for (i=0; i<ni; i++){
@@ -1929,7 +1962,7 @@ void bit_xor(bitint *b1, bitint *b2, bitint *ret, int n){
   }
 }
 
-void bit_equal(bitint *b1, bitint *b2, bitint *ret, int n){
+static void bit_equal(bitint *b1, bitint *b2, bitint *ret, int n){
   register int i, ni= n/BITS;
   int k = n%BITS;
   for (i=0; i<ni; i++){
@@ -1945,7 +1978,7 @@ void bit_equal(bitint *b1, bitint *b2, bitint *ret, int n){
 }
 
 
-int bit_sum(bitint *b, int from, int to){
+static int bit_sum(bitint *b, int from, int to){
   from--;
   to--;
   register bitint word;
@@ -1980,7 +2013,7 @@ int bit_sum(bitint *b, int from, int to){
 }
 
 
-int bit_all(bitint *b, int from, int to){
+static int bit_all(bitint *b, int from, int to){
   from--;
   to--;
   register bitint word;
@@ -2012,7 +2045,7 @@ int bit_all(bitint *b, int from, int to){
 
 
 
-int bit_any(bitint *b, int from, int to){
+static int bit_any(bitint *b, int from, int to){
   from--;
   to--;
   register bitint word;
@@ -2044,7 +2077,7 @@ int bit_any(bitint *b, int from, int to){
 
 
 
-int bit_min(bitint *b, int from, int to){
+static int bit_min(bitint *b, int from, int to){
   from--;
   to--;
   register bitint word;
@@ -2087,7 +2120,7 @@ int bit_min(bitint *b, int from, int to){
 
 
 
-int bit_max(bitint *b, int from, int to){
+static int bit_max(bitint *b, int from, int to){
   from--;
   to--;
   register bitint word;
@@ -2133,7 +2166,7 @@ SEXP R_bit_shiftcopy(
     SEXP bsource_  /* bit source */
 , SEXP btarget_    /* bit target: assuming FALSE in the target positions and above */
 , SEXP otarget_    /* offset target */
-, SEXP n_      /* number of bits to copy */
+, SEXP n_          /* number of bits to copy */
 ){
   bitint *bsource = (bitint*) INTEGER(bsource_);
   bitint *btarget = (bitint*) INTEGER(btarget_);
@@ -2144,7 +2177,7 @@ SEXP R_bit_shiftcopy(
 }
 
 SEXP R_bit_reverse(
-    SEXP bsource_  /* bit source */
+  SEXP bsource_  /* bit source */
 , SEXP btarget_  /* bit target: assuming equal length and FALSE in the target positions and above */
 ){
   bitint *bsource = (bitint*) INTEGER(bsource_);
@@ -2157,6 +2190,7 @@ SEXP R_bit_reverse(
   return(btarget_);
 }
 
+// alters b_
 SEXP R_bit_recycle(SEXP b_, SEXP r_){
   bitint *b = (bitint*) INTEGER(b_);
   bitint *r = (bitint*) INTEGER(r_);
@@ -2193,49 +2227,113 @@ SEXP R_bit_recycle(SEXP b_, SEXP r_){
   return(b_);
 }
 
+
+// alters l_
 SEXP R_bit_get_logical(SEXP b_, SEXP l_, SEXP range_){
   bitint *b = (bitint*) INTEGER(b_);
   int *l = LOGICAL(l_);
   int *range = INTEGER(range_);
+#if C_LEVEL_CHECKS > 1
+  if (range[0] < 1)
+        error("lower range %d < 1\n", range[0]);
+  if (range[1] < range[0])
+        error("upper range %d < %d lower range\n", range[1], range[0]);
+  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  if (range[1] > nb)
+    error("upper range %d above % bit vector length\n", range[1], nb);
+  int nl = LENGTH(l_);  
+  if (range[1]-range[0]+1 > nl)
+    error("upper range [%d,%d] > %d integer vector length\n", range[0], range[1], nl);
+#endif  
   bit_get(b, l, range[0], range[1]);
   return(l_);
 }
+
+// alters l_
 SEXP R_bit_get_integer(SEXP b_, SEXP l_, SEXP range_){
   bitint *b = (bitint*) INTEGER(b_);
   int *l = INTEGER(l_);
   int *range = INTEGER(range_);
+#if C_LEVEL_CHECKS > 1
+  if (range[0] < 1)
+    error("lower range %d < 1\n", range[0]);
+  if (range[1] < range[0])
+    error("upper range %d < %d lower range\n", range[1], range[0]);
+  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  if (range[1] > nb)
+    error("upper range %d above % bit vector length\n", range[1], nb);
+  int nl = LENGTH(l_);  
+  if (range[1]-range[0]+1 > nl)
+    error("upper range [%d,%d] > %d integer vector length\n", range[0], range[1], nl);
+#endif  
   bit_get(b, l, range[0], range[1]);
   return(l_);
 }
 
 
+// alters b_
 SEXP R_bit_set_logical(SEXP b_, SEXP l_, SEXP range_){
   bitint *b = (bitint*) INTEGER(b_);
   int *l = LOGICAL(l_);
   int *range = INTEGER(range_);
-  int nl = LENGTH(l_);
-  if (nl==1) bit_set_one(b, l[0], range[0], range[1]);
-  else if (nl==(range[1] - range[0] + 1)) bit_set(b, l, range[0], range[1]);
-  else bit_set_recycle(b, l, range[0], range[1], nl);
+  int nr, nl = LENGTH(l_);
+#if C_LEVEL_CHECKS > 1
+  if (range[0] < 1)
+    error("lower range %d < 1\n", range[0]);
+  if (range[1] < range[0])
+    error("upper range %d < %d lower range\n", range[1], range[0]);
+  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  if (range[1] > nb)
+    error("upper range %d above % bit vector length\n", range[1], nb);
+#endif  
+  if (nl==1) 
+    bit_set_one(b, l[0], range[0], range[1]);
+  else if (nl == (nr = range[1] - range[0] + 1)) 
+    bit_set(b, l, range[0], range[1]);
+  else
+    bit_set_recycle(b, l, range[0], range[1], nl);
   return(b_);
 }
+
+// alters b_
 SEXP R_bit_set_integer(SEXP b_, SEXP l_, SEXP range_){
   bitint *b = (bitint*) INTEGER(b_);
   int *l = INTEGER(l_);
   int *range = INTEGER(range_);
-  int nl = LENGTH(l_);
-  if (nl==1) bit_set_one(b, l[0], range[0], range[1]);
-  else if (nl==(range[1] - range[0] + 1)) bit_set(b, l, range[0], range[1]);
-  else bit_set_recycle(b, l, range[0], range[1], nl);
+  int nr, nl = LENGTH(l_);
+#if C_LEVEL_CHECKS > 1
+  if (range[0] < 1)
+    error("lower range %d < 1\n", range[0]);
+  if (range[1] < range[0])
+    error("upper range %d < %d lower range\n", range[1], range[0]);
+  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  if (range[1] > nb)
+    error("upper range %d above % bit vector length\n", range[1], nb);
+#endif  
+  if (nl==1) 
+    bit_set_one(b, l[0], range[0], range[1]);
+  else if (nl == (nr = range[1] - range[0] + 1)) 
+    bit_set(b, l, range[0], range[1]);
+  else 
+    bit_set_recycle(b, l, range[0], range[1], nl);
   return(b_);
 }
-
 
 
 SEXP R_bit_which(SEXP b_, SEXP s_, SEXP range_, SEXP negative_){
   bitint *b = (bitint*) INTEGER(b_);
   int *range = INTEGER(range_);
   int s = asInteger(s_);
+#if C_LEVEL_CHECKS > 1
+  if (range[0] < 1)
+    error("lower range %d < 1\n", range[0]);
+  if (range[1] < range[0])
+    error("upper range %d < %d lower range\n", range[1], range[0]);
+  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  if (range[1] > nb)
+    error("upper range %d above % bit vector length\n", range[1], nb);
+  // checking s would require summing through b_, that has already be done in the R code
+#endif  
   SEXP ret_;
   int *ret;
   if (asLogical(negative_)){
@@ -2402,6 +2500,7 @@ SEXP R_bit_rangediff(SEXP b_, SEXP rx_, SEXP y_, SEXP revx_, SEXP revy_){
   UNPROTECT(1);
   return(ret_);
 }
+
 
 SEXP R_bit_unique(SEXP b_, SEXP i_, SEXP range_, SEXP na_rm_){
   SEXP ret_;
@@ -2883,8 +2982,8 @@ return ret_;
 #undef HANDLE_TRUE
 
 
-// we expect subscripts i_ to be sorted
-// either all pos or all neg
+// i_ must be either all pos or all neg
+// we expect negative subscripts i_ to be sorted
 // pos and neg may contain zeros and out of range
 // but only pos may contain NAs
 SEXP R_bit_extract(SEXP b_, SEXP i_){
@@ -2918,6 +3017,7 @@ SEXP R_bit_extract(SEXP b_, SEXP i_){
   return(l_);
 }
 
+// this alters b_
 // we expect subscripts i_ to be sorted
 // either all pos or all neg
 // pos and neg may contain zeros
@@ -2945,6 +3045,7 @@ SEXP R_bit_replace(SEXP b_, SEXP i_, SEXP l_){
 }
 
 
+// this alters b_
 SEXP R_bit_not(SEXP b_){
   bitint *b = (bitint*) INTEGER(b_);
   int n = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
@@ -2952,6 +3053,7 @@ SEXP R_bit_not(SEXP b_){
   return(b_);
 }
 
+// this alters ret_
 SEXP R_bit_and(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
@@ -2961,6 +3063,7 @@ SEXP R_bit_and(SEXP b1_, SEXP b2_, SEXP ret_){
   return(ret_);
 }
 
+// this alters ret_
 SEXP R_bit_or(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
@@ -2970,6 +3073,7 @@ SEXP R_bit_or(SEXP b1_, SEXP b2_, SEXP ret_){
   return(ret_);
 }
 
+// this alters ret_
 SEXP R_bit_xor(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
@@ -2979,6 +3083,7 @@ SEXP R_bit_xor(SEXP b1_, SEXP b2_, SEXP ret_){
   return(ret_);
 }
 
+// this alters ret_
 SEXP R_bit_equal(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
@@ -3041,9 +3146,8 @@ SEXP R_bit_max(SEXP b_, SEXP range_){
 }
 
 
-// performance tests without bit
-
-void filter_getset(int *l1, int *l2, int n){
+/* performance tests without bit
+static void filter_getset(int *l1, int *l2, int n){
   int i;
   for (i=0; i<n; i++){
     if (l1[i])
@@ -3053,7 +3157,7 @@ void filter_getset(int *l1, int *l2, int n){
   }
 }
 
-
+// this alters l2_
 SEXP R_filter_getset(SEXP l1_, SEXP l2_){
   int *l1 = LOGICAL(l1_);
   int *l2 = LOGICAL(l2_);
@@ -3061,10 +3165,12 @@ SEXP R_filter_getset(SEXP l1_, SEXP l2_){
   filter_getset(l1, l2, n);
   return(l2_);
 }
+*/
+
 
 
 /* some experiments - just ignore
-void bit_sample(bitint *b, int *x, int *y, int *z, int nb, int ns){
+static void bit_sample(bitint *b, int *x, int *y, int *z, int nb, int ns){
 register int ib, j, jb, k, ii, nz;
 // sampling phase
 for (ii=0,nz=0; ii<nb; ii++){
@@ -3155,3 +3261,5 @@ return(z_);
 #undef BITS 
 #undef LASTBIT
 #undef TRUE
+
+#undef C_LEVEL_CHECKS
