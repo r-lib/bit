@@ -14,9 +14,6 @@
 #include "merge.h"
 #include "sort.h"
 
-// 0 = no checks  1 = only index checks  2 = also range checks
-#define C_LEVEL_CHECKS 0 
-
 
 // Configuration: set this to 32 or 64 and keep in sync with .BITS in bit.R
 #define BITS 32
@@ -2233,18 +2230,6 @@ SEXP R_bit_get_logical(SEXP b_, SEXP l_, SEXP range_){
   bitint *b = (bitint*) INTEGER(b_);
   int *l = LOGICAL(l_);
   int *range = INTEGER(range_);
-#if C_LEVEL_CHECKS > 1
-  if (range[0] < 1)
-        error("lower range %d < 1\n", range[0]);
-  if (range[1] < range[0])
-        error("upper range %d < %d lower range\n", range[1], range[0]);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  if (range[1] > nb)
-    error("upper range %d above % bit vector length\n", range[1], nb);
-  int nl = LENGTH(l_);  
-  if (range[1]-range[0]+1 > nl)
-    error("upper range [%d,%d] > %d integer vector length\n", range[0], range[1], nl);
-#endif  
   bit_get(b, l, range[0], range[1]);
   return(l_);
 }
@@ -2254,18 +2239,6 @@ SEXP R_bit_get_integer(SEXP b_, SEXP l_, SEXP range_){
   bitint *b = (bitint*) INTEGER(b_);
   int *l = INTEGER(l_);
   int *range = INTEGER(range_);
-#if C_LEVEL_CHECKS > 1
-  if (range[0] < 1)
-    error("lower range %d < 1\n", range[0]);
-  if (range[1] < range[0])
-    error("upper range %d < %d lower range\n", range[1], range[0]);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  if (range[1] > nb)
-    error("upper range %d above % bit vector length\n", range[1], nb);
-  int nl = LENGTH(l_);  
-  if (range[1]-range[0]+1 > nl)
-    error("upper range [%d,%d] > %d integer vector length\n", range[0], range[1], nl);
-#endif  
   bit_get(b, l, range[0], range[1]);
   return(l_);
 }
@@ -2277,15 +2250,6 @@ SEXP R_bit_set_logical(SEXP b_, SEXP l_, SEXP range_){
   int *l = LOGICAL(l_);
   int *range = INTEGER(range_);
   int nr, nl = LENGTH(l_);
-#if C_LEVEL_CHECKS > 1
-  if (range[0] < 1)
-    error("lower range %d < 1\n", range[0]);
-  if (range[1] < range[0])
-    error("upper range %d < %d lower range\n", range[1], range[0]);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  if (range[1] > nb)
-    error("upper range %d above % bit vector length\n", range[1], nb);
-#endif  
   if (nl==1) 
     bit_set_one(b, l[0], range[0], range[1]);
   else if (nl == (nr = range[1] - range[0] + 1)) 
@@ -2301,15 +2265,6 @@ SEXP R_bit_set_integer(SEXP b_, SEXP l_, SEXP range_){
   int *l = INTEGER(l_);
   int *range = INTEGER(range_);
   int nr, nl = LENGTH(l_);
-#if C_LEVEL_CHECKS > 1
-  if (range[0] < 1)
-    error("lower range %d < 1\n", range[0]);
-  if (range[1] < range[0])
-    error("upper range %d < %d lower range\n", range[1], range[0]);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  if (range[1] > nb)
-    error("upper range %d above % bit vector length\n", range[1], nb);
-#endif  
   if (nl==1) 
     bit_set_one(b, l[0], range[0], range[1]);
   else if (nl == (nr = range[1] - range[0] + 1)) 
@@ -2324,16 +2279,6 @@ SEXP R_bit_which(SEXP b_, SEXP s_, SEXP range_, SEXP negative_){
   bitint *b = (bitint*) INTEGER(b_);
   int *range = INTEGER(range_);
   int s = asInteger(s_);
-#if C_LEVEL_CHECKS > 1
-  if (range[0] < 1)
-    error("lower range %d < 1\n", range[0]);
-  if (range[1] < range[0])
-    error("upper range %d < %d lower range\n", range[1], range[0]);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  if (range[1] > nb)
-    error("upper range %d above % bit vector length\n", range[1], nb);
-  // checking s would require summing through b_, that has already be done in the R code
-#endif  
   SEXP ret_;
   int *ret;
   if (asLogical(negative_)){
@@ -3262,4 +3207,3 @@ return(z_);
 #undef LASTBIT
 #undef TRUE
 
-#undef C_LEVEL_CHECKS

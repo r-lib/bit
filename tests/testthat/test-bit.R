@@ -244,7 +244,8 @@ test_that("coercions work", {
     expect_identical(as.logical(as.bitwhich(i)), as.logical(i))
   }
   
-})
+}
+)
 
 
 test_that("boolean operations work", {
