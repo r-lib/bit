@@ -45,7 +45,6 @@ NEW FEATURES
     o new function get_length() directly returns LENGTH(SEXP) 
       circumventing all method dispatch for length()
     o new methods rlepack.integer, rleunpack.rlepack anyDuplicated.rlepack   
-    o new vignettes bit-usage and bit-performance
 
 USER VISIBLE CHANGES
 
@@ -86,6 +85,7 @@ TESTING and DOCUMENTATION
     o there are much more regression tests now
     o testing uses package testthat
     o documentation uses package roxygen2 now
+    o new vignettes bit-demo, bit-usage and bit-performance
 
 BUG FIXES
 

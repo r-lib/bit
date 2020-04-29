@@ -2,7 +2,7 @@ Package: bit
 Type: Package
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
 Version: 4.0.0
-Date: 2020-04-12
+Date: 2020-04-29
 Authors@R: c(person("Jens", "Oehlschlägel", role = c('aut', 'cre'),
 	             email = "Jens.Oehlschlaegel@truecluster.com"),
              person("Brian", "Ripley", role = 'ctb'))

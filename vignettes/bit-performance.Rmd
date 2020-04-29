@@ -17,11 +17,19 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 require(bit)
 require(microbenchmark)
-Domain <- c(small=1e2, big=1e3)
-Sample <- c(small=1e2, big=1e3)
-#Domain <- c(small=1e1, big=1e2)
-#Sample <- c(small=1e1, big=1e2)
+Domain <- c(small=1e3, big=1e6)
+Sample <- c(small=1e3, big=1e6)
+#Domain <- c(small=1e1, big=1e3)
+#Sample <- c(small=1e1, big=1e3)
 times <- 5
+
+pagebreak <- function() {
+  if(knitr::is_latex_output())
+    return("\\newpage")
+  else
+    return('<div style="page-break-before: always;" />')
+}
+
 ```
 
 ---
@@ -117,30 +125,30 @@ for(b in rev(names(B)))  # logical was in first position, so we do this last!
 
 There are substantial savings in skewed filter situations:
 
-```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical in the 'rare' scenario"}
-oldpar <- par(xaxs="i")
+```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'rare' scenario"}
 x <- tim[1:3,,"rare"]
-dotchart(x, xlim=c(0,max(100, max(x))), labels="", pch=c("l","b","w"), col=c("black","blue","red"), main="% size and timings in 'rare' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of 'logical'")
-par(oldpar)
+m <- rep("", ncol(x))
+m <- as.vector(rbind(m, colnames(x), m))
+dotchart(x, xlim=c(0,max(100, max(x))), labels=m, pch=c("R","b","w"), col=c("black","blue","red"), main="% size and timings in 'rare' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios")
 ```
 
-```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical in the 'coin' scenario"}
-oldpar <- par(xaxs="i")
+```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'often' scenario"}
 x <- tim[1:3,,"often"]
-dotchart(x, xlim=c(0,max(100, max(x))), labels="", pch=c("l","b","w"), col=c("black","blue","red"), main="% size and timings in 'often' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of 'logical'")
-par(oldpar)
+dotchart(x, xlim=c(0,max(100, max(x))), labels=m, pch=c("R","b","w"), col=c("black","blue","red"), main="% size and timings in 'often' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios")
 ```
 
 Even in non-skewed situations the new booltypes are competitive:
 
-```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical in the 'coin' scenario"}
-oldpar <- par(xaxs="i")
+```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'coin' scenario"}
 x <- tim[1:3,,"coin"]
-dotchart(x, xlim=c(0,max(100, max(x))), labels="", pch=c("l","b","w"), col=c("black","blue","red"), main="% size and timings in 'coin' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of 'logical'")
-par(oldpar)
+dotchart(x, xlim=c(0,max(100, max(x))), labels=m, pch=c("R","b","w"), col=c("black","blue","red"), main="% size and timings in 'coin' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios")
 ```
 
 Detailed tables follow.
+
+
+`r pagebreak()`
+
 
 ### % memory consumption of filter
 
@@ -151,25 +159,25 @@ knitr::kable(round(tim[,"size",], 1), caption="% bytes of logical")
 ### % time extracting
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[]",], 1), caption="% bytes of logical")
+knitr::kable(round(tim[,"[]",], 1), caption="% time of logical")
 ```
 
 ### % time assigning
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[]<-logical",], 1), caption="% bytes of logical")
+knitr::kable(round(tim[,"[]<-logical",], 1), caption="% time of logical")
 ```
 
 ### % time subscripting with 'which'
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[which]",], 1), caption="% bytes of logical")
+knitr::kable(round(tim[,"[which]",], 1), caption="% time of logical")
 ```
 
 ### % time assigning with 'which'
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[which]<-TRUE",], 1), caption="% bytes of logical")
+knitr::kable(round(tim[,"[which]<-TRUE",], 1), caption="% time of logical")
 ```
 
 ### % time Boolean NOT
@@ -377,11 +385,13 @@ for(n in names(binaryDomain)){
 
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R (R) and bit (b)"}
-x <- timsort[,,,"big"]
-#x <- 100 * x / max(x["R",,], na.rm=TRUE)
-oldpar <- par(mfrow=c(2,1), mar=c(5,8,2,1), xaxs="i")
-dotchart(x[,,"unsorted"], xlim=c(0, max(100, max(x))), xlab="execution time", main="unsorted", pch=15:16, col=c("red","blue"))
-dotchart(x[,,"sorted"], xlim=c(0, max(100, max(x))), xlab="execution time", main="sorted", pch=15:16, col=c("red","blue"))
+y <- timsort[,,,"big"]
+y <- 100 * y / max(y["R",,], na.rm=TRUE)
+oldpar <- par(mfrow=c(2,1), mar=c(5,8,2,1))
+x <- y[,,"unsorted"]
+dotchart(x, xlim=c(0, max(100, max(y))), labels="", pch=c("R","b"), xlab="execution time", main="unsorted", col=c("red","blue"))
+x <- y[,,"sorted"]
+dotchart(x, xlim=c(0, max(100, max(y))), labels="", pch=c("R","b"), xlab="execution time", main="sorted", col=c("red","blue"))
 par(oldpar)
 ```
 
@@ -393,21 +403,24 @@ for (n in names(binaryDomain))
     tim2[,,n,d] <- 100*tim[,,n,d]/max(tim["R",,n,d], na.rm=TRUE)
 ```
 
+`r pagebreak()`
 
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R, bit and merge relative to most expensive R in 'unsorted bigbig' scenario"}
-oldpar <- par(xaxs="i")
-x <- tim[,,"bigbig","unsorted"]
-dotchart(x, xlim=c(0,max(100,max(tim[,,"bigbig",], na.rm=TRUE))), labels="", pch=c("R","b","m"), col=c("red","blue","black"), main="Timings in 'unsorted bigbig' scenario", sub="R='hash'   b='bit'   m='merge'")
-par(oldpar)
+y <- tim2[,,"bigbig",]
+y <- 100 * y / max(y["R",,], na.rm=TRUE)
+x <- y[,,"unsorted"]
+m <- rep("", ncol(x))
+m <- as.vector(rbind(m, colnames(x), m))
+dotchart(x, xlim=c(0, max(100,max(y, na.rm=TRUE))), labels=m, pch=c("R","b","m"), col=c("red","blue","black"), main="Timings in 'unsorted bigbig' scenario", sub="R='hash'   b='bit'   m='merge'")
 ```
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R, bit and merge in 'sorted bigbig' scenario"}
-oldpar <- par(xaxs="i")
-x <- tim[,,"bigbig","sorted"]
-dotchart(x, xlim=c(0,max(tim[,,"bigbig",], na.rm=TRUE)), labels="", pch=c("R","b","m"), col=c("red","blue","black"), main="Timings in 'sorted bigbig' scenario", sub="R='hash'   b='bit'   m='merge'")
-par(oldpar)
+x <- y[,,"sorted"]
+dotchart(x, xlim=c(0, max(y, na.rm=TRUE)), labels=m, pch=c("R","b","m"), col=c("red","blue","black"), main="Timings in 'sorted bigbig' scenario", sub="R='hash'   b='bit'   m='merge'")
 ```
+
+`r pagebreak()`
 
 
 ### % time for sorting
