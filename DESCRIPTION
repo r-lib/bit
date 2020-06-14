@@ -17,7 +17,7 @@ Suggests:
 Description: Provided are classes for boolean and skewed boolean vectors,
     fast boolean methods, fast unique and non-unique integer sorting,
     fast set operations on sorted and unsorted sets of integers, and
-    foundations for ff (range indices, compression, chunked processing).
+    foundations for ff (range index, compression, chunked processing).
 License: GPL-2 | GPL-3
 LazyLoad: yes
 ByteCompile: yes
