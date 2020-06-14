@@ -17,10 +17,12 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 require(bit)
 require(microbenchmark)
-Domain <- c(small=1e3, big=1e6)
-Sample <- c(small=1e3, big=1e6)
-#Domain <- c(small=1e1, big=1e3)
-#Sample <- c(small=1e1, big=1e3)
+# these are the real settings for the performance vignette
+#Domain <- c(small=1e3, big=1e6)
+#Sample <- c(small=1e3, big=1e6)
+# these are the settings to keep the cost of CRAN low
+Domain <- c(small=1e1, big=1e3)
+Sample <- c(small=1e1, big=1e3)
 times <- 5
 
 pagebreak <- function() {
