@@ -454,7 +454,7 @@ static void bit_which_negative(bitint *b, int *l, int from, int to){
 static int bit_extract_unsorted(bitint *b, int nb, int *i, int ni, int *l){
   register int ii, il, ib, j, k;
   for (ii=0,il=0; ii<ni; ii++){
-    if (i[ii]!=0){ // skip over zero
+    if (i[ii] > 0){ // positive = neither NA nor negative nor zero
       ib = i[ii] - 1;
       if (ib<nb){  // in range
         j = ib/BITS;
@@ -463,6 +463,8 @@ static int bit_extract_unsorted(bitint *b, int nb, int *i, int ni, int *l){
       }else{
         l[il++] = NA_INTEGER;
       }
+    }else if (i[ii] < 0){ // either NA or negative, skip over zero
+      l[il++] = NA_INTEGER;
     }
   }
   return il;
@@ -552,7 +554,7 @@ static int bit_extract_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
 static void bit_replace_unsorted(bitint *b, int *i, int ni, int *l){
   register int ii, il, ib, j, k;
   for (ii=0,il=0; ii<ni; ii++){
-    if (i[ii]>0){
+    if (i[ii]>0){ /* and != NA_INTEGER */
       ib = i[ii] - 1;
       j = ib/BITS;
       k = ib%BITS;

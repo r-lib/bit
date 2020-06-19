@@ -1,8 +1,8 @@
 Package: bit
 Type: Package
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
-Version: 4.0.0
-Date: 2020-06-06
+Version: 4.0.1
+Date: 2020-06-19
 Author: Jens Oehlschlägel [aut, cre], Brian Ripley [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends:

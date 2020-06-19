@@ -37,14 +37,14 @@
 
 #' Balanced Batch sizes
 #' 
-#' \command{bbatch} calculates batch sizes so that they have rather balanced
-#' sizes than very different sizes
+#' \command{bbatch} calculates batch sizes in 1..N so that they have rather balanced
+#' sizes than very different sizes.
 #' 
 #' Tries to have \code{rb==0} or \code{rb} as close to \code{b} as possible
-#' while guaranteing that \code{rb < b && (b - rb) <= min(nb, b)}
+#' while guaranteeing that \code{rb < b && (b - rb) <= min(nb, b)}
 #' 
-#' @param N total size
-#' @param B desired batch size
+#' @param N total size in 0..integer_max
+#' @param B desired batch size in 1..integer_max
 #' @return a list with components \item{ b }{ the batch size } \item{ nb }{ the
 #' number of batches } \item{ rb }{ the size of the rest }
 #' @author Jens Oehlschlägel
@@ -58,8 +58,10 @@
 bbatch <- function(N,B){
   if (any(B<1))
     stop("B too small")
+  if (any(N<0))
+    stop("N too small")
   N <- as.integer(N)
-  B <- as.integer(B)
+  B <- pmin(pmax(1L,N), as.integer(B))
   RB <- N %% B
   NB <- N %/% B
   cc <- pmin((B - RB) %/% NB, (B - RB) %/% (NB + 1L))
@@ -67,9 +69,9 @@ bbatch <- function(N,B){
   i <- cc > 0
   RB[i] <- RB[i] + cc[i] * NB[i]
   B[i] <- B[i] - cc[i]
-  j <- i & (RB[i] == B[i])
-  NB[i & j] <- NB[i & j] + 1L
-  RB[i & j] <- 0L
+  j <- i & (RB == B)
+  NB[j] <- NB[j] + 1L
+  RB[j] <- 0L
   i <- (RB>0) & (NB == 0)
   B[i] <- RB[i]
   NB[i] <- 1L
