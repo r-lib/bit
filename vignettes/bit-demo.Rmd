@@ -15,7 +15,8 @@ vignette: >
 ```{r, echo = FALSE, results = "hide", message = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 require(bit)
-require(ff)
+.ff.version <- try(packageVersion("ff"), silent = TRUE)
+.ff.is.available <- !inherits(.ff.version, "try-error") && .ff.version >= "4.0.0" && require(ff)
 #tools::buildVignette("vignettes/bit-demo.Rmd")
 #devtools::build_vignettes()
 ```
@@ -119,16 +120,18 @@ lapply(chunk(from=1, to=n, length=10), function(i)as.which(b1, range=i))
 
 over large ff vectors
 
-```{r}
+```{r, eval=.ff.is.available}
 options(ffbatchbytes=1024^3)
 x <- ff(vmode="single", length=n)
 x[1:1000] <- runif(1000)
 lapply(chunk(x, length.out = 10), function(i)sum(x[as.hi(b1, range=i)]))
 ```
-for more info check the usage vignette
 
-```{r}
+and wrap-up
+
+```{r, eval=.ff.is.available}
 delete(x)
 rm(x, b1, b2, w1, w2, n)
 ```
 
+for more info check the usage vignette

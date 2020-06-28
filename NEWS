@@ -1,3 +1,16 @@
+        CHANGES IN bit VERSION 4.0.2
+
+USER VISIBLE CHANGES
+
+    o Vignettes nolonger execute ff code 
+      for ff-version prior 4.0.0
+
+BUG FIXES
+
+    o NA could crash bit_extract_unsorted 
+    
+    
+
         CHANGES IN bit VERSION 4.0.1
 
 USER VISIBLE CHANGES

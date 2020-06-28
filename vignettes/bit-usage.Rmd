@@ -34,6 +34,8 @@ The bit package provides the following S3 functionality:
 ```{r, echo = FALSE, results = "hide", message = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 require(bit)
+.ff.version <- try(packageVersion("ff"), silent = TRUE)
+.ff.is.available <- !inherits(.ff.version, "try-error") && .ff.version >= "4.0.0" && require(ff)
 # devtools::build_vignettes()
 ```
 
@@ -417,8 +419,7 @@ sapply(chunk(b, by=3e5), function(i)summary(b, range=i))
 
 The real use-case for chunking is ff objects, where instead of processing huge objects at once
 
-```{r, message=FALSE}
-library(ff)
+```{r, eval=.ff.is.available, message=FALSE}
 x <- ff(vmode="single", length=length(b))   # create a huge ff vector
 x[as.hi(b)] <- runif(sum(b))      # replace some numbers at filtered positions
 summary(x[])
@@ -426,12 +427,12 @@ summary(x[])
 
 we can process the ff vector in chunks 
 
-```{r}
+```{r, eval=.ff.is.available}
 sapply(chunk(x, by=3e5), function(i)summary(x[i]))
 ```
 and even can process a bit-filtered ff vector in chunks 
 
-```{r}
+```{r, eval=.ff.is.available}
 sapply(chunk(x, by=3e5), function(i)summary(x[as.hi(b, range=i)]))
 ```
 

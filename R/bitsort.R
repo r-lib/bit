@@ -203,94 +203,94 @@ bitsort <- function(x, na.last=NA, depth=1){
 
 
 
-if (FALSE){
-  # time measure relative speeds (radixsort is not yet integrated)
-  require(microbenchmark)
-  require(bit)
-  require(ff)
-  x <- sample(2,1e8,T)
-  system.time(bitsort(x))
-  x <- sample(1e8,1e8,T)
-  system.time(bitsort(x))
-  
-  D <- as.integer(2^(1:27))
-  N <- as.integer(2^(1:27))
-  M <- c("b","c","q") #,"r")
-  tim <- array(NA, dim=c(D=length(D), N=length(N), M=length(M)), dimnames=list(D=D, N=N, M=M))
-  for (ni in seq_along(N)){
-    n <- N[ni]
-    for (di in seq_along(D)){
-      d <- D[di]    
-      x <- sample(d,n,T)
-      x[1] <- d
-      if (di > ni-5 && di < ni+10){
-        tim[di,ni,"b"] <- microbenchmark(bitsort(x), times = 1)$time
-        tim[di,ni,"c"] <- microbenchmark(countsort(x), times = 1)$time
-        tim[di,ni,"q"] <- microbenchmark(quicksort3(x), times = 1)$time
-        #tim[di,ni,"r"] <- microbenchmark(radixsort(copy(x)), times = 1)$time
-      }
-    }
-    print(apply(tim[,1:ni,,drop=FALSE], 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
-  }
-  
-  round( tim[,,"b"] / tim[,,"c"], 1 )
-  round( tim[,,"b"] / tim[,,"q"], 1 )
-  round( tim[,,"c"] / tim[,,"q"], 1 )
-  round( tim[,,"c"] / tim[,,"r"], 1 )
-  round( tim[,,"q"] / tim[,,"r"], 1 )
-  
-  M <- dimnames(tim)[[3]]
-  r <- as.integer(rownames(tim[,,1]))[row(tim[,,1])]
-  n <- as.integer(colnames(tim[,,1]))[col(tim[,,1])]
-  d <- n/r
-  #x <- ifelse(d>=1, "c", "q")
-  x <- ifelse(d>=0.5,"c",ifelse(n<=1024,"q",ifelse(d<0.0625,"q","b")))
-  x <- ifelse(n<=1024, ifelse(d<0.5, "q", "c"), ifelse(d<1, ifelse(d<0.0625, "q", "b"), "c"))
-  dim(x) <- dim(tim[,,1])
-  dimnames(x) <- dimnames(tim[,,1])
-  y <- tim[cbind(as.vector(row(x)), as.vector(col(x)), match(as.vector(x), M))]
-  attributes(y) <- attributes(x)
-  print(apply(tim, 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
-  print(x, quote=F)
-  round(y / apply(tim[,,-4], 1:2, min, na.rm=T), 1)
-  round(y / tim[,,1], 1)
-  
-  f <- function(n, d=1, k=1){
-    x <- dbinom(1:log2(n), n, 1/(d*n))*n
-    r <- rev(cumsum(rev(x)))
-    rr <- c(r[-1], 0)
-    c <- r*log2(r)
-    b <- n*k+r+rr*log2(rr)
-    w <- as.integer(!is.na(b) & b<c)
-    #print(round(data.frame(x=x, r=r, rr=rr, c=c, b=b, w=w)))
-    sum(w)
-  }
-  sapply(2^(1:30), f, d=8, k=1)
-  sapply(2^(1:30), f, k=2)  
-  sapply(2^(1:30), f, k=4)  
-  sapply(2^(1:30), f, k=8)  
-  sapply(2^(1:30), f, k=16)  
-  sapply(2^(1:30), f, k=32)  
-  
-  require(microbenchmark)
-  require(bit)
-  n <- as.integer(2^27)
-  x <- sample(n*4, n, T)
-  times <- 1
-  microbenchmark(countsort(x), times=times)
-  microbenchmark(quicksort3(x), times=times)
-  microbenchmark(bitsort(x, depth=1), times=times)
-  microbenchmark(bitsort(x, depth=2), times=times)
-  microbenchmark(bitsort(x, depth=3), times=times)
-  microbenchmark(bitsort(x, depth=4), times=times)
-  microbenchmark(bitsort(x, depth=5), times=times)
-  
-  microbenchmark(quicksort2(x), times=times)
-  microbenchmark(bit_sort_unique(x), times=times)
-  
-  # ergo: ab 2^16 zwischen 1/4 und 1/32
-  
-}
+# if (FALSE){
+#   # time measure relative speeds (radixsort is not yet integrated)
+#   require(microbenchmark)
+#   require(bit)
+#   require(ff)
+#   x <- sample(2,1e8,T)
+#   system.time(bitsort(x))
+#   x <- sample(1e8,1e8,T)
+#   system.time(bitsort(x))
+#   
+#   D <- as.integer(2^(1:27))
+#   N <- as.integer(2^(1:27))
+#   M <- c("b","c","q") #,"r")
+#   tim <- array(NA, dim=c(D=length(D), N=length(N), M=length(M)), dimnames=list(D=D, N=N, M=M))
+#   for (ni in seq_along(N)){
+#     n <- N[ni]
+#     for (di in seq_along(D)){
+#       d <- D[di]    
+#       x <- sample(d,n,T)
+#       x[1] <- d
+#       if (di > ni-5 && di < ni+10){
+#         tim[di,ni,"b"] <- microbenchmark(bitsort(x), times = 1)$time
+#         tim[di,ni,"c"] <- microbenchmark(countsort(x), times = 1)$time
+#         tim[di,ni,"q"] <- microbenchmark(quicksort3(x), times = 1)$time
+#         #tim[di,ni,"r"] <- microbenchmark(radixsort(copy(x)), times = 1)$time
+#       }
+#     }
+#     print(apply(tim[,1:ni,,drop=FALSE], 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
+#   }
+#   
+#   round( tim[,,"b"] / tim[,,"c"], 1 )
+#   round( tim[,,"b"] / tim[,,"q"], 1 )
+#   round( tim[,,"c"] / tim[,,"q"], 1 )
+#   round( tim[,,"c"] / tim[,,"r"], 1 )
+#   round( tim[,,"q"] / tim[,,"r"], 1 )
+#   
+#   M <- dimnames(tim)[[3]]
+#   r <- as.integer(rownames(tim[,,1]))[row(tim[,,1])]
+#   n <- as.integer(colnames(tim[,,1]))[col(tim[,,1])]
+#   d <- n/r
+#   #x <- ifelse(d>=1, "c", "q")
+#   x <- ifelse(d>=0.5,"c",ifelse(n<=1024,"q",ifelse(d<0.0625,"q","b")))
+#   x <- ifelse(n<=1024, ifelse(d<0.5, "q", "c"), ifelse(d<1, ifelse(d<0.0625, "q", "b"), "c"))
+#   dim(x) <- dim(tim[,,1])
+#   dimnames(x) <- dimnames(tim[,,1])
+#   y <- tim[cbind(as.vector(row(x)), as.vector(col(x)), match(as.vector(x), M))]
+#   attributes(y) <- attributes(x)
+#   print(apply(tim, 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
+#   print(x, quote=F)
+#   round(y / apply(tim[,,-4], 1:2, min, na.rm=T), 1)
+#   round(y / tim[,,1], 1)
+#   
+#   f <- function(n, d=1, k=1){
+#     x <- dbinom(1:log2(n), n, 1/(d*n))*n
+#     r <- rev(cumsum(rev(x)))
+#     rr <- c(r[-1], 0)
+#     c <- r*log2(r)
+#     b <- n*k+r+rr*log2(rr)
+#     w <- as.integer(!is.na(b) & b<c)
+#     #print(round(data.frame(x=x, r=r, rr=rr, c=c, b=b, w=w)))
+#     sum(w)
+#   }
+#   sapply(2^(1:30), f, d=8, k=1)
+#   sapply(2^(1:30), f, k=2)  
+#   sapply(2^(1:30), f, k=4)  
+#   sapply(2^(1:30), f, k=8)  
+#   sapply(2^(1:30), f, k=16)  
+#   sapply(2^(1:30), f, k=32)  
+#   
+#   require(microbenchmark)
+#   require(bit)
+#   n <- as.integer(2^27)
+#   x <- sample(n*4, n, T)
+#   times <- 1
+#   microbenchmark(countsort(x), times=times)
+#   microbenchmark(quicksort3(x), times=times)
+#   microbenchmark(bitsort(x, depth=1), times=times)
+#   microbenchmark(bitsort(x, depth=2), times=times)
+#   microbenchmark(bitsort(x, depth=3), times=times)
+#   microbenchmark(bitsort(x, depth=4), times=times)
+#   microbenchmark(bitsort(x, depth=5), times=times)
+#   
+#   microbenchmark(quicksort2(x), times=times)
+#   microbenchmark(bit_sort_unique(x), times=times)
+#   
+#   # ergo: ab 2^16 zwischen 1/4 und 1/32
+#   
+# }
 
 
 #' bit sort
