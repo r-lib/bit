@@ -8,6 +8,7 @@ USER VISIBLE CHANGES
 BUG FIXES
 
     o NA could crash bit_extract_unsorted 
+    o now DESCRIPTION URL points to github
     
     
 
