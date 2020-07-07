@@ -45,7 +45,7 @@ point to the same memory.
 
 }
 \seealso{
-\code{\link[ff]{clone.ff}}, \code{\link{copy}}
+\code{clone.ff}, \code{\link{copy}}
 }
 \author{
 Jens Oehlschlägel

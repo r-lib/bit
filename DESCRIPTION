@@ -1,8 +1,8 @@
 Package: bit
 Type: Package
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
-Version: 4.0.2
-Date: 2020-06-28
+Version: 4.0.3
+Date: 2020-07-07
 Author: Jens Oehlschlägel [aut, cre], Brian Ripley [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends:
@@ -13,6 +13,7 @@ Suggests:
     knitr,
     rmarkdown,
     microbenchmark,
+    bit64 (>= 4.0.0),
     ff (>= 4.0.0)
 Description: Provided are classes for boolean and skewed boolean vectors,
     fast boolean methods, fast unique and non-unique integer sorting,

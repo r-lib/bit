@@ -19,7 +19,7 @@
 #' @param \dots further arguments to the generic
 #' @return an object that is a deep copy of x
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link[ff]{clone.ff}}, \code{\link{copy}}
+#' @seealso \code{clone.ff}, \code{\link{copy}}
 #' @keywords IO data
 #' @examples
 #' 
