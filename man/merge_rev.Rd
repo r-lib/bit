@@ -105,7 +105,7 @@ merge_lastnotin(rx, y, revx = FALSE, revy = FALSE)
 \description{
 The \code{merge_} functions allow unary and binary operations 
 on (ascending) sorted vectors of \code{link{integer}}. 
-\code{merge_rev(x)} will do in one scan what costs two scans in \code{-\link{rev}(x)}, see also \code{\link{reverse}(x)}.
+\code{merge_rev(x)} will do in one scan what costs two scans in \code{-\link{rev}(x)}, see also \code{\link{reverse_vector}(x)}.
 Many of these \code{merge_} can optionally scan their input in reverse order (and switch the sign), 
 which again saves extra scans for calling \code{merge_rev(x)} first.
 }

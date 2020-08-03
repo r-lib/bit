@@ -18,11 +18,11 @@ This is substantially faster than \code{which.max(is.na(x))}
 \examples{
 x <- c(FALSE,NA,TRUE)
 firstNA(x)
-reverse(x)
+reverse_vector(x)
 \dontrun{
 x <- 1:1e7
 system.time(rev(x))
-system.time(reverse(x))
+system.time(reverse_vector(x))
 }
 }
 \seealso{

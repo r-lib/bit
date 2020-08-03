@@ -121,7 +121,7 @@
 #' @export
 getsetattr <- function(x, which, value)
 {
-  ret <- copy(attr(x, which))
+  ret <- copy_vector(attr(x, which))
   .Call(C_R_bit_set_attr, x, which, value)
   ret
 }

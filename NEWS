@@ -1,3 +1,13 @@
+        CHANGES IN bit VERSION 4.0.4
+
+USER VISIBLE CHANGES
+BUG FIXES
+
+    o copy() and reverse() have been renamed to 
+    copy_vector() and reverse_vector()
+
+
+
         CHANGES IN bit VERSION 4.0.3
 
 BUG FIXES

@@ -56,7 +56,7 @@ extern SEXP R_bit_vecseq(SEXP, SEXP);
 extern SEXP R_bit_which(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bitwhich_representation(SEXP);
 extern SEXP R_bit_xor(SEXP, SEXP, SEXP);
-extern SEXP R_copy(SEXP, SEXP);
+extern SEXP R_copy_vector(SEXP, SEXP);
 extern SEXP R_duplicate(SEXP);
 extern SEXP R_firstNA(SEXP);
 extern SEXP R_get_length(SEXP);
@@ -90,7 +90,7 @@ extern SEXP R_still_identical(SEXP, SEXP);
 extern SEXP R_range_na(SEXP);
 extern SEXP R_range_nanozero(SEXP);
 extern SEXP R_range_sortna(SEXP, SEXP, SEXP);
-extern SEXP R_reverse(SEXP);
+extern SEXP R_reverse_vector(SEXP);
 //extern SEXP R_get_refcnt(SEXP);
 //extern SEXP R_set_refcnt(SEXP, SEXP);
 
@@ -143,7 +143,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"R_bit_which",               (DL_FUNC) &R_bit_which,               4},
     {"R_bitwhich_representation", (DL_FUNC) &R_bitwhich_representation, 1},
     {"R_bit_xor",                 (DL_FUNC) &R_bit_xor,                 3},
-    {"R_copy",                    (DL_FUNC) &R_copy,                    2},
+    {"R_copy_vector",             (DL_FUNC) &R_copy_vector,             2},
     {"R_duplicate",               (DL_FUNC) &R_duplicate,               1},
     {"R_firstNA",                 (DL_FUNC) &R_firstNA,                 1},
     {"R_get_length",              (DL_FUNC) &R_get_length,              1},
@@ -177,7 +177,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"R_range_na",                (DL_FUNC) &R_range_na,                1},
     {"R_range_nanozero",          (DL_FUNC) &R_range_nanozero,          1},
     {"R_range_sortna",            (DL_FUNC) &R_range_sortna,            3},
-    {"R_reverse",                 (DL_FUNC) &R_reverse,                 1},
+    {"R_reverse_vector",          (DL_FUNC) &R_reverse_vector,          1},
     //{"R_get_refcnt",              (DL_FUNC) &R_get_refcnt,              1},
     //{"R_set_refcnt",              (DL_FUNC) &R_set_refcnt,              2},
     {NULL, NULL, 0}

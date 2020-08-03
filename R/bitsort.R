@@ -227,7 +227,7 @@ bitsort <- function(x, na.last=NA, depth=1){
 #         tim[di,ni,"b"] <- microbenchmark(bitsort(x), times = 1)$time
 #         tim[di,ni,"c"] <- microbenchmark(countsort(x), times = 1)$time
 #         tim[di,ni,"q"] <- microbenchmark(quicksort3(x), times = 1)$time
-#         #tim[di,ni,"r"] <- microbenchmark(radixsort(copy(x)), times = 1)$time
+#         #tim[di,ni,"r"] <- microbenchmark(radixsort(copy_vector(x)), times = 1)$time
 #       }
 #     }
 #     print(apply(tim[,1:ni,,drop=FALSE], 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
@@ -415,7 +415,7 @@ bit_sort_unique <- function(x, decreasing = FALSE, na.last=NA, has.dup=TRUE, ran
       ret <- quicksort2(x, na.last = xor(na.last, decreasing))
     }
     if (decreasing)
-      reverse(ret)
+      reverse_vector(ret)
     else
       ret
   }else
@@ -853,7 +853,7 @@ bit_rangediff <- function(rx, y, revx=FALSE, revy=FALSE){
   d <- length(y) / n
   if (n > .Machine$integer.max || d < 1/64 ){
     ox <- as.integer(ox)
-    y <- .Call(C_R_int_quicksort2, copy(y), c(ox, 0L), na.last=NA)
+    y <- .Call(C_R_int_quicksort2, copy_vector(y), c(ox, 0L), na.last=NA)
     ret <- merge_rangediff(ox, y, revx=revx, revy=revy)
     if (rx[1]>rx[2])
       ret <- rev(ret)

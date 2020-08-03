@@ -55,7 +55,7 @@ SEXP R_merge_rev(SEXP x_){
   case CPLXSXP:
   case STRSXP:
   default:
-    error("non-implemented type in reverse");
+    error("non-implemented type in merge_rev");
   }
   UNPROTECT(1);
   return(y_);

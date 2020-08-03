@@ -36,6 +36,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 require(bit)
 .ff.version <- try(packageVersion("ff"), silent = TRUE)
 .ff.is.available <- !inherits(.ff.version, "try-error") && .ff.version >= "4.0.0" && require(ff)
+# rmarkdown::render("vignettes/bit-usage.Rmd")
 # devtools::build_vignettes()
 ```
 
@@ -461,16 +462,16 @@ R implements *set methods* using *hash tables*, namely `match`, `%in%`, `unique`
 
 Furthermore there are very fast methods for sorting integers (unique or keeping ties), reversals that simultaneously change the sign to preserve ascending order and methods for finding min or max in sorted vectors or within ranges of sorted vectors. 
 
-|R              | bit vectors     |merging           |range merging      |
-|:--------------|:----------------|:-----------------|:------------------|
-|`sort(unique)` |`bit_sort_unique`|                  ||
-|`sort`         |`bit_sort`       |                  ||
-|`rev`          |`rev(bit)`       |`reverse`         ||
-|`-rev`         |                 |`copy(revx=TRUE)` ||
-|`min`          |`min(bit)`       |`merge_first`     |`merge_firstin`   |
-|`max`          |`max(bit)`       |`merge_last`      |`merge_lastin`    |
-|               |`min(!bit)`      |                  |`merge_firstnotin`|
-|               |`max(!bit)`      |                  |`merge_lastnotin` |
+|R              | bit vectors     |merging                  |range merging      |
+|:--------------|:----------------|:------------------------|:------------------|
+|`sort(unique)` |`bit_sort_unique`|                         ||
+|`sort`         |`bit_sort`       |                         ||
+|`rev`          |`rev(bit)`       |`reverse_vector`         ||
+|`-rev`         |                 |`copy_vector(revx=TRUE)` ||
+|`min`          |`min(bit)`       |`merge_first`            |`merge_firstin`   |
+|`max`          |`max(bit)`       |`merge_last`             |`merge_lastin`    |
+|               |`min(!bit)`      |                         |`merge_firstnotin`|
+|               |`max(!bit)`      |                         |`merge_lastnotin` |
 
 ---
 

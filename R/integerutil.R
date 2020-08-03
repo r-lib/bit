@@ -118,7 +118,7 @@ get_length <- function(x){
 #' @examples
 #' x <- 1:2
 #' y <- x
-#' z <- copy(x)
+#' z <- copy_vector(x)
 #' still.identical(y,x)
 #' still.identical(z,x)
 #' @export
@@ -135,19 +135,19 @@ still.identical <- function(x, y){
 #' @param x an R vector
 #' @param revx default \code{FALSE}, set to \code{TRUE} to reverse the elements in 'x'
 #' @return copied R vector
-#' @seealso \code{\link{clone}}, \code{\link{still.identical}},  \code{\link{reverse}}
+#' @seealso \code{\link{clone}}, \code{\link{still.identical}},  \code{\link{reverse_vector}}
 #' @examples
 #' x <- factor(letters)
 #' y <- x
-#' z <- copy(x)
+#' z <- copy_vector(x)
 #' still.identical(x,y)
 #' still.identical(x,z)
 #' str(x)
 #' str(y)
 #' str(z)
 #' @export
-copy <- function(x, revx=FALSE){
-  .Call(C_R_copy, x, as.logical(revx))
+copy_vector <- function(x, revx=FALSE){
+  .Call(C_R_copy_vector, x, as.logical(revx))
 }
 
 
@@ -159,19 +159,19 @@ copy <- function(x, revx=FALSE){
 #'
 #' @param x an R vector
 #' @return a reversed vector
-#' @seealso \code{\link{rev}}, \code{\link{copy}}
+#' @seealso \code{\link{rev}}, \code{\link{copy_vector}}
 #' @examples
 #' x <- factor(letters)
 #' rev(x)
-#' reverse(x)
+#' reverse_vector(x)
 #' \dontrun{
 #' x <- 1:1e7
 #' system.time(rev(x))
-#' system.time(reverse(x))
+#' system.time(reverse_vector(x))
 #' }
 #' @export
-reverse <- function(x){
-  .Call(C_R_reverse, x)
+reverse_vector <- function(x){
+  .Call(C_R_reverse_vector, x)
 }
 
 #' Position of first NA
@@ -184,11 +184,11 @@ reverse <- function(x){
 #' @examples
 #' x <- c(FALSE,NA,TRUE)
 #' firstNA(x)
-#' reverse(x)
+#' reverse_vector(x)
 #' \dontrun{
 #' x <- 1:1e7
 #' system.time(rev(x))
-#' system.time(reverse(x))
+#' system.time(reverse_vector(x))
 #' }
 #' @export
 firstNA <- function(x){

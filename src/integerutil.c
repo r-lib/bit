@@ -117,7 +117,7 @@ SEXP R_still_identical(
 }
 
 
-SEXP R_copy(SEXP x_, SEXP revx_){
+SEXP R_copy_vector(SEXP x_, SEXP revx_){
   SEXP y_;
   int revx = asLogical(revx_);
   int i, j, n=LENGTH(x_);
@@ -163,14 +163,14 @@ SEXP R_copy(SEXP x_, SEXP revx_){
   case CPLXSXP:
   case STRSXP:
   default:
-    error("non-implemented type in copy");
+    error("non-implemented type in copy_vector");
   }
   UNPROTECT(1);
   return(y_);
 }
 
 
-SEXP R_reverse(SEXP x_){
+SEXP R_reverse_vector(SEXP x_){
   SEXP y_;
   int i, j, n=LENGTH(x_);
   int *intx, *inty;
@@ -203,7 +203,7 @@ SEXP R_reverse(SEXP x_){
   case CPLXSXP:
   case STRSXP:
   default:
-    error("non-implemented type in reverse");
+    error("non-implemented type in reverse_vector");
   }
   UNPROTECT(1);
   return(y_);

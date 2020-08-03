@@ -20,7 +20,7 @@ Test for C-level identity of two atomic vectors
 \examples{
 x <- 1:2
 y <- x
-z <- copy(x)
+z <- copy_vector(x)
 still.identical(y,x)
 still.identical(z,x)
 }

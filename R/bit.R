@@ -226,13 +226,13 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
             poslength <- maxindex
           else if (poslength!=maxindex)
             stop("x==TRUE implies poslength==maxindex")
-          ret <- copy(TRUE)
+          ret <- copy_vector(TRUE)
         }else{
           if (is.null(poslength))
             poslength <- 0L
           else if (poslength!=0L)
             stop("x==FALSE implies poslength==0")
-          ret <- copy(FALSE)
+          ret <- copy_vector(FALSE)
         }
       }else{
         x <- as.integer(x)
@@ -260,7 +260,7 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
               if (poslength <= maxindex%/%2L)
                 ret <- merge_rangediff(c(1L,maxindex), ret, revx=FALSE, revy=TRUE)
             }else{
-              ret <- copy(FALSE)
+              ret <- copy_vector(FALSE)
             }
           }else{
             poslength <- length(ret)
@@ -268,15 +268,15 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
               if (poslength > maxindex%/%2L)
                 ret <- merge_rangediff(c(1L,maxindex), ret, revx=TRUE, revy=TRUE)
             }else{
-              ret <- copy(TRUE)
+              ret <- copy_vector(TRUE)
             }
           }
         }else{
           poslength <- as.integer(poslength)
           if (poslength==0L)
-            ret <- copy(FALSE)
+            ret <- copy_vector(FALSE)
           else if (poslength==maxindex)
-            ret <- copy(TRUE)
+            ret <- copy_vector(TRUE)
           else{
             if (length(x) > 2 && x[1] >= x[2])
               stop("x is not sorted unique")
@@ -286,14 +286,14 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
               if (poslength <= maxindex%/%2L)
                 ret <- merge_rangediff(c(1L,maxindex), x, revx=FALSE, revy=TRUE)
               else
-                ret <- copy(x)
+                ret <- copy_vector(x)
             }else{
               if ( poslength != length(x) )
                 stop("wrong poslength")
               if (poslength > maxindex%/%2L)
                 ret <- merge_rangediff(c(1L,maxindex), x, revx=TRUE, revy=TRUE)
               else
-                ret <- copy(x)
+                ret <- copy_vector(x)
             }
             
           }
@@ -307,13 +307,13 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
             poslength <- maxindex
           else
             poslength <- 0L
-          ret <- copy(xempty)
+          ret <- copy_vector(xempty)
       }else{
         poslength <- as.integer(poslength)
         if (poslength==0)
-          ret <- copy(FALSE)
+          ret <- copy_vector(FALSE)
         else if (poslength==maxindex)
-          ret <- copy(TRUE)
+          ret <- copy_vector(TRUE)
         else
           stop("need x with extreme poslength")
       } 
@@ -727,7 +727,7 @@ length.bit <- function(x)
     }else if (n<oldn){
       ret <- unclass(x)[seq_len(n)]
     }else{
-      ret <- copy(x)
+      ret <- copy_vector(x)
     }
     if (dn && value<oldvalue){
       .Call(C_R_bit_set_logical, ret, FALSE, c(value+1L, n*.BITS))
@@ -758,18 +758,18 @@ length.bitwhich <- function(x)
             ret <- x[x <= value]
             l <- length(ret)
             if (l==0)
-              ret <- copy(FALSE)
+              ret <- copy_vector(FALSE)
             else if (l==value)
-              ret <- copy(TRUE)
+              ret <- copy_vector(TRUE)
             else if (l>(value%/%2L))
               ret <- merge_rangediff(c(-value,-1L), ret, revy=TRUE)
           }else{
             ret <- x[x >= -value]
             l <- length(ret)
             if (l==0)
-              ret <- copy(TRUE)
+              ret <- copy_vector(TRUE)
             else if (l==value)
-              ret <- copy(FALSE)
+              ret <- copy_vector(FALSE)
             else if (!((value-l)>(value%/%2L)))
               ret <- merge_rangediff(c(1L,value), ret, revy=TRUE)
             l <- value - l
@@ -890,19 +890,19 @@ rev.bit <- function(x){
 rev.bitwhich <- function(x){
   n <- length(x)
   if (is.logical(x)){
-    ret <- bitwhich(n, copy(x), poslength=sum(x))
+    ret <- bitwhich(n, copy_vector(x), poslength=sum(x))
   }else{
     y <- bitwhich_representation(x)
     if (n < .Machine$integer.max){
       if (y[1]<0)
-        ret <- bitwhich(n, -(n+1L)-reverse(x), poslength=sum(x))
+        ret <- bitwhich(n, -(n+1L)-reverse_vector(x), poslength=sum(x))
       else
-        ret <- bitwhich(n, (n+1L)-reverse(x), poslength=sum(x))
+        ret <- bitwhich(n, (n+1L)-reverse_vector(x), poslength=sum(x))
     }else{
       if (y[1]<0)
-        ret <- bitwhich(n, -n-reverse(x)-1L, poslength=sum(x))
+        ret <- bitwhich(n, -n-reverse_vector(x)-1L, poslength=sum(x))
       else
-        ret <- bitwhich(n, n-reverse(x)+1L, poslength=sum(x))
+        ret <- bitwhich(n, n-reverse_vector(x)+1L, poslength=sum(x))
     }
   }
   ret
@@ -1276,7 +1276,7 @@ as.which.bitwhich <- function(x, ...){
     if (unclass(x)[[1]]<0)
       ret <- merge_rangediff(c(1L,maxindex), x, revx=FALSE, revy=TRUE)
     else
-      ret <- copy(x)
+      ret <- copy_vector(x)
   }
   setattributes(ret, list("maxindex" = as.integer(maxindex), "class" = c("booltype", "which")))
   ret
@@ -1448,7 +1448,7 @@ xor.logical <- function(x,y){
 #' @export
 "!.bit" <- function(x){
   if (length(x)){
-    ret <- copy(x)
+    ret <- copy_vector(x)
     setattributes(ret, attributes(x))
     .Call(C_R_bit_not, ret)
   }else{
@@ -1542,7 +1542,7 @@ xor.logical <- function(x,y){
     }
   }else{
     #bitwhich(maxindex=n, -rev(unclass(x)), poslength=n-p, is.unsorted = FALSE, has.dup=FALSE)
-    bitwhich(maxindex=n, copy(x, revx=TRUE), poslength=n-p, is.unsorted = FALSE, has.dup=FALSE)
+    bitwhich(maxindex=n, copy_vector(x, revx=TRUE), poslength=n-p, is.unsorted = FALSE, has.dup=FALSE)
   }
 }
 
@@ -2728,7 +2728,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
             stop("illegal range index 'ri'")
           if (is.logical(x)){
             if (length(x))
-              ret <- rep(copy(x), i[2]-i[1]+1L)
+              ret <- rep(copy_vector(x), i[2]-i[1]+1L)
             else
               ret <- rep(NA, i[2]-i[1]+1L)
           }else{
@@ -2868,10 +2868,10 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
                 # assignment has first exclusions
                 if (i[1]<0){
                   # assignment enumerates those not excluded
-                  ret <- bitwhich(nx, copy(i, revx=TRUE), poslength=length(i))
+                  ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=length(i))
                 }else{
                   # assignment enumerates those excluded
-                  ret <- bitwhich(nx, copy(i, revx=TRUE), poslength=nx-length(i))
+                  ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=nx-length(i))
                 }
               }
             }
