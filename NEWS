@@ -1,3 +1,14 @@
+        CHANGES IN bit VERSION 4.0.5
+
+BUG FIXES
+
+    o C functions () without parameters
+      are now declared (void) to avoid
+      prototype warning
+    o getAttrib is now PROTECTed
+
+
+
         CHANGES IN bit VERSION 4.0.4
 
 USER VISIBLE CHANGES

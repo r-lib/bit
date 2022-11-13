@@ -1,6 +1,6 @@
 /*
 # C-Code for chunk utilities
-# (c) 2012 Jens Oehlschägel
+# (c) 2012 Jens Oehlschaegel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 */

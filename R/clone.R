@@ -37,7 +37,6 @@ clone  <- function(x, ...){
   UseMethod("clone")
 }
 
-
 #' @describeIn clone default method uses R's C-API 'duplicate()'
 #' @export
 clone.default <- function(

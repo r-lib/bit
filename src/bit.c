@@ -54,7 +54,7 @@ static void bit_init(int   bits){
   }
 }
 
-static void bit_done(){
+static void bit_done(void){
   free(mask0);
   free(mask1);
 }
@@ -65,7 +65,7 @@ SEXP R_bit_init(SEXP bits_){
   bit_init(bits);
   return R_NilValue;
 }
-SEXP R_bit_done(){
+SEXP R_bit_done(void){
   bit_done();
   return R_NilValue;
 }
@@ -2181,8 +2181,15 @@ SEXP R_bit_reverse(
 ){
   bitint *bsource = (bitint*) INTEGER(bsource_);
   bitint *btarget = (bitint*) INTEGER(btarget_);
-  int ns = asInteger(getAttrib(getAttrib(bsource_, install("virtual")), install("Length")));
-  int nt = asInteger(getAttrib(getAttrib(btarget_, install("virtual")), install("Length")));
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP svirt = PROTECT(getAttrib(bsource_, virt));
+  SEXP sleng = PROTECT(getAttrib(svirt, leng));
+  SEXP tvirt = PROTECT(getAttrib(btarget_, virt));
+  SEXP tleng = PROTECT(getAttrib(tvirt, leng));
+  int ns = asInteger(sleng);
+  int nt = asInteger(tleng);
+  UNPROTECT(6);
   if (ns!= nt)
     error("source and target must have same length in R_bit_reverse");
   bit_reverse(bsource, btarget, ns);
@@ -2193,8 +2200,15 @@ SEXP R_bit_reverse(
 SEXP R_bit_recycle(SEXP b_, SEXP r_){
   bitint *b = (bitint*) INTEGER(b_);
   bitint *r = (bitint*) INTEGER(r_);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  int nr = asInteger(getAttrib(getAttrib(r_, install("virtual")), install("Length")));
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  SEXP rvirt = PROTECT(getAttrib(r_, virt));
+  SEXP rleng = PROTECT(getAttrib(rvirt, leng));
+  int nb = asInteger(bleng);
+  int nr = asInteger(rleng);
+  UNPROTECT(6);
   int dr,i,k,n;
   if (nb<nr){
     k = nb % BITS;
@@ -2301,7 +2315,12 @@ SEXP R_bit_which(SEXP b_, SEXP s_, SEXP range_, SEXP negative_){
 
 SEXP R_bit_sort(SEXP b_, SEXP i_, SEXP range_, SEXP na_last_, SEXP depth_){
   bitint *b = (bitint*) INTEGER(b_);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
   int *i = INTEGER(i_);
   int *r = INTEGER(range_);
   int na_last = asLogical(na_last_);
@@ -2343,7 +2362,12 @@ SEXP R_bit_sort(SEXP b_, SEXP i_, SEXP range_, SEXP na_last_, SEXP depth_){
 
 SEXP R_bit_sort_unique(SEXP b_, SEXP i_, SEXP range_, SEXP nalast_, SEXP decreasing_){
   bitint *b = (bitint*) INTEGER(b_);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
   int nalast = asLogical(nalast_);
   int decreasing = asLogical(decreasing_);
   int *i = INTEGER(i_);
@@ -2389,7 +2413,12 @@ SEXP R_bit_sort_unique(SEXP b_, SEXP i_, SEXP range_, SEXP nalast_, SEXP decreas
 
 SEXP R_bit_rangediff(SEXP b_, SEXP rx_, SEXP y_, SEXP revx_, SEXP revy_){
   bitint *b = (bitint*) INTEGER(b_);
-  //int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  // SEXP virt = PROTECT(install("virtual"));   
+  // SEXP leng = PROTECT(install("Length"));
+  // SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  // SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  // int nb = asInteger(bleng);
+  // UNPROTECT(4);
   int revx = asLogical(revx_);
   int revy = asLogical(revy_);
   int *rx = INTEGER(rx_);
@@ -2936,7 +2965,12 @@ return ret_;
 SEXP R_bit_extract(SEXP b_, SEXP i_){
   SEXP l_;
   bitint *b = (bitint*) INTEGER(b_);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
   int *l, *i = INTEGER(i_);
   int nl, ni = LENGTH(i_);
   if (ni==0){
@@ -2972,7 +3006,12 @@ SEXP R_bit_extract(SEXP b_, SEXP i_){
 // only pos may contain NAs
 SEXP R_bit_replace(SEXP b_, SEXP i_, SEXP l_){
   bitint *b = (bitint*) INTEGER(b_);
-  int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
   int *i = INTEGER(i_);
   int *l = LOGICAL(l_);
   int ni = LENGTH(i_);
@@ -2995,8 +3034,13 @@ SEXP R_bit_replace(SEXP b_, SEXP i_, SEXP l_){
 // this alters b_
 SEXP R_bit_not(SEXP b_){
   bitint *b = (bitint*) INTEGER(b_);
-  int n = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-  bit_not(b, n);
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
+  bit_not(b, nb);
   return(b_);
 }
 
@@ -3005,8 +3049,13 @@ SEXP R_bit_and(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
   bitint *ret = (bitint*) INTEGER(ret_);
-  int n = asInteger(getAttrib(getAttrib(b1_, install("virtual")), install("Length")));
-  bit_and(b1, b2, ret, n);
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b1_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
+  bit_and(b1, b2, ret, nb);
   return(ret_);
 }
 
@@ -3015,8 +3064,13 @@ SEXP R_bit_or(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
   bitint *ret = (bitint*) INTEGER(ret_);
-  int n = asInteger(getAttrib(getAttrib(b1_, install("virtual")), install("Length")));
-  bit_or(b1, b2, ret, n);
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b1_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
+  bit_or(b1, b2, ret, nb);
   return(ret_);
 }
 
@@ -3025,8 +3079,13 @@ SEXP R_bit_xor(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
   bitint *ret = (bitint*) INTEGER(ret_);
-  int n = asInteger(getAttrib(getAttrib(b1_, install("virtual")), install("Length")));
-  bit_xor(b1, b2, ret, n);
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b1_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
+  bit_xor(b1, b2, ret, nb);
   return(ret_);
 }
 
@@ -3035,8 +3094,13 @@ SEXP R_bit_equal(SEXP b1_, SEXP b2_, SEXP ret_){
   bitint *b1 = (bitint*) INTEGER(b1_);
   bitint *b2 = (bitint*) INTEGER(b2_);
   bitint *ret = (bitint*) INTEGER(ret_);
-  int n = asInteger(getAttrib(getAttrib(b1_, install("virtual")), install("Length")));
-  bit_equal(b1, b2, ret, n);
+  SEXP virt = PROTECT(install("virtual"));   
+  SEXP leng = PROTECT(install("Length"));
+  SEXP bvirt = PROTECT(getAttrib(b1_, virt));
+  SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+  int nb = asInteger(bleng);
+  UNPROTECT(4);
+  bit_equal(b1, b2, ret, nb);
   return(ret_);
 }
 
@@ -3156,8 +3220,13 @@ bit_sample(b, y, y, z+nz, ii, ns-nz);
 SEXP R_bit_sample1(SEXP x_, SEXP b_, SEXP ns_){
 bitint *b = (bitint*) INTEGER(b_);
 int n = LENGTH(x_);
-//int nb = asInteger(getAttrib(getAttrib(b_, install("virtual")), install("Length")));
-int ns = asInteger(ns_);
+ // SEXP virt = PROTECT(install("virtual"));   
+ // SEXP leng = PROTECT(install("Length"));
+ // SEXP bvirt = PROTECT(getAttrib(b1_, virt));
+ // SEXP bleng = PROTECT(getAttrib(bvirt, leng));
+ // int nb = asInteger(bleng);
+ // UNPROTECT(4);
+ int ns = asInteger(ns_);
 SEXP y_,z_;
 PROTECT( y_ = allocVector(INTSXP,n) );
 PROTECT( z_ = allocVector(INTSXP,ns) );

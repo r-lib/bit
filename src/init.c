@@ -21,7 +21,7 @@ extern SEXP R_bit_and(SEXP, SEXP, SEXP);
 extern SEXP R_bit_any(SEXP, SEXP);
 extern SEXP R_bit_anyDuplicated(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_as_hi(SEXP, SEXP, SEXP);
-extern SEXP R_bit_done();
+extern SEXP R_bit_done(void);
 extern SEXP R_bit_duplicated(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_bit_equal(SEXP, SEXP, SEXP);
 extern SEXP R_bit_extract(SEXP, SEXP);
