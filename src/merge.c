@@ -149,7 +149,7 @@ SEXP R_merge_unique(SEXP x_, SEXP revx_){
     n = int_merge_unique((ValueT *)x,nx,(ValueT *)ret);
   }
   if (n < nx){
-    SETLENGTH(ret_, n);
+    ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);
@@ -250,7 +250,7 @@ SEXP R_merge_union(SEXP x_, SEXP y_, SEXP revx_, SEXP revy_, SEXP method_){
     }else
       error("illegal method");
     if (n < (nx+ny)){
-      SETLENGTH(ret_, n);
+      ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
     }
   }
 UNPROTECT(1);
@@ -293,7 +293,7 @@ SEXP R_merge_setdiff(SEXP x_, SEXP y_, SEXP revx_, SEXP revy_, SEXP method_){
   }else
     error("illegal method");
   if (n < nx){
-    SETLENGTH(ret_, n);
+    ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);
@@ -373,7 +373,7 @@ SEXP R_merge_intersect(SEXP x_, SEXP y_, SEXP revx_, SEXP revy_, SEXP method_){
   }else
     error("illegal method");
   if (n < nx){
-    SETLENGTH(ret_, n);
+    ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);
@@ -415,7 +415,7 @@ SEXP R_merge_symdiff(SEXP x_, SEXP y_, SEXP revx_, SEXP revy_, SEXP method_){
   }else
     error("illegal method");
   if (n < (nx+ny)){
-    SETLENGTH(ret_, n);
+    ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);
@@ -571,7 +571,7 @@ SEXP R_merge_rangesect(SEXP rangex_, SEXP y_, SEXP revx_, SEXP revy_){
     }
   }
   if (n < nx){
-    SETLENGTH(ret_, n);
+    ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);
@@ -599,7 +599,7 @@ SEXP R_merge_rangediff(SEXP rangex_, SEXP y_, SEXP revx_, SEXP revy_){
     }
   }
   if (n < nx){
-    SETLENGTH(ret_, n);
+    ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);

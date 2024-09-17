@@ -40,17 +40,17 @@ falls back to \code{\link{union}}, \code{\link{intersect}},
 }
 \section{Functions}{
 \itemize{
-\item \code{bit_union}: union
+\item \code{bit_union()}: union
 
-\item \code{bit_intersect}: intersection
+\item \code{bit_intersect()}: intersection
 
-\item \code{bit_setdiff}: asymmetric difference
+\item \code{bit_setdiff()}: asymmetric difference
 
-\item \code{bit_symdiff}: symmetricx difference
+\item \code{bit_symdiff()}: symmetricx difference
 
-\item \code{bit_setequal}: equality
+\item \code{bit_setequal()}: equality
+
 }}
-
 \examples{
 bit_union(1:2, 2:3)
 bit_intersect(1:2, 2:3)

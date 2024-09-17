@@ -20,9 +20,9 @@ Test for NA in bit and bitwhich
 }
 \section{Functions}{
 \itemize{
-\item \code{is.na.bitwhich}: method for \code{\link{is.na}} from \code{\link{bitwhich}}
-}}
+\item \code{is.na(bitwhich)}: method for \code{\link{is.na}} from \code{\link{bitwhich}}
 
+}}
 \examples{
 is.na(bit(6))
 is.na(bitwhich(6))

@@ -57,23 +57,23 @@ Coercing to something like the result of which \code{\link{which}}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{which}: method to coerce to \code{\link[=as.which]{which}} from \code{\link[=as.which]{which}}
+\item \code{as.which(which)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link[=as.which]{which}}
 
-\item \code{NULL}: method to coerce to zero length \code{\link[=as.which]{which}} from \code{\link{NULL}}
+\item \code{as.which(`NULL`)}: method to coerce to zero length \code{\link[=as.which]{which}} from \code{\link{NULL}}
 
-\item \code{numeric}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{numeric}}
+\item \code{as.which(numeric)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{numeric}}
 
-\item \code{integer}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{integer}}
+\item \code{as.which(integer)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{integer}}
 
-\item \code{logical}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{logical}}
+\item \code{as.which(logical)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{logical}}
 
-\item \code{ri}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{ri}}
+\item \code{as.which(ri)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{ri}}
 
-\item \code{bit}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{bit}}
+\item \code{as.which(bit)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{bit}}
 
-\item \code{bitwhich}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{bitwhich}}
+\item \code{as.which(bitwhich)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{bitwhich}}
+
 }}
-
 \examples{
 
   r <- ri(5, 20, 100)

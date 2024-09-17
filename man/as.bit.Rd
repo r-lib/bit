@@ -52,27 +52,27 @@ word in a processor register
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{NULL}: method to coerce to \code{\link{bit}} (zero length) from \code{\link{NULL}}
+\item \code{as.bit(`NULL`)}: method to coerce to \code{\link{bit}} (zero length) from \code{\link{NULL}}
 
-\item \code{bit}: method to coerce to \code{\link{bit}} from \code{\link{bit}}
+\item \code{as.bit(bit)}: method to coerce to \code{\link{bit}} from \code{\link{bit}}
 
-\item \code{logical}: method to coerce to \code{\link{bit}} from \code{\link{logical}}
+\item \code{as.bit(logical)}: method to coerce to \code{\link{bit}} from \code{\link{logical}}
 
-\item \code{integer}: method to coerce to \code{\link{bit}} from
+\item \code{as.bit(integer)}: method to coerce to \code{\link{bit}} from
 \code{\link{integer}} (\code{0L} and \code{NA} become \code{FALSE},
 everthing else becomes \code{TRUE})
 
-\item \code{double}: method to coerce to \code{\link{bit}} from
+\item \code{as.bit(double)}: method to coerce to \code{\link{bit}} from
 \code{\link{double}} (\code{0} and \code{NA} become \code{FALSE}, everthing
 else becomes \code{TRUE})
 
-\item \code{bitwhich}: method to coerce to \code{\link{bit}} from \code{\link{bitwhich}}
+\item \code{as.bit(bitwhich)}: method to coerce to \code{\link{bit}} from \code{\link{bitwhich}}
 
-\item \code{which}: method to coerce to \code{\link{bit}} from \code{\link[=as.which]{which}}
+\item \code{as.bit(which)}: method to coerce to \code{\link{bit}} from \code{\link[=as.which]{which}}
 
-\item \code{ri}: method to coerce to \code{\link{bit}} from \code{\link{ri}}
+\item \code{as.bit(ri)}: method to coerce to \code{\link{bit}} from \code{\link{ri}}
+
 }}
-
 \note{
 Zero is coerced to FALSE, all other numbers including NA are coerced
 to TRUE.  This differs from the NA-to-FALSE coercion in package ff and may

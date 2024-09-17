@@ -32,17 +32,17 @@ All \code{\link{booltypes}} including  \code{\link{logical}} except 'nobool' typ
 }
 \section{Functions}{
 \itemize{
-\item \code{is.bit}: tests for \code{\link{bit}}
+\item \code{is.bit()}: tests for \code{\link{bit}}
 
-\item \code{is.bitwhich}: tests for \code{\link{bitwhich}}
+\item \code{is.bitwhich()}: tests for \code{\link{bitwhich}}
 
-\item \code{is.which}: tests for \code{\link[=as.which]{which}}
+\item \code{is.which()}: tests for \code{\link[=as.which]{which}}
 
-\item \code{is.hi}: tests for \code{\link[ff]{hi}}
+\item \code{is.hi()}: tests for \code{\link[ff]{hi}}
 
-\item \code{is.ri}: tests for \code{\link{ri}}
+\item \code{is.ri()}: tests for \code{\link{ri}}
+
 }}
-
 \examples{
 sapply(list(double(),integer(),logical(),bit(),bitwhich(),as.which(),ri(1,2,3)), is.booltype)
 }

@@ -1,12 +1,19 @@
 Package: bit
 Type: Package
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
-Version: 4.0.5
-Date: 2022-11-13
+Version: 4.5.0
+Date: 2024-09-17
+Authors@R: c(person(given = "Jens",
+                      family = "Oehlschlägel",
+                      role = c("aut", "cre"),
+                      email = "Jens.Oehlschlaegel@truecluster.com"),
+               person(given = "Brian",
+                      family = "Ripley",
+                      role = "ctb"))
 Author: Jens Oehlschlägel [aut, cre], Brian Ripley [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends:
-    R (>= 2.9.2)
+    R (>= 3.4.0)
 Suggests:
     testthat (>= 0.11.0),
     roxygen2,
@@ -26,4 +33,4 @@ Encoding: UTF-8
 URL: https://github.com/truecluster/bit
 VignetteBuilder: knitr, 
     rmarkdown
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3

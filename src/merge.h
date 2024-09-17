@@ -24,8 +24,8 @@ typedef struct RangeIndexTStruct {
   IndexT max;
 } RangeIndexT;
 
-#define MALLOC(n,typ) (typ *) Calloc((n),typ)
-#define FREE(x) Free(x)
+#define MALLOC(n,typ) (typ *) R_Calloc((n),typ)
+#define FREE(x) R_Free(x)
 
 #ifdef	NDEBUG
 #define	  assert(EX) ((void)0)

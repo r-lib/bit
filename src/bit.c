@@ -2387,7 +2387,7 @@ SEXP R_bit_sort_unique(SEXP b_, SEXP i_, SEXP range_, SEXP nalast_, SEXP decreas
       ni = bit_sort_bit2int_rl(b, nb, r[1], ret);
     else
       ni = bit_sort_bit2int_lr(b, nb, r[0], ret);
-    SETLENGTH(ret_, ni);
+    ret_ = Rf_lengthgets(ret_, ni);  // no REPROTECT needed as long as we leave function immediately
   }else if (nalast==TRUE){
     PROTECT( ret_ = allocVector(INTSXP,ni+1) );
     ret = INTEGER(ret_);
@@ -2396,7 +2396,7 @@ SEXP R_bit_sort_unique(SEXP b_, SEXP i_, SEXP range_, SEXP nalast_, SEXP decreas
     else
       ni = bit_sort_bit2int_lr(b, nb, r[0], ret);
     ret[ni] = NA_INTEGER;
-    SETLENGTH(ret_, ni+1);
+    ret_ = Rf_lengthgets(ret_, ni+1);  // no REPROTECT needed as long as we leave function immediately
   }else{
     PROTECT( ret_ = allocVector(INTSXP,ni+1) );
     ret = INTEGER(ret_);
@@ -2405,7 +2405,7 @@ SEXP R_bit_sort_unique(SEXP b_, SEXP i_, SEXP range_, SEXP nalast_, SEXP decreas
       ni = bit_sort_bit2int_rl(b, nb, r[1], ret+1);
     else
       ni = bit_sort_bit2int_lr(b, nb, r[0], ret+1);
-    SETLENGTH(ret_, ni+1);
+    ret_ = Rf_lengthgets(ret_, ni+1);  // no REPROTECT needed as long as we leave function immediately
   }
   UNPROTECT(1);
   return(ret_);
@@ -2472,7 +2472,7 @@ SEXP R_bit_rangediff(SEXP b_, SEXP rx_, SEXP y_, SEXP revx_, SEXP revy_){
       }
     }
   }
-  SETLENGTH(ret_, nx);
+  ret_ = Rf_lengthgets(ret_, nx);  // no REPROTECT needed as long as we leave function immediately
   UNPROTECT(1);
   return(ret_);
 }
@@ -2494,7 +2494,7 @@ SEXP R_bit_unique(SEXP b_, SEXP i_, SEXP range_, SEXP na_rm_){
   }else{  // na_rm == TRUE
     n = bit_unique_removeNA(i, n, r[0], b, ret);
   }
-  SETLENGTH(ret_, n);
+  ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   UNPROTECT(1);
   return(ret_);
 }
@@ -2563,7 +2563,7 @@ SEXP R_bit_union(SEXP b_, SEXP x_, SEXP y_, SEXP range_na_){
   }else{
     n = bit_union_NoNA(x, nx, y, ny, range_na[0], b, ret);
   }
-  SETLENGTH(ret_, n);
+  ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   UNPROTECT(1);
   return(ret_);
 }
@@ -2589,7 +2589,7 @@ SEXP R_bit_intersect(SEXP b_, SEXP x_, SEXP y_, SEXP range_na_){
   }else{
     n = bit_intersect_NoNA(x, nx, y, ny, range_na[0], range_na[1], b, ret);
   }
-  SETLENGTH(ret_, n);
+  ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   UNPROTECT(1);
   return(ret_);
 }
@@ -2610,7 +2610,7 @@ SEXP R_bit_setdiff(SEXP b_, SEXP x_, SEXP y_, SEXP range_na_){
   }else{
     n = bit_setdiff_NoNA(x, nx, y, ny, range_na[0], range_na[1], b, ret);
   }
-  SETLENGTH(ret_, n);
+  ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   UNPROTECT(1);
   return(ret_);
 }
@@ -2634,7 +2634,7 @@ SEXP R_bit_symdiff(SEXP bx_, SEXP by_, SEXP x_, SEXP y_, SEXP range_na_, SEXP xh
   }else{
     n = bit_symdiff_NoNA(x, nx, y, ny, range_na[0], bx, by, ret);
   }
-  SETLENGTH(ret_, n);
+  ret_ = Rf_lengthgets(ret_, n);  // no REPROTECT needed as long as we leave function immediately
   UNPROTECT(1);
   return(ret_);
 }
@@ -2711,8 +2711,8 @@ if (d==ld){                             \
   s+=ln;                                \
   c++;                                  \
   if (c==n2){                           \
-    Free(val);                          \
-    Free(len);                          \
+    R_Free(val);                          \
+    R_Free(len);                          \
     last = NA_INTEGER; j=j1 + 1; break; \
   }                                     \
   ld = d;                               \
@@ -2815,8 +2815,8 @@ int n = range[1] - first;
     */
     int *val, *len;
     int n2 = n / 3;
-    val = Calloc(n2, int);
-    len = Calloc(n2, int);
+    val = R_Calloc(n2, int);
+    len = R_Calloc(n2, int);
     
     i=first+ld;
     k=(i+1)%BITS;
@@ -2873,12 +2873,12 @@ int n = range[1] - first;
       values = INTEGER(values_);
       for (i=0;i<c;i++)
         values[i] = val[i];
-      Free(val);
+      R_Free(val);
       PROTECT( lengths_ = allocVector(INTSXP, c) );
       lengths = INTEGER(lengths_);
       for (i=0;i<c;i++)
         lengths[i] = len[i];
-      Free(len);
+      R_Free(len);
       
       PROTECT( dat_ = allocVector(VECSXP, 2) );
       PROTECT( datnames_ = allocVector(STRSXP, 2));
@@ -2984,14 +2984,14 @@ SEXP R_bit_extract(SEXP b_, SEXP i_){
     l = LOGICAL(l_);
     nl = bit_extract_but_sorted(b, nb, i, ni, l); // nl < n if any effective i_
     if (nl<nb){
-      SETLENGTH(l_, nl);
+      l_ = Rf_lengthgets(l_, nl);  // no REPROTECT needed as long as we leave function immediately
     }
   }else{
     PROTECT( l_ = allocVector(LGLSXP,ni) );
     l = LOGICAL(l_);
     nl = bit_extract_unsorted(b, nb, i, ni, l); // nl < n if i_ contains zeros
     if (nl<ni){
-      SETLENGTH(l_, nl);
+      l_ = Rf_lengthgets(l_, nl);  // no REPROTECT needed as long as we leave function immediately
     }
   }
   UNPROTECT(1);

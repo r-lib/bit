@@ -24,9 +24,9 @@ Coerce to booltype (generic)
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default method for as.booltype
-}}
+\item \code{as.booltype(default)}: default method for as.booltype
 
+}}
 \examples{
 as.booltype(0:1)
 as.booltype(0:1, "logical")

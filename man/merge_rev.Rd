@@ -125,62 +125,62 @@ more precisely they are handled as if the identity of ties were tuples of \code{
 }
 \section{Functions}{
 \itemize{
-\item \code{merge_match}: returns integer positions of sorted set x in sorted set y, see \code{\link{match}(x, y, ...)}
+\item \code{merge_match()}: returns integer positions of sorted set x in sorted set y, see \code{\link{match}(x, y, ...)}
 
-\item \code{merge_in}: returns logical existence of sorted set x in sorted set y, see \code{x \link{\%in\%} y}
+\item \code{merge_in()}: returns logical existence of sorted set x in sorted set y, see \code{x \link{\%in\%} y}
 
-\item \code{merge_notin}: returns logical in-existence of sorted set x in sorted set y, see \code{!(x \link{\%in\%} y)}
+\item \code{merge_notin()}: returns logical in-existence of sorted set x in sorted set y, see \code{!(x \link{\%in\%} y)}
 
-\item \code{merge_duplicated}: returns the duplicated status of a sorted set x, see \code{\link{duplicated}}
+\item \code{merge_duplicated()}: returns the duplicated status of a sorted set x, see \code{\link{duplicated}}
 
-\item \code{merge_anyDuplicated}: returns the anyDuplicated status of a sorted set x, see \code{\link{anyDuplicated}}
+\item \code{merge_anyDuplicated()}: returns the anyDuplicated status of a sorted set x, see \code{\link{anyDuplicated}}
 
-\item \code{merge_sumDuplicated}: returns the sumDuplicated status of a sorted set x, see \code{\link{bit_sumDuplicated}}
+\item \code{merge_sumDuplicated()}: returns the sumDuplicated status of a sorted set x, see \code{\link{bit_sumDuplicated}}
 
-\item \code{merge_unique}: returns unique elements of sorted set x, see \code{\link{unique}}
+\item \code{merge_unique()}: returns unique elements of sorted set x, see \code{\link{unique}}
 
-\item \code{merge_union}: returns union of two sorted sets.
+\item \code{merge_union()}: returns union of two sorted sets.
 Default \code{method='unique'} returns a unique sorted set, see \code{\link{union}}; 
 \code{method='exact'} returns a sorted set with the maximum number of ties in either input set;
 \code{method='all'} returns a sorted set with the sum of ties in both input sets.
 
-\item \code{merge_setdiff}: returns sorted set x minus sorted set y
+\item \code{merge_setdiff()}: returns sorted set x minus sorted set y
 Default \code{method='unique'} returns a unique sorted set, see \code{\link{setdiff}}; 
 \code{ethod='exact'} returns a sorted set with sum(x ties) minus sum(y ties);
 
-\item \code{merge_symdiff}: returns those elements that are in sorted set \code{y} \code{\link{xor}} in sorted set \code{y}
+\item \code{merge_symdiff()}: returns those elements that are in sorted set \code{y} \code{\link{xor}} in sorted set \code{y}
 Default \code{method='unique'} returns the sorted unique set complement, see \code{\link{symdiff}}; 
 \code{method='exact'} returns a sorted set set complement with abs(sum(x ties) minus sum(y ties));
 
-\item \code{merge_intersect}: returns the intersection of two sorted sets x and y
+\item \code{merge_intersect()}: returns the intersection of two sorted sets x and y
 Default \code{method='unique'} returns the sorted unique intersect, see \code{\link{intersect}}; 
 \code{method='exact'} returns the intersect with the minium number of ties in either set;
 
-\item \code{merge_setequal}: returns \code{TRUE} for equal sorted sets and \code{FALSE} otherwise
+\item \code{merge_setequal()}: returns \code{TRUE} for equal sorted sets and \code{FALSE} otherwise
 Default \code{method='unique'} compares the sets after removing ties, see \code{\link{setequal}};  
 \code{method='exact'} compares the sets without removing ties;
 
-\item \code{merge_rangein}: returns logical existence of range rx in sorted set y, see \code{\link{merge_in}}
+\item \code{merge_rangein()}: returns logical existence of range rx in sorted set y, see \code{\link{merge_in}}
 
-\item \code{merge_rangenotin}: returns logical in-existence of range rx in sorted set y, see \code{\link{merge_notin}}
+\item \code{merge_rangenotin()}: returns logical in-existence of range rx in sorted set y, see \code{\link{merge_notin}}
 
-\item \code{merge_rangesect}: returns the intersection of range rx and sorted set y, see \code{\link{merge_intersect}}
+\item \code{merge_rangesect()}: returns the intersection of range rx and sorted set y, see \code{\link{merge_intersect}}
 
-\item \code{merge_rangediff}: returns range rx minus sorted set y, see \code{\link{merge_setdiff}}
+\item \code{merge_rangediff()}: returns range rx minus sorted set y, see \code{\link{merge_setdiff}}
 
-\item \code{merge_first}: quickly returns the first element of a sorted set x (or \code{NA} if x is empty), hence \code{x[1]} or \code{merge_rev(x)[1]}
+\item \code{merge_first()}: quickly returns the first element of a sorted set x (or \code{NA} if x is empty), hence \code{x[1]} or \code{merge_rev(x)[1]}
 
-\item \code{merge_last}: quickly returns the last element of a sorted set x, (or \code{NA} if x is empty), hence \code{x[n]} or \code{merge_rev(x)[n]}
+\item \code{merge_last()}: quickly returns the last element of a sorted set x, (or \code{NA} if x is empty), hence \code{x[n]} or \code{merge_rev(x)[n]}
 
-\item \code{merge_firstin}: quickly returns the first common element of a range rx and a sorted set y, (or \code{NA} if the intersection is empty), hence \code{merge_first(merge_rangesect(rx,y))}
+\item \code{merge_firstin()}: quickly returns the first common element of a range rx and a sorted set y, (or \code{NA} if the intersection is empty), hence \code{merge_first(merge_rangesect(rx,y))}
 
-\item \code{merge_lastin}: quickly returns the last common element of a range rx and a sorted set y, (or \code{NA} if the intersection is empty), hence \code{merge_last(merge_rangesect(rx,y))}
+\item \code{merge_lastin()}: quickly returns the last common element of a range rx and a sorted set y, (or \code{NA} if the intersection is empty), hence \code{merge_last(merge_rangesect(rx,y))}
 
-\item \code{merge_firstnotin}: quickly returns the first element of a range rx which is not in a sorted set y (or \code{NA} if all rx are in y), hence \code{merge_first(merge_rangediff(rx,y))}
+\item \code{merge_firstnotin()}: quickly returns the first element of a range rx which is not in a sorted set y (or \code{NA} if all rx are in y), hence \code{merge_first(merge_rangediff(rx,y))}
 
-\item \code{merge_lastnotin}: quickly returns the last element of a range rx which is not in a sorted set y (or \code{NA} if all rx are in y), hence \code{merge_last(merge_rangediff(rx,y))}
+\item \code{merge_lastnotin()}: quickly returns the last element of a range rx which is not in a sorted set y (or \code{NA} if all rx are in y), hence \code{merge_last(merge_rangediff(rx,y))}
+
 }}
-
 \note{
 xx OPTIMIZATION OPPORTUNITY These are low-level functions could be optimized with initial binary search (not findInterval, which coerces to double).
 }

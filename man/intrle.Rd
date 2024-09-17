@@ -42,11 +42,11 @@ by default default assumes that the input \code{x} contains no NAs.
 }
 \section{Functions}{
 \itemize{
-\item \code{intisasc}: check whether integer vector is ascending
+\item \code{intisasc()}: check whether integer vector is ascending
 
-\item \code{intisdesc}: check whether integer vector is descending
+\item \code{intisdesc()}: check whether integer vector is descending
+
 }}
-
 \examples{
 
   intrle(sample(1:10))

@@ -25,11 +25,11 @@ Coerce to ri
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{ri}: method to coerce \code{\link{ri}} to \code{\link{ri}}
+\item \code{as.ri(ri)}: method to coerce \code{\link{ri}} to \code{\link{ri}}
 
-\item \code{default}: default method to coerce to \code{\link{ri}}
+\item \code{as.ri(default)}: default method to coerce to \code{\link{ri}}
+
 }}
-
 \examples{
 as.ri(c(FALSE, TRUE, FALSE, TRUE))
 }

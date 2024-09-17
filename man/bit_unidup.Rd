@@ -44,15 +44,15 @@ falls back to \code{\link{unique}}, \code{\link{duplicated}}, \code{\link{anyDup
 }
 \section{Functions}{
 \itemize{
-\item \code{bit_unique}: extracts unique elements
+\item \code{bit_unique()}: extracts unique elements
 
-\item \code{bit_duplicated}: determines duplicate elements
+\item \code{bit_duplicated()}: determines duplicate elements
 
-\item \code{bit_anyDuplicated}: checks for existence of duplicate elements
+\item \code{bit_anyDuplicated()}: checks for existence of duplicate elements
 
-\item \code{bit_sumDuplicated}: counts duplicate elements
+\item \code{bit_sumDuplicated()}: counts duplicate elements
+
 }}
-
 \examples{
 bit_unique(c(2L,1L,NA,NA,1L,2L))
 bit_unique(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)

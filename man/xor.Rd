@@ -94,45 +94,48 @@ much faster than the multiple calls in \code{(x | y) & !(x & y)}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default method for \code{\link{xor}}
+\item \code{xor(default)}: default method for \code{\link{xor}}
 
-\item \code{logical}: \code{\link{logical}} method for \code{\link{xor}}
+\item \code{xor(logical)}: \code{\link{logical}} method for \code{\link{xor}}
 
-\item \code{bit}: \code{\link{bit}} method for \code{\link{!}}
+\item \code{xor(bit)}: \code{\link{bit}} method for \code{\link{xor}}
 
-\item \code{bit}: \code{\link{bit}} method for \code{\link{&}}
+\item \code{xor(bitwhich)}: \code{\link{bitwhich}} method for \code{\link{xor}}
 
-\item \code{bit}: \code{\link{bit}} method for \code{\link{|}}
+\item \code{xor(booltype)}: \code{\link{booltype}} method for \code{\link{xor}}
 
-\item \code{bit}: \code{\link{bit}} method for \code{\link{==}}
-
-\item \code{bit}: \code{\link{bit}} method for \code{\link{!=}}
-
-\item \code{bit}: \code{\link{bit}} method for \code{\link{xor}}
-
-\item \code{bitwhich}: \code{\link{bitwhich}} method for \code{\link{!}}
-
-\item \code{bitwhich}: \code{\link{bitwhich}} method for \code{\link{&}}
-
-\item \code{bitwhich}: \code{\link{bitwhich}} method for \code{\link{|}}
-
-\item \code{bitwhich}: \code{\link{bitwhich}} method for \code{\link{==}}
-
-\item \code{bitwhich}: \code{\link{bitwhich}} method for \code{\link{!=}}
-
-\item \code{bitwhich}: \code{\link{bitwhich}} method for \code{\link{xor}}
-
-\item \code{booltype}: \code{\link{booltype}} method for \code{\link{&}}
-
-\item \code{booltype}: \code{\link{booltype}} method for \code{\link{|}}
-
-\item \code{booltype}: \code{\link{booltype}} method for \code{\link{==}}
-
-\item \code{booltype}: \code{\link{booltype}} method for \code{\link{!=}}
-
-\item \code{booltype}: \code{\link{booltype}} method for \code{\link{xor}}
 }}
+\section{Functions}{
+\itemize{
+\item \code{`!`(bit)}: \code{\link{bit}} method for \code{\link{!}}
 
+\item \code{ & }: \code{\link{bit}} method for \code{\link{&}}
+
+\item \code{ | }: \code{\link{bit}} method for \code{\link{|}}
+
+\item \code{ == }: \code{\link{bit}} method for \code{\link{==}}
+
+\item \code{ != }: \code{\link{bit}} method for \code{\link{!=}}
+
+\item \code{`!`(bitwhich)}: \code{\link{bitwhich}} method for \code{\link{!}}
+
+\item \code{ & }: \code{\link{bitwhich}} method for \code{\link{&}}
+
+\item \code{ | }: \code{\link{bitwhich}} method for \code{\link{|}}
+
+\item \code{ == }: \code{\link{bitwhich}} method for \code{\link{==}}
+
+\item \code{ != }: \code{\link{bitwhich}} method for \code{\link{!=}}
+
+\item \code{ & }: \code{\link{booltype}} method for \code{\link{&}}
+
+\item \code{ | }: \code{\link{booltype}} method for \code{\link{|}}
+
+\item \code{ == }: \code{\link{booltype}} method for \code{\link{==}}
+
+\item \code{ != }: \code{\link{booltype}} method for \code{\link{!=}}
+
+}}
 \examples{
 
   x <- c(FALSE, FALSE, FALSE, NA, NA, NA, TRUE, TRUE, TRUE)

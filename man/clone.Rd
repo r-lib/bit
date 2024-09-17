@@ -29,9 +29,9 @@ point to the same memory.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default method uses R's C-API 'duplicate()'
-}}
+\item \code{clone(default)}: default method uses R's C-API 'duplicate()'
 
+}}
 \examples{
 
   x <- 1:12

@@ -62,31 +62,34 @@ The generic \code{poslength} gives the number of positively selected elements, i
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default method for \code{maxindex}
+\item \code{maxindex(default)}: default method for \code{maxindex}
 
-\item \code{default}: default method for \code{poslength}
+\item \code{maxindex(logical)}: \code{maxindex} method for class \code{\link{logical}}
 
-\item \code{logical}: \code{maxindex} method for class \code{\link{logical}}
+\item \code{maxindex(bit)}: \code{maxindex} method for class \code{\link{bit}}
 
-\item \code{logical}: \code{poslength} method for class \code{\link{logical}}
+\item \code{maxindex(bitwhich)}: \code{maxindex} method for class \code{\link{bitwhich}}
 
-\item \code{bit}: \code{maxindex} method for class \code{\link{bit}}
+\item \code{maxindex(which)}: \code{maxindex} method for class \code{\link[=as.which]{which}}
 
-\item \code{bit}: \code{poslength} method for class \code{\link{bit}}
+\item \code{maxindex(ri)}: \code{maxindex} method for class \code{\link{ri}}
 
-\item \code{bitwhich}: \code{maxindex} method for class \code{\link{bitwhich}}
-
-\item \code{bitwhich}: \code{poslength} method for class \code{\link{bitwhich}}
-
-\item \code{which}: \code{maxindex} method for class \code{\link[=as.which]{which}}
-
-\item \code{which}: \code{poslength} method for class \code{\link[=as.which]{which}}
-
-\item \code{ri}: \code{maxindex} method for class \code{\link{ri}}
-
-\item \code{ri}: \code{poslength} method for class \code{\link{ri}}
 }}
+\section{Functions}{
+\itemize{
+\item \code{poslength(default)}: default method for \code{poslength}
 
+\item \code{poslength(logical)}: \code{poslength} method for class \code{\link{logical}}
+
+\item \code{poslength(bit)}: \code{poslength} method for class \code{\link{bit}}
+
+\item \code{poslength(bitwhich)}: \code{poslength} method for class \code{\link{bitwhich}}
+
+\item \code{poslength(which)}: \code{poslength} method for class \code{\link[=as.which]{which}}
+
+\item \code{poslength(ri)}: \code{poslength} method for class \code{\link{ri}}
+
+}}
 \examples{
 r <- ri(1,2,12)
 i <- as.which(r)

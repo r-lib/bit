@@ -96,15 +96,18 @@ SEXP R_still_identical(
     ret = COMPLEX(x_)==COMPLEX(y_) ? TRUE : FALSE;
     break;
   case STRSXP:
-    ret = STRING_PTR(x_)==STRING_PTR(y_) ? TRUE : FALSE;
+    //ret = STRING_PTR(x_)==STRING_PTR(y_) ? TRUE : FALSE;
+    error("Strings no longer implemented in still.identical (STRING_PTR is disallowed by CRAN checks)");
     break;
   case VECSXP:
-    ret = VECTOR_PTR(x_)==VECTOR_PTR(y_) ? TRUE : FALSE;
+    //ret = VECTOR_PTR(x_)==VECTOR_PTR(y_) ? TRUE : FALSE;
+    error("Lists not implemented in still.identical (VECTOR_PTR is forbidden)");
+    break;
   case RAWSXP:
     ret = RAW(x_)==RAW(y_) ? TRUE : FALSE;
     break;
   default:
-    error("unimplemented type in truly.identical");
+    error("unimplemented type in still.identical");
   return R_NilValue;
   }
   if (LENGTH(x_)!=LENGTH(y_)){
@@ -304,7 +307,8 @@ SEXP R_range_nanozero(SEXP x_){
   int countna=0;
   SEXP y_,ret_;
   PROTECT( ret_ = allocVector(INTSXP,3) );
-  PROTECT( y_ = allocVector(INTSXP,n) );
+  PROTECT_INDEX ipx;
+  PROTECT_WITH_INDEX( y_ = allocVector(INTSXP,n) , &ipx);
   int *x = INTEGER(x_);
   int *y = INTEGER(y_);
   int *ret = INTEGER(ret_);
@@ -335,16 +339,22 @@ SEXP R_range_nanozero(SEXP x_){
     }
   }
   if (iy<ix){
-    SETLENGTH(y_, iy);
+    //slower replacement for deprecated: SETLENGTH(y_, iy);
+    REPROTECT(y_ = Rf_lengthgets(y_, iy), ipx);
   }
   ret[0] = min;
   ret[1] = max;
   ret[2] = countna;
-
+  
   setAttrib(y_, install("range_na"), ret_);
   UNPROTECT(2);
   return(y_);
 }
+
+
+
+
+
 
 // determine min, max, sort NAs to one end (and count them), determine (un)sortedness
 // and return y_ with range_na as attribute (min,max,sumNA,isUnsorted)
@@ -358,7 +368,8 @@ SEXP R_range_sortna(SEXP x_, SEXP decreasing_, SEXP na_last_){
   int unsorted=FALSE;
   SEXP y_,ret_;
   PROTECT( ret_ = allocVector(INTSXP,4) );
-  PROTECT( y_ = allocVector(INTSXP,n) );
+  PROTECT_INDEX ipx;
+  PROTECT_WITH_INDEX( y_ = allocVector(INTSXP,n) , &ipx);
   int *x = INTEGER(x_);
   int *y = INTEGER(y_);
   int *ret = INTEGER(ret_);
@@ -487,7 +498,8 @@ SEXP R_range_sortna(SEXP x_, SEXP decreasing_, SEXP na_last_){
     if (na_last ==  NA_INTEGER){
       // drop all NAs
       countna = 0;
-      SETLENGTH(y_, iy);
+      //slower replacement for deprecated: SETLENGTH(y_, iy);
+      REPROTECT(y_ = Rf_lengthgets(y_, iy), ipx);
     }else{
       // all NAs to end
       countna = n - iy;

@@ -37,11 +37,11 @@ delete the non-names attributes like \code{\link{attributes}} does.
 }
 \section{Functions}{
 \itemize{
-\item \code{setattr}: 
+\item \code{setattr()}: 
 
-\item \code{setattributes}: 
+\item \code{setattributes()}: 
+
 }}
-
 \examples{
 
   x <- as.single(runif(10))

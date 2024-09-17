@@ -218,8 +218,8 @@ SEXP R_int_rle(SEXP x_)
   int *val, *len, *values, *lengths;
   SEXP ret_, lengths_, values_, names_, class_;
 
-  val = Calloc(n2, int);
-  len = Calloc(n2, int);
+  val = R_Calloc(n2, int);
+  len = R_Calloc(n2, int);
   if (n){
     lv = x[0];
     ln = 1;
@@ -231,8 +231,8 @@ SEXP R_int_rle(SEXP x_)
         len[c] = ln;
         c++;
         if (c==n2){
-          Free(val);
-          Free(len);
+          R_Free(val);
+          R_Free(len);
           return R_NilValue;
         }
         lv = x[i];
@@ -247,12 +247,12 @@ SEXP R_int_rle(SEXP x_)
   values = INTEGER(values_);
   for (i=0;i<c;i++)
     values[i] = val[i];
-  Free(val);
+  R_Free(val);
   PROTECT( lengths_ = allocVector(INTSXP, c) );
   lengths = INTEGER(lengths_);
   for (i=0;i<c;i++)
     lengths[i] = len[i];
-  Free(len);
+  R_Free(len);
 
   PROTECT( ret_ = allocVector(VECSXP, 2) );
   PROTECT( names_ = allocVector(STRSXP, 2));

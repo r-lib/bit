@@ -32,9 +32,9 @@ for example \code{\link[ff]{chunk.ffdf}}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default vector method
-}}
+\item \code{chunk(default)}: default vector method
 
+}}
 \section{available methods}{
  \code{chunk.default}, \code{\link[ff:chunk.ffdf]{chunk.ff_vector}}, \code{\link[ff]{chunk.ffdf}}
 }
