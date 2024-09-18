@@ -23,7 +23,7 @@
     \code{\link{options}}) which defaults to 4.}
 
 \item{give.head}{logical; if \code{TRUE} (default), give (possibly
-    abbreviated) mode/class and length (as \code{<type>[1:\dots]}).}
+    abbreviated) mode/class and length (as \code{\var{type}[1:\dots]}).}
 
 \item{give.length}{logical; if \code{TRUE} (default), indicate
     length (as \code{[1:\dots]}).}

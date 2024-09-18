@@ -44,6 +44,7 @@
 # > rhub_setup()
 # > rhub_doctor()
 # > rhub_check(platforms = c("linux", "macos", "windows", "ubuntu-clang", "ubuntu-gcc12"))
+# > rhub_check(platforms = c("linux", "macos", "windows"))
 # ✔ Found git repository at /home/jo/SIK/truecluster/bit.
 # ✔ Found GitHub PAT.                                 
 # ✔ Check started: linux, macos, windows, ubuntu-clang, ubuntu-gcc12 (aspherical-sphinx).
