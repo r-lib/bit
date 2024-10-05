@@ -1,8 +1,6 @@
 library("testthat")
 library("bit")
 
-context("bitsort")
-
 # expect_identical <- function(x, y, ...){
 #  stopifnot(identical(x,y))
 # }

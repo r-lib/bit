@@ -1,8 +1,6 @@
 library("testthat")
 library("bit")
 
-context("merge")
-
 # expect_identical <- function(x, y, ...){
 #  stopifnot(identical(x,y))
 # }

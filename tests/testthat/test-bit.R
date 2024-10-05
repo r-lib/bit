@@ -5,8 +5,6 @@ library("bit")
 #   stopifnot(identical(x,y))
 # }
 
-context("bit")
-
 test_that("Can create zero length bit objects", {
   expect_equal(bit(), bit(0))
   expect_equal(as.bit(), bit(0))
@@ -52,8 +50,6 @@ test_that("c.bit does set unused bits to FALSE", {
   b2 <- !bit(2*bit:::.BITS-2)
   expect_identical(b,b2)
 })
-
-context("bitwhich")
 
 test_that("Can create zero length bitwhich objects", {
   expect_equal(bitwhich(), bitwhich(0))
@@ -151,9 +147,6 @@ test_that("length<-.bitwhich does set new bits according to the rules given in d
   w2 <- bitwhich(12, -(2:1))
   expect_identical(w,w2)
 })
-
-
-context("bit and bitwhich")
 
 test_that("c() works", {
   l <- b <- w <- list()
@@ -344,18 +337,18 @@ test_that("subscript operations work", {
         )
         for (i in I){
           v <- l[i]
-          eval(substitute(expect_equivalent( b[i], v ), list(b=b, i=i, v=v)))
-          eval(substitute(expect_equivalent( w[i], v ), list(w=w, i=i, v=v)))
+          eval(substitute(expect_identical( b[i], v, ignore_attr="vmode" ), list(b=b, i=i, v=v)))
+          eval(substitute(expect_identical( w[i], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
           l2 <- l
           l2[i] <- !v
-          eval(substitute(expect_equivalent( {b2 <- b; b2[i] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-          eval(substitute(expect_equivalent( {w2 <- w; w2[i] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+          eval(substitute(expect_identical( {b2 <- b; b2[i] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
+          eval(substitute(expect_identical( {w2 <- w; w2[i] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
           if (length(v)>1 && (length(v)%%2L) == 0){
             v2 <- !v[seq_len(ceiling(length(v)/2))]
             l2 <- l
             l2[i] <- v2
-            eval(substitute(expect_equivalent( {b2 <- b; b2[i] <- v2; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-            eval(substitute(expect_equivalent( {w2 <- w; w2[i] <- v2; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+            eval(substitute(expect_identical( {b2 <- b; b2[i] <- v2; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
+            eval(substitute(expect_identical( {w2 <- w; w2[i] <- v2; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
           }
         }
         I <- lapply(1:1, function(x){
@@ -365,28 +358,28 @@ test_that("subscript operations work", {
         for (i in I){
           i2 <- i[1]:i[2]
           v <- l[i2]
-          eval(substitute(expect_equivalent( b[i], v ), list(b=b, i=i, v=v)))
-          eval(substitute(expect_equivalent( w[i], v ), list(w=w, i=i, v=v)))
+          eval(substitute(expect_identical( b[i], v, ignore_attr="vmode" ), list(b=b, i=i, v=v)))
+          eval(substitute(expect_identical( w[i], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
           # debugonce(get("[.bitwhich"))
           l2 <- l
           l2[i2] <- !v
-          eval(substitute(expect_equivalent( {b2 <- b; b2[i] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-          eval(substitute(expect_equivalent( {w2 <- w; w2[i] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+          eval(substitute(expect_identical( {b2 <- b; b2[i] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
+          eval(substitute(expect_identical( {w2 <- w; w2[i] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
           if (length(v)>1 && (length(v)%%2L) == 0){
             v2 <- !v[seq_len(ceiling(length(v)/2))]
             l2[i2] <- v2
-            eval(substitute(expect_equivalent( {b2 <- b; b2[i] <- v2; b2}, as.bit(l2) ), list(b=b, i=i, v2=v2, l2=l2)))
-            eval(substitute(expect_equivalent( {w2 <- w; w2[i] <- v2; w2}, as.bitwhich(l2) ), list(w=w, i=i, v2=v2, l2=l2)))
+            eval(substitute(expect_identical( {b2 <- b; b2[i] <- v2; b2}, as.bit(l2) ), list(b=b, i=i, v2=v2, l2=l2)))
+            eval(substitute(expect_identical( {w2 <- w; w2[i] <- v2; w2}, as.bitwhich(l2) ), list(w=w, i=i, v2=v2, l2=l2)))
           }
         }
         i <- sample(n, 1)
           v <- l[[i]]
-          eval(substitute(expect_equivalent( b[[i]], v ), list(b=b, i=i, v=v)))
-          eval(substitute(expect_equivalent( w[[i]], v ), list(w=w, i=i, v=v)))
+          eval(substitute(expect_identical( b[[i]], v, ignore_attr="vmode" ), list(b=b, i=i, v=v)))
+          eval(substitute(expect_identical( w[[i]], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
           l2 <- l
           l2[[i]] <- !v
-          eval(substitute(expect_equivalent( {b2 <- b; b2[[i]] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-          eval(substitute(expect_equivalent( {w2 <- w; w2[[i]] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+          eval(substitute(expect_identical( {b2 <- b; b2[[i]] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
+          eval(substitute(expect_identical( {w2 <- w; w2[[i]] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
 
       }
     }

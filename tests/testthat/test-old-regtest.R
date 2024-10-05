@@ -320,8 +320,6 @@ regtest.bit <- function(
 }
 
 
-context("old regression test")
-
 test_that("old regtest is still OK", {
   expect_true(regtest.bit())
 })
@@ -335,8 +333,8 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_error(as.bit(TRUE)[c(-1, NA)], label="NA mixed with zeros")
   expect_error(as.bitwhich(TRUE)[c(-1, NA)], label="NA mixed with zeros")
 
-  expect_equivalent(as.bit(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)])
-  expect_equivalent(as.bitwhich(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)])
+  expect_identical(as.bit(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)], ignore_attr="vmode")
+  expect_identical(as.bitwhich(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)], ignore_attr="vmode")
 
   expect_identical({b <- as.bit(FALSE); b[0] <- TRUE; as.logical(b)}, {l <- FALSE; l[0] <- TRUE; l})
   expect_identical({w <- as.bitwhich(FALSE); w[0] <- TRUE; as.logical(w)}, {l <- FALSE; l[0] <- TRUE; l})
@@ -347,9 +345,9 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_identical({b <- as.bit(FALSE); b[bit:::.BITS+1] <- NA; as.logical(b)}, {l <- FALSE; l[bit:::.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
   expect_identical({w <- as.bitwhich(FALSE); w[bit:::.BITS+1] <- NA; as.logical(w)}, {l <- FALSE; l[bit:::.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
 
-  expect_equivalent(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[TRUE], rep(c(FALSE,TRUE), bit:::.BITS)[TRUE], label="subscripting with scalar TRUE")
-  expect_equivalent(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[TRUE], rep(c(FALSE,TRUE), bit:::.BITS)[TRUE], label="subscripting with scalar TRUE")
+  expect_identical(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[TRUE], rep(c(FALSE,TRUE), bit:::.BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
+  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[TRUE], rep(c(FALSE,TRUE), bit:::.BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
 
-  expect_equivalent(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], label="subscripting with scalar FALSE")
-  expect_equivalent(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], label="subscripting with scalar FALSE")
+  expect_identical(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
+  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
 })
