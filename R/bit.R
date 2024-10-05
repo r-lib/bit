@@ -2539,14 +2539,14 @@ NULL
       .Call(C_R_bit_set_logical, x, value, range=i)
     }else{
       if (inherits(i, "which")){
-				ni <- length(i)
+        ni <- length(i)
         if (ni && i[ni] > nx)
           length(x) <- i[ni]
-			}else{
+      }else{
         i <- range_nanozero(as.integer(i))
         r <- getsetattr(i, "range_na", NULL)
         ni <- length(i)
-				if (ni){
+        if (ni){
           if (r[3]>0L)
              stop("NAs are not allowed in subscripted assignments")
           if (r[1]>0L){
@@ -2559,8 +2559,8 @@ NULL
             i <- bit_sort_unique(i, range_na = r)
             ni <- nx - length(i)
           }
-				}
-			}
+        }
+      }
       if (nv != ni){
         if (nv==0L)
           stop("replacement has length zero")

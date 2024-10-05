@@ -414,7 +414,7 @@ keysortorder <- function(x, i, ...)UseMethod("keysortorder")
 #' \cr
 #' @keywords environment methods
 #' @examples
-#' 	methods("na.count")
+#'   methods("na.count")
 NULL
 
 #' @rdname Metadata

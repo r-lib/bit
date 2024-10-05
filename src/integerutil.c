@@ -73,11 +73,11 @@ SEXP R_still_identical(
   Rboolean ret;
   if(!isVectorAtomic(x_)){
     error("SEXP is not atomic vector");
-		return R_NilValue;
+    return R_NilValue;
   }
   if (TYPEOF(x_)!=TYPEOF(y_)){
     error("vectors don't have identic type");
-		return R_NilValue;
+    return R_NilValue;
   }
   //somehow is DATAPTR not declared: ret = DATAPTR(x_)==DATAPTR(y_) ? TRUE : FALSE;
   switch (TYPEOF(x_)) {

@@ -27,13 +27,13 @@ typedef struct RangeIndexTStruct {
 #define MALLOC(n,typ) (typ *) R_Calloc((n),typ)
 #define FREE(x) R_Free(x)
 
-#ifdef	NDEBUG
-#define	  assert(EX) ((void)0)
+#ifdef NDEBUG
+#define   assert(EX) ((void)0)
 #define   debugprint(...)((void)0)
 #else
-#define	  assert(EX) (void)((EX) || (error("assert(" #EX ") file %s line %d", __FILE__, __LINE__), 0))
+#define  assert(EX) (void)((EX) || (error("assert(" #EX ") file %s line %d", __FILE__, __LINE__), 0))
 #define   debugprint(...) {Rprintf( __VA_ARGS__); R_FlushConsole();}
-#endif	/* NDEBUG */
+#endif /* NDEBUG */
 
 #define ABS(X)(X)
 #define LT(A,B) (ABS(A) < ABS(B))

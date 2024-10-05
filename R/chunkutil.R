@@ -493,17 +493,17 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
         if (missing(y)){
           y <- x
           x <- 1L
-				}
+        }
         if (concat){
           if (eval){
-						# pure R version was: eval(parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")")))
-						# now calling C-code
-						nx <- length(x)
-						ny <- length(y)
-						if (nx<ny)
-							x <- rep(as.integer(x), length.out=ny)
-						if (ny<nx)
-							y <- rep(as.integer(y), length.out=nx)
+            # pure R version was: eval(parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")")))
+            # now calling C-code
+            nx <- length(x)
+            ny <- length(y)
+            if (nx<ny)
+              x <- rep(as.integer(x), length.out=ny)
+            if (ny<nx)
+              y <- rep(as.integer(y), length.out=nx)
             .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y)) 
           }else
             parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")"))[[1]]

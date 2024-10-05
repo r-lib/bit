@@ -49,7 +49,7 @@ These generics are packaged here for methods in packages \code{bit64} and
 see help of the available methods
 }
 \examples{
-	methods("na.count")
+  methods("na.count")
 }
 \seealso{
 \code{\link[bit64]{is.sorted.integer64}},

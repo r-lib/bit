@@ -185,8 +185,8 @@ USER VISIBLE CHANGES
 
     o logical NA is now mapped to bit FALSE as in ff booleans
     o extractor function '[.bit' with positive numeric subscripts
-	  (integer, double, bitwhich) now behaves like '[.logical' and returns 
-	  NA for out-of-bound requests and no element for 0
+      (integer, double, bitwhich) now behaves like '[.logical' and returns 
+      NA for out-of-bound requests and no element for 0
     o extractor function '[[.bit' with positive numeric (integer, double, 
       bitwhich) subscripts now behaves like '[[.logical' and throws an error
       for out-of-bound requests
@@ -202,7 +202,7 @@ USER VISIBLE CHANGES
     o rleunpack() is now a generic with a method for class 'rlepack'
     o unique.rlepack() now gives correct results for unordered sequences
     o anyDuplicated.rlepack() now returns the position of the first
-	  duplicate and gives correct results for unordered sequences
+      duplicate and gives correct results for unordered sequences
 
 TUNING
 
