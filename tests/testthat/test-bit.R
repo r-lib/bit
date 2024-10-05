@@ -60,7 +60,6 @@ test_that("Can create zero length bitwhich objects", {
   expect_equal(bitwhich(), bitwhich(0))
   expect_equal(as.bitwhich(), bitwhich(0))
   expect_equal(as.bitwhich(NULL), bitwhich(0))
-  expect_equal(as.bitwhich(c()), bitwhich(0))
   expect_equal(as.bitwhich(logical()), bitwhich(0))
   expect_equal(as.bitwhich(integer()), bitwhich(0))
   expect_error(as.bitwhich(factor()))
@@ -236,7 +235,7 @@ test_that("coercions work", {
   }
   set.seed(1)
   for (k in 0:(3*bit:::.BITS)){
-    i <- sample(c(-2:2), k, TRUE)
+    i <- sample(-2:2, k, TRUE)
     expect_identical(as.logical(as.bit(i)), as.logical(i))
     expect_identical(as.logical(as.bitwhich(i)), as.logical(i))
     i <- as.double(i)

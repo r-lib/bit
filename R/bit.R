@@ -95,7 +95,7 @@ print.bit <- function(x, ...){
     print(y, quote=FALSE, ...)
   }else if(n){
     y <- c(x[])
-    names(y) <- c(1:n)
+    names(y) <- 1:n
     print(y, quote=FALSE, ...)
   }
 }
@@ -357,7 +357,7 @@ print.bitwhich <- function(x, ...){
     print(y, quote=FALSE, ...)
   }else if(n){
     y <- c(x[])
-    names(y) <- c(1:n)
+    names(y) <- 1:n
     print(y, quote=FALSE, ...)
   }
 }
