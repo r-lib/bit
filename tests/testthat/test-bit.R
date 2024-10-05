@@ -160,7 +160,7 @@ context("bit and bitwhich")
 test_that("c() works", {
   l <- b <- w <- list()
   for(k in 1:12){
-    l[[k]] <- rep(c(FALSE,TRUE), length.out=k)
+    l[[k]] <- rep_len(c(FALSE,TRUE), k)
     b[[k]] <- as.bit(l[[k]])
     w[[k]] <- as.bitwhich(l[[k]])
   }
@@ -176,8 +176,8 @@ test_that("rep() works", {
   b <- as.bit(l)
   w <- as.bitwhich(l)
   for(k in 1:(3*bit:::.BITS)){
-    expect_identical(as.logical(rep(b, length.out=k)),rep(l, length.out=k))
-    expect_identical(as.logical(rep(w, length.out=k)),rep(l, length.out=k))
+    expect_identical(as.logical(rep(b, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter. Specifically testing rep().
+    expect_identical(as.logical(rep(w, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter.
   }
   for(k in 1:(2*bit:::.BITS)){
     expect_identical(as.logical(rep(b, k)),rep(l, k))
