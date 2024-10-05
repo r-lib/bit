@@ -323,7 +323,7 @@ regtest.bit <- function(
 context("old regression test")
 
 test_that("old regtest is still OK", {
-  expect_identical(regtest.bit(), TRUE)
+  expect_true(regtest.bit())
 })
 
 test_that("some old regression tests are also OK for bitwhich", {
