@@ -452,4 +452,3 @@ nties <- function(x, ...)UseMethod("nties")
 #' @rdname Metadata
 #' @export
 "nties<-" <- function(x, ..., value)UseMethod("nties<-")
-

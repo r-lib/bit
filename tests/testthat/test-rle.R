@@ -67,4 +67,3 @@ test_that("rlepack, rleunpack rev.rlepack, unique.rlepack and anyDuplicated.rlep
     expect_identical(anyDuplicated(rlepack(x)), anyDuplicated(x))
   }
 })
-

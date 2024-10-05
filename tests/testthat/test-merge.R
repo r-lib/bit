@@ -203,4 +203,3 @@ test_that("for-looped merging is OK (without NAs)", {
   }
 
 })
-

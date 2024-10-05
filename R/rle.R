@@ -231,4 +231,3 @@ anyDuplicated.rlepack <- function(x
     anyDuplicated(x$dat)
   }
 }
-

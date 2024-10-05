@@ -353,4 +353,3 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_equivalent(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], label="subscripting with scalar FALSE")
   expect_equivalent(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], label="subscripting with scalar FALSE")
 })
-
