@@ -103,7 +103,7 @@ regtest.bit <- function(
     if (any(l)){
       s <- c(min=min(as.which(l)), max=max(as.which(l)), range=range(as.which(l)), sum=sum(l), summary=c("FALSE"=length(l)-sum(l), "TRUE"=sum(l), "Min."=min(as.which(l)), "Max."=max(as.which(l))))
     }else{
-      s <- c( min=NA_integer_, max=NA_integer_, range=c(NA_integer_, NA_integer_), sum=sum(l), summary=c("FALSE"=length(l)-sum(l), "TRUE"=sum(l), "Min."=as.integer(NA), "Max."=as.integer(NA)) )
+      s <- c( min=NA_integer_, max=NA_integer_, range=c(NA_integer_, NA_integer_), sum=sum(l), summary=c("FALSE"=length(l)-sum(l), "TRUE"=sum(l), "Min."=NA_integer_, "Max."=NA_integer_) )
     }
     s2 <- c(min=min(b), max=max(b), range=range(b), sum=sum(b), summary=summary(b))
     if (!identical(s,s2)){
