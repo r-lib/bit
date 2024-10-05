@@ -770,7 +770,7 @@ length.bitwhich <- function(x)
               ret <- copy_vector(TRUE)
             else if (l==value)
               ret <- copy_vector(FALSE)
-            else if (!((value-l)>(value%/%2L)))
+            else if (value-l <= value%/%2L)
               ret <- merge_rangediff(c(1L,value), ret, revy=TRUE)
             l <- value - l
           }
