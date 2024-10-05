@@ -211,7 +211,7 @@ str.bitwhich <- function(object
 bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsorted=TRUE, has.dup=TRUE){
   maxindex <- as.integer(maxindex)
   if (maxindex==0L){
-    if ((!is.null(poslength) && poslength) || (length(x) && (!is.logical(x) || x[[1]]==TRUE)))
+    if ((!is.null(poslength) && poslength) || (length(x) && (!is.logical(x) || x[[1]])))
       stop("maxindex=0 given with poslength or x")
     poslength <- 0L
     ret <- logical()
