@@ -2842,89 +2842,88 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
         }
         if (!ni){
           return(x)
-        }else{
-          if (nv==0L)
-            stop("replacement has length zero")
-          if (biggest_mentioned_index>nx){
-            length(x) <- biggest_mentioned_index
-            nx <- biggest_mentioned_index
-          }
-          y <- bitwhich_representation(x)
-          if (is.logical(y)){
-            if (value == y){
-              # assignment doesn't change anything
-              return(x)
-            }else{
-              if (value){
-                # assignment has first inclusions
-                if (i[1]<0){
-                  # assignment enumerates those not included
-                  ret <- bitwhich(nx, i, poslength=nx-length(i))
-                }else{
-                  # assignment enumerates those included
-                  ret <- bitwhich(nx, i, poslength=length(i))
-                }
+        }
+        if (nv==0L)
+          stop("replacement has length zero")
+        if (biggest_mentioned_index>nx){
+          length(x) <- biggest_mentioned_index
+          nx <- biggest_mentioned_index
+        }
+        y <- bitwhich_representation(x)
+        if (is.logical(y)){
+          if (value == y){
+            # assignment doesn't change anything
+            return(x)
+          }else{
+            if (value){
+              # assignment has first inclusions
+              if (i[1]<0){
+                # assignment enumerates those not included
+                ret <- bitwhich(nx, i, poslength=nx-length(i))
               }else{
-                # assignment has first exclusions
-                if (i[1]<0){
-                  # assignment enumerates those not excluded
-                  ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=length(i))
-                }else{
-                  # assignment enumerates those excluded
-                  ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=nx-length(i))
-                }
+                # assignment enumerates those included
+                ret <- bitwhich(nx, i, poslength=length(i))
+              }
+            }else{
+              # assignment has first exclusions
+              if (i[1]<0){
+                # assignment enumerates those not excluded
+                ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=length(i))
+              }else{
+                # assignment enumerates those excluded
+                ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=nx-length(i))
+              }
+            }
+          }
+        }else{
+          if (y<0){
+            # object maintains exclusions
+            if (value){
+              # assignment has inclusions
+              if (i[1]<0){
+                # assignment enumerates those not included
+                # w2 <- w <- bitwhich(12, -(1:3)); w2[-(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_intersect(x,i, method='exact'), xempty=TRUE, is.unsorted = FALSE, has.dup = FALSE) #done
+              }else{
+                # assignment enumerates those included
+                # w2 <- w <- bitwhich(12, -(1:3)); w2[(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_setdiff(x,i,revy=TRUE, method='exact'), xempty=TRUE, is.unsorted = FALSE, has.dup = FALSE)  #done
+              }
+            }else{
+              # assignment has exclusions
+              if (i[1]<0){
+                # assignment enumerates those not excluded
+                # w2 <- w <- bitwhich(12, -(1:3)); w2[-(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_setdiff(i, x, revx=TRUE, revy=TRUE, method='exact'), xempty=FALSE, is.unsorted = FALSE, has.dup = FALSE) #done
+              }else{
+                # assignment enumerates those excluded
+                # w2 <- w <- bitwhich(12, -(1:3)); w2[(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_union(x,i,revy=TRUE, method='exact'), is.unsorted = FALSE, has.dup = FALSE) #done
               }
             }
           }else{
-            if (y<0){
-              # object maintains exclusions
-              if (value){
-                # assignment has inclusions
-                if (i[1]<0){
-                  # assignment enumerates those not included
-                  # w2 <- w <- bitwhich(12, -(1:3)); w2[-(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_intersect(x,i, method='exact'), xempty=TRUE, is.unsorted = FALSE, has.dup = FALSE) #done
-                }else{
-                  # assignment enumerates those included
-                  # w2 <- w <- bitwhich(12, -(1:3)); w2[(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_setdiff(x,i,revy=TRUE, method='exact'), xempty=TRUE, is.unsorted = FALSE, has.dup = FALSE)  #done
-                }
+            # object maintains inclusions
+            if (value){
+              # assignment has inclusions
+              if (i[1]<0){
+                # assignment enumerates those not included
+                # w2 <- w <- bitwhich(12, (1:3)); w2[-(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_setdiff(i,x, revy = TRUE, method='exact'), xempty=TRUE, is.unsorted = FALSE, has.dup = FALSE) #done
               }else{
-                # assignment has exclusions
-                if (i[1]<0){
-                  # assignment enumerates those not excluded
-                  # w2 <- w <- bitwhich(12, -(1:3)); w2[-(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_setdiff(i, x, revx=TRUE, revy=TRUE, method='exact'), xempty=FALSE, is.unsorted = FALSE, has.dup = FALSE) #done
-                }else{
-                  # assignment enumerates those excluded
-                  # w2 <- w <- bitwhich(12, -(1:3)); w2[(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_union(x,i,revy=TRUE, method='exact'), is.unsorted = FALSE, has.dup = FALSE) #done
-                }
+                # assignment enumerates those included
+                # w2 <- w <- bitwhich(12, (1:3)); w2[(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_union(x,i, method='exact'), is.unsorted = FALSE, has.dup = FALSE) #done
               }
             }else{
-              # object maintains inclusions
-              if (value){
-                # assignment has inclusions
-                if (i[1]<0){
-                  # assignment enumerates those not included
-                  # w2 <- w <- bitwhich(12, (1:3)); w2[-(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_setdiff(i,x, revy = TRUE, method='exact'), xempty=TRUE, is.unsorted = FALSE, has.dup = FALSE) #done
-                }else{
-                  # assignment enumerates those included
-                  # w2 <- w <- bitwhich(12, (1:3)); w2[(3:5)] <- TRUE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_union(x,i, method='exact'), is.unsorted = FALSE, has.dup = FALSE) #done
-                }
+              # assignment has exclusions
+              if (i[1]<0){
+                # assignment enumerates those not excluded
+                # w2 <- w <- bitwhich(12, (1:3)); w2[-(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_intersect(x, i, revy=TRUE, method='exact'), xempty=FALSE, is.unsorted = FALSE, has.dup = FALSE) #done
               }else{
-                # assignment has exclusions
-                if (i[1]<0){
-                  # assignment enumerates those not excluded
-                  # w2 <- w <- bitwhich(12, (1:3)); w2[-(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_intersect(x, i, revy=TRUE, method='exact'), xempty=FALSE, is.unsorted = FALSE, has.dup = FALSE) #done
-                }else{
-                  # assignment enumerates those excluded
-                  # w2 <- w <- bitwhich(12, (1:3)); w2[(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
-                  ret <- bitwhich(nx, merge_setdiff(x,i, method='exact'), xempty=FALSE, is.unsorted = FALSE, has.dup = FALSE)
-                }
+                # assignment enumerates those excluded
+                # w2 <- w <- bitwhich(12, (1:3)); w2[(3:5)] <- FALSE; cbind(as.logical(w), as.logical(w2))
+                ret <- bitwhich(nx, merge_setdiff(x,i, method='exact'), xempty=FALSE, is.unsorted = FALSE, has.dup = FALSE)
               }
             }
           }
