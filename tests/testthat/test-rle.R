@@ -56,7 +56,7 @@ test_that("intrle is correct", {
   expect_identical(intrle(c(rep(1L,60), 1:30))
   , structure(list(lengths = c(61L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), values = 1:30)
   , .Names = c("lengths", "values"), class = "rle"))
-  expect_identical(intrle(c(rep(1L,60), 1:31)), NULL)
+  expect_null(intrle(c(rep(1L,60), 1:31)))
 })
 
 test_that("rlepack, rleunpack rev.rlepack, unique.rlepack and anyDuplicated.rlepack work correctly", {
