@@ -297,13 +297,13 @@ test_that("boolean operations work", {
 test_that("promotion is correct in boolean operations and concatenation", {
   N2 <- N1 <- c(2L,4L)
   T2 <- T1 <- c("logical","bit","bitwhich")
-  F <- list(logical=logical, bit=bit, bitwhich=bitwhich)
+  FUN <- list(logical=logical, bit=bit, bitwhich=bitwhich)
   for (t1 in T1)
     for (t2 in T2)
       for (n1 in N1)
         for (n2 in N2){
-          x1 <- F[[t1]](n1)
-          x2 <- F[[t2]](n2)
+          x1 <- FUN[[t1]](n1)
+          x2 <- FUN[[t2]](n2)
           eval(substitute(expect_identical( booltype(x1 & x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
           eval(substitute(expect_identical( booltype(x1 | x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
           eval(substitute(expect_identical( booltype(x1 == x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
