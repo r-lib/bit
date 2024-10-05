@@ -1,17 +1,18 @@
 Package: bit
 Type: Package
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
-Version: 4.5.0
+Version: 4.5.99
 Date: 2024-09-17
-Authors@R: c(person(given = "Jens",
+Authors@R: c(person(given = "Michael",
+                    family = "Chirico",
+                    email = "MichaelChirico4@gmail.com",
+                    role = c("aut", "cre")),
+               person(given = "Jens",
                       family = "Oehlschlägel",
-                      role = c("aut", "cre"),
-                      email = "Jens.Oehlschlaegel@truecluster.com"),
+                      role = "aut"),
                person(given = "Brian",
                       family = "Ripley",
                       role = "ctb"))
-Author: Jens Oehlschlägel [aut, cre], Brian Ripley [ctb]
-Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends:
     R (>= 3.4.0)
 Suggests:
