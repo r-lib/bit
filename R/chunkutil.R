@@ -76,7 +76,7 @@ bbatch <- function(N,B){
   B[i] <- RB[i]
   NB[i] <- 1L
   RB[i] <- 0L
-  return(list(b=B, nb=NB, rb=RB))
+  list(b=B, nb=NB, rb=RB)
 }
 
 
@@ -106,33 +106,32 @@ bbatch <- function(N,B){
 #' @export
 repfromto <- function(x, from, to){
   nx <- length(x)
-  if (nx){
-    from <- as.integer(from)
-    to <- as.integer(to)
-    if (to>nx){
-      N <- to - from + 1L
-      from <- (from-1L)%%nx + 1L
-      to <- to%%nx
-      # NOTE: fetch in sequence pre-main-post in case is.ff(x)
-      if (from<=to && N<nx){
-        ret <- x[from:to]
-      }else{
-        pre <- x[from:nx]
-        nrep <- (N - length(pre) - to) %/%nx
-        main <- if (nrep) rep(x[1:nx], nrep) else NULL
-        post <- if (to) x[1:to] else NULL
-        ret <- c(pre, main, post)
-      }
-    }else{
-      ret <- x[from:to]
-    }
-    a <- attributes(x[1])
-    a$names <- NULL
-    attributes(ret) <- a
-    return(ret)
-  }else{
+  if (!nx) {
     return(NA[from:to])
   }
+  from <- as.integer(from)
+  to <- as.integer(to)
+  if (to>nx) {
+    N <- to - from + 1L
+    from <- (from-1L)%%nx + 1L
+    to <- to%%nx
+    # NOTE: fetch in sequence pre-main-post in case is.ff(x)
+    if (from<=to && N<nx) {
+      ret <- x[from:to]
+    } else {
+      pre <- x[from:nx]
+      nrep <- (N - length(pre) - to) %/%nx
+      main <- if (nrep) rep(x[1:nx], nrep)
+      post <- if (to) x[1:to]
+      ret <- c(pre, main, post)
+    }
+  } else {
+    ret <- x[from:to]
+  }
+  a <- attributes(x[1])
+  a$names <- NULL
+  attributes(ret) <- a
+  ret
 }
 
 #' @rdname repfromto

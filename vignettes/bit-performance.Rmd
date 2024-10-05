@@ -29,9 +29,9 @@ Sample <- c(small=1e3, big=1e6)
 
 pagebreak <- function() {
   if(knitr::is_latex_output())
-    return("\\newpage")
+    "\\newpage"
   else
-    return('<div style="page-break-before: always;" />')
+    '<div style="page-break-before: always;" />'
 }
 
 ```
