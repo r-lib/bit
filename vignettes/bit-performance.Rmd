@@ -66,10 +66,13 @@ The vignette is compiled with the following performance settings: `r times` repl
 
 We compare memory consumption (n=`r format(Sample[["big"]])`) and runtime (median of `r times` replications) of the different `booltype`s for the following filter scenarios:
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis', echo=3:5}
+# TODO(r-lib/lintr#773): nolint as a chunk option.
+# nolint start: strings_as_factors_linter.
 knitr::kable(
   data.frame(coin="random 50%", often="random 99%", rare="random 1%", chunk="contiguous chunk of 5%")
   , caption="selection characteristic")
+# nolint end: strings_as_factors_linter.
 ```
 
 ```{r, echo=FALSE, results='asis'}
