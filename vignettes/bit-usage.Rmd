@@ -363,11 +363,14 @@ c.booltype(l, b)
 Both, `bit` and `bitwhich` also have replication (`rep`) and reverse (`rev`) methods that work as expected:
 
 
-```{r}
+```{r, echo=3:6}
+# TODO(r-lib/lintr#773): nolint as a chunk option.
+# nolint start: rep_len_linter.
 b <- as.bit(c(FALSE,TRUE))
 rev(b)
 rep(b, 3)
 rep(b, length.out=6)
+# nolint end: rep_len_linter.
 ```
 
 ---
@@ -597,12 +600,15 @@ bit_rangediff(c(1L,9L), -7L, revy=TRUE)
 
 Functions `bit_anyDuplicated` is a faster version of `anyDuplicated`
 
-```{r}
+```{r, echo=3:7}
+# TODO(r-lib/lintr#773): nolint as a chunk option.
+# nolint start: any_duplicated_linter.
 x <- c(NA,NA,1L,1L,2L,3L)
     any(duplicated(x))  # full hash work, returns FALSE or TRUE
      anyDuplicated(x)   # early termination of hash work, returns 0 or position of first duplicate
 any(bit_duplicated(x))  # full bit work, returns FALSE or TRUE
  bit_anyDuplicated(x)   # early termination of bit work, returns 0 or position of first duplicate
+# nolint end: any_duplicated_linter.
 ```
 
 For the meaning of the `na.rm` parameter see `bit_duplicated`. Function `bit_sumDuplicated` is a faster version of `sum(bit_duplicated)`
