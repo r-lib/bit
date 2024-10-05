@@ -837,7 +837,7 @@ c.booltype <- function(...){
 c.bit <- function(...){
   l <- list(...)
   nl <- length(l)
-  nold <- sapply(l, length)
+  nold <- lengths(l)
   nnew <- sum(nold)
   ncum <- cumsum(nold)
   offsets <- c(0L, ncum[-length(ncum)])
