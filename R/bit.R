@@ -135,7 +135,7 @@ str.bit <- function(object
   n <- length(object)
   if (n>vec.len)
     object <- as.bit(object[seq_len(vec.len)])
-  cat(if (give.head)paste("bit ", if (give.length && n>1) paste(" [1:",n,"] ",sep=""), sep=""), paste(as.character(object), collapse=" ")," \n", sep="")
+  cat(if (give.head)paste0("bit ", if (give.length && n>1) paste0(" [1:",n,"] ")), paste(as.character(object), collapse=" ")," \n", sep="")
   invisible()
 }
 
@@ -171,7 +171,7 @@ str.bitwhich <- function(object
   n <- length(object)
   if (n>vec.len)
     object <- as.bitwhich(object[seq_len(vec.len)])
-  cat(if (give.head)paste("bitwhich ", if (give.length && n>1) paste(" [1:",n,"] ",sep=""), sep=""), paste(as.character(object), collapse=" ")," \n", sep="")
+  cat(if (give.head)paste0("bitwhich ", if (give.length && n>1) paste0(" [1:",n,"] ")), paste(as.character(object), collapse=" ")," \n", sep="")
   invisible()
 }
 
