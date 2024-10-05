@@ -11,7 +11,6 @@ test_that("Can create zero length bit objects", {
   expect_equal(bit(), bit(0))
   expect_equal(as.bit(), bit(0))
   expect_equal(as.bit(NULL), bit(0))
-  expect_equal(as.bit(c()), bit(0))
   expect_equal(as.bit(logical()), bit(0))
   expect_equal(as.bit(integer()), bit(0))
   expect_error(as.bit(factor()))
