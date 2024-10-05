@@ -154,11 +154,11 @@ test_that("reversed merging is OK (without NAs)", {
           merge_symdiff(rx,ry,revx=revx, revy=revy)
           , sort.int(union(setdiff(x,y),setdiff(y,x)), na.last=FALSE, method="quick")
         ), list(x=x, y=y, revx=revx, revy=revy)))
-        
+
       }
     }
   }
-  
+
 })
 
 
@@ -201,6 +201,6 @@ test_that("for-looped merging is OK (without NAs)", {
       }
     }
   }
-  
+
 })
 

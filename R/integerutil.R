@@ -6,11 +6,11 @@
 ## Get C reference count of a vector
 ##
 ## Gets C reference count of a vector
-## 
+##
 ## Queries the vector reference count using C-macro \code{NAMED}
-## 
+##
 ## @param x a vector
-##   
+##
 ## @return integer scalar
 ## @seealso \code{\link{get_parent_refcnt}}, \code{\link{set_refcnt}}
 ##
@@ -21,26 +21,26 @@
 ## get_refcnt(x)
 ## z <- x
 ## get_refcnt(x)
-## 
+##
 #get_refcnt <- function(x){
 #  y <- substitute(x)
 #  if (is.name(y)){
 #    .Call(C_R_get_refcnt, get(as.character(y), envir=parent.frame()))
-#  } else 
+#  } else
 #    stop("x must be the name of an object")
 #}
 
 ## Set C reference count of a vector
 ##
 ## Sets C reference count of a vector
-## 
+##
 ## Manipulates the vector reference count using C-macro \code{SET_NAMED}
-## 
+##
 ## @note Do use this only if you know what you do! Otherwise unexpected behaviour can result!
-## 
+##
 ## @param x a vector
-## @param refcnt integer scalar to be assigned (must be 1L or 2L) 
-##   
+## @param refcnt integer scalar to be assigned (must be 1L or 2L)
+##
 ## @return integer scalar
 ## @seealso @seealso \code{\link{get_refcnt}}, \code{\link{get_parent_refcnt}}
 ##
@@ -58,11 +58,11 @@
 ## Get C pareet reference count of a vector
 ##
 ## Gets C reference count of a vector in parent frame
-## 
+##
 ## Queries the vector reference count using C-macro \code{NAMED}
-## 
+##
 ## @param x a vector
-##   
+##
 ## @return integer scalar
 ## @seealso \code{\link{get_refcnt}}, \code{\link{set_refcnt}}
 ##
@@ -84,7 +84,7 @@
 #      .Call(C_R_get_refcnt, get(as.character(z), envir=parent.frame(2)))
 #    }else
 #      0L
-#  } else 
+#  } else
 #    stop("x must be the name of an object")
 #}
 
@@ -94,11 +94,11 @@
 
 
 #' Get C length of a vector
-#' 
+#'
 #' Gets C length of a vector ignoring any length-methods dispatched by classes
-#' 
+#'
 #' Queries the vector length using C-macro \code{LENGTH}, this can be substantially faster than \code{length(unclass(x))}
-#' 
+#'
 #' @param x a vector
 #' @return integer scalar
 #' @examples
@@ -127,9 +127,9 @@ still.identical <- function(x, y){
 }
 
 #' Copy atomic R vector
-#' 
-#' Creates a true copy of the underlying C-vector -- dropping all attributes -- and optionally reverses the direction of the elements. 
-#' 
+#'
+#' Creates a true copy of the underlying C-vector -- dropping all attributes -- and optionally reverses the direction of the elements.
+#'
 #' This can be substantially faster than \code{duplicate(as.vector(unclass(x)))}
 #'
 #' @param x an R vector
@@ -151,10 +151,10 @@ copy_vector <- function(x, revx=FALSE){
 }
 
 
-#' Reverse atomic vector 
-#' 
-#' Returns a reversed copy -- with attributes retained. 
-#' 
+#' Reverse atomic vector
+#'
+#' Returns a reversed copy -- with attributes retained.
+#'
 #' This is substantially faster than \code{\link{rev}}
 #'
 #' @param x an R vector
@@ -175,7 +175,7 @@ reverse_vector <- function(x){
 }
 
 #' Position of first NA
-#' 
+#'
 #' This is substantially faster than \code{which.max(is.na(x))}
 #'
 #' @param x an R vector

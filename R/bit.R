@@ -11,23 +11,23 @@
 .BITS <- 32L
 
 #' Initializing bit masks
-#' 
+#'
 #' Functions to allocate (and de-allocate) bit masks
-#' 
+#'
 #' The C-code operates with bit masks.  The memory for these is allocated
 #' dynamically.  \code{bit_init} is called by \code{\link{.First.lib}} and
 #' \code{bit_done} is called by \code{\link{.Last.lib}}.  You don't need to
 #' care about these under normal circumstances.
-#' 
+#'
 #' @return NULL
 #' @author Jens Oehlschlägel
 #' @seealso \code{\link{bit}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   bit_done()
 #'   bit_init()
-#' 
+#'
 #' @export
 bit_init <- function()
   .Call(C_R_bit_init, .BITS)
@@ -40,7 +40,7 @@ bit_done <- function()
 
 
 
-#' Create empty bit vector 
+#' Create empty bit vector
 #'
 #' Bit vectors are a boolean type wihout \code{NA} that requires by factor 32 less RAM than \code{\link{logical}}.
 #' For details on usage see the \href{../doc/bit-usage.html}{usage-vignette} and for details on performance see \href{../doc/bit-performance.html}{performance-vignette}
@@ -78,7 +78,7 @@ bit <- function(length=0L){
 
 
 
-#' Print method for bit 
+#' Print method for bit
 #'
 #' @param x a bit vector
 #' @param ... passed to print
@@ -180,19 +180,19 @@ str.bitwhich <- function(object
 #' Create bitwhich vector (skewed boolean)
 #'
 #' A bitwhich object represents a boolean filter like a \code{\link{bit}} object (NAs are not allowed)
-#' but uses a sparse representation suitable for very skewed (asymmetric) selections. 
-#' Three extreme cases are represented with logical values, no length via logical(), 
-#' all TRUE with TRUE and all FALSE with FALSE. All other selections are represented with 
-#' positive or negative integers, whatever is shorter. 
+#' but uses a sparse representation suitable for very skewed (asymmetric) selections.
+#' Three extreme cases are represented with logical values, no length via logical(),
+#' all TRUE with TRUE and all FALSE with FALSE. All other selections are represented with
+#' positive or negative integers, whatever is shorter.
 #' This needs less RAM compared to \code{\link{logical}} (and often less than \code{\link{bit}} or \code{\link[=as.which]{which}}).
 #' Logical operations are fast if the selection is asymetric (only few or almost all selected).
 #'
 #' @param maxindex length of the vector
-#' @param x Information about which positions are FALSE or TRUE: either \code{logical()} or \code{TRUE} or \code{FALSE} or a integer vector of positive or of negative subscripts. 
-#' @param xempty what to assume about parameter \code{x} if \code{x=integer(0)}, typically \code{TRUE} or \code{FALSE}. 
+#' @param x Information about which positions are FALSE or TRUE: either \code{logical()} or \code{TRUE} or \code{FALSE} or a integer vector of positive or of negative subscripts.
+#' @param xempty what to assume about parameter \code{x} if \code{x=integer(0)}, typically \code{TRUE} or \code{FALSE}.
 #' @param poslength tuning: \code{poslength} is calculated automatically, you can give \code{poslength} explicitely, in this case it must be correct and \code{x} must be sorted and not have duplicates.
 #' @param is.unsorted tuning: FALSE implies that \code{x} is already sorted and sorting is skipped
-#' @param has.dup tuning: FALSE implies that \code{x} has no duplicates 
+#' @param has.dup tuning: FALSE implies that \code{x} has no duplicates
 #' @return an object of class 'bitwhich' carrying two attributes
 #' \describe{
 #'   \item{maxindex}{ see above }
@@ -281,7 +281,7 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
             if (length(x) > 2 && x[1] >= x[2])
               stop("x is not sorted unique")
             if ( x[1]<0L ){
-              if ( poslength != maxindex - length(x) ) 
+              if ( poslength != maxindex - length(x) )
                 stop("wrong poslength")
               if (poslength <= maxindex%/%2L)
                 ret <- merge_rangediff(c(1L,maxindex), x, revx=FALSE, revy=TRUE)
@@ -295,7 +295,7 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
               else
                 ret <- copy_vector(x)
             }
-            
+
           }
         }
       }
@@ -316,7 +316,7 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
           ret <- copy_vector(TRUE)
         else
           stop("need x with extreme poslength")
-      } 
+      }
     }
   }
   setattributes(ret, list("maxindex" = maxindex, "poslength" = poslength, "class" = c("booltype","bitwhich")))
@@ -328,7 +328,7 @@ bitwhich <- function(maxindex=0L, x=NULL, xempty=FALSE, poslength=NULL, is.unsor
 #' Diagnose representation of bitwhich
 #'
 #' @param x a \code{\link{bitwhich}} object
-#' @return a scalar, one of \code{logical()}, \code{FALSE}, \code{TRUE}, \code{-1} or \code{1}  
+#' @return a scalar, one of \code{logical()}, \code{FALSE}, \code{TRUE}, \code{-1} or \code{1}
 #' @examples
 #' bitwhich_representation(bitwhich())
 #' bitwhich_representation(bitwhich(12,FALSE))
@@ -364,9 +364,9 @@ print.bitwhich <- function(x, ...){
 
 
 #' Boolean types
-#' 
-#' The \code{\link{ordered}} factor \code{booltypes} ranks the boolean types. 
-#' 
+#'
+#' The \code{\link{ordered}} factor \code{booltypes} ranks the boolean types.
+#'
 #' There are currently six boolean types, \code{booltypes} is an \code{\link{ordered}} vector with the following ordinal \code{\link{levels}} \describe{
 #' \item{nobool}{non-boolean types}
 #' \item{\code{\link{logical}}}{for representing any boolean data including \code{NA} }
@@ -376,7 +376,7 @@ print.bitwhich <- function(x, ...){
 ## \item{\code{\link[ff]{hi}}}{hybrid-indexing, implemented in package \code{\link[ff]{ff}} }
 #' \item{\code{\link{ri}}}{range-indexing, for representing sparse boolean data with a single range of \code{TRUE} }
 #' }
-#' \code{booltypes} has a \code{\link{names}} attribute such that elements can be selected by name. 
+#' \code{booltypes} has a \code{\link{names}} attribute such that elements can be selected by name.
 #'
 #' @note do not rely on the internal integer codes of these levels, we might add-in \code{\link[ff]{hi}} later
 #' @seealso \code{\link{booltype}}, \code{\link{is.booltype}}, \code{\link{as.booltype}}
@@ -387,9 +387,9 @@ names(booltypes) <- booltypes
 
 
 #' Diagnosing boolean types
-#' 
+#'
 #' Specific methods for \code{booltype} are required, where non-unary methods can combine multiple bollean types, particularly boolean binary operators.
-#' 
+#'
 #' Function \code{booltype} returns the boolean type of its argument.
 #' There are currently six boolean types, \code{booltypes} is an \code{\link{ordered}} vector with the following ordinal \code{\link{levels}} \describe{
 #' \item{nobool}{non-boolean types}
@@ -401,7 +401,7 @@ names(booltypes) <- booltypes
 #' \item{\code{\link{ri}}}{range-indexing, for representing sparse boolean data with a single range of \code{TRUE} }
 #' }
 #' @param x an R object
-#' 
+#'
 #' @return one scalar element of \code{\link{booltypes}} in case of 'nobool' it carries a name attribute with the data type.
 #' @note do not rely on the internal integer codes of these levels, we might add-in \code{\link[ff]{hi}} later
 #' @seealso \code{\link{booltypes}}, \code{\link{is.booltype}}, \code{\link{as.booltype}}
@@ -416,13 +416,13 @@ booltype <- function(x){
     booltypes[["ri"]]
   else if (is.hi(x))
     booltypes[["hi"]]
-  else if (is.which(x)) 
+  else if (is.which(x))
     booltypes[["which"]]
-  else if (is.bitwhich(x)) 
+  else if (is.bitwhich(x))
     booltypes[["bitwhich"]]
-  else if (is.bit(x)) 
+  else if (is.bit(x))
     booltypes[["bit"]]
-  else if (is.logical(x)) 
+  else if (is.logical(x))
     booltypes[["logical"]]
   else {
     ret <- booltypes[["nobool"]]
@@ -436,7 +436,7 @@ booltype <- function(x){
 
 #' Testing for boolean types
 #'
-#' All \code{\link{booltypes}} including  \code{\link{logical}} except 'nobool' types are considered 'is.booltype'. 
+#' All \code{\link{booltypes}} including  \code{\link{logical}} except 'nobool' types are considered 'is.booltype'.
 #'
 #' @param x an R object
 #'
@@ -507,22 +507,22 @@ as.ri.default <- function(x, ...){
 
 #' @describeIn maxindex default method for \code{maxindex}
 #' @export
-maxindex.default <- 
-  function (x, ...) 
+maxindex.default <-
+  function (x, ...)
   {
     mi <- attr(x, "maxindex")
-    if (is.null(mi)) 
+    if (is.null(mi))
       NA_integer_
     else mi
   }
 
 #' @describeIn maxindex default method for \code{poslength}
 #' @export
-poslength.default <- 
-  function (x, ...) 
+poslength.default <-
+  function (x, ...)
   {
     pl <- attr(x, "poslength")
-    if (is.null(pl))  
+    if (is.null(pl))
       NA_integer_
     else pl
   }
@@ -588,25 +588,25 @@ poslength.ri <- function(x, ...){
 
 
 #' Getting and setting length of bit, bitwhich and ri objects
-#' 
+#'
 #' Query the number of bits in a \code{\link{bit}} vector or change the number
 #' of bits in a bit vector. \cr Query the number of bits in a
 #' \code{\link{bitwhich}} vector or change the number of bits in a bit vector.
 #' \cr
-#' 
+#'
 #' NOTE that the length does NOT reflect the number of selected (\code{TRUE})
 #' bits, it reflects the sum of both, \code{TRUE} and \code{FALSE} bits.
 #' Increasing the length of a \code{\link{bit}} object will set new bits to
 #' \code{FALSE}.  The behaviour of increasing the length of a
 #' \code{\link{bitwhich}} object is different and depends on the content of the
-#' object: \itemize{ 
+#' object: \itemize{
 #' \item TRUE -- all included, new bits are set to \code{TRUE}
 #' \item positive integers -- some included, new bits are set to \code{FALSE}
 #' \item negative integers -- some excluded, new bits are set to \code{TRUE}
 #' \item FALSE -- all excluded:, new bits are set to \code{FALSE} } Decreasing the
 #' length of bit or bitwhich removes any previous information about the status
 #' bits above the new length.
-#' 
+#'
 #' @name length.bit
 #' @param x a \code{\link{bit}}, \code{\link{bitwhich}} or \code{\link{ri}}
 #' object
@@ -617,9 +617,9 @@ poslength.ri <- function(x, ...){
 #' \code{\link{poslength}}, \code{\link{maxindex}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   stopifnot(length(ri(1, 1, 32))==32)
-#' 
+#'
 #'   x <- as.bit(ri(32, 32, 32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==1)
@@ -629,7 +629,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==0)
-#' 
+#'
 #'   x <- as.bit(ri(1, 1, 32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==1)
@@ -639,7 +639,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==1)
-#' 
+#'
 #'   x <- as.bitwhich(bit(32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==0)
@@ -649,7 +649,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==0)
-#' 
+#'
 #'   x <- as.bitwhich(!bit(32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==32)
@@ -659,7 +659,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==32)
-#' 
+#'
 #'   x <- as.bitwhich(ri(32, 32, 32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==1)
@@ -669,7 +669,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==0)
-#' 
+#'
 #'   x <- as.bitwhich(ri(2, 32, 32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==31)
@@ -679,7 +679,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==31)
-#' 
+#'
 #'   x <- as.bitwhich(ri(1, 1, 32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==1)
@@ -689,7 +689,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==1)
-#' 
+#'
 #'   x <- as.bitwhich(ri(1, 31, 32))
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==31)
@@ -700,7 +700,7 @@ poslength.ri <- function(x, ...){
 #'   length(x) <- 32
 #'   stopifnot(length(x)==32)
 #'   stopifnot(sum(x)==32)
-#' 
+#'
 #' @export
 length.bit <- function(x)
   virtual(x)$Length
@@ -797,9 +797,9 @@ length.bitwhich <- function(x)
 
 
 #' Concatenating booltype vectors
-#' 
+#'
 #' Creating new boolean vectors by concatenating boolean vectors
-#' 
+#'
 #' @param \dots \code{\link{booltype}} vectors
 #' @return a vector with the lowest input \code{\link{booltype}} (but not lower than\code{\link{logical}})
 #' @author Jens Oehlschlägel
@@ -813,7 +813,7 @@ length.bitwhich <- function(x)
 #'  c(bit(4), !logical(4))
 #'  message("logical in first argument does not dispatch: c(logical(4), bit(4))")
 #'  c.booltype(logical(4), !bit(4))
-#' 
+#'
 #' @export c.booltype
 #' @export
 c.booltype <- function(...){
@@ -861,9 +861,9 @@ c.bitwhich <- function(...){
 
 
 #' Reversing bit and bitwhich vectors
-#' 
+#'
 #' Creating new bit or bitwhich by reversing such vectors
-#' 
+#'
 #' @name rev.booltype
 #' @param x bit or bitwhich object
 #' @return An object of class 'bit' or 'bitwhich'
@@ -871,7 +871,7 @@ c.bitwhich <- function(...){
 #' @seealso \code{\link{rev}}, \code{\link{bit}} , \code{\link{bitwhich}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'  rev(as.bit(c(FALSE,TRUE)))
 #'  rev(as.bitwhich(c(FALSE,TRUE)))
 NULL
@@ -910,9 +910,9 @@ rev.bitwhich <- function(x){
 
 
 #' Replicating bit and bitwhich vectors
-#' 
+#'
 #' Creating new bit or bitwhich by recycling such vectors
-#' 
+#'
 #' @name rep.booltype
 #' @param x bit or bitwhich object
 #' @param times number of replications
@@ -923,7 +923,7 @@ rev.bitwhich <- function(x){
 #' @seealso \code{\link{rep}}, \code{\link{bit}} , \code{\link{bitwhich}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'  rep(as.bit(c(FALSE,TRUE)), 2)
 #'  rep(as.bit(c(FALSE,TRUE)), length.out=7)
 #'  rep(as.bitwhich(c(FALSE,TRUE)), 2)
@@ -1030,10 +1030,10 @@ as.bit.ri <- function(x, ...){
 
 
 #' Coercion from bit, bitwhich, which and ri to logical, integer, double
-#' 
+#'
 #' Coercion from bit is quite fast because we use a double loop that fixes each
 #' word in a processor register.
-#' 
+#'
 #' @name CoercionToStandard
 #' @param x an object of class \code{\link{bit}}, \code{\link{bitwhich}} or
 #' \code{\link{ri}}
@@ -1047,19 +1047,19 @@ as.bit.ri <- function(x, ...){
 #' , \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   x <- ri(2, 5, 10)
 #'   y <- as.logical(x)
 #'   y
 #'   stopifnot(identical(y, as.logical(as.bit(x))))
 #'   stopifnot(identical(y, as.logical(as.bitwhich(x))))
-#' 
+#'
 #'   y <- as.integer(x)
 #'   y
 #'   stopifnot(identical(y, as.integer(as.logical(x))))
 #'   stopifnot(identical(y, as.integer(as.bit(x))))
 #'   stopifnot(identical(y, as.integer(as.bitwhich(x))))
-#' 
+#'
 #'   y <- as.double(x)
 #'   y
 #'   stopifnot(identical(y, as.double(as.logical(x))))
@@ -1068,28 +1068,28 @@ as.bit.ri <- function(x, ...){
 NULL
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.logical.bit <- function(x, ...){
   l <- logical(length(x))
   .Call(C_R_bit_get_logical, x, l, c(1L, length(x)))
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.integer.bit <- function(x, ...){
   l <- integer(length(x))
   .Call(C_R_bit_get_integer, x, l, c(1L, length(x)))
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.double.bit <- function(x, ...){
   l <- integer(length(x))
   as.double(.Call(C_R_bit_get_integer, x, l, c(1L, length(x))))
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.integer.bitwhich <- function(x, ...){
   n <- length(x)
   if (is.logical(x)){
@@ -1105,7 +1105,7 @@ as.integer.bitwhich <- function(x, ...){
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.double.bitwhich <- function(x, ...){
   n <- length(x)
   if (is.logical(x)){
@@ -1122,7 +1122,7 @@ as.double.bitwhich <- function(x, ...){
 
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.logical.bitwhich <- function(x, ...){
   n <- length(x)
   p <- sum(x)
@@ -1138,7 +1138,7 @@ as.logical.bitwhich <- function(x, ...){
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.logical.ri <- function(x, ...){
   if (is.na(x[3]))
     stop("cannot coerce to logical from ri object with unknown maxindex")
@@ -1148,7 +1148,7 @@ as.logical.ri <- function(x, ...){
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.integer.ri <- function(x, ...){
   if (is.na(x[3]))
     stop("cannot coerce to integer from ri object with unknown maxindex")
@@ -1158,7 +1158,7 @@ as.integer.ri <- function(x, ...){
 }
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.double.ri <- function(x, ...){
   if (is.na(x[3]))
     stop("cannot coerce to integer from ri object with unknown maxindex")
@@ -1169,7 +1169,7 @@ as.double.ri <- function(x, ...){
 
 
 #' @rdname CoercionToStandard
-#' @export 
+#' @export
 as.logical.which <- function(x, length=attr(x, "maxindex"), ...){
   if (is.na(length))
     stop("cannot coerce to logical from which object with unknown maxindex")
@@ -1313,7 +1313,7 @@ as.bitwhich.which <- function(x, maxindex=attr(x, "maxindex"), ...){
     }else{
       bitwhich(maxindex, x, poslength=poslength)
     }
-  } 
+  }
 }
 
 #' @describeIn as.bitwhich method to coerce to \code{\link{bitwhich}} from \code{\link{ri}}
@@ -1322,7 +1322,7 @@ as.bitwhich.ri <- function(x, ...){
   maxindex <- length(x)
   if (is.na(maxindex))
     stop("you must provide maxindex with ri() in as.bitwhich.ri()")
-  # ri selects at least one element, 
+  # ri selects at least one element,
   # hence maxindex>0 and poslength>0
   poslength <- sum(x)
   if (poslength==maxindex)
@@ -1352,7 +1352,7 @@ as.bitwhich.integer <- function(x, poslength=NULL, ...)
 #'   else becomes \code{TRUE})
 #' @examples as.bitwhich(c(0,1,2,-2,NA))
 #' @export
-as.bitwhich.double <- as.bitwhich.integer 
+as.bitwhich.double <- as.bitwhich.integer
 
 
 #' @describeIn as.bitwhich method to coerce to \code{\link{bitwhich}} from \code{\link{logical}}
@@ -1376,7 +1376,7 @@ as.bitwhich.logical <- function(x, poslength=NULL, ...){
     }else{
       bitwhich(maxindex, which(x), poslength=poslength)
     }
-  } 
+  }
 }
 
 
@@ -1432,7 +1432,7 @@ is.na.bitwhich <- function(x)bitwhich(length(x))
 
 #' @describeIn xor default method for \code{\link{xor}}
 #' @export
-xor.default <- function (x, y) 
+xor.default <- function (x, y)
 {
   cat("default\n")
   (x | y) & !(x & y)
@@ -1568,7 +1568,7 @@ xor.logical <- function(x,y){
   if (negative[1]){
     if (negative[2]){
       ret <- merge_union(e1, e2, method="exact")
-      bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret)) 
+      bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
     }else{
       ret <- merge_setdiff(e2, e1, revy=TRUE, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
@@ -1618,7 +1618,7 @@ xor.logical <- function(x,y){
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
     }else{
       ret <- merge_union(e1, e2, method="exact")
-      bitwhich(maxindex=n[1], ret, poslength=length(ret)) 
+      bitwhich(maxindex=n[1], ret, poslength=length(ret))
     }
   }
 }
@@ -1849,19 +1849,19 @@ xor.logical <- function(x,y){
 
 
 #' Summaries of boolean vectors
-#' 
+#'
 #' Fast aggregation functions for \code{\link{booltype}} vectors. namely \code{\link{bit}}, \code{\link{all}}, \code{\link{any}}, \code{\link{anyNA}},
 #' \code{\link{min}}, \code{\link{max}}, \code{\link{range}},
 #' \code{\link{sum}} and \code{\link{summary}}.
 #' Now all boolean summaries (except for \code{anyNA} because the generic does not allow it) have an optional \code{range} argument to restrict the range of evalution.
-#' Note that the boolean summaries have meaning and return values differing from logical aggregation functions: they treat \code{NA} as \code{FALSE}, 
+#' Note that the boolean summaries have meaning and return values differing from logical aggregation functions: they treat \code{NA} as \code{FALSE},
 #' \code{min}, \code{max} and \code{range} give the minimum and maximum positions of \code{TRUE}, \code{summary} returns counts of \code{FALSE},  \code{TRUE} and the \code{range}.
 #' Note that you can force the boolean interpretation by calling the booltype method explicitely on any \code{\link{booltypes}} input, e.g. \code{min.booltype()}, see the examples.
-#' 
+#'
 #' Summaries of \code{\link{bit}} vectors are quite fast because we use a double loop that fixes each
 #' word in a processor register.  Furthermore we break out of looping as soon
 #' as possible. Summaries of \code{\link{bitwhich}} vectors are even faster, if the selection is very skewed.
-#' 
+#'
 #' @name Summaries
 #' @param x an object of class bit or bitwhich
 #' @param object an object of class bit
@@ -1874,21 +1874,21 @@ xor.logical <- function(x,y){
 #' @seealso \code{\link{length}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   l <- c(NA, FALSE, TRUE)
 #'   b <- as.bit(l)
-#'   
+#'
 #'   all(l)
 #'   all(b)
 #'   all(b, range=c(3,3))
 #'   all.booltype(l, range=c(3,3))
-#'   
+#'
 #'   min(l)
 #'   min(b)
-#'   
+#'
 #'   sum(l)
 #'   sum(b)
-#'   
+#'
 #'   summary(l)
 #'   summary(b)
 #'   summary.booltype(l)
@@ -1897,7 +1897,7 @@ NULL
 # xx MEMO: R CMD check --no-tests  --no-manual --no-vignettes bit
 
 #' @rdname Summaries
-#' @export 
+#' @export
 all.bit <- function(x, range=NULL, ...){
   if (is.null(range))
     range <- c(1L, length(x))
@@ -2012,7 +2012,7 @@ all.bitwhich <- function(x, range=NULL, ...){
     y <- bitwhich_representation(x)
     range <- as.integer(range)
     if (is.logical(y)){
-      if (y) 
+      if (y)
         TRUE
       else
         FALSE
@@ -2035,7 +2035,7 @@ any.bitwhich <- function(x, range=NULL, ...){
     y <- bitwhich_representation(x)
     range <- as.integer(range)
     if (is.logical(y)){
-      if (y) 
+      if (y)
         TRUE
       else
         FALSE
@@ -2064,7 +2064,7 @@ sum.bitwhich <- function(x, range=NULL, ...){
     y <- bitwhich_representation(x)
     range <- as.integer(range)
     if (is.logical(y)){
-      if (y) 
+      if (y)
         range[2] - range[1] + 1L
       else
         0L
@@ -2102,7 +2102,7 @@ min.bitwhich <- function(x, range=NULL, ...){
         merge_firstin(range, x)
       }
     }
-  }  
+  }
 }
 
 #' @rdname Summaries
@@ -2129,7 +2129,7 @@ max.bitwhich <- function(x, range=NULL, ...){
         merge_lastin(range, x)
       }
     }
-  }  
+  }
 }
 
 #' @rdname Summaries
@@ -2362,30 +2362,30 @@ summary.booltype <- function(object, range=NULL, ...){
 
 
 #' Extract or replace part of an boolean vector
-#' 
+#'
 #' Operators acting on \code{\link{bit}} or \code{\link{bitwhich}} objects to extract or replace parts.
-#' 
-#' The typical usecase for for '[' and '[<-' is subscripting with positive integers, 
-#' negative integers are allowed but slower, 
-#' as logical subscripts only scalars are allowed. 
+#'
+#' The typical usecase for for '[' and '[<-' is subscripting with positive integers,
+#' negative integers are allowed but slower,
+#' as logical subscripts only scalars are allowed.
 #' The subscript can be given as a \code{\link{bitwhich}} object.
 #' Also \code{\link{ri}} can be used as subscript.
-#' 
+#'
 #' Extracting from \code{\link{bit}} and \code{\link{bitwhich}} is faster than from  \code{\link{logical}} if positive subscripts are used.
 #' integer subscripts make sense.  Negative subscripts are converted to
-#' positive ones, beware the RAM consumption.  
-#' 
+#' positive ones, beware the RAM consumption.
+#'
 #' @name Extract
 #' @param x a \code{\link{bit}} or \code{\link{bitwhich}} object
 #' @param i preferrably a positive integer subscript or a \code{\link{ri}}, see text
 #' @param value new logical or integer values
 #' @return The extractors \code{[[} and \code{[} return a logical scalar or
-#' vector.  The replacment functions return an object of \code{class(x)}. 
+#' vector.  The replacment functions return an object of \code{class(x)}.
 #' @author Jens Oehlschlägel
 #' @seealso \code{\link{bit}}, \code{\link[base]{Extract}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   x <- as.bit(c(FALSE, NA, TRUE))
 #'   x[] <- c(FALSE, NA, TRUE)
 #'   x[1:2]
@@ -2396,7 +2396,7 @@ summary.booltype <- function(object, range=NULL, ...){
 #'   x[] <- TRUE
 #'   x[1:2] <- FALSE
 #'   x[[1]] <- TRUE
-#' 
+#'
 NULL
 
 #' @rdname Extract
@@ -2472,7 +2472,7 @@ NULL
               i <- bit_sort_unique(i)
           }
         } # is positive, hence no sorting
-        ret <- .Call(C_R_bit_extract, x, i) 
+        ret <- .Call(C_R_bit_extract, x, i)
       }
     }else if(is.logical(i)){
       if (poslength(i)==0L){
@@ -2566,7 +2566,7 @@ NULL
           stop("replacement has length zero")
         if (ni %% nv)
           warning("number of items to replace is not a multiple of replacement length")
-        
+
       }
       .Call(C_R_bit_replace, x, i, value)
     }
@@ -2575,7 +2575,7 @@ NULL
 
 
 #' Check existence of integers in table
-#' 
+#'
 #' If the table is sorted, this can be much faster than \code{\link{\%in\%}}
 #'
 #' @param x a vector of integer
@@ -2607,13 +2607,13 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
         !is.na(match(x,table))
       else
         is.na(match(-x,table))
-      
+
     }else{
       if (y[1]>0L)
         merge_in(x,table)
       else
         merge_notin(x,table, revy=TRUE)
-    }  
+    }
   }
 }
 
@@ -2755,7 +2755,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
               stop("only 0's may be mixed with negative subscripts")
             ret <- as.bit(x)[i]
           }
-        } 
+        }
       }else stop("subscript must be integer (or double) or ri or bitwhich or TRUE or FALSE or missing")
     }
   }
@@ -2796,13 +2796,13 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
               warning("number of items to replace is not a multiple of replacement length")
             ret <- as.bitwhich(rep(b, length.out=nx))
           }
-        } 
+        }
       }else{
         return(x)
       }
     }else if(is.numeric(i)){
       if (nv>1L){
-        b <- as.bit(x) 
+        b <- as.bit(x)
         b[i] <- value
         ret <- as.bitwhich(b)
       }else{
@@ -2935,17 +2935,17 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
     a$poslength <- sum(ret)
     setattributes(ret, a)
     ret
-  }else 
+  }else
     x
 }
 
 
 
 #' Range index
-#' 
+#'
 #' A range index can be used to extract or replace a continuous ascending part
 #' of the data
-#' 
+#'
 #' @param from first position
 #' @param to last posistion
 #' @param x an object of class 'ri'
@@ -2957,9 +2957,9 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 #' @seealso \code{\link[ff]{as.hi}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'  bit(12)[ri(1,6)]
-#' 
+#'
 #' @export ri
 ri <- function(from, to=NULL, maxindex=NA){
   if (is.null(to)){

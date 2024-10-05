@@ -7,8 +7,8 @@ output:
     toc: yes
     toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{Usage of the bit package} 
-  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteIndexEntry{Usage of the bit package}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -17,7 +17,7 @@ The bit package provides the following S3 functionality:
 - alternatives to the `logical` data type which need less memory with methods that are often faster
     - the `bit` type for boolean data (without `NA`, factor 32 smaller)
     - the `bitwhich` type for very skewed boolean data (without `NA`, potentially even smaller)
-- further alternatives for representing Boolean selections     
+- further alternatives for representing Boolean selections
     - the `which` type for positive selections maintaining the original vector length
     - the `ri` range index
 - very fast methods for `integer`, particularly
@@ -133,7 +133,7 @@ length(l) <- 6
 l
 ```
 
-Note that the default in `bit` is always `FALSE`, for creating and increasing the length. 
+Note that the default in `bit` is always `FALSE`, for creating and increasing the length.
 
 ```{r}
 b <- bit(3)
@@ -172,7 +172,7 @@ w[6] <- NA; w
 
 ---
 
-As usual list subscripting is only allowed for existing elements 
+As usual list subscripting is only allowed for existing elements
 
 ```{r}
 l[[6]]
@@ -237,7 +237,7 @@ and `as.integer` gives us back those positions (now sorted)
 as.integer(w)
 ```
 
-You see that the `as.integer` generic is ambiguous as the `integer` data type in giving positions on some, and zeroes and ones on other inputs. The following set of Boolean types can be coerced without loss of information 
+You see that the `as.integer` generic is ambiguous as the `integer` data type in giving positions on some, and zeroes and ones on other inputs. The following set of Boolean types can be coerced without loss of information
 
 ```
 logical bit bitwhich which
@@ -306,16 +306,16 @@ Class `which` and `ri` are currently not `is.boolean` (no subscript, assignment 
 
 ### Boolean operations
 
-The usual Boolean operators 
+The usual Boolean operators
 
 ```
 ! | & == != xor is.na
 ```
-are implemented and the binary operators work for all combinations of `logical`, `bit` and `bitwhich`. 
+are implemented and the binary operators work for all combinations of `logical`, `bit` and `bitwhich`.
 
 Technically this is achieved in S3 by giving `bit` and `bitwhich` another class `booltype`. Note that this is not inheritance where `booltype` implements common methods and `bit` and `bitwhich` overrule this with more specific methods. Instead the method dispatch to `booltype` dominates `bit` and `bitwhich` and coordinates more specific methods, this was the only way to realize binary logical operators that combine `bit` and `bitwhich` in S3, because in this case R dispatches to neither `bit` nor `bitwhich`: if both arguments are custom classes R does a non-helpful dispatch to `integer` or `logical`.
 
-Anyhow, if a binary Boolean operator meets two different types, argument and result type is promoted to *less assumptions*, hence `bitwhich` is promoted to `bit` dropping the assumption of *strong skew* and `bit` is promoted to `logical` dropping the assumption that no `NA` are present. 
+Anyhow, if a binary Boolean operator meets two different types, argument and result type is promoted to *less assumptions*, hence `bitwhich` is promoted to `bit` dropping the assumption of *strong skew* and `bit` is promoted to `logical` dropping the assumption that no `NA` are present.
 
 Such promotion comes at the price of increased memory requirements, for example the following multiplies the memory requirement by factor 32
 
@@ -324,7 +324,7 @@ x <- bit(1e6)
 y <- x | c(FALSE, TRUE)
 object.size(y) / object.size(x)
 ```
-Better than lazily relying on automatic propagation is 
+Better than lazily relying on automatic propagation is
 
 ```{r}
 x <- bit(1e6)
@@ -339,7 +339,7 @@ Concatenation follows the same promotion rules as Boolean operators. Note that `
 
 ```{r}
 l <- logical(6)
-b <- bit(6) 
+b <- bit(6)
 c(l,b)
 ```
 because `c.logical` treats the six bits as a single value. The following expressions work
@@ -393,7 +393,7 @@ range(b)
 summary(b)
 ```
 
-These special interpretations of `min`, `max`, `range` and `summary` can be enforced for type `logical`, `integer`, and `double` by using the `booltype` methods directly as in 
+These special interpretations of `min`, `max`, `range` and `summary` can be enforced for type `logical`, `integer`, and `double` by using the `booltype` methods directly as in
 
 ```{r}
 # minimum after coercion to integer
@@ -429,12 +429,12 @@ x[as.hi(b)] <- runif(sum(b))      # replace some numbers at filtered positions
 summary(x[])
 ```
 
-we can process the ff vector in chunks 
+we can process the ff vector in chunks
 
 ```{r, eval=.ff.is.available}
 sapply(chunk(x, by=3e5), function(i)summary(x[i]))
 ```
-and even can process a bit-filtered ff vector in chunks 
+and even can process a bit-filtered ff vector in chunks
 
 ```{r, eval=.ff.is.available}
 sapply(chunk(x, by=3e5), function(i)summary(x[as.hi(b, range=i)]))
@@ -463,7 +463,7 @@ R implements *set methods* using *hash tables*, namely `match`, `%in%`, `unique`
 |`anyDuplicated`  |`bit_anyDuplicated`|  ||`anyDuplicated(rlepack)`||
 |`sum(duplicated)`|`bit_sumDuplicated`|  |||
 
-Furthermore there are very fast methods for sorting integers (unique or keeping ties), reversals that simultaneously change the sign to preserve ascending order and methods for finding min or max in sorted vectors or within ranges of sorted vectors. 
+Furthermore there are very fast methods for sorting integers (unique or keeping ties), reversals that simultaneously change the sign to preserve ascending order and methods for finding min or max in sorted vectors or within ranges of sorted vectors.
 
 |R              | bit vectors     |merging                  |range merging      |
 |:--------------|:----------------|:------------------------|:------------------|
@@ -552,7 +552,7 @@ y <- c(NA,NA,2L,2L,3L,4L)
 setdiff(x,y)
 bit_setdiff(x,y)
 ```
-The `bit_symdiff` function implements symmetric set difference. It builds two bit vectors spanning the full range and then outputs those elements of both sets that are marked at exactly one of the bit vectors. 
+The `bit_symdiff` function implements symmetric set difference. It builds two bit vectors spanning the full range and then outputs those elements of both sets that are marked at exactly one of the bit vectors.
 
 ```{r}
 x <- c(0L,NA,NA,1L,1L,3L)
@@ -561,7 +561,7 @@ union(setdiff(x,y),setdiff(y,x))
 bit_symdiff(x,y)
 ```
 
-The `bit_setequal` function terminates early if the ranges of the two sets (or the presence of `NA`) differ. Otherwise it builds two bit vectors spanning the identical range; finally it checks the two vectors for being equal with early termination if two unequal integers are found.  
+The `bit_setequal` function terminates early if the ranges of the two sets (or the presence of `NA`) differ. Otherwise it builds two bit vectors spanning the identical range; finally it checks the two vectors for being equal with early termination if two unequal integers are found.
 
 ```{r}
 x <- c(0L,NA,NA,1L,1L,3L)
@@ -581,7 +581,7 @@ bit_rangediff(c(1L,7L), -(3:5), revy=TRUE)
 bit_rangediff(c(1L,7L), -(3:5), revx=TRUE)
 ```
 
-If the range and the second set don't overlap, for example due to different signs, the full range is returned: 
+If the range and the second set don't overlap, for example due to different signs, the full range is returned:
 
 ```{r}
 bit_rangediff(c(1L,7L), (1:7))
@@ -623,7 +623,7 @@ sum(bit_duplicated(x))  # full bit work, returns FALSE or TRUE
 
 ### Methods using bit vectors for sorting integers
 
-A bit vector cannot replace a hash table for all possible kind of tasks (when it comes to counting values or to their positions), but on the other hand a bit vector allows something impossible with a hash table: *sorting* keys (without payload). Sorting a large subset of unique integers in [1,N] using a bit vector has been described in *"Programming pearls -- cracking the oyster"* by Jon Bentley (where 'uniqueness' is not an input condition but an output feature). This is easily generalized to sorting a large subset of integers in a range [min,max]. A first scan over the data determines the range of the keys, arranges `NA`s according to the usual `na.last=` argument and checks for presortedness (see `range_sortna`), then the range is projected to a bit vector of size `max-min+1`, all keys are registered causing random access and a final scan over the bit vector sequentially writes out the sorted keys. This is a *synthetical sort* because unlike a *comparison sort* the elements are not moved towards their ordered positions, instead they are *synthesized* from the bit-representation. 
+A bit vector cannot replace a hash table for all possible kind of tasks (when it comes to counting values or to their positions), but on the other hand a bit vector allows something impossible with a hash table: *sorting* keys (without payload). Sorting a large subset of unique integers in [1,N] using a bit vector has been described in *"Programming pearls -- cracking the oyster"* by Jon Bentley (where 'uniqueness' is not an input condition but an output feature). This is easily generalized to sorting a large subset of integers in a range [min,max]. A first scan over the data determines the range of the keys, arranges `NA`s according to the usual `na.last=` argument and checks for presortedness (see `range_sortna`), then the range is projected to a bit vector of size `max-min+1`, all keys are registered causing random access and a final scan over the bit vector sequentially writes out the sorted keys. This is a *synthetical sort* because unlike a *comparison sort* the elements are not moved towards their ordered positions, instead they are *synthesized* from the bit-representation.
 
 For `N` consecutive permuted integers this is by an order of magnitude faster than *quicksort*. For a *density* $d=N/(max-min) \ge 1$ this sort beats quicksort, but for $d << 1$ the bit vector becomes too large relative to `N` and hence quicksort is faster. `bit_sort_unique` implements a hybrid algorithm automatically choosing the faster of both, hence for integers the following gives identical results
 
@@ -634,13 +634,13 @@ sort(unique(x))
 bit_sort_unique(x)
 ```
 
-What if duplicates shall be kept? 
+What if duplicates shall be kept?
 
 - A: sort all non-duplicated occurrences using a bit vector
 - B: sort the rest
 - merge A and B
 
-The crucial question is how to sort the rest? Recursively using a bit-vector can again be faster than quicksort, however it is non-trivial to determine an optimal recursion-depth before falling back to quicksort. Hence a safe bet is using the bit vector only once and sort the rest via quicksort, let's call that `bitsort`. Again, using `bitsort` is fast only at medium density in the data range. For low density quicksort is faster. For high density (duplicates) another synthetic sort is faster: *counting sort*. `bit_sort` implements a *sandwhich sort* algorithm which given density uses `bitsort` between two complementing algorithms: 
+The crucial question is how to sort the rest? Recursively using a bit-vector can again be faster than quicksort, however it is non-trivial to determine an optimal recursion-depth before falling back to quicksort. Hence a safe bet is using the bit vector only once and sort the rest via quicksort, let's call that `bitsort`. Again, using `bitsort` is fast only at medium density in the data range. For low density quicksort is faster. For high density (duplicates) another synthetic sort is faster: *counting sort*. `bit_sort` implements a *sandwhich sort* algorithm which given density uses `bitsort` between two complementing algorithms:
 
 ```
 low density    medium density    high density
@@ -653,7 +653,7 @@ sort(x)
 bit_sort(x)
 ```
 
-Both, `bit_sort_unique` and `bit_sort` can sort *decreasing*, however, currently this requires an extra pass over the data in `bit_sort` and in the quicksort fallback of `bit_sort_unique`. So far, `bit_sort` does not leverage *radix sort* for very large `N`. 
+Both, `bit_sort_unique` and `bit_sort` can sort *decreasing*, however, currently this requires an extra pass over the data in `bit_sort` and in the quicksort fallback of `bit_sort_unique`. So far, `bit_sort` does not leverage *radix sort* for very large `N`.
 
 ---
 
@@ -711,7 +711,7 @@ merge_rangediff(c(0L,4L),c(-3L,-2L), revy=TRUE)
 merge_rangediff(c(0L,4L),c(-3L,-2L), revx=TRUE)
 ```
 
-`merge_symdiff` for *symmetric set complement* is used similar (without a `merge_range*` function), as is `merge_intersect`, where the latter is accompanied by a `merge_range*` function: 
+`merge_symdiff` for *symmetric set complement* is used similar (without a `merge_range*` function), as is `merge_intersect`, where the latter is accompanied by a `merge_range*` function:
 
 ```{r}
 x = -2:1
@@ -754,7 +754,7 @@ merge_in(x,y)
 merge_notin(x,y)
 ```
 
-The range versions extract logical vectors from `y`, but only for the range in `rx`. 
+The range versions extract logical vectors from `y`, but only for the range in `rx`.
 
 ```{r}
 x <- c(2L,4L)

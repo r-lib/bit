@@ -7,13 +7,13 @@
 
 
 #' Get maxindex (length of boolean vector) and poslength (number of 'selected' elements)
-#' 
-#' For \code{\link{is.booltype}} objects the term \code{\link{length}} is ambiguous. 
+#'
+#' For \code{\link{is.booltype}} objects the term \code{\link{length}} is ambiguous.
 #' For example the length of \code{\link{which}} corresponds to the sum of \code{\link{logical}}.
 #' The generic \code{maxindex} gives \code{length(logical)} for all \code{\link{booltype}s}.
-#' The generic \code{poslength} gives the number of positively selected elements, i.e. \code{sum(logical)} for all \code{\link{booltype}s} 
+#' The generic \code{poslength} gives the number of positively selected elements, i.e. \code{sum(logical)} for all \code{\link{booltype}s}
 #' (and gives \code{NA} if \code{NAs} are present).
-#' 
+#'
 #' @name maxindex
 #' @param x an R object, typically a \code{\link{is.booltype}} object.
 #' @param ... further arguments (ignored)
@@ -25,7 +25,7 @@
 #' b <- as.bit(r)
 #' l <- as.logical(r)
 #' u <- which(l)      # unclassed which
-#' 
+#'
 #' sapply(list(r=r,u=u,i=i,w=w,b=b,l=l), function(x){
 #'   c(length=length(x), sum=sum(x), maxindex=maxindex(x), poslength=poslength(x))
 #' })
@@ -67,12 +67,12 @@ as.booltype <- function (x, booltype, ...){
 
 
 #' Coercing to bit
-#' 
+#'
 #' Coercing to bit vector
-#' 
+#'
 #' Coercing to bit is quite fast because we use a double loop that fixes each
 #' word in a processor register
-#' 
+#'
 #' @param x an object of class \code{\link{bit}}, \code{\link{logical}},
 #' \code{\link{integer}}, \code{\link{bitwhich}} or an integer from
 #' \code{\link{as.which}} or a boolean \code{\link[ff:vmode]{ff}}
@@ -88,18 +88,18 @@ as.booltype <- function (x, booltype, ...){
 #' , \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #' as.bit(c(FALSE, NA, TRUE))
-#' 
+#'
 #' @export
 as.bit <- function(x=NULL, ...)
   UseMethod("as.bit", x)
 
 
 #' Coercing to bitwhich
-#' 
+#'
 #' Functions to coerce to bitwhich
-#' 
+#'
 #' @param x An object of class 'bitwhich', 'integer', 'logical' or 'bit' or an
 #' integer vector as resulting from 'which'
 #' @param maxindex the length of the new bitwhich vector
@@ -113,30 +113,30 @@ as.bit <- function(x=NULL, ...)
 #' , \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'  as.bitwhich(c(NA,NA,NA))
 #'  as.bitwhich(c(FALSE, FALSE, FALSE))
 #'  as.bitwhich(c(FALSE, FALSE, TRUE))
 #'  as.bitwhich(c(FALSE, TRUE, TRUE))
 #'  as.bitwhich(c(TRUE, TRUE, TRUE))
-#' 
+#'
 #' @export
 as.bitwhich <- function(x=NULL, ...)
   UseMethod("as.bitwhich")
 
 
 #' Coercion to (positive) integer positions
-#' 
+#'
 #' Coercing to something like the result of which \code{\link{which}}
-#' 
+#'
 #' \code{as.which.bit} returns a vector of subscripts with class 'which'
-#' 
+#'
 #' @param x an object of classes \code{\link{bit}}, \code{\link{bitwhich}},
 #' \code{\link{ri}} or something on which \code{\link{which}} works
 #' @param range a \code{\link{ri}} or an integer vector of length==2 giving a
 #' range restriction for chunked processing
-#' @param maxindex the length of the boolean vector which is represented 
-#' @param is.unsorted a logical scalar indicating whether the data may be unsorted 
+#' @param maxindex the length of the boolean vector which is represented
+#' @param is.unsorted a logical scalar indicating whether the data may be unsorted
 #' @param has.dup a logical scalar indicating whether the data may have duplicates
 #' @param \dots further arguments (passed to \code{\link{which}} for the
 #' default method, ignored otherwise)
@@ -146,15 +146,15 @@ as.bitwhich <- function(x=NULL, ...)
 #' , \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   r <- ri(5, 20, 100)
 #'   x <- as.which(r)
 #'   x
-#' 
+#'
 #'   stopifnot(identical(x, as.which(as.logical(r))))
 #'   stopifnot(identical(x, as.which(as.bitwhich(r))))
 #'   stopifnot(identical(x, as.which(as.bit(r))))
-#' 
+#'
 #' @export
 as.which <- function (x, ...)
   UseMethod("as.which")
@@ -182,22 +182,22 @@ as.ri <- function (x, ...)
 
 
 #' Boolean operators and functions
-#' 
+#'
 #' Boolean NEGATION '!', AND '&', OR '|' and EXCLUSIVE OR xor', see \code{\link[base]{Logic}}.
-#' 
-#' The binary operators and function \code{xor} can now combine any \code{\link{is.booltype}} vectors. 
+#'
+#' The binary operators and function \code{xor} can now combine any \code{\link{is.booltype}} vectors.
 #' They now recycle if vectors have different length. If the two arguments have different \code{\link{booltypes}} the return value corresponds to the lower \code{\link{booltype}} of the two. \cr
 #'
 #' Boolean operations on \code{\link{bit}} vectors are extremely fast because they are
-#' implemented using C's bitwise operators. Boolean operations on or \code{\link{bitwhich}}  
+#' implemented using C's bitwise operators. Boolean operations on or \code{\link{bitwhich}}
 #' vectors are even faster, if they represent very skewed selections.  \cr
-#' 
+#'
 #' The \code{xor} function has been made generic and \code{xor.default} has
 #' been implemented much faster than R's standard \code{\link[base:Logic]{xor}}.
 #' This was possible because actually boolean function \code{xor} and
 #' comparison operator \code{!=} do the same (even with NAs), and \code{!=} is
 #' much faster than the multiple calls in \code{(x | y) & !(x & y)}
-#' 
+#'
 #' @param x a \code{\link{is.booltype}} vector
 #' @param y a \code{\link{is.booltype}} vector
 #' @param e1 a \code{\link{is.booltype}} vector
@@ -207,17 +207,17 @@ as.ri <- function (x, ...)
 #' @seealso \code{\link{booltypes}}, \code{\link{Logic}}
 #' @keywords classes logic
 #' @examples
-#' 
+#'
 #'   x <- c(FALSE, FALSE, FALSE, NA, NA, NA, TRUE, TRUE, TRUE)
 #'   y <- c(FALSE, NA, TRUE, FALSE, NA, TRUE, FALSE, NA, TRUE)
-#'   
+#'
 #'   x|y
 #'   x|as.bit(y)
 #'   x|as.bitwhich(y)
 #'   x|as.which(y)
 #'   x|ri(1,1,9)
-#'   
-#'   
+#'
+#'
 #' @export
 xor <- function(x, y)
   UseMethod("xor", x)
@@ -225,17 +225,17 @@ xor <- function(x, y)
 
 
 #' Physical and virtual attributes
-#' 
+#'
 #' Compatibility functions (to package ff) for getting and setting physical and
 #' virtual attributes.
-#' 
+#'
 #' ff objects have physical and virtual attributes, which have different
 #' copying semantics: physical attributes are shared between copies of ff
 #' objects while virtual attributes might differ between copies.
 #' \code{\link[ff:as.ff]{as.ram}} will retain some physical and virtual atrributes in
 #' the ram clone, such that \code{\link[ff]{as.ff}} can restore an ff object
 #' with the same attributes.
-#' 
+#'
 #' @name PhysVirt
 #' @param x a ff or ram object
 #' @param value a list with named elements
@@ -246,7 +246,7 @@ xor <- function(x, y)
 #' @seealso \code{\link[ff]{physical.ff}}, \code{\link[ff]{physical.ffdf}}
 #' @keywords IO data attribute
 #' @examples
-#' 
+#'
 #'   physical(bit(12))
 #'   virtual(bit(12))
 NULL
@@ -269,12 +269,12 @@ virtual <- function(x)UseMethod("virtual")
 
 
 #' Generics for in-RAM sorting and ordering
-#' 
+#'
 #' These are generic stubs for low-level sorting and ordering methods
 #' implemented in packages 'bit64' and 'ff'.  The \code{..sortorder} methods do
 #' sorting and ordering at once, which requires more RAM than ordering but is
 #' (almost) as fast as as sorting.
-#' 
+#'
 #' The \code{sort} generics do sort their argument 'x', some methods need
 #' temporary RAM of the same size as 'x'.  The \code{order} generics do order
 #' their argument 'i' leaving 'x' as it was, some methods need temporary RAM of
@@ -284,7 +284,7 @@ virtual <- function(x)UseMethod("virtual")
 #' requires temporary RAM.  The \code{ram} generics are high-level functions
 #' containing an optimizer that chooses the 'best' algorithms given some
 #' context.
-#' 
+#'
 #' @name Sorting
 #' @param x a vector to be sorted by \code{\link{ramsort}} and
 #' \code{\link{ramsortorder}}, i.e. the output of \code{\link{sort}}
@@ -395,12 +395,12 @@ keysortorder <- function(x, i, ...)UseMethod("keysortorder")
 
 
 #' Generics related to cache access
-#' 
+#'
 #' These generics are packaged here for methods in packages \code{bit64} and
 #' \code{ff}.
-#' 
+#'
 #' see help of the available methods
-#' 
+#'
 #' @name Metadata
 #' @param x some object
 #' @param value value assigned on responsibility of the user

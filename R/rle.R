@@ -8,24 +8,24 @@
 # source("D:/mwp/eanalysis/bit/R/rle.R")
 
 #' Hybrid Index, C-coded utilities
-#' 
-#' These C-coded utilitites speed up index preprocessing considerably. 
-#' 
+#'
+#' These C-coded utilitites speed up index preprocessing considerably.
+#'
 #' \code{intrle} is by factor 50 faster and needs less RAM (2x its input
 #' vector) compared to \code{\link{rle}} which needs 9x the RAM of its input
 #' vector.  This is achieved because we allow the C-code of \code{intrle} to
 #' break when it turns out, that rle-packing will not achieve a compression
 #' factor of 3 or better.  \cr \code{intisasc} is a faster version of
-#' \code{\link{is.unsorted}}: it checks whether \code{x} is sorted.\cr 
-#' \code{intisdesc} checks for being sorted descending and 
-#' by default default assumes that the input \code{x} contains no NAs. 
+#' \code{\link{is.unsorted}}: it checks whether \code{x} is sorted.\cr
+#' \code{intisdesc} checks for being sorted descending and
+#' by default default assumes that the input \code{x} contains no NAs.
 #' \code{na.method="none"} treats \code{NAs} (the smallest integer) like every other integer and hence returns either \code{TRUE} or \code{FALSE}
-#' \code{na.method="break"} checks for \code{NAs} and returns either \code{NA} as soon as  \code{NA} is encountered. 
-#' \code{na.method="skip"} checks for \code{NAs} and skips over them, hence decides the return value only on the basis of non-NA values. 
-#' 
-#' 
+#' \code{na.method="break"} checks for \code{NAs} and returns either \code{NA} as soon as  \code{NA} is encountered.
+#' \code{na.method="skip"} checks for \code{NAs} and skips over them, hence decides the return value only on the basis of non-NA values.
+#'
+#'
 #' @param x an integer vector
-#' @param na.method one of "none","break","skip", see details. The strange defaults stem from the initial usage. 
+#' @param na.method one of "none","break","skip", see details. The strange defaults stem from the initial usage.
 #' @return \code{intrle} returns an object of class \code{\link{rle}} or NULL,
 #' if rle-compression is not efficient (compression factor <3 or length(x)<3).
 #' \cr \code{intisasc} returns one of \code{FALSE, NA, TRUE} \cr
@@ -36,7 +36,7 @@
 #' \code{\link[ff]{is.sorted}}
 #' @keywords IO data
 #' @examples
-#' 
+#'
 #'   intrle(sample(1:10))
 #'   intrle(diff(1:10))
 #'   intisasc(1:10)
@@ -47,7 +47,7 @@
 #'   intisdesc(c(10:6, NA, 5:1))
 #'   intisdesc(c(10:6, NA, 5:1), na.method="skip")
 #'   intisdesc(c(10:6, NA, 5:1), na.method="break")
-#' 
+#'
 #' @export
 # -- fast and efficient rle ------------------
 
@@ -92,11 +92,11 @@ intisdesc <- function(x, na.method=c("none","break","skip")[1]){
 # -- basic sequence packing and unpacking ---------------------------------------------------
 
 #' Hybrid Index, rle-pack utilities
-#' 
+#'
 #' Basic utilities for rle packing and unpacking and apropriate methods for
 #' \code{\link{rev}} and \code{\link{unique}}.
-#' 
-#' 
+#'
+#'
 #' @param x in 'rlepack' an integer vector, in the other functions an object of
 #' class 'rlepack'
 #' @param pack FALSE to suppress packing
@@ -111,7 +111,7 @@ intisdesc <- function(x, na.method=c("none","break","skip")[1]){
 #' \code{\link{rev}}, \code{\link{unique}}
 #' @keywords IO data
 #' @examples
-#' 
+#'
 #'   x <- rlepack(rep(0L, 10))
 #' \dontshow{
 #'  for (x in list(10:1, 1:10, c(10:1,1:10), c(1:10,10:1), sample(100), sample(100, 100, TRUE), sample(10, 100, TRUE))){
@@ -120,9 +120,9 @@ intisdesc <- function(x, na.method=c("none","break","skip")[1]){
 #'    stopifnot(identical(anyDuplicated(rlepack(x)), anyDuplicated(x)))
 #'  }
 #' }
-#' 
+#'
 #' @export
-rlepack <- function(x, ...) 
+rlepack <- function(x, ...)
 UseMethod("rlepack")
 
 #' @rdname rlepack
@@ -149,7 +149,7 @@ rlepack.integer <- function(
 
 #' @rdname rlepack
 #' @export
-rleunpack <- function(x) 
+rleunpack <- function(x)
 UseMethod("rleunpack")
 
 #' @rdname rlepack
@@ -220,7 +220,7 @@ anyDuplicated.rlepack <- function(x
       if (w)
         if(w>1L)
           sum(x$dat$lengths[1:(w-1L)]) + 2L
-        else 
+        else
           2L
       else
         0L

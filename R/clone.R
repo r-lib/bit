@@ -6,15 +6,15 @@
 
 
 #' Cloning ff and ram objects
-#' 
+#'
 #' \command{clone} physically duplicates objects and can additionally change
 #' some features, e.g. length.
-#' 
-#' \command{clone} is generic.  \command{clone.default} handles ram objects. 
-#' Further methods are provided in package 'ff'. 
+#'
+#' \command{clone} is generic.  \command{clone.default} handles ram objects.
+#' Further methods are provided in package 'ff'.
 #' \command{still.identical} returns TRUE if the two atomic arguments still
 #' point to the same memory.
-#' 
+#'
 #' @param x \code{x} an R object
 #' @param \dots further arguments to the generic
 #' @return an object that is a deep copy of x
@@ -22,7 +22,7 @@
 #' @seealso \code{clone.ff}, \code{\link{copy_vector}}
 #' @keywords IO data
 #' @examples
-#' 
+#'
 #'   x <- 1:12
 #'   y <- x
 #'   still.identical(x,y)
@@ -31,7 +31,7 @@
 #'   y <- clone(x)
 #'   still.identical(x,y)
 #'   rm(x,y); gc()
-#' 
+#'
 #' @export
 clone  <- function(x, ...){
   UseMethod("clone")

@@ -5,10 +5,10 @@
 # Created: 2012-05-28
 
 #' Adaptive timer
-#' 
+#'
 #' Repeats timing expr until minSec is reached
-#' 
-#' 
+#'
+#'
 #' @param expr Valid expression to be timed.
 #' @param gcFirst Logical - should a garbage collection be performed
 #' immediately before the timing?  Default is \code{TRUE}.
@@ -21,14 +21,14 @@
 #' @seealso \code{\link{system.time}}
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #'   system.time(1+1)
 #'   repeat.time(1+1)
 #'   system.time(sort(runif(1e6)))
 #'   repeat.time(sort(runif(1e6)))
-#' 
+#'
 #' @export
-repeat.time <- function (expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame()) 
+repeat.time <- function (expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame())
 {
     ppt <- function(y) {
         if (!is.na(y[4L]))
@@ -37,7 +37,7 @@ repeat.time <- function (expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame())
           y[2L] <- y[2L] + y[5L]
         y[1L:3L]
     }
-    if (!exists("proc.time")) 
+    if (!exists("proc.time"))
         return(rep(NA_real_, 5L))
     if (gcFirst)
         gc(FALSE)

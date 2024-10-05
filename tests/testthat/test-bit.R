@@ -20,14 +20,14 @@ test_that("Can create zero length bit objects", {
 test_that("length<-.bit does set unused bits to FALSE", {
   b <- !bit(bit:::.BITS)
   length(b) <- 7
-  b2 <- !bit(7) 
+  b2 <- !bit(7)
   expect_identical(b,b2)
   length(b) <- bit:::.BITS
   length(b2) <- bit:::.BITS
   expect_identical(b,b2)
   b <- !bit(2*bit:::.BITS)
   length(b) <- 7
-  b2 <- !bit(7) 
+  b2 <- !bit(7)
   expect_identical(b,b2)
   length(b) <- 2*bit:::.BITS
   length(b2) <- 2*bit:::.BITS
@@ -76,7 +76,7 @@ test_that("bitwhich creates correctly", {
   eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, c(-12L, -11L, -2L, -1L), poslength=8), y), list(n=n, x=x, y=y)))
-  
+
   x <- -rev(x)
   y <- structure(c(1L, 2L, 11L, 12L), maxindex = 12L, poslength = 4L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
@@ -84,7 +84,7 @@ test_that("bitwhich creates correctly", {
   eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, c(1L, 2L, 11L, 12L), poslength=4), y), list(n=n, x=x, y=y)))
-  
+
   x <- rep(5:6, 2)
   y <- structure(5:6, maxindex = 12L, poslength = 2L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
@@ -92,7 +92,7 @@ test_that("bitwhich creates correctly", {
   eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, 5:6, poslength=2), y), list(n=n, x=x, y=y)))
-  
+
   x <- -rev(x)
   y <- structure(-6:-5, maxindex = 12L, poslength = 10L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
@@ -100,27 +100,27 @@ test_that("bitwhich creates correctly", {
   eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, -6:-5, poslength=10), y), list(n=n, x=x, y=y)))
-  
+
   y <- structure(TRUE, maxindex = 12L, poslength = 12L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, TRUE), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n, poslength=n), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n, integer(), poslength=n), y), list(n=n, y=y)))
-  
+
   y <- structure(FALSE, maxindex = 12L, poslength = 0L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, FALSE), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n, poslength=0), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n, integer(), poslength=0), y), list(n=n, y=y)))
-  
+
   y <- structure(FALSE, maxindex = 12L, poslength = 0L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n, poslength=0), y), list(n=n, y=y)))
-  
+
   y <- structure(FALSE, maxindex = 12L, poslength = 0L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n), y), list(n=n, y=y)))
   eval(substitute(expect_identical(bitwhich(n, poslength=0), y), list(n=n, y=y)))
-  
+
   y <- structure(logical(0), maxindex = 0L, poslength = 0L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(0), y), list(y=y)))
   eval(substitute(expect_identical(bitwhich(0, poslength=0), y), list(y=y)))
@@ -132,22 +132,22 @@ test_that("length<-.bitwhich does set new bits according to the rules given in d
   length(w) <- 2
   w2 <- bitwhich(2, FALSE)
   expect_identical(w,w2)
-  
+
   w <- bitwhich(1, FALSE)
   length(w) <- 2
   w2 <- bitwhich(2, FALSE)
   expect_identical(w,w2)
-  
+
   w <- bitwhich(1, TRUE)
   length(w) <- 2
   w2 <- bitwhich(2, TRUE)
   expect_identical(w,w2)
-  
+
   w <- bitwhich(6, 1:2)
   length(w) <- 12
   w2 <- bitwhich(12, 1:2)
   expect_identical(w,w2)
-  
+
   w <- bitwhich(6, -(2:1))
   length(w) <- 12
   w2 <- bitwhich(12, -(2:1))
@@ -184,7 +184,7 @@ test_that("rep() works", {
     expect_identical(as.logical(rep(w, k)),rep(l, k))
   }
 })
-    
+
 
 test_that("NAs are coerced to FALSE", {
   expect_identical(as.logical(as.bit(c(NA, FALSE, TRUE))), c(FALSE, FALSE, TRUE))
@@ -214,7 +214,7 @@ test_that("coercions work", {
           expect_identical(as.logical(as.bitwhich(as.bit(l))), l)
         }
       }
-  
+
   set.seed(1)
   for (k in 0:(3*bit:::.BITS)){
     l <- sample(c(FALSE, TRUE), k, TRUE)
@@ -243,7 +243,7 @@ test_that("coercions work", {
     expect_identical(as.logical(as.bit(i)), as.logical(i))
     expect_identical(as.logical(as.bitwhich(i)), as.logical(i))
   }
-  
+
 }
 )
 
@@ -326,7 +326,7 @@ test_that("subscript operations work", {
   R <- 1
   fx <- function(x,n)as.integer(sign(x))*sample(n,abs(x), TRUE)
   fi <- function(x,n)as.integer(sign(x))*sample(0:n,abs(x), FALSE)
-  
+
   for (r in 1:R){
     for (n in N){
       for (x in X[abs(X)<=abs(n)]){
@@ -393,7 +393,7 @@ test_that("subscript operations work", {
       }
     }
   }
-    
+
 })
 
 
@@ -458,5 +458,5 @@ test_that("aggregation functions work", {
       }
     }
   }
-    
+
 })

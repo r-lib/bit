@@ -55,13 +55,13 @@ x <- c(
 knitr::kable(as.data.frame(as.list(x/x["R"]*100)), caption="% of time relative to R", digits=1)
 ```
 
-The vignette is compiled with the following performance settings: `r times` replications with domain size small `r Domain["small"]` and big `r Domain["big"]`, sample size small `r Sample["small"]` and big `r Sample["big"]`. 
+The vignette is compiled with the following performance settings: `r times` replications with domain size small `r Domain["small"]` and big `r Domain["big"]`, sample size small `r Sample["small"]` and big `r Sample["big"]`.
 
 ## Boolean data types
 
 
-> "A designer knows he has achieved perfection not when there is nothing left to add, but when there is nothing left to take away."  
-"Il semble que la perfection soit atteinte non quand il n'y a plus rien à ajouter, mais quand il n'y a plus rien à retrancher"  
+> "A designer knows he has achieved perfection not when there is nothing left to add, but when there is nothing left to take away."
+"Il semble que la perfection soit atteinte non quand il n'y a plus rien à ajouter, mais quand il n'y a plus rien à retrancher"
 (Antoine de St. Exupery, Terre des Hommes (Gallimard, 1939), p. 60.)
 
 We compare memory consumption (n=`r format(Sample[["big"]])`) and runtime (median of `r times` replications) of the different `booltype`s for the following filter scenarios:
@@ -225,7 +225,7 @@ knitr::kable(round(tim[,"summary",][1:2,1:2], 1), caption="% time for Boolean su
 
 ## Fast methods for `integer` set operations
 
-> "The space-efficient structure of bitmaps dramatically reduced the run time of sorting"  
+> "The space-efficient structure of bitmaps dramatically reduced the run time of sorting"
 (Jon Bently, Programming Pearls, Cracking the oyster, p. 7)
 
 
@@ -256,8 +256,8 @@ sortM[["bit","sort"]] <- bit_sort
 sortM[["bit","sortunique"]] <- bit_sort_unique
 
 timsort <- array(NA_integer_
-             , dim=c(M=2, G=length(G), D=length(D), N=length(Domain)) 
-             , dimnames=list(M=M[1:2], G=G, D=D, N=names(Domain)) 
+             , dim=c(M=2, G=length(G), D=length(D), N=length(Domain))
+             , dimnames=list(M=M[1:2], G=G, D=D, N=names(Domain))
              )
 for(n in names(Domain)){
   x <- sample(Domain[[n]], Sample[[n]], replace = TRUE)
@@ -308,11 +308,11 @@ binaryM[["R","symdiff"]] <- function(x,y)union(setdiff(x,y), setdiff(y,x))
 binaryM[["bit","symdiff"]] <- bit_symdiff
 binaryM[["merge","symdiff"]] <- merge_symdiff
 
-binaryM[["R","setequal"]] <- function(x,y)setequal(x,x)  # we compare x to x which avoids early termination and hence 
+binaryM[["R","setequal"]] <- function(x,y)setequal(x,x)  # we compare x to x which avoids early termination and hence
 binaryM[["bit","setequal"]] <- function(x,y)bit_setequal(x,x)
 binaryM[["merge","setequal"]] <- function(x,y)merge_setequal(x,x)
-  
-binaryM[["R","setearly"]] <- function(x,y)setequal(x,y)  # we compare x to x which avoids early termination and hence 
+
+binaryM[["R","setearly"]] <- function(x,y)setequal(x,y)  # we compare x to x which avoids early termination and hence
 binaryM[["bit","setearly"]] <- function(x,y)bit_setequal(x,y)
 binaryM[["merge","setearly"]] <- function(x,y)merge_setequal(x,y)
 
@@ -369,7 +369,7 @@ for(n in names(binaryDomain)){
       if (!is.null(f)){
         tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
         # now plug-in measures for unsorted merge
-        if (m == "merge") 
+        if (m == "merge")
           tim["merge",u,n,"unsorted"] <- timsort["bit","sort","unsorted",xnam] +  tim["merge",u,n,"sorted"]
       }
     }
