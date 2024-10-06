@@ -6,11 +6,11 @@ library("bit")
 # }
 
 test_that("Can create zero length bit objects", {
-  expect_equal(bit(), bit(0))
-  expect_equal(as.bit(), bit(0))
-  expect_equal(as.bit(NULL), bit(0))
-  expect_equal(as.bit(logical()), bit(0))
-  expect_equal(as.bit(integer()), bit(0))
+  expect_identical(bit(), bit(0))
+  expect_identical(as.bit(), bit(0))
+  expect_identical(as.bit(NULL), bit(0))
+  expect_identical(as.bit(logical()), bit(0))
+  expect_identical(as.bit(integer()), bit(0))
   expect_error(as.bit(factor()))
 })
 
@@ -52,11 +52,11 @@ test_that("c.bit does set unused bits to FALSE", {
 })
 
 test_that("Can create zero length bitwhich objects", {
-  expect_equal(bitwhich(), bitwhich(0))
-  expect_equal(as.bitwhich(), bitwhich(0))
-  expect_equal(as.bitwhich(NULL), bitwhich(0))
-  expect_equal(as.bitwhich(logical()), bitwhich(0))
-  expect_equal(as.bitwhich(integer()), bitwhich(0))
+  expect_identical(bitwhich(), bitwhich(0))
+  expect_identical(as.bitwhich(), bitwhich(0))
+  expect_identical(as.bitwhich(NULL), bitwhich(0))
+  expect_identical(as.bitwhich(logical()), bitwhich(0))
+  expect_identical(as.bitwhich(integer()), bitwhich(0))
   expect_error(as.bitwhich(factor()))
 })
 
