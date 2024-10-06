@@ -5,7 +5,6 @@ regtest.bit <- function(
   N = 50  # number of repetitions for random regression tests
 )
 {
-  #.BITS <- bit:::.BITS  # available in package namespace
   OK <- TRUE
   pool <- c(FALSE, TRUE)
 
@@ -342,12 +341,12 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_identical({b <- as.bit(FALSE); b[2] <- TRUE; as.logical(b)}, {l <- FALSE; l[2] <- TRUE; l})
   expect_identical({w <- as.bitwhich(FALSE); w[2] <- TRUE; as.logical(w)}, {l <- FALSE; l[2] <- TRUE; l})
 
-  expect_identical({b <- as.bit(FALSE); b[bit:::.BITS+1] <- NA; as.logical(b)}, {l <- FALSE; l[bit:::.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
-  expect_identical({w <- as.bitwhich(FALSE); w[bit:::.BITS+1] <- NA; as.logical(w)}, {l <- FALSE; l[bit:::.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
+  expect_identical({b <- as.bit(FALSE); b[.BITS+1] <- NA; as.logical(b)}, {l <- FALSE; l[.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
+  expect_identical({w <- as.bitwhich(FALSE); w[.BITS+1] <- NA; as.logical(w)}, {l <- FALSE; l[.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
 
-  expect_identical(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[TRUE], rep(c(FALSE,TRUE), bit:::.BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
-  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[TRUE], rep(c(FALSE,TRUE), bit:::.BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
+  expect_identical(as.bit(rep(c(FALSE,TRUE), .BITS))[TRUE], rep(c(FALSE,TRUE), .BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
+  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), .BITS))[TRUE], rep(c(FALSE,TRUE), .BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
 
-  expect_identical(as.bit(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
-  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), bit:::.BITS))[FALSE], rep(c(FALSE,TRUE), bit:::.BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
+  expect_identical(as.bit(rep(c(FALSE,TRUE), .BITS))[FALSE], rep(c(FALSE,TRUE), .BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
+  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), .BITS))[FALSE], rep(c(FALSE,TRUE), .BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
 })

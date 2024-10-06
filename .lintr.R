@@ -15,7 +15,6 @@ linters = all_linters(
   infix_spaces_linter = NULL,
   library_call_linter = NULL,
   line_length_linter = NULL,
-  namespace_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
   object_overwrite_linter = NULL,

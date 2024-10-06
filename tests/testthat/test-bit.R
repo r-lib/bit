@@ -15,39 +15,39 @@ test_that("Can create zero length bit objects", {
 })
 
 test_that("length<-.bit does set unused bits to FALSE", {
-  b <- !bit(bit:::.BITS)
+  b <- !bit(.BITS)
   length(b) <- 7
   b2 <- !bit(7)
   expect_identical(b,b2)
-  length(b) <- bit:::.BITS
-  length(b2) <- bit:::.BITS
+  length(b) <- .BITS
+  length(b2) <- .BITS
   expect_identical(b,b2)
-  b <- !bit(2*bit:::.BITS)
+  b <- !bit(2*.BITS)
   length(b) <- 7
   b2 <- !bit(7)
   expect_identical(b,b2)
-  length(b) <- 2*bit:::.BITS
-  length(b2) <- 2*bit:::.BITS
+  length(b) <- 2*.BITS
+  length(b2) <- 2*.BITS
   expect_identical(b,b2)
 })
 
 test_that("length<-.bit does set new bits to FALSE", {
   b <- !bit(1)
-  length(b) <- bit:::.BITS
-  b2 <- bit(bit:::.BITS)
+  length(b) <- .BITS
+  b2 <- bit(.BITS)
   b2[1] <- TRUE
   expect_identical(b,b2)
   b <- !bit(1)
-  length(b) <- 2*bit:::.BITS
-  b2 <- bit(2*bit:::.BITS)
+  length(b) <- 2*.BITS
+  b2 <- bit(2*.BITS)
   b2[1] <- TRUE
   expect_identical(b,b2)
 })
 
 test_that("c.bit does set unused bits to FALSE", {
-  b <- !bit(bit:::.BITS-1)
+  b <- !bit(.BITS-1)
   b <- c(b,b)
-  b2 <- !bit(2*bit:::.BITS-2)
+  b2 <- !bit(2*.BITS-2)
   expect_identical(b,b2)
 })
 
@@ -166,11 +166,11 @@ test_that("rep() works", {
   l <- c(FALSE, TRUE)
   b <- as.bit(l)
   w <- as.bitwhich(l)
-  for(k in 1:(3*bit:::.BITS)){
+  for(k in 1:(3*.BITS)){
     expect_identical(as.logical(rep(b, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter. Specifically testing rep().
     expect_identical(as.logical(rep(w, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter.
   }
-  for(k in 1:(2*bit:::.BITS)){
+  for(k in 1:(2*.BITS)){
     expect_identical(as.logical(rep(b, k)),rep(l, k))
     expect_identical(as.logical(rep(w, k)),rep(l, k))
   }
@@ -196,7 +196,7 @@ test_that("coercions work", {
         expect_identical(as.logical(as.bitwhich(as.bit(l))), l)
         set.seed(1)
         for (m in 1:ifelse(sum(l) %in% c(0L,3L), 1, 24)){
-          l <- sample(l, 3*bit:::.BITS, TRUE)
+          l <- sample(l, 3*.BITS, TRUE)
           expect_identical(as.logical(as.bit(l)), l)
           expect_identical(as.logical(as.bitwhich(l)), l)
           expect_identical(as.logical(as.bit(as.bit(l))), l)
@@ -207,7 +207,7 @@ test_that("coercions work", {
       }
 
   set.seed(1)
-  for (k in 0:(3*bit:::.BITS)){
+  for (k in 0:(3*.BITS)){
     l <- sample(c(FALSE, TRUE), k, TRUE)
     expect_identical(as.logical(as.bit(l)), l)
     expect_identical(as.logical(as.bit(as.bit(l))), l)
@@ -216,7 +216,7 @@ test_that("coercions work", {
     expect_identical(as.logical(as.bitwhich(as.bitwhich(l))), l)
   }
   set.seed(1)
-  for (k in 0:(3*bit:::.BITS)){
+  for (k in 0:(3*.BITS)){
     l <- sample(c(NA, FALSE, TRUE), k, TRUE)
     b <- as.bit(l)
     expect_identical(as.bit(as.bit(l)), b)
@@ -226,7 +226,7 @@ test_that("coercions work", {
     expect_identical(as.bit(as.bitwhich(as.bitwhich(l))), b)
   }
   set.seed(1)
-  for (k in 0:(3*bit:::.BITS)){
+  for (k in 0:(3*.BITS)){
     i <- sample(-2:2, k, TRUE)
     expect_identical(as.logical(as.bit(i)), as.logical(i))
     expect_identical(as.logical(as.bitwhich(i)), as.logical(i))
@@ -240,9 +240,9 @@ test_that("coercions work", {
 
 
 test_that("boolean operations work", {
-  #N <- c(1L,bit:::.BITS/2L-1L,bit:::.BITS/2L,bit:::.BITS/2L+1L,bit:::.BITS-1L,bit:::.BITS,bit:::.BITS+1L,2L*bit:::.BITS-1L,2L*bit:::.BITS,2L*bit:::.BITS+1L)
-  #N <- c(1L,bit:::.BITS/2L-1L,bit:::.BITS/2L,bit:::.BITS/2L+1L,bit:::.BITS-1L,bit:::.BITS,bit:::.BITS+1L)
-  N <- c(1L,bit:::.BITS-1L,bit:::.BITS,bit:::.BITS+1L)
+  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L,2L*.BITS-1L,2L*.BITS,2L*.BITS+1L)
+  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L)
+  N <- c(1L,.BITS-1L,.BITS,.BITS+1L)
   X <- c(rev(-N), N)
   N <- c(0L, N)
   fx <- function(x,n)as.integer(sign(x))*sample(n,abs(x))
@@ -308,9 +308,9 @@ test_that("promotion is correct in boolean operations and concatenation", {
 
 
 test_that("subscript operations work", {
-  #N <- c(1L,bit:::.BITS/2L-1L,bit:::.BITS/2L,bit:::.BITS/2L+1L,bit:::.BITS-1L,bit:::.BITS,bit:::.BITS+1L,2L*bit:::.BITS-1L,2L*bit:::.BITS,2L*bit:::.BITS+1L)
-  #N <- c(1L,bit:::.BITS/2L-1L,bit:::.BITS/2L,bit:::.BITS/2L+1L,bit:::.BITS-1L,bit:::.BITS,bit:::.BITS+1L)
-  N <- c(1L,bit:::.BITS-1L,bit:::.BITS,bit:::.BITS+1L)
+  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L,2L*.BITS-1L,2L*.BITS,2L*.BITS+1L)
+  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L)
+  N <- c(1L,.BITS-1L,.BITS,.BITS+1L)
   X <- c(rev(-N), N)
   J <- c(rev(-N), 0L, N)
   N <- c(0L, N)
