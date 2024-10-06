@@ -183,18 +183,18 @@ regtest.bit <- function(
       OK <- FALSE
     }
     # check replacement (index)
-    new <- sample(pool, n2, TRUE)
-    l[j] <- new
-    b[j] <- new
+    new_value <- sample(pool, n2, TRUE)
+    l[j] <- new_value
+    b[j] <- new_value
     if (!identical(l, unattr(b[]))){
       message("\nregression test difference when replacing with index")
       OK <- FALSE
     }
     # check replacement (recycle)
     if (n%%2){
-      new <- sample(pool, 1)
-      l[] <- new
-      b[] <- new
+      new_value <- sample(pool, 1)
+      l[] <- new_value
+      b[] <- new_value
     }else{
       l[] <- pool
       b[] <- pool

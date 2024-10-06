@@ -41,15 +41,15 @@ repeat.time <- function (expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame())
         return(rep(NA_real_, 5L))
     if (gcFirst)
         gc(FALSE)
-    time <- proc.time()
-    on.exit(cat("Timing stopped at:", ppt(proc.time() - time),
+    time0 <- proc.time()
+    on.exit(cat("Timing stopped at:", ppt(proc.time() - time0),
         "\n"))
     r <- 0L
-    while((proc.time()[3]-time[3]) < minSec){
+    while((proc.time()[3]-time0[3]) < minSec){
         r <- r + 1L
         eval(substitute(expr), envir=envir)
     }
     new.time <- proc.time()
     on.exit()
-    structure((new.time - time)/r, class = "proc_time")
+    structure((new.time - time0)/r, class = "proc_time")
 }
