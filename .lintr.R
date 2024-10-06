@@ -18,7 +18,6 @@ linters = all_linters(
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
   object_overwrite_linter = NULL,
-  object_usage_linter = NULL,
   paren_body_linter = NULL,
   quotes_linter = NULL,
   rep_len_linter = NULL,

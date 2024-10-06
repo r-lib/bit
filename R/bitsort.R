@@ -452,10 +452,8 @@ bit_in <- function(x, table, retFUN=as.bit){
   reverse <- nx<nt
   if (reverse){
     range_na <- range_na(x)
-    n <- nx
   }else{
     range_na <- range_na(table)
-    n <- nt
   }
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
