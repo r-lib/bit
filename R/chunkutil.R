@@ -136,7 +136,7 @@ repfromto <- function(x, from, to){
 
 #' @rdname repfromto
 #' @export
-"repfromto<-" <- function(x, from, to, value){
+`repfromto<-` <- function(x, from, to, value){
   x[from:to] <- value
   x
 }

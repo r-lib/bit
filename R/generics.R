@@ -257,7 +257,7 @@ physical <- function(x)UseMethod("physical")
 
 #' @rdname PhysVirt
 #' @export
-"physical<-" <- function(x, value)UseMethod("physical<-")
+`physical<-` <- function(x, value)UseMethod("physical<-")
 
 #' @rdname PhysVirt
 #' @export
@@ -265,7 +265,7 @@ virtual <- function(x)UseMethod("virtual")
 
 #' @rdname PhysVirt
 #' @export
-"virtual<-" <- function(x, value)UseMethod("virtual<-")
+`virtual<-` <- function(x, value)UseMethod("virtual<-")
 
 
 #' Generics for in-RAM sorting and ordering
@@ -423,7 +423,7 @@ is.sorted <- function(x, ...)UseMethod("is.sorted")
 
 #' @rdname Metadata
 #' @export
-"is.sorted<-" <- function(x, ..., value)UseMethod("is.sorted<-")
+`is.sorted<-` <- function(x, ..., value)UseMethod("is.sorted<-")
 
 #' @rdname Metadata
 #' @export
@@ -431,7 +431,7 @@ na.count <- function(x, ...)UseMethod("na.count")
 
 #' @rdname Metadata
 #' @export
-"na.count<-" <- function(x, ..., value)UseMethod("na.count<-")
+`na.count<-` <- function(x, ..., value)UseMethod("na.count<-")
 
 #' @rdname Metadata
 #' @export
@@ -443,7 +443,7 @@ nunique <- function(x, ...)UseMethod("nunique")
 
 #' @rdname Metadata
 #' @export
-"nunique<-" <- function(x, ..., value)UseMethod("nunique<-")
+`nunique<-` <- function(x, ..., value)UseMethod("nunique<-")
 
 #' @rdname Metadata
 #' @export
@@ -451,4 +451,4 @@ nties <- function(x, ...)UseMethod("nties")
 
 #' @rdname Metadata
 #' @export
-"nties<-" <- function(x, ..., value)UseMethod("nties<-")
+`nties<-` <- function(x, ..., value)UseMethod("nties<-")
