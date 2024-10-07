@@ -5,4 +5,4 @@
 ^doc$
 ^Meta$
 README.md
-
+^codecov\.yml$
