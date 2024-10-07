@@ -10,6 +10,7 @@ linters = all_linters(
   function_argument_linter = NULL,
   function_left_parentheses_linter = NULL,
   implicit_assignment_linter = NULL,
+  # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere.
   implicit_integer_linter = NULL,
   indentation_linter = NULL,
   infix_spaces_linter = NULL,
