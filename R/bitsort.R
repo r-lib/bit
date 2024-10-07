@@ -346,6 +346,7 @@ bit_sort <- function(x, decreasing = FALSE, na.last=NA, has.dup = TRUE){
     else
       ret <- .Call(C_R_int_countsort, x, range_sortna, as.logical(na.last))
   }else{
+    # nolint next: unnecessary_nesting_linter. Good parallelism.
     if (d < 0.03125 || nr > .Machine$integer.max ){
       ret <- .Call(C_R_int_quicksort3, x, range_sortna, as.logical(na.last))
     }else if (d <= 0.25){
@@ -462,12 +463,10 @@ bit_in <- function(x, table, retFUN=as.bit){
   d <- (nx+nt) / nr
   if (nr==0L || nr > .Machine$integer.max || d < 1/64 ){
     ret <- !is.na(match(x, table))
-  }else{
-    if (reverse){
-      ret <- .Call(C_R_bit_table_in, tmp=bit(nr), x, table, range_na, ret=bit(length(x)))
-    }else{
-      ret <- .Call(C_R_bit_in_table, tmp=bit(nr), x, table, range_na, ret=bit(length(x)))
-    }
+  } else if (reverse) {
+    ret <- .Call(C_R_bit_table_in, tmp=bit(nr), x, table, range_na, ret=bit(length(x)))
+  } else {
+    ret <- .Call(C_R_bit_in_table, tmp=bit(nr), x, table, range_na, ret=bit(length(x)))
   }
   retFUN(ret)
 }

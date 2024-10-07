@@ -300,21 +300,16 @@ chunks <- function(
   if (!is.null(along.with)){
     if (is.null(from))
       from <- 1L
-    else{
-
-      if (length(from)==1)
-        from <- as.integer(from)
-      else
-        stop("'from' must be scalar")
-    }
+    else if (length(from)==1)
+      from <- as.integer(from)
+    else
+      stop("'from' must be scalar")
     if (is.null(to))
       to <- length(along.with)
-    else{
-      if (length(to)==1)
-        to <- as.integer(to)
-      else
-        stop("'to' must be scalar")
-    }
+    else if (length(to)==1)
+      to <- as.integer(to)
+    else
+      stop("'to' must be scalar")
   }
   if (length(from)==1)
     from <- as.integer(from)
@@ -332,24 +327,19 @@ chunks <- function(
   if (is.null(by)){
     if (is.null(length.out))
       stop("need either 'by' or 'length.out'")
-    else{
-      if (length(length.out)==1){
-        length.out <- as.integer(length.out)
-        if (length.out>N)
-          length.out <- N
-        by <- N %/% length.out
-      }else
-        stop("'length.out' must be scalar")
-    }
-  }else{
-    if (length(by)==1){
-      by <- as.integer(by)
-      if (by<1)
-        stop("'by' must be > 0")
-      length.out <- (N - 1L) %/% by + 1L
-    }else
-      stop("'by' must be scalar")
-  }
+    if (length(length.out) !=1 )
+      stop("'length.out' must be scalar")
+    length.out <- as.integer(length.out)
+    if (length.out>N)
+      length.out <- N
+    by <- N %/% length.out
+  } else if (length(by)==1) {
+    by <- as.integer(by)
+    if (by<1)
+      stop("'by' must be > 0")
+    length.out <- (N - 1L) %/% by + 1L
+  } else
+    stop("'by' must be scalar")
 
   if (method=="bbatch")
     by <- as.integer(bbatch(N, by)$b)
@@ -507,6 +497,7 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
           }else
             parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")"))[[1]]
         }else{
+          # nolint next: unnecessary_nesting_linter. Good parallelism.
           if (eval)
             eval(parse(text=paste("list(",paste(x,y,sep=":",collapse=","),")")))
           else
