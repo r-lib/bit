@@ -2,10 +2,7 @@
 title: "Performance of the bit package"
 author: "Dr. Jens Oehlschlägel"
 date: '`r Sys.Date()`'
-output:
-  pdf_document:
-    toc: yes
-    toc_depth: 3
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Performance of the bit package}
   %\VignetteEngine{knitr::rmarkdown}
