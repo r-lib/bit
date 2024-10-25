@@ -1,10 +1,3 @@
-library("testthat")
-library("bit")
-
-# expect_identical <- function(x, y, ...){
-#   stopifnot(identical(x,y))
-# }
-
 test_that("Can create zero length bit objects", {
   expect_identical(bit(), bit(0))
   expect_identical(as.bit(), bit(0))
@@ -450,4 +443,10 @@ test_that("aggregation functions work", {
     }
   }
 
+})
+
+test_that("rev() methods work", {
+  x = c(FALSE, TRUE)
+  expect_identical(rev(as.bit(x)), as.bit(rev(x)))
+  expect_identical(rev(as.bitwhich(x)), as.bitwhich(rev(x)))
 })
