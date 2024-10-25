@@ -212,7 +212,7 @@ test_that("bit_setops work", {
 
   expect_identical(bit_symdiff(x, y), c(1L, 6L))
   expect_identical(bit_symdiff(x_na, y), c(1L, NA_integer_, 6L))
-  expect_identical(bit_symdiff(x, y_na), c(1L, NA_integer_, 6L))
+  expect_identical(bit_symdiff(x, y_na), c(1L, 6L, NA_integer_))
   expect_identical(bit_symdiff(x_na, y_na), c(1L, 6L))
 
   expect_identical(bit_intersect(x, y), 2:5)
