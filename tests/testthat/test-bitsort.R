@@ -231,4 +231,13 @@ test_that("bit_setops work", {
   expect_false(bit_setequal(x_na, y_na))
   expect_true(bit_setequal(x, x))
   expect_true(bit_setequal(x_na, x_na))
+
+  expect_identical(bit_rangediff(c(1L, 6L), c(3L, 4L)), c(1:2, 5:6))
+  expect_identical(bit_rangediff(c(6L, 1L), c(3L, 4L), revx=TRUE), -(1:6))
+  expect_identical(bit_rangediff(c(6L, 1L), c(3L, 4L), revx=TRUE, revy=TRUE), -c(1:2, 5:6))
+})
+
+test_that("bitsort works", {
+  expect_identical(bitsort(c(2L, 0L, 1L, NA, 2L)), c(0:2, 2L))
+  expect_identical(bitsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE), c(0:2, 2L, NA))
 })
