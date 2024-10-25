@@ -1,10 +1,3 @@
-library("testthat")
-library("bit")
-
-# expect_identical <- function(x, y, ...){
-#  stopifnot(identical(x,y))
-# }
-
 test_that("bitsort function work on several inputs", {
   nums <- list(
       integer()
@@ -204,4 +197,38 @@ test_that("bit_sort and bit_sort_unique are OK", {
       }
       }
     }
-  })
+})
+
+test_that("bit_setops work", {
+  x = 1:5
+  y = 2:6
+  x_na = c(x, NA_integer_)
+  y_na = c(y, NA_integer_)
+
+  expect_identical(bit_setdiff(x, y), 1L)
+  expect_identical(bit_setdiff(x_na, y), c(1L, NA_integer_))
+  expect_identical(bit_setdiff(x, y_na), 1L)
+  expect_identical(bit_setdiff(x_na, y_na), 1L)
+
+  expect_identical(bit_symdiff(x, y), c(1L, 6L))
+  expect_identical(bit_symdiff(x_na, y), c(1L, NA_integer_, 6L))
+  expect_identical(bit_symdiff(x, y_na), c(1L, 6L, NA_integer_))
+  expect_identical(bit_symdiff(x_na, y_na), c(1L, 6L))
+
+  expect_identical(bit_intersect(x, y), 2:5)
+  expect_identical(bit_intersect(x_na, y), 2:5)
+  expect_identical(bit_intersect(x, y_na), 2:5)
+  expect_identical(bit_intersect(x_na, y_na), c(2:5, NA_integer_))
+
+  expect_identical(bit_union(x, y), 1:6)
+  expect_identical(bit_union(x_na, y), c(1:5, NA_integer_, 6L))
+  expect_identical(bit_union(x, y_na), c(1:6, NA_integer_))
+  expect_identical(bit_union(x_na, y_na), c(1:5, NA_integer_, 6L))
+
+  expect_false(bit_setequal(x, y))
+  expect_false(bit_setequal(x_na, y))
+  expect_false(bit_setequal(x, y_na))
+  expect_false(bit_setequal(x_na, y_na))
+  expect_true(bit_setequal(x, x))
+  expect_true(bit_setequal(x_na, x_na))
+})
