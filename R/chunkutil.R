@@ -327,10 +327,10 @@ chunks <- function(
     stop("to < from")
   N <- to - from + 1L
 
-  if (is.null(by)){
+  if (is.null(by)) {
     if (is.null(length.out))
       stop("need either 'by' or 'length.out'")
-    if (length(length.out) !=1 )
+    if (length(length.out) !=1)
       stop("'length.out' must be scalar")
     length.out <- as.integer(length.out)
     if (length.out>N)
@@ -347,7 +347,7 @@ chunks <- function(
   if (method=="bbatch")
     by <- as.integer(bbatch(N, by)$b)
 
-  if (length.out>1L){
+  if (length.out>1L) {
     from <- cumsum(c(from, rep(by, length.out - 1L)))
     to <- c(from[-1], from[1] + N) - 1L  # fixed by Edwin de Jonge, 18.1.2011
     if (overlap>0)
@@ -356,7 +356,7 @@ chunks <- function(
   n <- length(from)
   s <- seq_len(n)
   ret <- vector("list", n)
-  for (i in s){
+  for (i in s) {
     ret[[i]] <- ri(from[i], to[i], maxindex)
   }
   names(ret) <- paste(from, to, sep=":")

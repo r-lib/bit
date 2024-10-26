@@ -187,7 +187,7 @@ test_that("for-looped merging is OK (without NAs)", {
         ), list(rnx=rnx, rx=rx, ry=ry,revx=revx, revy=revy)))
         eval(substitute(expect_identical(
           merge_rangenotin(rnx,ry,revx=revx, revy=revy)
-          , ! ( copy_vector(rx,revx=revx) %in% copy_vector(ry, revx=revy) )
+          , !(copy_vector(rx,revx=revx) %in% copy_vector(ry, revx=revy))
         ), list(rnx=rnx, rx=rx, ry=ry,revx=revx, revy=revy)))
       }
     }

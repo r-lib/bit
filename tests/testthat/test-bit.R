@@ -250,21 +250,21 @@ test_that("boolean operations work", {
         b1 <- as.bit(l1)
         b2 <- as.bit(l2)
         fun <- function(x1,x2,f){
-          eval(substitute(expect_identical( f(!x1), !f(x1) ), list(x1=x1, f=f)))
-          eval(substitute(expect_identical( f(x1 & x2), f(x1) & f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( f(x1 | x2), f(x1) | f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( f(x1 == x2), f(x1) == f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( f(x1 != x2), f(x1) != f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( f(xor(x1, x2)),xor( f(x1), f(x2)) ), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(f(!x1), !f(x1)), list(x1=x1, f=f)))
+          eval(substitute(expect_identical(f(x1 & x2), f(x1) & f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(f(x1 | x2), f(x1) | f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(f(x1 == x2), f(x1) == f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(f(x1 != x2), f(x1) != f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(f(xor(x1, x2)), xor(f(x1), f(x2))), list(x1=x1, x2=x2, f=f)))
         }
         fun(w1,w2,as.logical)
         fun(b1,b2,as.logical)
         fun <- function(x1,x2,f){
-          eval(substitute(expect_identical( x1 & x2, f(x1) & f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( x1 | x2, f(x1) | f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( x1 == x2, f(x1) == f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( x1 != x2, f(x1) != f(x2) ), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical( xor(x1, x2), xor( f(x1), f(x2)) ), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(x1 & x2, f(x1) & f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(x1 | x2, f(x1) | f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(x1 == x2, f(x1) == f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(x1 != x2, f(x1) != f(x2)), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(expect_identical(xor(x1, x2), xor(f(x1), f(x2))), list(x1=x1, x2=x2, f=f)))
         }
         fun(b1,w2,as.bit)
         fun(w1,b2,as.bit)
@@ -288,14 +288,14 @@ test_that("promotion is correct in boolean operations and concatenation", {
         for (n2 in N2){
           x1 <- FUN[[t1]](n1)
           x2 <- FUN[[t2]](n2)
-          eval(substitute(expect_identical( booltype(x1 & x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical( booltype(x1 | x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical( booltype(x1 == x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical( booltype(x1 != x2), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical( booltype(xor(x1,x2)), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(expect_identical(booltype(x1 & x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(expect_identical(booltype(x1 | x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(expect_identical(booltype(x1 == x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(expect_identical(booltype(x1 != x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(expect_identical(booltype(xor(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
           if (t1!="logical")  # c with first argument logical does not dispatch
-            eval(substitute(expect_identical( booltype(c(x1,x2)), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical( booltype(c.booltype(x1,x2)), min(booltypes[[t1]],booltypes[[t2]]) ), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+            eval(substitute(expect_identical(booltype(c(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(expect_identical(booltype(c.booltype(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
         }
 })
 
@@ -330,8 +330,8 @@ test_that("subscript operations work", {
         )
         for (i in I){
           v <- l[i]
-          eval(substitute(expect_identical( b[i], v, ignore_attr="vmode" ), list(b=b, i=i, v=v)))
-          eval(substitute(expect_identical( w[i], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
+          eval(substitute(expect_identical(b[i], v, ignore_attr="vmode"), list(b=b, i=i, v=v)))
+          eval(substitute(expect_identical(w[i], v, ignore_attr="vmode"), list(w=w, i=i, v=v)))
           l2 <- l
           l2[i] <- !v
           eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
@@ -367,8 +367,8 @@ test_that("subscript operations work", {
         for (i in I){
           i2 <- i[1]:i[2]
           v <- l[i2]
-          eval(substitute(expect_identical( b[i], v, ignore_attr="vmode" ), list(b=b, i=i, v=v)))
-          eval(substitute(expect_identical( w[i], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
+          eval(substitute(expect_identical(b[i], v, ignore_attr="vmode"), list(b=b, i=i, v=v)))
+          eval(substitute(expect_identical(w[i], v, ignore_attr="vmode"), list(w=w, i=i, v=v)))
           # debugonce(get("[.bitwhich"))
           l2 <- l
           l2[i2] <- !v
@@ -399,8 +399,8 @@ test_that("subscript operations work", {
         }
         i <- sample(n, 1)
           v <- l[[i]]
-          eval(substitute(expect_identical( b[[i]], v, ignore_attr="vmode" ), list(b=b, i=i, v=v)))
-          eval(substitute(expect_identical( w[[i]], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
+          eval(substitute(expect_identical(b[[i]], v, ignore_attr="vmode"), list(b=b, i=i, v=v)))
+          eval(substitute(expect_identical(w[[i]], v, ignore_attr="vmode"), list(w=w, i=i, v=v)))
           l2 <- l
           l2[[i]] <- !v
           eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
@@ -468,15 +468,15 @@ test_that("aggregation functions work", {
   for (d in names(D)) {
     for (i in names(I)) {
       x <- I[[i]](as.logical(D[[d]]))
-      for (a in names(A))if ( ! (i=="not" && a %in% c("which","ri") )) {
+      for (a in names(A)) if (! (i=="not" && a %in% c("which","ri"))) {
         y <- I[[i]](A[[a]](D[[d]]))
         for (s in names(S1)) {
           expect_identical(S1[[s]](x), S1[[s]](y))
         }
-        if (a != "which")for (s in names(S2)) {
+        if (a != "which") for (s in names(S2)) {
           expect_identical(S2[[s]](x), S2[[s]](y))
         }
-        if (a != "which")for (s in names(S3)) {
+        if (a != "which") for (s in names(S3)) {
           expect_identical(S3[[s]](x), S3[[s]](y))
         }
       }
