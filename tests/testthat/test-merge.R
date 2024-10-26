@@ -1,10 +1,3 @@
-library("testthat")
-library("bit")
-
-# expect_identical <- function(x, y, ...){
-#  stopifnot(identical(x,y))
-# }
-
 # map NAs to position 1
 NAtab <- function(x, nbins=max(1L, x, na.rm = TRUE)){
   force(nbins)

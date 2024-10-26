@@ -28,30 +28,28 @@
 #'   repeat.time(sort(runif(1e6)))
 #'
 #' @export
-repeat.time <- function (expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame())
-{
-    ppt <- function(y) {
-        if (!is.na(y[4L]))
-          y[1L] <- y[1L] + y[4L]
-        if (!is.na(y[5L]))
-          y[2L] <- y[2L] + y[5L]
-        y[1L:3L]
-    }
-    if (!exists("proc.time"))
-        return(rep(NA_real_, 5L))
-    if (gcFirst)
-        gc(FALSE)
-    time0 <- proc.time()
-    on.exit(cat("Timing stopped at:", ppt(proc.time() - time0),
-        "\n"))
-    r <- 0L
-    while((proc.time()[3]-time0[3]) < minSec){
-        r <- r + 1L
-        eval(substitute(expr), envir=envir)
-    }
-    new.time <- proc.time()
-    on.exit()
-    out = (new.time - time0) / r
-    class(out) = "proc_time"
-    out
+repeat.time <- function(expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame()) {
+  ppt <- function(y) {
+    if (!is.na(y[4L]))
+      y[1L] <- y[1L] + y[4L]
+    if (!is.na(y[5L]))
+      y[2L] <- y[2L] + y[5L]
+    y[1L:3L]
+  }
+  if (!exists("proc.time"))
+      return(rep(NA_real_, 5L))
+  if (gcFirst)
+      gc(FALSE)
+  time0 <- proc.time()
+  on.exit(cat("Timing stopped at:", ppt(proc.time() - time0), "\n"))
+  r <- 0L
+  while((proc.time()[3]-time0[3]) < minSec) {
+    r <- r + 1L
+    eval(substitute(expr), envir=envir)
+  }
+  new.time <- proc.time()
+  on.exit()
+  out = (new.time - time0) / r
+  class(out) = "proc_time"
+  out
 }

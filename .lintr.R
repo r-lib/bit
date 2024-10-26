@@ -16,14 +16,8 @@ linters = all_linters(
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,
   function_argument_linter = NULL,
-  function_left_parentheses_linter = NULL,
-  # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere with allow_scoped=TRUE
-  implicit_assignment_linter = NULL,
-  # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere.
-  implicit_integer_linter = NULL,
   indentation_linter = NULL,
   infix_spaces_linter = NULL,
-  library_call_linter = NULL,
   line_length_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
@@ -31,10 +25,16 @@ linters = all_linters(
   quotes_linter = NULL,
   # TODO(#19): Activate this; it's not trivial to replace on some old R versions.
   rep_len_linter = NULL,
-  # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere.
-  sample_int_linter = NULL,
   spaces_inside_linter = NULL,
   spaces_left_parentheses_linter = NULL,
   todo_comment_linter = NULL,
-  unreachable_code_linter = NULL
+  unreachable_code_linter = NULL,
+  # TODO(r-lib/lintr#2172): Exclude the below from vignettes/, enforce elsewhere
+  # Will be allow_scoped=TRUE
+  implicit_assignment_linter = NULL,
+  implicit_integer_linter = NULL,
+  library_call_linter = NULL,
+  sample_int_linter = NULL
 )
+
+exclusions = list("tests/testthat.R")

@@ -1,6 +1,3 @@
-library("testthat")
-library("bit")
-
 regtest.bit <- function(
   N = 50  # number of repetitions for random regression tests
 )

@@ -375,7 +375,7 @@ print.bitwhich <- function(x, ...){
 #'  - nobool: non-boolean type
 #'  - [logical()]: for representing any boolean data including `NA`
 #'  - [bit()]: for representing dense boolean data
-#'  - [bitwhich()]: for representing sparse (skewed) boolean data 
+#'  - [bitwhich()]: for representing sparse (skewed) boolean data
 #'  - [which()]: for representing sparse boolean data with few `TRUE
 #   - [`hi`][ff::hi]: hybrid-indexing, implemented in package [`ff`][ff::ff]
 #'  - [ri()]: range-indexing, for representing sparse boolean data with a single range of
@@ -404,7 +404,7 @@ names(booltypes) <- booltypes
 #'  - nobool: non-boolean type
 #'  - [logical()]: for representing any boolean data including `NA`
 #'  - [bit()]: for representing dense boolean data
-#'  - [bitwhich()]: for representing sparse (skewed) boolean data 
+#'  - [bitwhich()]: for representing sparse (skewed) boolean data
 #'  - [which()]: for representing sparse boolean data with few `TRUE
 #   - [`hi`][ff::hi]: hybrid-indexing, implemented in package [`ff`][ff::ff]
 #'  - [ri()]: range-indexing, for representing sparse boolean data with a single range of
@@ -522,30 +522,23 @@ as.ri.default <- function(x, ...){
   ri(r[[1]], r[[2]], n)
 }
 
-
-
 #' @describeIn maxindex default method for `maxindex`
 #' @export
-maxindex.default <-
-  function (x, ...)
-  {
-    mi <- attr(x, "maxindex")
-    if (is.null(mi))
-      NA_integer_
-    else mi
-  }
+maxindex.default <- function(x, ...) {
+  mi <- attr(x, "maxindex")
+  if (is.null(mi))
+    NA_integer_
+  else mi
+}
 
 #' @describeIn maxindex default method for `poslength`
 #' @export
-poslength.default <-
-  function (x, ...)
-  {
-    pl <- attr(x, "poslength")
-    if (is.null(pl))
-      NA_integer_
-    else pl
-  }
-
+poslength.default <- function(x, ...) {
+  pl <- attr(x, "poslength")
+  if (is.null(pl))
+    NA_integer_
+  else pl
+}
 
 #' @describeIn maxindex `maxindex` method for class [logical()]
 #' @export
@@ -623,7 +616,7 @@ poslength.ri <- function(x, ...){
 #'  - positive integers -- some included, new bits are set to `FALSE`
 #'  - negative integers -- some excluded, new bits are set to `TRUE`
 #'  - FALSE -- all excluded:, new bits are set to `FALSE`
-#' 
+#'
 #' Decreasing the length of bit or bitwhich removes any previous information
 #' about the status bits above the new length.
 #'
@@ -1453,8 +1446,7 @@ is.na.bitwhich <- function(x)bitwhich(length(x))
 
 #' @describeIn xor default method for [xor()]
 #' @export
-xor.default <- function (x, y)
-{
+xor.default <- function(x, y) {
   cat("default\n")
   (x | y) & !(x & y)
 }

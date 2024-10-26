@@ -62,7 +62,7 @@ poslength <- function(x, ...)
 #' as.booltype(0:1, "which", maxindex=2)
 #' as.booltype(0:1, "ri")
 #' @export
-as.booltype <- function (x, booltype, ...){
+as.booltype <- function(x, booltype, ...) {
   UseMethod("as.booltype")
 }
 
@@ -157,7 +157,7 @@ as.bitwhich <- function(x=NULL, ...)
 #'   stopifnot(identical(x, as.which(as.bit(r))))
 #'
 #' @export
-as.which <- function (x, ...)
+as.which <- function(x, ...)
   UseMethod("as.which")
 
 
@@ -175,8 +175,7 @@ as.which <- function (x, ...)
 #' @examples
 #' as.ri(c(FALSE, TRUE, FALSE, TRUE))
 #' @export
-as.ri <- function (x, ...)
-{
+as.ri <- function(x, ...) {
   UseMethod("as.ri")
 }
 
