@@ -346,7 +346,7 @@ test_that("some old regression tests are also OK for bitwhich", {
   l[2L] = TRUE
 
   b = as.bit(FALSE)
-  bit[2L] = TRUE
+  b[2L] = TRUE
   expect_identical(as.logical(b), l)
   w = as.bitwhich(FALSE)
   w[2L] = TRUE
