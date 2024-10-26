@@ -498,9 +498,9 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
             nx <- length(x)
             ny <- length(y)
             if (nx<ny)
-              x <- rep(as.integer(x), length.out=ny)
+              x <- rep_len(as.integer(x), ny)
             if (ny<nx)
-              y <- rep(as.integer(y), length.out=nx)
+              y <- rep_len(as.integer(y), nx)
             .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y))
           }else
             parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")"))[[1]]
