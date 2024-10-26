@@ -334,14 +334,30 @@ test_that("subscript operations work", {
           eval(substitute(expect_identical( w[i], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
           l2 <- l
           l2[i] <- !v
-          eval(substitute(expect_identical( {b2 <- b; b2[i] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-          eval(substitute(expect_identical( {w2 <- w; w2[i] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+          eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
+            b2 <- b
+            b2[i] <- !v
+            expect_identical(b2, as.bit(l2))
+          }))
+          eval(substitute(env = list(w=w, i=i, v=v, l2=l2), {
+            w2 <- w
+            w2[i] <- !v
+            expect_identical(w2, as.bitwhich(l2))
+          }))
           if (length(v)>1 && (length(v)%%2L) == 0){
             v2 <- !v[seq_len(ceiling(length(v)/2))]
             l2 <- l
             l2[i] <- v2
-            eval(substitute(expect_identical( {b2 <- b; b2[i] <- v2; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-            eval(substitute(expect_identical( {w2 <- w; w2[i] <- v2; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+            eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
+              b2 <- b
+              b2[i] <- v2
+              expect_identical(b2, as.bit(l2))
+            }))
+            eval(substitute(env = list(w=w, i=i, v=v, l2=l2), {
+              w2 <- w
+              w2[i] <- v2
+              expect_identical(w2, as.bitwhich(l2))
+            }))
           }
         }
         I <- lapply(1:1, function(x){
@@ -356,13 +372,29 @@ test_that("subscript operations work", {
           # debugonce(get("[.bitwhich"))
           l2 <- l
           l2[i2] <- !v
-          eval(substitute(expect_identical( {b2 <- b; b2[i] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-          eval(substitute(expect_identical( {w2 <- w; w2[i] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+          eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
+            b2 <- b
+            b2[i] <- !v
+            expect_identical(b2, as.bit(l2))
+          }))
+          eval(substitute(env = list(w=w, i=i, v=v, l2=l2), {
+            w2 <- w
+            w2[i] <- !v
+            expect_identical(w2, as.bitwhich(l2))
+          }))
           if (length(v)>1 && (length(v)%%2L) == 0){
             v2 <- !v[seq_len(ceiling(length(v)/2))]
             l2[i2] <- v2
-            eval(substitute(expect_identical( {b2 <- b; b2[i] <- v2; b2}, as.bit(l2) ), list(b=b, i=i, v2=v2, l2=l2)))
-            eval(substitute(expect_identical( {w2 <- w; w2[i] <- v2; w2}, as.bitwhich(l2) ), list(w=w, i=i, v2=v2, l2=l2)))
+            eval(substitute(env = list(b=b, i=i, v2=v2, l2=l2), {
+              b2 <- b
+              b2[i] <- v2
+              expect_identical(b2, as.bit(l2))
+            }))
+            eval(substitute(env = list(w=w, i=i, v2=v2, l2=l2), {
+              w2 <- w
+              w2[i] <- v2
+              expect_identical(w2, as.bitwhich(l2))
+            }))
           }
         }
         i <- sample(n, 1)
@@ -371,8 +403,16 @@ test_that("subscript operations work", {
           eval(substitute(expect_identical( w[[i]], v, ignore_attr="vmode" ), list(w=w, i=i, v=v)))
           l2 <- l
           l2[[i]] <- !v
-          eval(substitute(expect_identical( {b2 <- b; b2[[i]] <- !v; b2}, as.bit(l2) ), list(b=b, i=i, v=v, l2=l2)))
-          eval(substitute(expect_identical( {w2 <- w; w2[[i]] <- !v; w2}, as.bitwhich(l2) ), list(w=w, i=i, v=v, l2=l2)))
+          eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
+            b2 = b
+            b2[[i]] = !v
+            expect_identical(b2, as.bit(l2))
+          }))
+          eval(substitute(env = list(w=w, i=i, v=v, l2=l2), {
+            w2 = w
+            w2[[i]] = !v
+            expect_identical(w2, as.bitwhich(l2))
+          }))
 
       }
     }
