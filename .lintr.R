@@ -20,7 +20,6 @@ linters = all_linters(
   object_name_linter = NULL,
   paren_body_linter = NULL,
   quotes_linter = NULL,
-  rep_len_linter = NULL,
   # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere.
   sample_int_linter = NULL,
   spaces_inside_linter = NULL,
