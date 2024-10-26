@@ -102,7 +102,7 @@ regtest.bit <- function(
       s <- c( min=NA_integer_, max=NA_integer_, range=c(NA_integer_, NA_integer_), sum=sum(l), summary=c(`FALSE`=length(l)-sum(l), `TRUE`=sum(l), Min.=NA_integer_, Max.=NA_integer_) )
     }
     s2 <- c(min=min(b), max=max(b), range=range(b), sum=sum(b), summary=summary(b))
-    if (!identical(s,s2)){
+    if (!identical(s,s2)) {
       message("\nregression test difference between logical summaries")
       message(s)
       message("and bit summaries")
@@ -112,7 +112,7 @@ regtest.bit <- function(
     # check positive whichs
     w <- as.which(l)
     w2 <- as.which(as.bit(w, n))
-    if (!identical(w,w2)){
+    if (!identical(w,w2)) {
       message("\nregression test difference between which")
       message(w)
       message("and as.which(as.bit.which(which))")
@@ -121,17 +121,17 @@ regtest.bit <- function(
     }
     # check automatic whichs (pos or neg whatever shorter)
     s <- sum(l)
-    if (s==0){
+    if (s==0) {
       w <- FALSE
-    }else if (s==n){
+    } else if (s==n) {
       w <- TRUE
-    }else if (s>(n%/%2L)){
+    } else if (s > n%/%2L) {
       w <- -rev(which(!l))
-    }else{
+    } else {
       w <- which(l)
     }
     w2 <- as.vector(as.bitwhich(as.bit(l)))
-    if (!identical(w,w2)){
+    if (!identical(w,w2)) {
       message("\nregression test difference between which")
       message(w)
       message("and as.which(as.bit.which(which))")
