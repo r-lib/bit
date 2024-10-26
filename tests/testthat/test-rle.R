@@ -48,9 +48,8 @@ test_that("intisdesc is correct", {
 # })
 
 test_that("intrle is correct", {
-  expect_identical(intrle(c(rep(1L,60), 1:30))
-  , structure(list(lengths = c(61L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), values = 1:30)
-  , .Names = c("lengths", "values"), class = "rle"))
+  x = c(rep(1L, 60), 1:30)
+  expect_identical(intrle(x), rle(x))
   expect_null(intrle(c(rep(1L,60), 1:31)))
 })
 

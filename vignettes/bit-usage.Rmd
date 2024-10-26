@@ -30,9 +30,9 @@ The bit package provides the following S3 functionality:
 
 ```{r, echo = FALSE, results = "hide", message = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-require(bit)
-.ff.version <- try(packageVersion("ff"), silent = TRUE)
-.ff.is.available <- !inherits(.ff.version, "try-error") && .ff.version >= "4.0.0" && require(ff)
+library(bit)
+.ff.is.available = requireNamespace("ff", quietly=TRUE) && packageVersion("ff") >= "4.0.0"
+if (.ff.is.available) library(ff)
 # rmarkdown::render("vignettes/bit-usage.Rmd")
 # devtools::build_vignettes()
 ```

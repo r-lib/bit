@@ -53,6 +53,7 @@ test_that("Can create zero length bitwhich objects", {
   expect_error(as.bitwhich(factor()))
 })
 
+# nolint start: undesirable_function_linter. structure() seems OK here.
 test_that("bitwhich creates correctly", {
   # to check whether we properly obtain integer
   n <- 12
@@ -112,7 +113,7 @@ test_that("bitwhich creates correctly", {
   eval(substitute(expect_identical(bitwhich(0), y), list(y=y)))
   eval(substitute(expect_identical(bitwhich(0, poslength=0), y), list(y=y)))
 })
-
+# nolint end: undesirable_function_linter.
 
 test_that("length<-.bitwhich does set new bits according to the rules given in details", {
   w <- bitwhich(0)

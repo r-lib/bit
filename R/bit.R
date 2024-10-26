@@ -1206,7 +1206,12 @@ as.which.which <- function(x, maxindex=NA_integer_, ...)x
 #' @describeIn as.which method to coerce to zero length [`which()`][as.which] from
 #'   [`NULL`][NULL]
 #' @export
-as.which.NULL <- function(x, ...)structure(integer(), maxindex=0L, class=c("booltype", "which"))
+as.which.NULL <- function(x, ...) {
+  out = integer()
+  attr(out, "maxindex") = 0L
+  class(out) = c("booltype", "which")
+  out
+}
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [numeric()]
 #' @export
