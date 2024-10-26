@@ -3112,4 +3112,4 @@ print.virtual <- function(x, ...){
 
 # not exported - just here to avoid cross calling the dll from ff
 R_bit_as_hi <- function(x, range, offset)
-.Call(C_R_bit_as_hi, x, range, offset)
+  .Call(C_R_bit_as_hi, x, range, offset)

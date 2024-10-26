@@ -450,3 +450,7 @@ test_that("rev() methods work", {
   expect_identical(rev(as.bit(x)), as.bit(rev(x)))
   expect_identical(rev(as.bitwhich(x)), as.bitwhich(rev(x)))
 })
+
+test_that("as.integer method for bit works", {
+  expect_identical(as.integer(as.bit(0:1)), 0:1)
+})

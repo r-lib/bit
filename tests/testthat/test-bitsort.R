@@ -233,11 +233,31 @@ test_that("bit_setops work", {
   expect_true(bit_setequal(x_na, x_na))
 
   expect_identical(bit_rangediff(c(1L, 6L), c(3L, 4L)), c(1:2, 5:6))
+  expect_identical(bit_rangediff(c(1L, 6L), c(3L, 4L), revx=TRUE), -(6:1))
+  expect_identical(bit_rangediff(c(1L, 6L), c(3L, 4L), revy=TRUE), 1:6)
+  expect_identical(bit_rangediff(c(1L, 6L), c(3L, 4L), revx=TRUE, revy=TRUE), -c(6:5, 2:1))
   expect_identical(bit_rangediff(c(6L, 1L), c(3L, 4L), revx=TRUE), -(1:6))
+  expect_identical(bit_rangediff(c(6L, 1L), c(3L, 4L), revy=TRUE), 6:1)
   expect_identical(bit_rangediff(c(6L, 1L), c(3L, 4L), revx=TRUE, revy=TRUE), -c(1:2, 5:6))
 })
 
 test_that("bitsort works", {
   expect_identical(bitsort(c(2L, 0L, 1L, NA, 2L)), c(0:2, 2L))
   expect_identical(bitsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE), c(0:2, 2L, NA))
+})
+
+test_that("bit_in works", {
+  x = 1:5
+  y = 3:6
+  x_na = c(x, NA)
+  y_na = c(y, NA)
+
+  expect_identical(bit_in(x, y), as.bit(x %in% y))
+  expect_identical(bit_in(y, x), as.bit(y %in% x))
+  expect_identical(bit_in(x_na, y), as.bit(x_na %in% y))
+  expect_identical(bit_in(y, x), as.bit(y %in% x_na))
+  expect_identical(bit_in(x, y_na), as.bit(x %in% y_na))
+  expect_identical(bit_in(y_na, x), as.bit(y_na %in% x))
+  expect_identical(bit_in(x_na, y_na), as.bit(x_na %in% y_na))
+  expect_identical(bit_in(y_na, x_na), as.bit(y_na %in% x_na))
 })

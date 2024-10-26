@@ -1,6 +1,3 @@
-library("testthat")
-library("bit")
-
 test_that("intisasc is correct", {
   expect_true(intisasc(c(as.integer(NA,NA)), "none"))
   expect_true(intisasc(c(NA,1L), "none"))
