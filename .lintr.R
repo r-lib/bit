@@ -35,6 +35,5 @@ linters = all_linters(
   spaces_inside_linter = NULL,
   spaces_left_parentheses_linter = NULL,
   todo_comment_linter = NULL,
-  undesirable_function_linter = NULL,
   unreachable_code_linter = NULL
 )
