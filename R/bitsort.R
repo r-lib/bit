@@ -7,12 +7,12 @@
 #'
 #' @param x an integer vector
 #'
-#' @return an integer vector with three elements \describe{
-#'   \item{ 1 }{ min integer }
-#'   \item{ 2 }{ max integer }
-#'   \item{ 3 }{ number of NAs }
-#'   }
-#' @seealso \code{\link{range_nanozero}} and \code{\link{range_sortna}}
+#' @return an integer vector with three elements:
+#'   1. min integer
+#'   2. max integer
+#'   3. number of NAs
+#'
+#' @seealso [range_nanozero()] and [range_sortna()]
 #'
 #' @examples
 #' range_na(c(0L,1L,2L,NA))
@@ -27,12 +27,12 @@ range_na <- function(x){
 #'
 #' @param x an integer vector
 #'
-#' @return an integer vector without zeros and with an attribute \code{\link{range_na}}  with three elements \describe{
-#'   \item{ 1 }{ min integer }
-#'   \item{ 2 }{ max integer }
-#'   \item{ 3 }{ number of NAs }
-#'   }
-#' @seealso \code{\link{range_na}} and \code{\link{range_sortna}}
+#' @return an integer vector without zeros and with an attribute [range_na()]  with three
+#'   elements:
+#'   1. min integer
+#'   2. max integer
+#'   3. number of NAs
+#' @seealso [range_na()] and [range_sortna()]
 #'
 #' @examples
 #' range_nanozero(c(0L,1L,2L,NA))
@@ -45,20 +45,22 @@ range_nanozero <- function(x){
 
 #' Prepare for sorting and get range, number of NAs and unsortedness
 #'
-#' In one pass over the vector \code{NA}s are treated according to parameter
-#' \code{na.last} exactly like \code{\link{sort}} does, the \code{\link{range}},
-#' number of \code{NA}s and unsortedness is determined.
+#' In one pass over the vector `NA`s are treated according to parameter
+#' `na.last` exactly like [sort()] does, the [range()],
+#' number of `NA`s and unsortedness is determined.
 #'
 #' @param x an integer vector
 #' @inheritParams bit_sort
 #'
-#' @return an integer vector with \code{NA}s are treated and an \code{attribute} \code{\link{range_na}}  with four elements \describe{
-#'   \item{ 1 }{ min integer }
-#'   \item{ 2 }{ max integer }
-#'   \item{ 3 }{ number of NAs }
-#'   \item{ 3 }{ 0 for sorted vector and 1 for \code{\link{is.unsorted}}  }
-#'   }
-#' @seealso \code{\link{range_na}} and \code{\link{range_nanozero}}
+#' @return an integer vector with `NA`s are treated and an `attribute` [range_na()]  with
+#'   four elements:
+#'
+#'   1. min integer
+#'   2. max integer
+#'   3. number of NAs
+#'   3. 0 for sorted vector and 1 for [is.unsorted()]
+#'
+#' @seealso [range_na()] and [range_nanozero()]
 #'
 #' @examples
 #' range_sortna(c(0L,1L,NA,2L))
@@ -77,8 +79,8 @@ range_sortna <- function(x, decreasing = FALSE, na.last=NA){
 
 #' Low-level sorting: binary quicksort
 #'
-#' In one pass over the vector \code{NA}s are handled according to parameter
-#' \code{na.last} by \code{\link{range_sortna}}, then, if the vector is unsorted,
+#' In one pass over the vector `NA`s are handled according to parameter
+#' `na.last` by [range_sortna()], then, if the vector is unsorted,
 #' binary quicksort is invoked.
 #'
 #' @param x an integer vector
@@ -108,8 +110,8 @@ quicksort2 <- function(x, na.last=NA){
 
 #' Low-level sorting: threeway quicksort
 #'
-#' In one pass over the vector \code{NA}s are handled according to parameter
-#' \code{na.last} by \code{\link{range_sortna}}, then, if the vector is unsorted,
+#' In one pass over the vector `NA`s are handled according to parameter
+#' `na.last` by [range_sortna()], then, if the vector is unsorted,
 #' threeway quicksort is invoked.
 #'
 #' @param x an integer vector
@@ -140,8 +142,8 @@ quicksort3 <- function(x, na.last=NA){
 
 #' Low-level sorting: counting sort
 #'
-#' In one pass over the vector \code{NA}s are handled according to parameter
-#' \code{na.last} by \code{\link{range_sortna}}, then, if the vector is unsorted,
+#' In one pass over the vector `NA`s are handled according to parameter
+#' `na.last` by [range_sortna()], then, if the vector is unsorted,
 #' counting sort is invoked.
 #'
 #' @param x an integer vector
@@ -171,12 +173,13 @@ countsort <- function(x, na.last=NA){
 
 #' Low-level sorting: bit sort
 #'
-#' In one pass over the vector \code{NA}s are handled according to parameter
-#' \code{na.last} by \code{\link{range_sortna}}, then, if the vector is unsorted,
+#' In one pass over the vector `NA`s are handled according to parameter
+#' `na.last` by [range_sortna()], then, if the vector is unsorted,
 #' bit sort is invoked.
 #'
 #' @param x an integer vector
-#' @param depth an integer scalar giving the number of bit-passed before switching to quicksort
+#' @param depth an integer scalar giving the number of bit-passed before switching to
+#'   quicksort
 #' @inheritParams bit_sort
 #'
 #' @return a sorted vector
@@ -302,15 +305,15 @@ bitsort <- function(x, na.last=NA, depth=1){
 #' range using a bit vector, sorts the rest and merges; if no, falls back to quicksort.
 #'
 #' @param x an integer vector
-#' @param decreasing  (currently only \code{FALSE} is supported)
-#' @param na.last \code{NA} removes NAs, \code{FALSE} puts NAs at the beginning,
-#'   \code{TRUE} puts NAs at the end
-#' @param has.dup TRUE (the default) assumes that \code{x} might have
-#'   duplicates, set to \code{FALSE} if duplicates are impossible
+#' @param decreasing  (currently only `FALSE` is supported)
+#' @param na.last `NA` removes NAs, `FALSE` puts NAs at the beginning,
+#'   `TRUE` puts NAs at the end
+#' @param has.dup TRUE (the default) assumes that `x` might have
+#'   duplicates, set to `FALSE` if duplicates are impossible
 #'
 #' @return a sorted vector
-#' @seealso \code{\link{sort}}, \code{\link{ramsort}},
-#'   \code{\link{bit_sort_unique}}
+#' @seealso [sort()], [ramsort()],
+#'   [bit_sort_unique()]
 #'
 #' @examples
 #' bit_sort(c(2L,1L,NA,NA,1L,2L))
@@ -361,20 +364,24 @@ bit_sort <- function(x, decreasing = FALSE, na.last=NA, has.dup = TRUE){
 
 #' bit sort unique
 #'
-#' fast combination of \code{\link{sort}} and \code{\link{unique}} for integers
+#' fast combination of [sort()] and [unique()] for integers
 #'
 #' determines the range of the integers and checks if the density justifies use
-#' of a bit vector; if yes, creates the result using a bit vector; if no, falls back to \code{sort(unique())}
+#' of a bit vector; if yes, creates the result using a bit vector; if no, falls back to
+#'   `sort(unique())`
 #'
 #' @param x an integer vector
-#' @param decreasing \code{FALSE} (ascending) or \code{TRUE} (descending)
-#' @param na.last \code{NA} removes NAs, \code{FALSE} puts NAs at the beginning, \code{TRUE} puts NAs at the end
-#' @param has.dup TRUE (the default) assumes that \code{x} might have duplicates, set to \code{FALSE} if duplicates are impossible
-#' @param range_na \code{NULL} calls \code{\link{range_na}}, optionally the result of \code{\link{range_na}} can be given here to avoid calling it again
+#' @param decreasing `FALSE` (ascending) or `TRUE` (descending)
+#' @param na.last `NA` removes NAs, `FALSE` puts NAs at the beginning, `TRUE` puts NAs at
+#'   the end
+#' @param has.dup TRUE (the default) assumes that `x` might have duplicates, set to
+#'   `FALSE` if duplicates are impossible
+#' @param range_na `NULL` calls [range_na()], optionally the result of [range_na()] can be
+#'   given here to avoid calling it again
 #'
 #' @return a sorted unique integer vector
-#' @seealso \code{\link{sort}}, \code{\link{unique}},
-#'   \code{\link{bit_sort}}, \code{\link{bit_unique}}
+#' @seealso [sort()], [unique()],
+#'   [bit_sort()], [bit_unique()]
 #'
 #' @examples
 #' bit_sort_unique(c(2L,1L,NA,NA,1L,2L))
@@ -424,21 +431,21 @@ bit_sort_unique <- function(x, decreasing = FALSE, na.last=NA, has.dup=TRUE, ran
 }
 
 
-#' bit \%in\%
+#' bit %in%
 #'
-#' fast \code{\link{\%in\%}} for integers
+#' fast [`%in%`][match] for integers
 #'
 #' determines the range of the integers and checks if the density justifies use
-#' of a bit vector; if yes, maps \code{x} or \code{table} -- whatever is smaller
-#' -- into a bit vector and searches the other of \code{table} or \code{x} in
-#' the it vector; if no, falls back to \code{\link{\%in\%}}
+#' of a bit vector; if yes, maps `x` or `table` -- whatever is smaller
+#' -- into a bit vector and searches the other of `table` or `x` in
+#' the it vector; if no, falls back to [`%in%`][match]
 #'
 #' @param x an integer vector of values to be looked-up
 #' @param table an integer vector used as lookup-table
-#' @param retFUN a function that coerces \code{\link{bit}} and \code{\link{logical}} vectors
+#' @param retFUN a function that coerces [bit()] and [logical()] vectors
 #'
-#' @return a boolean vector coerced to \code{retFUN}
-#' @seealso \code{\link{\%in\%}}
+#' @return a boolean vector coerced to `retFUN`
+#' @seealso [`%in%`][match]
 #' @examples
 #' bit_in(1:2, 2:3)
 #' bit_in(1:2, 2:3, retFUN=as.logical)
@@ -473,27 +480,28 @@ bit_in <- function(x, table, retFUN=as.bit){
 
 #' bit unique and duplicated
 #'
-#' Fast versions of \code{\link{unique}}, \code{\link{duplicated}} ,
-#' \code{\link{anyDuplicated}} and \code{sum(duplicated(x))} for integers.
+#' Fast versions of [unique()], [duplicated()] ,
+#' [anyDuplicated()] and `sum(duplicated(x))` for integers.
 #'
 #' determines the range of the integers and checks if the density justifies use
 #' of a bit vector; if yes, uses a bit vector for finding duplicates; if no,
-#' falls back to \code{\link{unique}}, \code{\link{duplicated}}, \code{\link{anyDuplicated}} and \code{sum(duplicated(x))}
+#' falls back to [unique()], [duplicated()], [anyDuplicated()] and `sum(duplicated(x))`
 #'
 #' @name bit_unidup
 #' @param x an integer vector
-#' @param na.rm \code{NA} treats NAs like other integers, \code{TRUE} treats
-#'   \emph{all} NAs as duplicates, \code{FALSE} treats \emph{no} NAs as
+#' @param na.rm `NA` treats NAs like other integers, `TRUE` treats
+#'   _all_ NAs as duplicates, `FALSE` treats _no_ NAs as
 #'   duplicates
 #' @inheritParams bit_in
 #' @inheritParams bit_sort_unique
 #'
 #' @return
-#'   \code{bit_unique} returns a vector of unique integers, \cr
-#'   \code{bit_duplicated} returns a boolean vector coerced to \code{retFUN}, \cr
-#'   \code{bit_anyDuplicated} returns the position of the first duplicate (or zero if no duplicates) \cr
-#'   \code{bit_sumDuplicated} returns the number of duplicated values (as.integer)
-#' @seealso \code{\link{bit_sort_unique}}
+#'   - `bit_unique` returns a vector of unique integers,
+#'   - `bit_duplicated` returns a boolean vector coerced to `retFUN`,
+#'   - `bit_anyDuplicated` returns the position of the first duplicate (or zero if no
+#'      duplicates)
+#'   - `bit_sumDuplicated` returns the number of duplicated values (as.integer)
+#' @seealso [bit_sort_unique()]
 #'
 #' @examples
 #' bit_unique(c(2L,1L,NA,NA,1L,2L))
@@ -646,21 +654,21 @@ bit_sumDuplicated <- function(x, na.rm = NA, range_na=NULL){
 
 #' bit set operations
 #'
-#' Fast versions of \code{\link{union}}, \code{\link{intersect}},
-#' \code{\link{setdiff}}, symmetric difference and \code{\link{setequal}}
+#' Fast versions of [union()], [intersect()],
+#' [setdiff()], symmetric difference and [setequal()]
 #' for integers.
 #'
 #' determines the range of the integers and checks if the density justifies use
 #' of a bit vector; if yes, uses a bit vector for finding duplicates; if no,
-#' falls back to \code{\link{union}}, \code{\link{intersect}},
-#' \code{\link{setdiff}}, \code{union(setdiff(x,y),setdiff(y,x))} and \code{\link{setequal}}
+#' falls back to [union()], [intersect()],
+#' [setdiff()], `union(setdiff(x,y),setdiff(y,x))` and [setequal()]
 #'
 #' @name bit_setops
 #' @param x an integer vector
 #' @param y an integer vector
 #'
 #' @return an integer vector
-#' @seealso \code{\link{bit_in}}, \code{\link{bit_rangediff}}
+#' @seealso [bit_in()], [bit_rangediff()]
 #'
 #' @examples
 #' bit_union(1:2, 2:3)
@@ -815,19 +823,19 @@ bit_setequal <- function(x, y){
 
 #' bit range difference
 #'
-#' Fast version of \code{setdiff(rx[1]:rx[2], y)}.
+#' Fast version of `setdiff(rx[1]:rx[2], y)`.
 #'
-#' determines the range of the integers \code{y} and checks if the density justifies use
+#' determines the range of the integers `y` and checks if the density justifies use
 #' of a bit vector; if yes, uses a bit vector for the set operation; if no,
-#' falls back to a quicksort and \code{\link{merge_rangediff}}
+#' falls back to a quicksort and [merge_rangediff()]
 #'
 #' @param y an integer vector of elements to exclude
-#' @param revx \code{FALSE} as is, \code{TRUE} to reverse the direction and sign of \code{rx}
-#' @param revy \code{FALSE} as is, \code{TRUE} to reverse the direction and sign of \code{y}
+#' @param revx `FALSE` as is, `TRUE` to reverse the direction and sign of `rx`
+#' @param revy `FALSE` as is, `TRUE` to reverse the direction and sign of `y`
 #' @inheritParams merge_rev
 #'
 #' @return an integer vector
-#' @seealso \code{\link{bit_setdiff}}, \code{\link{merge_rangediff}}
+#' @seealso [bit_setdiff()], [merge_rangediff()]
 #'
 #' @examples
 #' bit_rangediff(c(1L,6L), c(3L,4L))

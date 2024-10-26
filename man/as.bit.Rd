@@ -31,11 +31,11 @@
 as.bit(x = NULL, ...)
 }
 \arguments{
-\item{x}{an object of class \code{\link{bit}}, \code{\link{logical}},
-\code{\link{integer}}, \code{\link{bitwhich}} or an integer from
-\code{\link{as.which}} or a boolean \code{\link[ff:vmode]{ff}}}
+\item{x}{an object of class \code{\link[=bit]{bit()}}, \code{\link[=logical]{logical()}},
+\code{\link[=integer]{integer()}}, \code{\link[=bitwhich]{bitwhich()}} or an integer from
+\code{\link[=as.which]{as.which()}} or a boolean \code{\link[ff:vmode]{ff}}}
 
-\item{\dots}{further arguments}
+\item{...}{further arguments}
 
 \item{length}{the length of the new bit vector}
 }
@@ -52,25 +52,25 @@ word in a processor register
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{as.bit(`NULL`)}: method to coerce to \code{\link{bit}} (zero length) from \code{\link{NULL}}
+\item \code{as.bit(`NULL`)}: method to coerce to \code{\link[=bit]{bit()}} (zero length) from \code{\link{NULL}}
 
-\item \code{as.bit(bit)}: method to coerce to \code{\link{bit}} from \code{\link{bit}}
+\item \code{as.bit(bit)}: method to coerce to \code{\link[=bit]{bit()}} from \code{\link[=bit]{bit()}}
 
-\item \code{as.bit(logical)}: method to coerce to \code{\link{bit}} from \code{\link{logical}}
+\item \code{as.bit(logical)}: method to coerce to \code{\link[=bit]{bit()}} from \code{\link[=logical]{logical()}}
 
-\item \code{as.bit(integer)}: method to coerce to \code{\link{bit}} from
-\code{\link{integer}} (\code{0L} and \code{NA} become \code{FALSE},
+\item \code{as.bit(integer)}: method to coerce to \code{\link[=bit]{bit()}} from
+\code{\link[=integer]{integer()}} (\code{0L} and \code{NA} become \code{FALSE},
 everthing else becomes \code{TRUE})
 
-\item \code{as.bit(double)}: method to coerce to \code{\link{bit}} from
-\code{\link{double}} (\code{0} and \code{NA} become \code{FALSE}, everthing
+\item \code{as.bit(double)}: method to coerce to \code{\link[=bit]{bit()}} from
+\code{\link[=double]{double()}} (\code{0} and \code{NA} become \code{FALSE}, everthing
 else becomes \code{TRUE})
 
-\item \code{as.bit(bitwhich)}: method to coerce to \code{\link{bit}} from \code{\link{bitwhich}}
+\item \code{as.bit(bitwhich)}: method to coerce to \code{\link[=bit]{bit()}} from \code{\link[=bitwhich]{bitwhich()}}
 
-\item \code{as.bit(which)}: method to coerce to \code{\link{bit}} from \code{\link[=as.which]{which}}
+\item \code{as.bit(which)}: method to coerce to \code{\link[=bit]{bit()}} from \code{\link[=as.which]{which()}}
 
-\item \code{as.bit(ri)}: method to coerce to \code{\link{bit}} from \code{\link{ri}}
+\item \code{as.bit(ri)}: method to coerce to \code{\link[=bit]{bit()}} from \code{\link[=ri]{ri()}}
 
 }}
 \note{
@@ -86,8 +86,8 @@ as.bit(c(FALSE, NA, TRUE))
 
 }
 \seealso{
-\code{\link{CoercionToStandard}}, \code{\link{as.booltype}}, \code{\link{as.bit}}, \code{\link{as.bitwhich}}
-, \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
+\code{\link{CoercionToStandard}}, \code{\link[=as.booltype]{as.booltype()}}, \code{\link[=as.bit]{as.bit()}},
+\code{\link[=as.bitwhich]{as.bitwhich()}} , \code{\link[=as.which]{as.which()}}, \code{\link[=as.ri]{as.ri()}}, \code{\link[ff:as.hi]{ff::as.hi()}},  \code{\link[ff:as.ff]{ff::as.ff()}}
 }
 \author{
 Jens Oehlschlägel

@@ -59,14 +59,14 @@ keyorder(x, i, ...)
 keysortorder(x, i, ...)
 }
 \arguments{
-\item{x}{a vector to be sorted by \code{\link{ramsort}} and
-\code{\link{ramsortorder}}, i.e. the output of \code{\link{sort}}}
+\item{x}{a vector to be sorted by \code{\link[=ramsort]{ramsort()}} and
+\code{\link[=ramsortorder]{ramsortorder()}}, i.e. the output of \code{\link[=sort]{sort()}}}
 
-\item{\dots}{further arguments to the sorting methods}
+\item{...}{further arguments to the sorting methods}
 
-\item{i}{integer positions to be modified by \code{\link{ramorder}} and
-\code{\link{ramsortorder}}, default is 1:n, in this case the output is
-similar to \code{\link{order}}}
+\item{i}{integer positions to be modified by \code{\link[=ramorder]{ramorder()}} and
+\code{\link[=ramsortorder]{ramsortorder()}}, default is 1:n, in this case the output is
+similar to \code{\link[=order]{order()}}}
 }
 \value{
 These functions return the number of \code{NAs} found or assumed
@@ -100,44 +100,34 @@ both \code{x} and \code{i} You as the user are responsible to create copies
 of the input data 'x' and 'i' if you need non-modified versions.
 }
 \section{Index of implemented methods}{
- \tabular{rrl}{ \bold{generic} \tab
-\bold{ff} \tab \bold{bit64} \cr \code{ramsort} \tab
-\code{\link[ff]{ramsort.default}} \tab
-\code{\link[bit64]{ramsort.integer64}} \cr \code{shellsort} \tab
-\code{\link[ff:ramsort.default]{shellsort.default}} \tab
-\code{\link[bit64:ramsort.integer64]{shellsort.integer64}} \cr \code{quicksort} \tab \tab
-\code{\link[bit64:ramsort.integer64]{quicksort.integer64}} \cr \code{mergesort} \tab
-\code{\link[ff:ramsort.default]{mergesort.default}} \tab
-\code{\link[bit64:ramsort.integer64]{mergesort.integer64}} \cr \code{radixsort} \tab
-\code{\link[ff:ramsort.default]{radixsort.default}} \tab
-\code{\link[bit64:ramsort.integer64]{radixsort.integer64}} \cr \code{keysort} \tab
-\code{\link[ff:ramsort.default]{keysort.default}} \tab \cr \cr \bold{generic} \tab \bold{ff}
-\tab \bold{bit64} \cr \code{ramorder} \tab
-\code{\link[ff]{ramorder.default}} \tab
-\code{\link[bit64:ramsort.integer64]{ramorder.integer64}} \cr \code{shellorder} \tab
-\code{\link[ff:ramorder.default]{shellorder.default}} \tab
-\code{\link[bit64:ramsort.integer64]{shellorder.integer64}} \cr \code{quickorder} \tab \tab
-\code{\link[bit64:ramsort.integer64]{quickorder.integer64}} \cr \code{mergeorder} \tab
-\code{\link[ff:ramorder.default]{mergeorder.default}} \tab
-\code{\link[bit64:ramsort.integer64]{mergeorder.integer64}} \cr \code{radixorder} \tab
-\code{\link[ff:ramorder.default]{radixorder.default}} \tab
-\code{\link[bit64:ramsort.integer64]{radixorder.integer64}} \cr \code{keyorder} \tab
-\code{\link[ff:ramorder.default]{keyorder.default}} \tab \cr \cr \bold{generic} \tab
-\bold{ff} \tab \bold{bit64} \cr \code{ramsortorder} \tab \tab
-\code{\link[bit64:ramsort.integer64]{ramsortorder.integer64}} \cr \code{shellsortorder} \tab
-\tab \code{\link[bit64:ramsort.integer64]{shellsortorder.integer64}} \cr \code{quicksortorder}
-\tab \tab \code{\link[bit64:ramsort.integer64]{quicksortorder.integer64}} \cr
-\code{mergesortorder} \tab \tab
-\code{\link[bit64:ramsort.integer64]{mergesortorder.integer64}} \cr \code{radixsortorder} \tab
-\tab \code{\link[bit64:ramsort.integer64]{radixsortorder.integer64}} \cr \code{keysortorder}
-\tab \tab \cr }
+\tabular{rrl}{
+   \strong{generic} \tab \strong{ff} \tab \strong{bit64} \cr
+   \code{ramsort} \tab \code{\link[ff:ramsort.default]{ff::ramsort.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::ramsort.integer64()}} \cr
+   \code{shellsort} \tab \code{\link[ff:ramsort.default]{ff::shellsort.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::shellsort.integer64()}} \cr
+   \code{quicksort} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::quicksort.integer64()}} \cr
+   \code{mergesort} \tab \code{\link[ff:ramsort.default]{ff::mergesort.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::mergesort.integer64()}} \cr
+   \code{radixsort} \tab \code{\link[ff:ramsort.default]{ff::radixsort.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::radixsort.integer64()}} \cr
+   \code{keysort} \tab \code{\link[ff:ramsort.default]{ff::keysort.default()}} \tab  \cr
+   \code{ramorder} \tab \code{\link[ff:ramorder.default]{ff::ramorder.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::ramorder.integer64()}} \cr
+   \code{shellorder} \tab \code{\link[ff:ramorder.default]{ff::shellorder.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::shellorder.integer64()}} \cr
+   \code{quickorder} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::quickorder.integer64()}} \cr
+   \code{mergeorder} \tab \code{\link[ff:ramorder.default]{ff::mergeorder.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::mergeorder.integer64()}} \cr
+   \code{radixorder} \tab \code{\link[ff:ramorder.default]{ff::radixorder.default()}} \tab \code{\link[bit64:ramsort.integer64]{bit64::radixorder.integer64()}} \cr
+   \code{keyorder} \tab \code{\link[ff:ramorder.default]{ff::keyorder.default()}} \tab  \cr
+   \code{ramsortorder} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::ramsortorder.integer64()}} \cr
+   \code{shellsortorder} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::shellsortorder.integer64()}} \cr
+   \code{quicksortorder} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::quicksortorder.integer64()}} \cr
+   \code{mergesortorder} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::mergesortorder.integer64()}} \cr
+   \code{radixsortorder} \tab  \tab \code{\link[bit64:ramsort.integer64]{bit64::radixsortorder.integer64()}} \cr
+   \code{keysortorder} \tab  \tab  \cr
+}
 }
 
 \seealso{
-\code{\link{sort}} and \code{\link{order}} in base R, \code{\link{bitsort}} for faster inteer sorting
+\code{\link[=sort]{sort()}} and \code{\link[=order]{order()}} in base R, \code{\link[=bitsort]{bitsort()}} for faster inteer sorting
 }
 \author{
-Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschlägel \href{mailto:Jens.Oehlschlaegel@truecluster.com}{Jens.Oehlschlaegel@truecluster.com}
 }
 \keyword{arith}
 \keyword{manip}

@@ -12,19 +12,19 @@ clone(x, ...)
 \arguments{
 \item{x}{\code{x} an R object}
 
-\item{\dots}{further arguments to the generic}
+\item{...}{further arguments to the generic}
 }
 \value{
 an object that is a deep copy of x
 }
 \description{
-\command{clone} physically duplicates objects and can additionally change
+\code{clone} physically duplicates objects and can additionally change
 some features, e.g. length.
 }
 \details{
-\command{clone} is generic.  \command{clone.default} handles ram objects. 
-Further methods are provided in package 'ff'. 
-\command{still.identical} returns TRUE if the two atomic arguments still
+\code{clone} is generic.  \code{clone.default} handles ram objects.
+Further methods are provided in package 'ff'.
+\code{still.identical} returns TRUE if the two atomic arguments still
 point to the same memory.
 }
 \section{Methods (by class)}{
@@ -45,7 +45,7 @@ point to the same memory.
 
 }
 \seealso{
-\code{clone.ff}, \code{\link{copy_vector}}
+\code{clone.ff}, \code{\link[=copy_vector]{copy_vector()}}
 }
 \author{
 Jens Oehlschlägel

@@ -7,7 +7,7 @@
 \method{as.character}{bit}(x, ...)
 }
 \arguments{
-\item{x}{a \code{\link{bit}} vector}
+\item{x}{a \code{\link[=bit]{bit()}} vector}
 
 \item{...}{ignored}
 }

@@ -13,10 +13,10 @@
 \method{c}{bitwhich}(...)
 }
 \arguments{
-\item{\dots}{\code{\link{booltype}} vectors}
+\item{...}{\code{\link[=booltype]{booltype()}} vectors}
 }
 \value{
-a vector with the lowest input \code{\link{booltype}} (but not lower than\code{\link{logical}})
+a vector with the lowest input \code{\link[=booltype]{booltype()}} (but not lower than\code{\link[=logical]{logical()}})
 }
 \description{
 Creating new boolean vectors by concatenating boolean vectors
@@ -32,7 +32,7 @@ Creating new boolean vectors by concatenating boolean vectors
 
 }
 \seealso{
-\code{\link{c}}, \code{\link{bit}} , \code{\link{bitwhich}},  , \code{\link{which}}
+\code{\link[=c]{c()}}, \code{\link[=bit]{bit()}} , \code{\link[=bitwhich]{bitwhich()}},  , \code{\link[=which]{which()}}
 }
 \author{
 Jens Oehlschlägel

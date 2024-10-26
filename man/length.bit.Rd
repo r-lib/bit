@@ -19,7 +19,7 @@
 \method{length}{ri}(x)
 }
 \arguments{
-\item{x}{a \code{\link{bit}}, \code{\link{bitwhich}} or \code{\link{ri}}
+\item{x}{a \code{\link[=bit]{bit()}}, \code{\link[=bitwhich]{bitwhich()}} or \code{\link[=ri]{ri()}}
 object}
 
 \item{value}{the new number of bits}
@@ -28,24 +28,27 @@ object}
 the length A bit vector with the new length
 }
 \description{
-Query the number of bits in a \code{\link{bit}} vector or change the number
-of bits in a bit vector. \cr Query the number of bits in a
-\code{\link{bitwhich}} vector or change the number of bits in a bit vector.
-\cr
+Query the number of bits in a \code{\link[=bit]{bit()}} vector or change the number
+of bits in a bit vector.
+Query the number of bits in a bitwhich()] vector or change the number of bits in a bit
+vector.
 }
 \details{
 NOTE that the length does NOT reflect the number of selected (\code{TRUE})
 bits, it reflects the sum of both, \code{TRUE} and \code{FALSE} bits.
-Increasing the length of a \code{\link{bit}} object will set new bits to
+Increasing the length of a \code{\link[=bit]{bit()}} object will set new bits to
 \code{FALSE}.  The behaviour of increasing the length of a
-\code{\link{bitwhich}} object is different and depends on the content of the
-object: \itemize{ 
+\code{\link[=bitwhich]{bitwhich()}} object is different and depends on the content of the
+object:
+\itemize{
 \item TRUE -- all included, new bits are set to \code{TRUE}
 \item positive integers -- some included, new bits are set to \code{FALSE}
 \item negative integers -- some excluded, new bits are set to \code{TRUE}
-\item FALSE -- all excluded:, new bits are set to \code{FALSE} } Decreasing the
-length of bit or bitwhich removes any previous information about the status
-bits above the new length.
+\item FALSE -- all excluded:, new bits are set to \code{FALSE}
+}
+
+Decreasing the length of bit or bitwhich removes any previous information
+about the status bits above the new length.
 }
 \examples{
 
@@ -134,8 +137,8 @@ bits above the new length.
 
 }
 \seealso{
-\code{\link{length}}, \code{\link[=sum.bit]{sum}},
-\code{\link{poslength}}, \code{\link{maxindex}}
+\code{\link[=length]{length()}}, \code{\link[=sum.bit]{sum()}},
+\code{\link[=poslength]{poslength()}}, \code{\link[=maxindex]{maxindex()}}
 }
 \author{
 Jens Oehlschlägel

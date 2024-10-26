@@ -7,7 +7,7 @@
 \method{print}{bitwhich}(x, ...)
 }
 \arguments{
-\item{x}{a \code{\link{bitwhich}} object}
+\item{x}{a \code{\link[=bitwhich]{bitwhich()}} object}
 
 \item{...}{ignored}
 }

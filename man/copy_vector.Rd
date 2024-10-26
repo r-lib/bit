@@ -15,7 +15,8 @@ copy_vector(x, revx = FALSE)
 copied R vector
 }
 \description{
-Creates a true copy of the underlying C-vector -- dropping all attributes -- and optionally reverses the direction of the elements.
+Creates a true copy of the underlying C-vector -- dropping all attributes -- and
+optionally reverses the direction of the elements.
 }
 \details{
 This can be substantially faster than \code{duplicate(as.vector(unclass(x)))}
@@ -31,5 +32,5 @@ str(y)
 str(z)
 }
 \seealso{
-\code{\link{clone}}, \code{\link{still.identical}},  \code{\link{reverse_vector}}
+\code{\link[=clone]{clone()}}, \code{\link[=still.identical]{still.identical()}},  \code{\link[=reverse_vector]{reverse_vector()}}
 }

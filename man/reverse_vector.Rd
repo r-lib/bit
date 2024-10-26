@@ -16,7 +16,7 @@ a reversed vector
 Returns a reversed copy -- with attributes retained.
 }
 \details{
-This is substantially faster than \code{\link{rev}}
+This is substantially faster than \code{\link[=rev]{rev()}}
 }
 \examples{
 x <- factor(letters)
@@ -29,5 +29,5 @@ system.time(reverse_vector(x))
 }
 }
 \seealso{
-\code{\link{rev}}, \code{\link{copy_vector}}
+\code{\link[=rev]{rev()}}, \code{\link[=copy_vector]{copy_vector()}}
 }

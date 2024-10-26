@@ -29,9 +29,9 @@
 \method{[}{bitwhich}(x, i) <- value
 }
 \arguments{
-\item{x}{a \code{\link{bit}} or \code{\link{bitwhich}} object}
+\item{x}{a \code{\link[=bit]{bit()}} or \code{\link[=bitwhich]{bitwhich()}} object}
 
-\item{i}{preferrably a positive integer subscript or a \code{\link{ri}}, see text}
+\item{i}{preferrably a positive integer subscript or a \code{\link[=ri]{ri()}}, see text}
 
 \item{value}{new logical or integer values}
 }
@@ -40,18 +40,18 @@ The extractors \code{[[} and \code{[} return a logical scalar or
 vector.  The replacment functions return an object of \code{class(x)}.
 }
 \description{
-Operators acting on \code{\link{bit}} or \code{\link{bitwhich}} objects to extract or replace parts.
+Operators acting on \code{\link[=bit]{bit()}} or \code{\link[=bitwhich]{bitwhich()}} objects to extract or replace parts.
 }
 \details{
-The typical usecase for for '[' and '[<-' is subscripting with positive integers, 
-negative integers are allowed but slower, 
-as logical subscripts only scalars are allowed. 
-The subscript can be given as a \code{\link{bitwhich}} object.
-Also \code{\link{ri}} can be used as subscript.
+The typical usecase for '[' and '[<-' is subscripting with positive integers,
+negative integers are allowed but slower,
+as logical subscripts only scalars are allowed.
+The subscript can be given as a \code{\link[=bitwhich]{bitwhich()}} object.
+Also \code{\link[=ri]{ri()}} can be used as subscript.
 
-Extracting from \code{\link{bit}} and \code{\link{bitwhich}} is faster than from  \code{\link{logical}} if positive subscripts are used.
-integer subscripts make sense.  Negative subscripts are converted to
-positive ones, beware the RAM consumption.
+Extracting from \code{\link[=bit]{bit()}} and \code{\link[=bitwhich]{bitwhich()}} is faster than from  \code{\link[=logical]{logical()}} if positive
+subscripts are used. Unteger subscripts make sense.  Negative subscripts are
+converted to positive ones, beware the RAM consumption.
 }
 \examples{
 
@@ -68,7 +68,7 @@ positive ones, beware the RAM consumption.
 
 }
 \seealso{
-\code{\link{bit}}, \code{\link[base]{Extract}}
+\code{\link[=bit]{bit()}}, \link[base:Extract]{`Extract``}
 }
 \author{
 Jens Oehlschlägel

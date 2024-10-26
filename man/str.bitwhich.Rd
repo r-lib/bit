@@ -32,7 +32,7 @@
     reasons).}
 }
 \value{
-\code{\link{invisible}}
+\code{\link[=invisible]{invisible()}}
 }
 \description{
 To actually view the internal structure use \code{str(unclass(bitwhich))}

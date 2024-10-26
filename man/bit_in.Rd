@@ -11,24 +11,24 @@ bit_in(x, table, retFUN = as.bit)
 
 \item{table}{an integer vector used as lookup-table}
 
-\item{retFUN}{a function that coerces \code{\link{bit}} and \code{\link{logical}} vectors}
+\item{retFUN}{a function that coerces \code{\link[=bit]{bit()}} and \code{\link[=logical]{logical()}} vectors}
 }
 \value{
 a boolean vector coerced to \code{retFUN}
 }
 \description{
-fast \code{\link{\%in\%}} for integers
+fast \code{\link[=match]{\%in\%}} for integers
 }
 \details{
-determines the range of the integers and checks if the density justifies use 
+determines the range of the integers and checks if the density justifies use
 of a bit vector; if yes, maps \code{x} or \code{table} -- whatever is smaller
 -- into a bit vector and searches the other of \code{table} or \code{x} in
-the it vector; if no, falls back to \code{\link{\%in\%}}
+the it vector; if no, falls back to \code{\link[=match]{\%in\%}}
 }
 \examples{
 bit_in(1:2, 2:3)
 bit_in(1:2, 2:3, retFUN=as.logical)
 }
 \seealso{
-\code{\link{\%in\%}}
+\code{\link[=match]{\%in\%}}
 }

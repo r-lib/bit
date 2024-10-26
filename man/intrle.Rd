@@ -15,30 +15,38 @@ intisdesc(x, na.method = c("none", "break", "skip")[1])
 \arguments{
 \item{x}{an integer vector}
 
-\item{na.method}{one of "none","break","skip", see details. The strange defaults stem from the initial usage.}
+\item{na.method}{one of "none","break","skip", see details. The strange defaults stem
+from the initial usage.}
 }
 \value{
-\code{intrle} returns an object of class \code{\link{rle}} or NULL,
-if rle-compression is not efficient (compression factor <3 or length(x)<3).
-\cr \code{intisasc} returns one of \code{FALSE, NA, TRUE} \cr
-\code{intisdesc} returns one of \code{FALSE, TRUE} (if the input contains
-NAs, the output is undefined)
+\itemize{
+\item \code{intrle} returns an object of class \code{\link[=rle]{rle()}} or NULL, if rle-compression is not
+efficient (compression factor <3 or length(x)<3).
+\item \code{intisasc} returns one of \verb{FALSE, NA, TRUE}
+\item \code{intisdesc} returns one of \verb{FALSE, TRUE} (if the input contains NAs, the output is
+undefined)
+}
 }
 \description{
 These C-coded utilitites speed up index preprocessing considerably.
 }
 \details{
 \code{intrle} is by factor 50 faster and needs less RAM (2x its input
-vector) compared to \code{\link{rle}} which needs 9x the RAM of its input
+vector) compared to \code{\link[=rle]{rle()}} which needs 9x the RAM of its input
 vector.  This is achieved because we allow the C-code of \code{intrle} to
 break when it turns out, that rle-packing will not achieve a compression
-factor of 3 or better.  \cr \code{intisasc} is a faster version of
-\code{\link{is.unsorted}}: it checks whether \code{x} is sorted.\cr 
-\code{intisdesc} checks for being sorted descending and 
-by default default assumes that the input \code{x} contains no NAs. 
-\code{na.method="none"} treats \code{NAs} (the smallest integer) like every other integer and hence returns either \code{TRUE} or \code{FALSE}
-\code{na.method="break"} checks for \code{NAs} and returns either \code{NA} as soon as  \code{NA} is encountered. 
-\code{na.method="skip"} checks for \code{NAs} and skips over them, hence decides the return value only on the basis of non-NA values.
+factor of 3 or better.
+
+\code{intisasc} is a faster version of \code{\link[=is.unsorted]{is.unsorted()}}: it checks whether \code{x} is sorted.
+
+\code{intisdesc} checks for being sorted descending and by default default assumes that the
+input \code{x} contains no NAs.
+
+\code{na.method="none"} treats \code{NAs} (the smallest integer) like every other integer and
+hence returns either \code{TRUE} or \code{FALSE} \code{na.method="break"} checks for \code{NAs} and
+returns either \code{NA} as soon as  \code{NA} is encountered. \code{na.method="skip"} checks for
+\code{NAs} and skips over them, hence decides the return value only on the basis of
+non-NA values.
 }
 \section{Functions}{
 \itemize{
@@ -62,8 +70,8 @@ by default default assumes that the input \code{x} contains no NAs.
 
 }
 \seealso{
-\code{\link[ff]{hi}}, \code{\link{rle}}, \code{\link{is.unsorted}},
-\code{\link[ff]{is.sorted}}
+\code{\link[ff:hi]{ff::hi()}}, \code{\link[=rle]{rle()}}, \code{\link[=is.unsorted]{is.unsorted()}},
+\code{\link[ff:is.sorted]{ff::is.sorted.default()}}
 }
 \author{
 Jens Oehlschlägel

@@ -93,96 +93,122 @@ merge_lastnotin(rx, y, revx = FALSE, revy = FALSE)
 
 \item{revy}{default \code{FALSE}, set to \code{TRUE} to reverse scan parameter 'y'}
 
-\item{nomatch}{integer value returned for non-matched elements, see \code{\link{match}}}
+\item{nomatch}{integer value returned for non-matched elements, see \code{\link[=match]{match()}}}
 
-\item{method}{one of "unique", "exact" (or "all") which governs how to treat ties, see the function descriptions}
+\item{method}{one of "unique", "exact" (or "all") which governs how to treat ties, see
+the function descriptions}
 
-\item{rx}{range of integers given as \code{\link{ri}} or as a two-element \code{\link{integer}}}
+\item{rx}{range of integers given as \code{\link[=ri]{ri()}} or as a two-element \code{\link[=integer]{integer()}}}
 }
 \value{
-\code{merge_rev(x)} returns \code{-\link{rev}(x)} for \code{\link{integer}} and \code{\link{double}} and \code{!\link{rev}(x)} for \code{\link{logical}}
+\code{merge_rev(x)} returns \code{\link[=rev]{-rev(x)}} for \code{\link[=integer]{integer()}} and \code{\link[=double]{double()}} and
+\code{\link[=rev]{!rev(x)}} for \code{\link[=logical]{logical()}}
 }
 \description{
-The \code{merge_} functions allow unary and binary operations 
-on (ascending) sorted vectors of \code{link{integer}}. 
-\code{merge_rev(x)} will do in one scan what costs two scans in \code{-\link{rev}(x)}, see also \code{\link{reverse_vector}(x)}.
-Many of these \code{merge_} can optionally scan their input in reverse order (and switch the sign), 
-which again saves extra scans for calling \code{merge_rev(x)} first.
+The \code{merge_} functions allow unary and binary operations on (ascending) sorted vectors
+of \code{\link[=integer]{integer()}}.
+\code{merge_rev(x)} will do in one scan what costs two scans in \code{\link[=rev]{-rev(x)}}, see also
+\code{\link[=reverse_vector]{reverse_vector()}}.
+Many of these \code{merge_} can optionally scan their input in reverse order (and switch the
+sign), which again saves extra scans for calling \code{merge_rev(x)} first.
 }
 \details{
-These are low-level functions and hence do not check whether the set is actually sorted. 
-Note that the `merge_*` and `merge_range*` functions have no special treatment for `NA`. 
-If vectors with `NA` are sorted ith `NA` in the first positions (`na.last=FALSE`) and arguments `revx=` or `revy=` have not been used, 
-then `NAs` are treated like ordinary integers. 
-`NA` sorted elsewhere or using `revx=` or `revy=` can cause unexpected results 
-(note for example that `revx=` switches the sign on all integers but `NAs`). 
-\cr
-\cr
-The *binary* `merge_*` functions have a `method="exact"` 
-which in both sets treats consecutive occurrences of the same value as if they were different values,
-more precisely they are handled as if the identity of ties were tuples of \code{ties, rank(ties)}. 
-\code{method="exact"} delivers unique output if the input is unique, and in this case works faster than \code{method="unique"}.
+These are low-level functions and hence do not check whether the set is
+actually sorted.
+Note that the \verb{merge_*} and \verb{merge_range*} functions have no special treatment for
+\code{NA}.
+If vectors with \code{NA} are sorted ith \code{NA} in the first positions (\code{na.last=FALSE}) and
+arguments \verb{revx=} or \verb{revy=} have not been used, then \code{NAs} are treated like ordinary
+integers. \code{NA} sorted elsewhere or using \verb{revx=} or \verb{revy=} can cause unexpected
+results (note for example that \verb{revx=} switches the sign on all integers but \code{NAs}).
+
+The \emph{binary} \verb{merge_*} functions have a \code{method="exact"}
+which in both sets treats consecutive occurrences of the same value as if they were
+different values, more precisely they are handled as if the identity of ties were
+tuples of \verb{ties, rank(ties)}. \code{method="exact"} delivers unique output if the input is
+unique, and in this case works faster than \code{method="unique"}.
 }
 \section{Functions}{
 \itemize{
-\item \code{merge_match()}: returns integer positions of sorted set x in sorted set y, see \code{\link{match}(x, y, ...)}
+\item \code{merge_match()}: returns integer positions of sorted set x in sorted set y, see
+\code{\link[=match]{match(x, y, ...)}}
 
-\item \code{merge_in()}: returns logical existence of sorted set x in sorted set y, see \code{x \link{\%in\%} y}
+\item \code{merge_in()}: returns logical existence of sorted set x in sorted set y, see
+\code{\link[=match]{x \%in\% y}}
 
-\item \code{merge_notin()}: returns logical in-existence of sorted set x in sorted set y, see \code{!(x \link{\%in\%} y)}
+\item \code{merge_notin()}: returns logical in-existence of sorted set x in sorted set y, see
+\code{\link[=match]{!(x \%in\% y)}}
 
-\item \code{merge_duplicated()}: returns the duplicated status of a sorted set x, see \code{\link{duplicated}}
+\item \code{merge_duplicated()}: returns the duplicated status of a sorted set x, see
+\code{\link[=duplicated]{duplicated()}}
 
-\item \code{merge_anyDuplicated()}: returns the anyDuplicated status of a sorted set x, see \code{\link{anyDuplicated}}
+\item \code{merge_anyDuplicated()}: returns the anyDuplicated status of a sorted set x, see
+\code{\link[=anyDuplicated]{anyDuplicated()}}
 
-\item \code{merge_sumDuplicated()}: returns the sumDuplicated status of a sorted set x, see \code{\link{bit_sumDuplicated}}
+\item \code{merge_sumDuplicated()}: returns the sumDuplicated status of a sorted set x, see
+\code{\link[=bit_sumDuplicated]{bit_sumDuplicated()}}
 
-\item \code{merge_unique()}: returns unique elements of sorted set x, see \code{\link{unique}}
+\item \code{merge_unique()}: returns unique elements of sorted set x, see \code{\link[=unique]{unique()}}
 
 \item \code{merge_union()}: returns union of two sorted sets.
-Default \code{method='unique'} returns a unique sorted set, see \code{\link{union}}; 
-\code{method='exact'} returns a sorted set with the maximum number of ties in either input set;
-\code{method='all'} returns a sorted set with the sum of ties in both input sets.
+Default \code{method='unique'} returns a unique sorted set, see \code{\link[=union]{union()}};
+\code{method='exact'} returns a sorted set with the maximum number of ties in either
+input set; \code{method='all'} returns a sorted set with the sum of ties in both input
+sets.
 
 \item \code{merge_setdiff()}: returns sorted set x minus sorted set y
-Default \code{method='unique'} returns a unique sorted set, see \code{\link{setdiff}}; 
+Default \code{method='unique'} returns a unique sorted set, see \code{\link[=setdiff]{setdiff()}};
 \code{ethod='exact'} returns a sorted set with sum(x ties) minus sum(y ties);
 
-\item \code{merge_symdiff()}: returns those elements that are in sorted set \code{y} \code{\link{xor}} in sorted set \code{y}
-Default \code{method='unique'} returns the sorted unique set complement, see \code{\link{symdiff}}; 
-\code{method='exact'} returns a sorted set set complement with abs(sum(x ties) minus sum(y ties));
+\item \code{merge_symdiff()}: returns those elements that are in sorted set \code{y} \code{\link[=xor]{xor()}} in
+sorted set \code{y}
+Default \code{method='unique'} returns the sorted unique set complement, see \code{\link[=symdiff]{symdiff()}};
+\code{method='exact'} returns a sorted set set complement with
+\verb{abs(sum(x ties) - sum(y ties))}.
 
 \item \code{merge_intersect()}: returns the intersection of two sorted sets x and y
-Default \code{method='unique'} returns the sorted unique intersect, see \code{\link{intersect}}; 
+Default \code{method='unique'} returns the sorted unique intersect, see \code{\link[=intersect]{intersect()}};
 \code{method='exact'} returns the intersect with the minium number of ties in either set;
 
 \item \code{merge_setequal()}: returns \code{TRUE} for equal sorted sets and \code{FALSE} otherwise
-Default \code{method='unique'} compares the sets after removing ties, see \code{\link{setequal}};  
+Default \code{method='unique'} compares the sets after removing ties, see \code{\link[=setequal]{setequal()}};
 \code{method='exact'} compares the sets without removing ties;
 
-\item \code{merge_rangein()}: returns logical existence of range rx in sorted set y, see \code{\link{merge_in}}
+\item \code{merge_rangein()}: returns logical existence of range rx in sorted set y, see
+\code{\link[=merge_in]{merge_in()}}
 
-\item \code{merge_rangenotin()}: returns logical in-existence of range rx in sorted set y, see \code{\link{merge_notin}}
+\item \code{merge_rangenotin()}: returns logical in-existence of range rx in sorted set y, see
+\code{\link[=merge_notin]{merge_notin()}}
 
-\item \code{merge_rangesect()}: returns the intersection of range rx and sorted set y, see \code{\link{merge_intersect}}
+\item \code{merge_rangesect()}: returns the intersection of range rx and sorted set y, see
+\code{\link[=merge_intersect]{merge_intersect()}}
 
-\item \code{merge_rangediff()}: returns range rx minus sorted set y, see \code{\link{merge_setdiff}}
+\item \code{merge_rangediff()}: returns range rx minus sorted set y, see \code{\link[=merge_setdiff]{merge_setdiff()}}
 
-\item \code{merge_first()}: quickly returns the first element of a sorted set x (or \code{NA} if x is empty), hence \code{x[1]} or \code{merge_rev(x)[1]}
+\item \code{merge_first()}: quickly returns the first element of a sorted set x (or \code{NA} if
+x is empty), hence \code{x[1]} or \code{merge_rev(x)[1]}
 
-\item \code{merge_last()}: quickly returns the last element of a sorted set x, (or \code{NA} if x is empty), hence \code{x[n]} or \code{merge_rev(x)[n]}
+\item \code{merge_last()}: quickly returns the last element of a sorted set x, (or \code{NA} if
+x is empty), hence \code{x[n]} or \code{merge_rev(x)[n]}
 
-\item \code{merge_firstin()}: quickly returns the first common element of a range rx and a sorted set y, (or \code{NA} if the intersection is empty), hence \code{merge_first(merge_rangesect(rx,y))}
+\item \code{merge_firstin()}: quickly returns the first common element of a range rx and a
+sorted set y, (or \code{NA} if the intersection is empty), hence
+\code{merge_first(merge_rangesect(rx,y))}
 
-\item \code{merge_lastin()}: quickly returns the last common element of a range rx and a sorted set y, (or \code{NA} if the intersection is empty), hence \code{merge_last(merge_rangesect(rx,y))}
+\item \code{merge_lastin()}: quickly returns the last common element of a range rx and a
+sorted set y, (or \code{NA} if the intersection is empty), hence
+\code{merge_last(merge_rangesect(rx,y))}
 
-\item \code{merge_firstnotin()}: quickly returns the first element of a range rx which is not in a sorted set y (or \code{NA} if all rx are in y), hence \code{merge_first(merge_rangediff(rx,y))}
+\item \code{merge_firstnotin()}: quickly returns the first element of a range rx which is not in a
+sorted set y (or \code{NA} if all rx are in y), hence \code{merge_first(merge_rangediff(rx,y))}
 
-\item \code{merge_lastnotin()}: quickly returns the last element of a range rx which is not in a sorted set y (or \code{NA} if all rx are in y), hence \code{merge_last(merge_rangediff(rx,y))}
+\item \code{merge_lastnotin()}: quickly returns the last element of a range rx which is not in a
+sorted set y (or \code{NA} if all rx are in y), hence \code{merge_last(merge_rangediff(rx,y))}
 
 }}
 \note{
-xx OPTIMIZATION OPPORTUNITY These are low-level functions could be optimized with initial binary search (not findInterval, which coerces to double).
+xx OPTIMIZATION OPPORTUNITY These are low-level functions could be optimized with
+initial binary search (not findInterval, which coerces to double).
 }
 \examples{
 merge_rev(1:9)

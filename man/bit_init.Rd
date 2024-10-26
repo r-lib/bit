@@ -21,8 +21,8 @@ Functions to allocate (and de-allocate) bit masks
 }
 \details{
 The C-code operates with bit masks.  The memory for these is allocated
-dynamically.  \code{bit_init} is called by \code{\link{.First.lib}} and
-\code{bit_done} is called by \code{\link{.Last.lib}}.  You don't need to
+dynamically.  \code{bit_init} is called by \code{\link[=.First.lib]{.First.lib()}} and
+\code{bit_done} is called by \code{\link[=.Last.lib]{.Last.lib()}}.  You don't need to
 care about these under normal circumstances.
 }
 \examples{
@@ -32,7 +32,7 @@ care about these under normal circumstances.
 
 }
 \seealso{
-\code{\link{bit}}
+\code{\link[=bit]{bit()}}
 }
 \author{
 Jens Oehlschlägel

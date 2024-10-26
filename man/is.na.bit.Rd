@@ -10,7 +10,7 @@
 \method{is.na}{bitwhich}(x)
 }
 \arguments{
-\item{x}{a \code{\link{bit}} or  \code{\link{bitwhich}} vector}
+\item{x}{a \code{\link[=bit]{bit()}} or  \code{\link[=bitwhich]{bitwhich()}} vector}
 }
 \value{
 vector of same type with all elements \code{FALSE}
@@ -20,7 +20,7 @@ Test for NA in bit and bitwhich
 }
 \section{Functions}{
 \itemize{
-\item \code{is.na(bitwhich)}: method for \code{\link{is.na}} from \code{\link{bitwhich}}
+\item \code{is.na(bitwhich)}: method for \code{\link[=is.na]{is.na()}} from \code{\link[=bitwhich]{bitwhich()}}
 
 }}
 \examples{
@@ -28,5 +28,5 @@ is.na(bit(6))
 is.na(bitwhich(6))
 }
 \seealso{
-\code{\link{is.na}}
+\code{\link[=is.na]{is.na()}}
 }

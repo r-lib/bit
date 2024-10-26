@@ -12,23 +12,26 @@ chunk(x = NULL, ...)
 \arguments{
 \item{x}{the object along we want chunks}
 
-\item{\dots}{further arguments passed to \code{\link{chunks}}}
+\item{...}{further arguments passed to \code{\link[=chunks]{chunks()}}}
 
-\item{RECORDBYTES}{integer scalar representing the bytes needed to process a single element of the boolean vector (default 4 bytes for logical)}
+\item{RECORDBYTES}{integer scalar representing the bytes needed to process a single
+element of the boolean vector (default 4 bytes for logical)}
 
-\item{BATCHBYTES}{integer scalar limiting the number of bytes to be processed in one chunk, default from \code{getOption("ffbatchbytes")} if not null, otherwise 16777216}
+\item{BATCHBYTES}{integer scalar limiting the number of bytes to be processed in one
+chunk, default from \code{getOption("ffbatchbytes")} if not null, otherwise 16777216}
 }
 \value{
-returns a named list of \code{\link{ri}} objects 
+returns a named list of \code{\link[=ri]{ri()}} objects
 representing chunks of subscripts
 }
 \description{
-Calls \code{\link{chunks}} to create a sequence of range indexes along the object which causes the method dispatch.
+Calls \code{\link[=chunks]{chunks()}} to create a sequence of range indexes along the object which causes
+the method dispatch.
 }
 \details{
 \code{chunk} is generic, the default method is described here, other methods
 that automatically consider RAM needs are provided with package 'ff', see
-for example \code{\link[ff]{chunk.ffdf}}
+for example \code{\link[ff:chunk.ffdf]{ff::chunk.ffdf()}}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -36,23 +39,24 @@ for example \code{\link[ff]{chunk.ffdf}}
 
 }}
 \section{available methods}{
- \code{chunk.default}, \code{\link[ff:chunk.ffdf]{chunk.ff_vector}}, \code{\link[ff]{chunk.ffdf}}
+ \code{chunk.default}, \code{\link[ff:chunk.ffdf]{ff::chunk.ff_vector()}},
+\code{\link[ff:chunk.ffdf]{ff::chunk.ffdf()}}
 }
 
 \examples{
   chunk(complex(1e7))
   chunk(raw(1e7))
   chunk(raw(1e7), length=3)
-  
+
   chunks(1,10,3)
   # no longer do
   chunk(1,100,10)
   # but for bckward compatibility this works
   chunk(from=1,to=100,by=10)
-  
+
 }
 \seealso{
-\code{\link{chunks}}, \code{\link{ri}}, \code{\link[base]{seq}}, \code{\link{bbatch}}
+\code{\link[=chunks]{chunks()}}, \code{\link[=ri]{ri()}}, \code{\link[base:seq]{seq()}}, \code{\link[=bbatch]{bbatch()}}
 }
 \author{
 Jens Oehlschlägel

@@ -18,24 +18,24 @@ as.ri(x, ...)
 \item{...}{further arguments}
 }
 \value{
-an \code{\link{ri}} object
+an \code{\link[=ri]{ri()}} object
 }
 \description{
 Coerce to ri
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{as.ri(ri)}: method to coerce \code{\link{ri}} to \code{\link{ri}}
+\item \code{as.ri(ri)}: method to coerce \code{\link[=ri]{ri()}} to \code{\link[=ri]{ri()}}
 
-\item \code{as.ri(default)}: default method to coerce to \code{\link{ri}}
+\item \code{as.ri(default)}: default method to coerce to \code{\link[=ri]{ri()}}
 
 }}
 \examples{
 as.ri(c(FALSE, TRUE, FALSE, TRUE))
 }
 \seealso{
-\code{\link{CoercionToStandard}}, \code{\link{as.booltype}}, \code{\link{as.bit}}, \code{\link{as.bitwhich}}
-, \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
+\code{\link{CoercionToStandard}}, \code{\link[=as.booltype]{as.booltype()}}, \code{\link[=as.bit]{as.bit()}},
+\code{\link[=as.bitwhich]{as.bitwhich()}} , \code{\link[=as.which]{as.which()}}, \code{\link[=as.ri]{as.ri()}}, \code{\link[ff:as.hi]{ff::as.hi()}},  \code{\link[ff:as.ff]{ff::as.ff()}}
 }
 \author{
 Jens Oehlschlägel

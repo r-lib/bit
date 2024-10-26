@@ -4,12 +4,11 @@
 \alias{bit-package}
 \title{bit: Classes and methods for fast memory-efficient boolean selections}
 \description{
-Provided are classes for boolean and skewed boolean vectors, fast boolean 
-methods, fast unique and non-unique integer sorting, fast set operations on 
-sorted and unsorted sets of integers, and foundations for ff (range indices, 
+Provided are classes for boolean and skewed boolean vectors, fast boolean
+methods, fast unique and non-unique integer sorting, fast set operations on
+sorted and unsorted sets of integers, and foundations for ff (range indices,
 compression, chunked processing).
 }
 \details{
-For details view the vignettes \url{../doc/bit-usage.pdf} and
-\url{../doc/bit-performance.pdf}
+For details view the \code{vignette("bit-usage")} and \code{vignette("bit-performance")}.
 }

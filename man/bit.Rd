@@ -13,8 +13,10 @@ bit(length = 0L)
 \code{bit} returns a vector of integer sufficiently long to store 'length' bits
 }
 \description{
-Bit vectors are a boolean type wihout \code{NA} that requires by factor 32 less RAM than \code{\link{logical}}.
-For details on usage see the \href{../doc/bit-usage.html}{usage-vignette} and for details on performance see \href{../doc/bit-performance.html}{performance-vignette}
+Bit vectors are a boolean type wihout \code{NA} that requires by factor 32 less
+RAM than \code{\link[=logical]{logical()}}.
+For details on usage see \code{vignette("bit-usage")} and for details on
+performance see \code{vignette("bit-performance")}.
 }
 \examples{
 bit(12)
@@ -22,7 +24,7 @@ bit(12)
 str(bit(128))
 }
 \seealso{
-\code{\link{booltype}}, \code{\link{bitwhich}}, \code{\link{logical}}
+\code{\link[=booltype]{booltype()}}, \code{\link[=bitwhich]{bitwhich()}}, \code{\link[=logical]{logical()}}
 }
 \keyword{classes}
 \keyword{logic}

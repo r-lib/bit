@@ -19,17 +19,19 @@ are taken as endpoints, all starting at 1)}
 \code{x} are taken as endpoints, all starting at 1)}
 }
 \value{
-if \code{concat==FALSE} and \code{eval==FALSE} a list with n calls
-that generate sequences \cr if \code{concat==FALSE} and \code{eval==TRUE } a
-list with n sequences \cr if \code{concat==TRUE } and \code{eval==FALSE} a
-single call generating the concatenated sequences \cr if \code{concat==TRUE
-} and \code{eval==TRUE } an integer vector of concatentated sequences
+\itemize{
+\item if \code{concat==FALSE} and \code{eval==FALSE} a list with n calls that generate sequences
+\item if \code{concat==FALSE} and \code{eval==TRUE } a list with n sequences
+\item if \code{concat==TRUE } and \code{eval==FALSE} a single call generating the concatenated
+sequences
+\item if \code{concat==TRUE} and \code{eval==TRUE } an integer vector of concatentated sequences
+}
 }
 \description{
-\command{vecseq} returns concatenated multiple sequences
+\code{vecseq} returns concatenated multiple sequences
 }
 \details{
-This is a generalization of \code{\link{sequence}} in that you can choose
+This is a generalization of \code{\link[=sequence]{sequence()}} in that you can choose
 sequence starts other than 1 and also have options to no concat and/or
 return a call instead of the evaluated sequence.
 }
@@ -45,7 +47,7 @@ return a call instead of the evaluated sequence.
 
 }
 \seealso{
-\code{\link{:}}, \code{\link{seq}}, \code{\link{sequence}}
+\code{\link{:}}, \code{\link[=seq]{seq()}}, \code{\link[=sequence]{sequence()}}
 }
 \author{
 Angelo Canty, Jens Oehlschlägel

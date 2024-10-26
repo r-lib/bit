@@ -28,15 +28,15 @@ bit_setequal(x, y)
 an integer vector
 }
 \description{
-Fast versions of \code{\link{union}}, \code{\link{intersect}}, 
-\code{\link{setdiff}}, symmetric difference and \code{\link{setequal}}
+Fast versions of \code{\link[=union]{union()}}, \code{\link[=intersect]{intersect()}},
+\code{\link[=setdiff]{setdiff()}}, symmetric difference and \code{\link[=setequal]{setequal()}}
 for integers.
 }
 \details{
-determines the range of the integers and checks if the density justifies use 
-of a bit vector; if yes, uses a bit vector for finding duplicates; if no, 
-falls back to \code{\link{union}}, \code{\link{intersect}},
-\code{\link{setdiff}}, \code{union(setdiff(x,y),setdiff(y,x))} and \code{\link{setequal}}
+determines the range of the integers and checks if the density justifies use
+of a bit vector; if yes, uses a bit vector for finding duplicates; if no,
+falls back to \code{\link[=union]{union()}}, \code{\link[=intersect]{intersect()}},
+\code{\link[=setdiff]{setdiff()}}, \code{union(setdiff(x,y),setdiff(y,x))} and \code{\link[=setequal]{setequal()}}
 }
 \section{Functions}{
 \itemize{
@@ -60,5 +60,5 @@ bit_setequal(1:2, 2:3)
 bit_setequal(1:2, 2:1)
 }
 \seealso{
-\code{\link{bit_in}}, \code{\link{bit_rangediff}}
+\code{\link[=bit_in]{bit_in()}}, \code{\link[=bit_rangediff]{bit_rangediff()}}
 }

@@ -14,7 +14,7 @@ bit_sort(x, decreasing = FALSE, na.last = NA, has.dup = TRUE)
 \item{na.last}{\code{NA} removes NAs, \code{FALSE} puts NAs at the beginning,
 \code{TRUE} puts NAs at the end}
 
-\item{has.dup}{TRUE (the default) assumes that \code{x} might have 
+\item{has.dup}{TRUE (the default) assumes that \code{x} might have
 duplicates, set to \code{FALSE} if duplicates are impossible}
 }
 \value{
@@ -24,7 +24,7 @@ a sorted vector
 fast sorting of integers
 }
 \details{
-determines the range of the integers and checks if the density justifies use 
+determines the range of the integers and checks if the density justifies use
 of a bit vector; if yes, sorts the first occurences of each integer in the
 range using a bit vector, sorts the rest and merges; if no, falls back to quicksort.
 }
@@ -40,6 +40,6 @@ system.time(sort(x))
 }
 }
 \seealso{
-\code{\link{sort}}, \code{\link{ramsort}}, 
-  \code{\link{bit_sort_unique}}
+\code{\link[=sort]{sort()}}, \code{\link[=ramsort]{ramsort()}},
+\code{\link[=bit_sort_unique]{bit_sort_unique()}}
 }

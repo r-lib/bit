@@ -16,7 +16,8 @@ integer scalar
 Gets C length of a vector ignoring any length-methods dispatched by classes
 }
 \details{
-Queries the vector length using C-macro \code{LENGTH}, this can be substantially faster than \code{length(unclass(x))}
+Queries the vector length using C-macro \code{LENGTH}, this can be substantially faster than
+\code{length(unclass(x))}
 }
 \examples{
 length(bit(12))

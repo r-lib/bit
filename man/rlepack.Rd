@@ -28,21 +28,24 @@ rleunpack(x)
 \item{x}{in 'rlepack' an integer vector, in the other functions an object of
 class 'rlepack'}
 
-\item{\dots}{just to keep R CMD CHECK quiet (not used)}
+\item{...}{just to keep R CMD CHECK quiet (not used)}
 
 \item{pack}{FALSE to suppress packing}
 
 \item{incomparables}{just to keep R CMD CHECK quiet (not used)}
 }
 \value{
-A list with components \item{ first }{ the first element of the
-packed sequence } \item{ dat }{ either an object of class \code{\link{rle}}
-or the complete input vector \code{x} if rle-packing is not efficient }
-\item{ last }{ the last element of the packed sequence }
+A list with components:
+\itemize{
+\item first: the first element of the packed sequence
+\item dat: either an object of class \code{\link[=rle]{rle()}} or the complete input vector \code{x} if
+rle-packing is not efficient
+\item last: the last element of the packed sequence
+}
 }
 \description{
 Basic utilities for rle packing and unpacking and apropriate methods for
-\code{\link{rev}} and \code{\link{unique}}.
+\code{\link[=rev]{rev()}} and \code{\link[=unique]{unique()}}.
 }
 \examples{
 
@@ -57,8 +60,7 @@ Basic utilities for rle packing and unpacking and apropriate methods for
 
 }
 \seealso{
-\code{\link[ff]{hi}}, \code{\link{intrle}}, \code{\link{rle}},
-\code{\link{rev}}, \code{\link{unique}}
+\code{\link[ff:hi]{ff::hi()}}, \code{\link[=intrle]{intrle()}}, \code{\link[=rle]{rle()}}, \code{\link[=rev]{rev()}}, \code{\link[=unique]{unique()}}
 }
 \author{
 Jens Oehlschlägel

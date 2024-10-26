@@ -31,47 +31,49 @@
 as.which(x, ...)
 }
 \arguments{
-\item{x}{an object of classes \code{\link{bit}}, \code{\link{bitwhich}},
-\code{\link{ri}} or something on which \code{\link{which}} works}
+\item{x}{an object of classes \code{\link[=bit]{bit()}}, \code{\link[=bitwhich]{bitwhich()}},
+\code{\link[=ri]{ri()}} or something on which \code{\link[=which]{which()}} works}
 
 \item{maxindex}{the length of the boolean vector which is represented}
 
-\item{\dots}{further arguments (passed to \code{\link{which}} for the
+\item{...}{further arguments (passed to \code{\link[=which]{which()}} for the
 default method, ignored otherwise)}
 
 \item{is.unsorted}{a logical scalar indicating whether the data may be unsorted}
 
 \item{has.dup}{a logical scalar indicating whether the data may have duplicates}
 
-\item{range}{a \code{\link{ri}} or an integer vector of length==2 giving a
+\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length==2 giving a
 range restriction for chunked processing}
 }
 \value{
 a vector of class 'logical' or 'integer'
 }
 \description{
-Coercing to something like the result of which \code{\link{which}}
+Coercing to something like the result of which \code{\link[=which]{which()}}
 }
 \details{
 \code{as.which.bit} returns a vector of subscripts with class 'which'
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{as.which(which)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link[=as.which]{which}}
+\item \code{as.which(which)}: method to coerce to \code{\link[=as.which]{which()}} from
+\code{\link[=as.which]{which()}}
 
-\item \code{as.which(`NULL`)}: method to coerce to zero length \code{\link[=as.which]{which}} from \code{\link{NULL}}
+\item \code{as.which(`NULL`)}: method to coerce to zero length \code{\link[=as.which]{which()}} from
+\code{\link{NULL}}
 
-\item \code{as.which(numeric)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{numeric}}
+\item \code{as.which(numeric)}: method to coerce to \code{\link[=as.which]{which()}} from \code{\link[=numeric]{numeric()}}
 
-\item \code{as.which(integer)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{integer}}
+\item \code{as.which(integer)}: method to coerce to \code{\link[=as.which]{which()}} from \code{\link[=integer]{integer()}}
 
-\item \code{as.which(logical)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{logical}}
+\item \code{as.which(logical)}: method to coerce to \code{\link[=as.which]{which()}} from \code{\link[=logical]{logical()}}
 
-\item \code{as.which(ri)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{ri}}
+\item \code{as.which(ri)}: method to coerce to \code{\link[=as.which]{which()}} from \code{\link[=ri]{ri()}}
 
-\item \code{as.which(bit)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{bit}}
+\item \code{as.which(bit)}: method to coerce to \code{\link[=as.which]{which()}} from \code{\link[=bit]{bit()}}
 
-\item \code{as.which(bitwhich)}: method to coerce to \code{\link[=as.which]{which}} from \code{\link{bitwhich}}
+\item \code{as.which(bitwhich)}: method to coerce to \code{\link[=as.which]{which()}} from \code{\link[=bitwhich]{bitwhich()}}
 
 }}
 \examples{
@@ -86,8 +88,8 @@ Coercing to something like the result of which \code{\link{which}}
 
 }
 \seealso{
-\code{\link{CoercionToStandard}}, \code{\link{as.booltype}}, \code{\link{as.bit}}, \code{\link{as.bitwhich}}
-, \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
+\code{\link{CoercionToStandard}}, \code{\link[=as.booltype]{as.booltype()}}, \code{\link[=as.bit]{as.bit()}},
+\code{\link[=as.bitwhich]{as.bitwhich()}} , \code{\link[=as.which]{as.which()}}, \code{\link[=as.ri]{as.ri()}}, \code{\link[ff:as.hi]{ff::as.hi()}},  \code{\link[ff:as.ff]{ff::as.ff()}}
 }
 \author{
 Jens Oehlschlägel
