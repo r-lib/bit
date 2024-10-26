@@ -25,7 +25,7 @@ Sample <- c(small=1e3, big=1e6)
 #Sample <- c(small=1e1, big=1e3)
 
 pagebreak <- function() {
-  if(knitr::is_latex_output())
+  if (knitr::is_latex_output())
     "\\newpage"
   else
     '<div style="page-break-before: always;" />'
@@ -120,8 +120,7 @@ for (g in names(G)){
   }
 }
 i <- match("size", M)
-for(b in rev(names(B)))  # logical was in first position, so we do this last!
-{
+for (b in rev(names(B))) { # logical was in first position, so we do this last!
   tim[b,i,] <- 100 * tim[b,i,] / tim["logical",i,]
   tim[b,-i,] <- 100 * tim[b,-i,] / max(tim["logical",-i,], na.rm=TRUE)
 }
@@ -259,7 +258,7 @@ timsort <- array(NA_integer_
              , dim=c(M=2, G=length(G), D=length(D), N=length(Domain))
              , dimnames=list(M=M[1:2], G=G, D=D, N=names(Domain))
              )
-for(n in names(Domain)){
+for (n in names(Domain)) {
   x <- sample(Domain[[n]], Sample[[n]], replace = TRUE)
   d <- "unsorted"
   for (m in c("R","bit")){
@@ -338,7 +337,7 @@ tim <- array(NA_integer_
              , dimnames=list(M=M, U=c(unaryU,binaryU), N=names(binaryDomain), D=D)
              )
 
-for(n in names(binaryDomain)){
+for (n in names(binaryDomain)) {
   xnam <- names(binaryDomain[[n]])[1]
   ynam <- names(binaryDomain[[n]])[2]
   x <- sample(binaryDomain[[n]][1], binarySample[[n]][1], replace = FALSE)

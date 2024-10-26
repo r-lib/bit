@@ -144,7 +144,7 @@ test_that("length<-.bitwhich does set new bits according to the rules given in d
 
 test_that("c() works", {
   l <- b <- w <- list()
-  for(k in 1:12){
+  for (k in 1:12) {
     l[[k]] <- rep_len(c(FALSE,TRUE), k)
     b[[k]] <- as.bit(l[[k]])
     w[[k]] <- as.bitwhich(l[[k]])
@@ -160,11 +160,11 @@ test_that("rep() works", {
   l <- c(FALSE, TRUE)
   b <- as.bit(l)
   w <- as.bitwhich(l)
-  for(k in 1:(3*.BITS)){
+  for (k in 1:(3*.BITS)) {
     expect_identical(as.logical(rep(b, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter. Specifically testing rep().
     expect_identical(as.logical(rep(w, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter.
   }
-  for(k in 1:(2*.BITS)){
+  for (k in 1:(2*.BITS)) {
     expect_identical(as.logical(rep(b, k)),rep(l, k))
     expect_identical(as.logical(rep(w, k)),rep(l, k))
   }
@@ -177,10 +177,9 @@ test_that("NAs are coerced to FALSE", {
 })
 
 test_that("coercions work", {
-  for(i in c(FALSE, TRUE))
-    for(j in c(FALSE, TRUE))
-      for(k in c(FALSE, TRUE))
-      {
+  for (i in c(FALSE, TRUE))
+    for (j in c(FALSE, TRUE))
+      for (k in c(FALSE, TRUE)) {
         l <- c(i,j,k)
         expect_identical(as.logical(as.bit(l)), l)
         expect_identical(as.logical(as.bitwhich(l)), l)
@@ -426,18 +425,18 @@ test_that("aggregation functions work", {
     , range=range.booltype
     , summary=summary.booltype
   )
-  for(d in names(D)){
-    for (i in names(I)){
+  for (d in names(D)) {
+    for (i in names(I)) {
       x <- I[[i]](as.logical(D[[d]]))
-      for (a in names(A))if ( ! (i=="not" && a %in% c("which","ri") )){
+      for (a in names(A))if ( ! (i=="not" && a %in% c("which","ri") )) {
         y <- I[[i]](A[[a]](D[[d]]))
-        for (s in names(S1)){
+        for (s in names(S1)) {
           expect_identical(S1[[s]](x), S1[[s]](y))
         }
-        if (a != "which")for (s in names(S2)){
-            expect_identical(S2[[s]](x), S2[[s]](y))
-          }
-        if (a != "which")for (s in names(S3)){
+        if (a != "which")for (s in names(S2)) {
+          expect_identical(S2[[s]](x), S2[[s]](y))
+        }
+        if (a != "which")for (s in names(S3)) {
           expect_identical(S3[[s]](x), S3[[s]](y))
         }
       }

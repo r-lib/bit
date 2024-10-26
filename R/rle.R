@@ -221,7 +221,7 @@ anyDuplicated.rlepack <- function(x
     else if (tab[2]){
       w <- .Call(C_R_first_zero, x$dat$values)
       if (w)
-        if(w>1L)
+        if (w>1L)
           sum(x$dat$lengths[1:(w-1L)]) + 2L
         else
           2L
