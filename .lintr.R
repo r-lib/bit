@@ -16,7 +16,6 @@ linters = all_linters(
   quotes_linter = NULL,
   # TODO(#19): Activate this; it's not trivial to replace on some old R versions.
   rep_len_linter = NULL,
-  spaces_inside_linter = NULL,
   todo_comment_linter = NULL,
   unreachable_code_linter = NULL,
   # TODO(r-lib/lintr#2172): Exclude the below from vignettes/, enforce elsewhere

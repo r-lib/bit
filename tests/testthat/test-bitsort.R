@@ -21,14 +21,14 @@ test_that("bitsort function work on several inputs", {
         x <- sample(x)
       #dput(x)
 
-      range_result <- suppressWarnings( as.integer(c( range(x, na.rm=TRUE), sum(is.na(x)) )) )
+      range_result <- suppressWarnings(as.integer(c(range(x, na.rm=TRUE), sum(is.na(x)))))
       expect_identical(
         range_na(x)
       , range_result
       , label=paste0("range_na(c(", paste(x, collapse=","), "))")
       )
 
-      range_result <- suppressWarnings( as.integer(c( range(x[is.na(x) | x!=0], na.rm=TRUE), sum(is.na(x)) )) )
+      range_result <- suppressWarnings(as.integer(c(range(x[is.na(x) | x!=0], na.rm=TRUE), sum(is.na(x)))))
       expect_identical(
         attr(range_nanozero(x),"range_na")
       , range_result
