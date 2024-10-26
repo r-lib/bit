@@ -299,7 +299,11 @@ Do understand the `FALSE` above!
 The functions `booltype` and `is.booltype` diagnose the Boolean type as follows
 
 ```{r}
-data.frame(booltype=sapply(all.types, booltype), is.boolean=sapply(all.types, is.booltype), row.names=names(all.types))
+data.frame(
+  booltype=sapply(all.types, booltype),
+  is.boolean=sapply(all.types, is.booltype),
+  row.names=names(all.types)
+)
 ```
 
 Class `which` and `ri` are currently not `is.boolean` (no subscript, assignment and Boolean operators), but since it is even more specialized than `bitwhich` (assuming skew towards `TRUE`), we have ranked it as the most specialized `booltype`.

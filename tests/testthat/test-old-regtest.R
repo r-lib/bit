@@ -97,9 +97,27 @@ regtest.bit <- function(
     }
     # summary functions with integer return
     if (any(l)){
-      s <- c(min=min(as.which(l)), max=max(as.which(l)), range=range(as.which(l)), sum=sum(l), summary=c(`FALSE`=length(l)-sum(l), `TRUE`=sum(l), Min.=min(as.which(l)), Max.=max(as.which(l))))
+      s <- c(
+        min=min(as.which(l)),
+        max=max(as.which(l)),
+        range=range(as.which(l)),
+        sum=sum(l),
+        summary=c(`FALSE`=length(l)-sum(l),
+        `TRUE`=sum(l),
+        Min.=min(as.which(l)),
+        Max.=max(as.which(l)))
+      )
     }else{
-      s <- c(min=NA_integer_, max=NA_integer_, range=c(NA_integer_, NA_integer_), sum=sum(l), summary=c(`FALSE`=length(l)-sum(l), `TRUE`=sum(l), Min.=NA_integer_, Max.=NA_integer_))
+      s <- c(
+        min=NA_integer_,
+        max=NA_integer_,
+        range=c(NA_integer_, NA_integer_),
+        sum=sum(l),
+        summary=c(`FALSE`=length(l)-sum(l),
+        `TRUE`=sum(l),
+        Min.=NA_integer_,
+        Max.=NA_integer_)
+      )
     }
     s2 <- c(min=min(b), max=max(b), range=range(b), sum=sum(b), summary=summary(b))
     if (!identical(s,s2)) {
@@ -329,8 +347,16 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_error(as.bit(TRUE)[c(-1, NA)], label="NA mixed with zeros")
   expect_error(as.bitwhich(TRUE)[c(-1, NA)], label="NA mixed with zeros")
 
-  expect_identical(as.bit(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)], ignore_attr="vmode")
-  expect_identical(as.bitwhich(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)], ignore_attr="vmode")
+  expect_identical(
+    as.bit(TRUE)[c(2, 1, 0, 1, NA)],
+    TRUE[c(2, 1, 0, 1, NA)],
+    ignore_attr="vmode"
+  )
+  expect_identical(
+    as.bitwhich(TRUE)[c(2, 1, 0, 1, NA)],
+    TRUE[c(2, 1, 0, 1, NA)],
+    ignore_attr="vmode"
+  )
 
   l = FALSE
   l[0L] = TRUE
@@ -363,9 +389,29 @@ test_that("some old regression tests are also OK for bitwhich", {
   w[.BITS + 1L] = NA
   expect_identical(as.logical(w), l)
 
-  expect_identical(as.bit(rep(c(FALSE,TRUE), .BITS))[TRUE], rep(c(FALSE,TRUE), .BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
-  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), .BITS))[TRUE], rep(c(FALSE,TRUE), .BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
+  expect_identical(
+    as.bit(rep(c(FALSE,TRUE), .BITS))[TRUE],
+    rep(c(FALSE,TRUE), .BITS)[TRUE],
+    ignore_attr="vmode",
+    label="subscripting with scalar TRUE"
+  )
+  expect_identical(
+    as.bitwhich(rep(c(FALSE,TRUE), .BITS))[TRUE],
+    rep(c(FALSE,TRUE), .BITS)[TRUE],
+    ignore_attr="vmode",
+    label="subscripting with scalar TRUE"
+  )
 
-  expect_identical(as.bit(rep(c(FALSE,TRUE), .BITS))[FALSE], rep(c(FALSE,TRUE), .BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
-  expect_identical(as.bitwhich(rep(c(FALSE,TRUE), .BITS))[FALSE], rep(c(FALSE,TRUE), .BITS)[FALSE], ignore_attr="vmode", label="subscripting with scalar FALSE")
+  expect_identical(
+    as.bit(rep(c(FALSE,TRUE), .BITS))[FALSE],
+    rep(c(FALSE,TRUE), .BITS)[FALSE],
+    ignore_attr="vmode",
+    label="subscripting with scalar FALSE"
+  )
+  expect_identical(
+    as.bitwhich(rep(c(FALSE,TRUE), .BITS))[FALSE],
+    rep(c(FALSE,TRUE), .BITS)[FALSE],
+    ignore_attr="vmode",
+    label="subscripting with scalar FALSE"
+  )
 })

@@ -137,7 +137,8 @@ rlepack.integer <- function(
   n <- length(x)
   if (n>1){
     if (pack)
-      r <- intrle(diff(x))  # returns NULL if rle is inefficient, old condition was 2*length(r$lengths)<n
+      # returns NULL if rle is inefficient, old condition was 2*length(r$lengths)<n
+      r <- intrle(diff(x))
     else
       r <- NULL
     out = list(first=x[1], dat=if (is.null(r)) x else r, last=x[n])
