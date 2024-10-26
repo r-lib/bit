@@ -332,14 +332,36 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_identical(as.bit(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)], ignore_attr="vmode")
   expect_identical(as.bitwhich(TRUE)[c(2, 1, 0, 1, NA)], TRUE[c(2, 1, 0, 1, NA)], ignore_attr="vmode")
 
-  expect_identical({b <- as.bit(FALSE); b[0] <- TRUE; as.logical(b)}, {l <- FALSE; l[0] <- TRUE; l})
-  expect_identical({w <- as.bitwhich(FALSE); w[0] <- TRUE; as.logical(w)}, {l <- FALSE; l[0] <- TRUE; l})
+  l = FALSE
+  l[0L] = TRUE
 
-  expect_identical({b <- as.bit(FALSE); b[2] <- TRUE; as.logical(b)}, {l <- FALSE; l[2] <- TRUE; l})
-  expect_identical({w <- as.bitwhich(FALSE); w[2] <- TRUE; as.logical(w)}, {l <- FALSE; l[2] <- TRUE; l})
+  b = as.bit(FALSE)
+  b[0L] = TRUE
+  expect_identical(as.logical(b), l)
+  w = as.bitwhich(FALSE)
+  w[0L] = TRUE
+  expect_identical(as.logical(w), l)
 
-  expect_identical({b <- as.bit(FALSE); b[.BITS+1] <- NA; as.logical(b)}, {l <- FALSE; l[.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
-  expect_identical({w <- as.bitwhich(FALSE); w[.BITS+1] <- NA; as.logical(w)}, {l <- FALSE; l[.BITS+1] <- FALSE; l[is.na(l)]<- FALSE; l})
+  l = FALSE
+  l[2L] = TRUE
+
+  b = as.bit(FALSE)
+  bit[2L] = TRUE
+  expect_identical(as.logical(b), l)
+  w = as.bitwhich(FALSE)
+  w[2L] = TRUE
+  expect_identical(as.logical(w), l)
+
+  l = FALSE
+  l[.BITS + 1L] = FALSE
+  l[is.na(l)] = FALSE
+
+  b = as.bit(FALSE)
+  b[.BITS + 1L] = NA
+  expect_identical(as.logical(b), l)
+  w = as.bitwhich(FALSE)
+  w[.BITS + 1L] = NA
+  expect_identical(as.logical(w), l)
 
   expect_identical(as.bit(rep(c(FALSE,TRUE), .BITS))[TRUE], rep(c(FALSE,TRUE), .BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")
   expect_identical(as.bitwhich(rep(c(FALSE,TRUE), .BITS))[TRUE], rep(c(FALSE,TRUE), .BITS)[TRUE], ignore_attr="vmode", label="subscripting with scalar TRUE")

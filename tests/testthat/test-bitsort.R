@@ -35,10 +35,17 @@ test_that("bitsort function work on several inputs", {
       , label=paste0("range_na(c(", paste(x, collapse=","), ")"))
 
       for (na.last in c(NA,FALSE,TRUE)){
+        expected = range_sortna(x, na.last=na.last)
+        expected[!is.na(expected)] = 1L
+
+        actual = sort.int(x, na.last=na.last, method='quick')
+        r = range_na(actual)
+        r[4L] = is.unsorted(x, na.rm=TRUE)
+        actual[!is.na(actual)] = 1L
+        attr(actual, "range_sortna") = r
         expect_identical(
-            {y <- range_sortna(x, na.last=na.last); y[!is.na(y)] <- 1L; y}
-          , {y <- sort.int(x, na.last=na.last, method="quick"); r <- range_na(y); r[4] <- is.unsorted(x, na.rm=TRUE); y[!is.na(y)] <- 1L; attr(y, "range_sortna") <- r; y}
-          , label=paste0("range_sortna(c(", paste(x, collapse=","), "), na.last=", na.last,")")
+          expected, actual,
+          label=sprintf("range_sortna(c(%s), na.last=%s)", toString(x), na.last)
         )
 
         expect_identical(

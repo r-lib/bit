@@ -154,17 +154,23 @@ w
 Vector subscripting non-existing elements returns `NA`
 
 ```{r}
-l <- logical(3); l[6]
-b <- bit(3); b[6]
-w <- bitwhich(3); w[6]
+l <- logical(3L)
+b <- bit(3L)
+w <- bitwhich(3L)
+l[6L]
+b[6L]
+w[6L]
 ```
 
 while assigned `NA` turn into `FALSE` and assigning to a non-existing element does increase vector length
 
 ```{r}
-l[6] <- NA; l
-b[6] <- NA; b
-w[6] <- NA; w
+l[6L] <- NA
+b[6L] <- NA
+w[6L] <- NA
+l
+b
+w
 ```
 
 ---
@@ -482,9 +488,12 @@ Set operations using hash tables incur costs for populating and querying the has
 Bit vectors cannot communicate positions, hence cannot replace `match`, however they can replace the `%in%` operator:
 
 ```{r}
-set.seed(1); n <- 9
-x <- sample(n, replace=TRUE); x
-y <- sample(n, replace=TRUE); y
+set.seed(1)
+n <- 9L
+x <- sample(n, replace=TRUE)
+y <- sample(n, replace=TRUE)
+x
+y
 x %in% y
 bit_in(x,y)
 bit_in(x,y, retFUN=as.logical)
