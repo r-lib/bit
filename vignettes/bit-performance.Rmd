@@ -67,14 +67,21 @@ We compare memory consumption (n=`r format(Sample[["big"]])`) and runtime (media
 # TODO(r-lib/lintr#773): nolint as a chunk option.
 # nolint start: strings_as_factors_linter.
 knitr::kable(
-  data.frame(coin="random 50%", often="random 99%", rare="random 1%", chunk="contiguous chunk of 5%")
-  , caption="selection characteristic")
+  data.frame(
+    coin="random 50%",
+    often="random 99%",
+    rare="random 1%",
+    chunk="contiguous chunk of 5%"
+  ),
+  caption="selection characteristic"
+)
 # nolint end: strings_as_factors_linter.
 ```
 
 ```{r, echo=FALSE, results='asis'}
 B <- booltypes[c("logical","bit","bitwhich","which","ri")]
-M <- c("size", "[]", "[which]", "[which]<-TRUE", "[]<-logical", "!", "&", "|", "==", "!=", "summary")
+M <-
+  c("size", "[]", "[which]", "[which]<-TRUE", "[]<-logical", "!", "&", "|", "==", "!=", "summary")
 G <- list(
   coin = function(n)sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.5,0.5))
 , often = function(n)sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.01,0.99))
@@ -133,19 +140,40 @@ There are substantial savings in skewed filter situations:
 x <- tim[1:3,,"rare"]
 m <- rep("", ncol(x))
 m <- as.vector(rbind(m, colnames(x), m))
-dotchart(x, xlim=c(0,max(100, max(x))), labels=m, pch=c("R","b","w"), col=c("black","blue","red"), main="% size and timings in 'rare' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios")
+dotchart(x,
+  xlim=c(0,max(100, max(x))),
+  labels=m,
+  pch=c("R","b","w"),
+  col=c("black","blue","red"),
+  main="% size and timings in 'rare' scenario",
+  sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios"
+)
 ```
 
 ```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'often' scenario"}
 x <- tim[1:3,,"often"]
-dotchart(x, xlim=c(0,max(100, max(x))), labels=m, pch=c("R","b","w"), col=c("black","blue","red"), main="% size and timings in 'often' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios")
+dotchart(x,
+  xlim=c(0,max(100, max(x))),
+  labels=m,
+  pch=c("R","b","w"),
+  col=c("black","blue","red"),
+  main="% size and timings in 'often' scenario",
+  sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios"
+)
 ```
 
 Even in non-skewed situations the new booltypes are competitive:
 
 ```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'coin' scenario"}
 x <- tim[1:3,,"coin"]
-dotchart(x, xlim=c(0,max(100, max(x))), labels=m, pch=c("R","b","w"), col=c("black","blue","red"), main="% size and timings in 'coin' scenario", sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios")
+dotchart(x,
+  xlim=c(0,max(100, max(x))),
+  labels=m,
+  pch=c("R","b","w"),
+  col=c("black","blue","red"),
+  main="% size and timings in 'coin' scenario",
+  sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios"
+)
 ```
 
 Detailed tables follow.
@@ -307,11 +335,13 @@ binaryM[["R","symdiff"]] <- function(x,y)union(setdiff(x,y), setdiff(y,x))
 binaryM[["bit","symdiff"]] <- bit_symdiff
 binaryM[["merge","symdiff"]] <- merge_symdiff
 
-binaryM[["R","setequal"]] <- function(x,y)setequal(x,x)  # we compare x to x which avoids early termination and hence
+binaryM[["R","setequal"]] <-
+  function(x,y) setequal(x,x) # we compare x to x which avoids early termination
 binaryM[["bit","setequal"]] <- function(x,y)bit_setequal(x,x)
 binaryM[["merge","setequal"]] <- function(x,y)merge_setequal(x,x)
 
-binaryM[["R","setearly"]] <- function(x,y)setequal(x,y)  # we compare x to x which avoids early termination and hence
+binaryM[["R","setearly"]] <-
+  function(x,y) setequal(x,y) # we compare x to x which avoids early termination
 binaryM[["bit","setearly"]] <- function(x,y)bit_setequal(x,y)
 binaryM[["merge","setearly"]] <- function(x,y)merge_setequal(x,y)
 
@@ -332,10 +362,10 @@ unaryM[["R","sumDuplicated"]] <- function(x)sum(duplicated(x))
 unaryM[["bit","sumDuplicated"]] <- bit_sumDuplicated
 unaryM[["merge","sumDuplicated"]] <- merge_sumDuplicated
 
-tim <- array(NA_integer_
-             , dim=c(M=length(M), U=length(unaryU)+length(binaryU), N=length(binaryDomain), D=length(D))
-             , dimnames=list(M=M, U=c(unaryU,binaryU), N=names(binaryDomain), D=D)
-             )
+tim <- array(NA_integer_,
+  dim=c(M=length(M), U=length(unaryU)+length(binaryU), N=length(binaryDomain), D=length(D)),
+  dimnames=list(M=M, U=c(unaryU,binaryU), N=names(binaryDomain), D=D)
+)
 
 for (n in names(binaryDomain)) {
   xnam <- names(binaryDomain[[n]])[1]
@@ -362,25 +392,29 @@ for (n in names(binaryDomain)) {
   y <- bit_sort(y)
   d <- "sorted"
   if (length(x)==length(y))
-  for (u in unaryU){
-    for (m in M){
+  for (u in unaryU) {
+    for (m in M) {
       f <- unaryM[[m,u]]
-      if (!is.null(f)){
+      if (!is.null(f)) {
         tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
         # now plug-in measures for unsorted merge
         if (m == "merge")
-          tim["merge",u,n,"unsorted"] <- timsort["bit","sort","unsorted",xnam] +  tim["merge",u,n,"sorted"]
+          tim["merge", u, n, "unsorted"] <-
+            timsort["bit", "sort", "unsorted", xnam] +  tim["merge", u, n, "sorted"]
       }
     }
   }
-  for (u in binaryU){
-    for (m in M){
+  for (u in binaryU) {
+    for (m in M) {
       f <- binaryM[[m,u]]
-      if (!is.null(f)){
+      if (!is.null(f)) {
         tim[m,u,n,d] <- median(microbenchmark(f(x,y), times=times)$time)
         # now plug-in measures for unsorted merge
         if (m == "merge")
-          tim["merge",u,n,"unsorted"] <- timsort["bit","sort","unsorted",xnam] + timsort["bit","sort","unsorted",ynam] + tim["merge",u,n,"sorted"]
+          tim["merge", u, n, "unsorted"] =
+            timsort["bit", "sort", "unsorted", xnam] +
+            timsort["bit", "sort", "unsorted", ynam] +
+            tim["merge", u, n, "sorted"]
       }
     }
   }
@@ -393,9 +427,23 @@ y <- timsort[,,,"big"]
 y <- 100 * y / max(y["R",,], na.rm=TRUE)
 oldpar <- par(mfrow=c(2,1), mar=c(5,8,2,1))
 x <- y[,,"unsorted"]
-dotchart(x, xlim=c(0, max(100, max(y))), labels="", pch=c("R","b"), xlab="execution time", main="unsorted", col=c("red","blue"))
+dotchart(x,
+  xlim=c(0, max(100, max(y))),
+  labels="",
+  pch=c("R","b"),
+  xlab="execution time",
+  main="unsorted",
+  col=c("red","blue")
+)
 x <- y[,,"sorted"]
-dotchart(x, xlim=c(0, max(100, max(y))), labels="", pch=c("R","b"), xlab="execution time", main="sorted", col=c("red","blue"))
+dotchart(x,
+  xlim=c(0, max(100, max(y))),
+  labels="",
+  pch=c("R","b"),
+  xlab="execution time",
+  main="sorted",
+  col=c("red","blue")
+)
 par(oldpar)
 ```
 
@@ -416,12 +464,26 @@ y <- 100 * y / max(y["R",,], na.rm=TRUE)
 x <- y[,,"unsorted"]
 m <- rep("", ncol(x))
 m <- as.vector(rbind(m, colnames(x), m))
-dotchart(x, xlim=c(0, max(100,max(y, na.rm=TRUE))), labels=m, pch=c("R","b","m"), col=c("red","blue","black"), main="Timings in 'unsorted bigbig' scenario", sub="R='hash'   b='bit'   m='merge'")
+dotchart(x,
+  xlim=c(0, max(100,max(y, na.rm=TRUE))),
+  labels=m,
+  pch=c("R","b","m"),
+  col=c("red","blue","black"),
+  main="Timings in 'unsorted bigbig' scenario",
+  sub="R='hash'   b='bit'   m='merge'"
+)
 ```
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R, bit and merge in 'sorted bigbig' scenario"}
 x <- y[,,"sorted"]
-dotchart(x, xlim=c(0, max(y, na.rm=TRUE)), labels=m, pch=c("R","b","m"), col=c("red","blue","black"), main="Timings in 'sorted bigbig' scenario", sub="R='hash'   b='bit'   m='merge'")
+dotchart(x,
+  xlim=c(0, max(y, na.rm=TRUE)),
+  labels=m,
+  pch=c("R","b","m"),
+  col=c("red","blue","black"),
+  main="Timings in 'sorted bigbig' scenario",
+  sub="R='hash'   b='bit'   m='merge'"
+)
 ```
 
 `r pagebreak()`

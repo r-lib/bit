@@ -28,7 +28,10 @@ test_that("bitsort function work on several inputs", {
       , label=paste0("range_na(c(", paste(x, collapse=","), "))")
       )
 
-      range_result <- suppressWarnings(as.integer(c(range(x[is.na(x) | x!=0], na.rm=TRUE), sum(is.na(x)))))
+      range_result <- suppressWarnings(as.integer(c(
+        range(x[is.na(x) | x!=0], na.rm=TRUE),
+        sum(is.na(x))
+      )))
       expect_identical(
         attr(range_nanozero(x),"range_na")
       , range_result
@@ -49,16 +52,16 @@ test_that("bitsort function work on several inputs", {
         )
 
         expect_identical(
-           bit_sort_unique(x, na.last=na.last, has.dup = TRUE)
-           , sort.int(unique(x), na.last=na.last, method="quick")
-           , label=paste0("bit_sort_unique(c(", paste(x, collapse=","), "), na.last=", na.last,", has.dup=TRUE)")
+           bit_sort_unique(x, na.last=na.last, has.dup = TRUE),
+           sort.int(unique(x), na.last=na.last, method="quick"),
+           label=sprintf("bit_sort_unique(c(%s), na.last=%s, has.dup=TRUE)", toString(x), na.last)
         )
 
         y <- unique(x)
         expect_identical(
-            bit_sort_unique(y, na.last=na.last, has.dup = FALSE)
-          , sort.int(y, na.last=na.last, method="quick")
-          , label=paste0("bit_sort_unique(c(", paste(x, collapse=","), "), na.last=", na.last,", has.dup=FALSE)")
+          bit_sort_unique(y, na.last=na.last, has.dup = FALSE),
+          sort.int(y, na.last=na.last, method="quick"),
+          label=sprintf("bit_sort_unique(c(%s), na.last=%s, has.dup=FALSE)", toString(x), na.last)
         )
 
         expect_identical(
@@ -183,22 +186,28 @@ test_that("bit_sort and bit_sort_unique are OK", {
                 )
               )
             )
-            range_na <- range_na(y)
-            eval(
-              substitute(
-                expect_identical(
-                  bit_sort_unique(y, decreasing=decreasing, na.last=na.last, has.dup = has.dup, range_na=range_na)
-                  , sort(unique(y), decreasing=decreasing, na.last = na.last)
-                )
-                , list(
-                  y=y
-                  , decreasing=decreasing
-                  , na.last=na.last
-                  , has.dup = has.dup
-                  , range_na = range_na
+            range_na = range_na(y)
+            env = list(
+              y=y,
+              decreasing=decreasing,
+              na.last=na.last,
+              has.dup = has.dup,
+              range_na = range_na
+            )
+            eval(substitute(env = env, {
+              expect_identical(
+                bit_sort_unique(y,
+                  decreasing=decreasing,
+                  na.last=na.last,
+                  has.dup=has.dup,
+                  range_na=range_na
+                ),
+                sort(unique(y),
+                  decreasing=decreasing,
+                  na.last=na.last
                 )
               )
-            )
+            }))
           }
         }
       }

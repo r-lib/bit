@@ -100,7 +100,8 @@ merge_match <- function(x, y, revx=FALSE, revy=FALSE, nomatch = NA_integer_){
   .Call(C_R_merge_match, x, y, as.logical(revx), as.logical(revy), nomatch=as.integer(nomatch))
 }
 
-# xx OPTIMIZATION OPPORTUNITY this could be optimized with proper binary search (not findInterval, which coerces to double)
+# xx OPTIMIZATION OPPORTUNITY: this could be optimized with proper binary search
+#   (not findInterval, which coerces to double)
 #' @describeIn merge_rev returns logical existence of sorted set x in sorted set y, see
 #'   [`x %in% y`][match]
 #' @export
@@ -112,7 +113,8 @@ merge_in <- function(x, y, revx=FALSE, revy=FALSE){
   .Call(C_R_merge_in, x, y, as.logical(revx), as.logical(revy))
 }
 
-# xx OPTIMIZATION OPPORTUNITY this could be optimized with proper binary search (not findInterval, which coerces to double)
+# xx OPTIMIZATION OPPORTUNITY this could be optimized with proper binary search
+#   (not findInterval, which coerces to double)
 #' @describeIn merge_rev returns logical in-existence of sorted set x in sorted set y, see
 #'   [`!(x %in% y)`][match]
 #' @export

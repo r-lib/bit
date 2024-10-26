@@ -233,7 +233,8 @@ bitsort <- function(x, na.last=NA, depth=1){
 #         #tim[di,ni,"r"] <- microbenchmark(radixsort(copy_vector(x)), times = 1)$time
 #       }
 #     }
-#     print(apply(tim[,1:ni,,drop=FALSE], 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
+#     apply(tim[,1:ni,,drop=FALSE], 1:2, \(x){i <- which.min(x); if (length(i))M[i] else "."}) |>
+#       print(quote=FALSE)
 #   }
 #
 #   round(tim[,,"b"] / tim[,,"c"], 1)
@@ -427,7 +428,11 @@ bit_sort_unique <- function(x, decreasing = FALSE, na.last=NA, has.dup=TRUE, ran
     else
       ret
   } else
-    .Call(C_R_bit_sort_unique, tmp=bit(nr), x, range_na, as.logical(na.last), as.logical(decreasing))
+    .Call(C_R_bit_sort_unique,
+      tmp=bit(nr), x, range_na,
+      as.logical(na.last),
+      as.logical(decreasing)
+    )
 }
 
 
@@ -577,15 +582,16 @@ bit_duplicated <- function(x, na.rm = NA, range_na=NULL, retFUN=as.bit){
     nr <- as.double(range_na[2])-as.double(range_na[1])+1
   d <- length(x) / nr
   if (nr > .Machine$integer.max || d < 1/64) {
-    if (is.na(na.rm)){
+    if (is.na(na.rm)) {
       ret <- duplicated(x, incomparables = FALSE)
-    }else if (na.rm){
+    } else if (na.rm) {
       ret <- duplicated(x, incomparables = FALSE) | is.na(x)
-    }else{
+    } else {
       ret <- duplicated(x, incomparables = NA)
     }
-  }else{
-    ret <- .Call(C_R_bit_duplicated, tmp=bit(nr), x, range_na, ret=bit(length(x)), as.logical(na.rm))
+  } else {
+    ret <-
+      .Call(C_R_bit_duplicated, tmp=bit(nr), x, range_na, ret=bit(length(x)), as.logical(na.rm))
   }
   retFUN(ret)
 }

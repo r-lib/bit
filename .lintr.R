@@ -1,5 +1,6 @@
 linters = all_linters(
   packages = "lintr",
+  line_length_linter(100L),
   assignment_linter = NULL,
   brace_linter = NULL,
   commas_linter = NULL,
@@ -9,7 +10,6 @@ linters = all_linters(
   function_argument_linter = NULL,
   indentation_linter = NULL,
   infix_spaces_linter = NULL,
-  line_length_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
   paren_body_linter = NULL,

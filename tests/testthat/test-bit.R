@@ -58,35 +58,71 @@ test_that("bitwhich creates correctly", {
   # to check whether we properly obtain integer
   n <- 12
   x <- rep(3:10, 2)
-  y <- structure(c(-12L, -11L, -2L, -1L), maxindex = 12L, poslength = 8L, class = c("booltype","bitwhich"))
+  y <- c(-12L, -11L, -2L, -1L)
+  attr(y, "maxindex") = 12L
+  attr(y, "poslength") = 8L
+  class(y) = c("booltype","bitwhich")
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, unique(x), has.dup=FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, c(-12L, -11L, -2L, -1L), poslength=8), y), list(n=n, x=x, y=y)))
+  eval(substitute(expect_identical(
+    bitwhich(n, sort(x), is.unsorted = FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
+  eval(substitute(expect_identical(
+    bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
+  eval(substitute(expect_identical(
+    bitwhich(n, c(-12L, -11L, -2L, -1L), poslength=8), y),
+    list(n=n, x=x, y=y)
+  ))
 
   x <- -rev(x)
-  y <- structure(c(1L, 2L, 11L, 12L), maxindex = 12L, poslength = 4L, class = c("booltype","bitwhich"))
+  y <- c(1L, 2L, 11L, 12L)
+  attr(y, "maxindex") = 12L
+  attr(y, "poslength") = 4L
+  class(y) = c("booltype","bitwhich")
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, unique(x), has.dup=FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, c(1L, 2L, 11L, 12L), poslength=4), y), list(n=n, x=x, y=y)))
+  eval(substitute(expect_identical(
+    bitwhich(n, sort(x), is.unsorted = FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
+  eval(substitute(expect_identical(
+    bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
+  eval(substitute(expect_identical(
+    bitwhich(n, c(1L, 2L, 11L, 12L), poslength=4), y),
+    list(n=n, x=x, y=y)
+  ))
 
   x <- rep(5:6, 2)
   y <- structure(5:6, maxindex = 12L, poslength = 2L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, unique(x), has.dup=FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
+  eval(substitute(
+    expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
+  eval(substitute(
+    expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
   eval(substitute(expect_identical(bitwhich(n, 5:6, poslength=2), y), list(n=n, x=x, y=y)))
 
   x <- -rev(x)
   y <- structure(-6:-5, maxindex = 12L, poslength = 10L, class = c("booltype","bitwhich"))
   eval(substitute(expect_identical(bitwhich(n, x), y), list(n=n, x=x, y=y)))
   eval(substitute(expect_identical(bitwhich(n, unique(x), has.dup=FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(x), is.unsorted = FALSE), y), list(n=n, x=x, y=y)))
-  eval(substitute(expect_identical(bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y), list(n=n, x=x, y=y)))
+  eval(substitute(expect_identical(
+    bitwhich(n, sort(x), is.unsorted = FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
+  eval(substitute(expect_identical(
+    bitwhich(n, sort(unique(x)), is.unsorted = FALSE, has.dup=FALSE), y),
+    list(n=n, x=x, y=y)
+  ))
   eval(substitute(expect_identical(bitwhich(n, -6:-5, poslength=10), y), list(n=n, x=x, y=y)))
 
   y <- structure(TRUE, maxindex = 12L, poslength = 12L, class = c("booltype","bitwhich"))
@@ -156,20 +192,21 @@ test_that("c() works", {
   expect_identical(w,l)
 })
 
+# nolint start: rep_len_linter. Specifically testing rep().
 test_that("rep() works", {
   l <- c(FALSE, TRUE)
   b <- as.bit(l)
   w <- as.bitwhich(l)
   for (k in 1:(3*.BITS)) {
-    expect_identical(as.logical(rep(b, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter. Specifically testing rep().
-    expect_identical(as.logical(rep(w, length.out=k)),rep(l, length.out=k)) # nolint: rep_len_linter.
+    expect_identical(as.logical(rep(b, length.out=k)),rep(l, length.out=k))
+    expect_identical(as.logical(rep(w, length.out=k)),rep(l, length.out=k))
   }
   for (k in 1:(2*.BITS)) {
     expect_identical(as.logical(rep(b, k)),rep(l, k))
     expect_identical(as.logical(rep(w, k)),rep(l, k))
   }
 })
-
+# nolint end: rep_len_linter.
 
 test_that("NAs are coerced to FALSE", {
   expect_identical(as.logical(as.bit(c(NA, FALSE, TRUE))), c(FALSE, FALSE, TRUE))
@@ -233,9 +270,7 @@ test_that("coercions work", {
 
 
 test_that("boolean operations work", {
-  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L,2L*.BITS-1L,2L*.BITS,2L*.BITS+1L)
-  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L)
-  N <- c(1L,.BITS-1L,.BITS,.BITS+1L)
+  N <- c(1L, .BITS-1L, .BITS, .BITS+1L)
   X <- c(rev(-N), N)
   N <- c(0L, N)
   fx <- function(x,n)as.integer(sign(x))*sample(n,abs(x))
@@ -250,21 +285,54 @@ test_that("boolean operations work", {
         b1 <- as.bit(l1)
         b2 <- as.bit(l2)
         fun <- function(x1,x2,f){
-          eval(substitute(expect_identical(f(!x1), !f(x1)), list(x1=x1, f=f)))
-          eval(substitute(expect_identical(f(x1 & x2), f(x1) & f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(f(x1 | x2), f(x1) | f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(f(x1 == x2), f(x1) == f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(f(x1 != x2), f(x1) != f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(f(xor(x1, x2)), xor(f(x1), f(x2))), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(
+            expect_identical(f(!x1), !f(x1)),
+            list(x1=x1, f=f)
+          ))
+          eval(substitute(
+            expect_identical(f(x1 & x2), f(x1) & f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(f(x1 | x2), f(x1) | f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(f(x1 == x2), f(x1) == f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(f(x1 != x2), f(x1) != f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(f(xor(x1, x2)), xor(f(x1), f(x2))),
+            list(x1=x1, x2=x2, f=f)
+          ))
         }
         fun(w1,w2,as.logical)
         fun(b1,b2,as.logical)
         fun <- function(x1,x2,f){
-          eval(substitute(expect_identical(x1 & x2, f(x1) & f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(x1 | x2, f(x1) | f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(x1 == x2, f(x1) == f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(x1 != x2, f(x1) != f(x2)), list(x1=x1, x2=x2, f=f)))
-          eval(substitute(expect_identical(xor(x1, x2), xor(f(x1), f(x2))), list(x1=x1, x2=x2, f=f)))
+          eval(substitute(
+            expect_identical(x1 & x2, f(x1) & f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(x1 | x2, f(x1) | f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(x1 == x2, f(x1) == f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(x1 != x2, f(x1) != f(x2)),
+            list(x1=x1, x2=x2, f=f)
+          ))
+          eval(substitute(
+            expect_identical(xor(x1, x2), xor(f(x1), f(x2))),
+            list(x1=x1, x2=x2, f=f)
+          ))
         }
         fun(b1,w2,as.bit)
         fun(w1,b2,as.bit)
@@ -285,35 +353,54 @@ test_that("promotion is correct in boolean operations and concatenation", {
   for (t1 in T1)
     for (t2 in T2)
       for (n1 in N1)
-        for (n2 in N2){
+        for (n2 in N2) {
           x1 <- FUN[[t1]](n1)
           x2 <- FUN[[t2]](n2)
-          eval(substitute(expect_identical(booltype(x1 & x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical(booltype(x1 | x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical(booltype(x1 == x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical(booltype(x1 != x2), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical(booltype(xor(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+          eval(substitute(
+            expect_identical(booltype(x1 & x2), min(booltypes[[t1]],booltypes[[t2]])),
+            list(x1=x1, x2=x2, t1=t1, t2=t2))
+          )
+          eval(substitute(
+            expect_identical(booltype(x1 | x2), min(booltypes[[t1]],booltypes[[t2]])),
+            list(x1=x1, x2=x2, t1=t1, t2=t2))
+          )
+          eval(substitute(
+            expect_identical(booltype(x1 == x2), min(booltypes[[t1]],booltypes[[t2]])),
+            list(x1=x1, x2=x2, t1=t1, t2=t2))
+          )
+          eval(substitute(
+            expect_identical(booltype(x1 != x2), min(booltypes[[t1]],booltypes[[t2]])),
+            list(x1=x1, x2=x2, t1=t1, t2=t2))
+          )
+          eval(substitute(
+            expect_identical(booltype(xor(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])),
+            list(x1=x1, x2=x2, t1=t1, t2=t2))
+          )
           if (t1!="logical")  # c with first argument logical does not dispatch
-            eval(substitute(expect_identical(booltype(c(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
-          eval(substitute(expect_identical(booltype(c.booltype(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])), list(x1=x1, x2=x2, t1=t1, t2=t2)))
+            eval(substitute(
+              expect_identical(booltype(c(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])),
+              list(x1=x1, x2=x2, t1=t1, t2=t2)
+            ))
+          eval(substitute(
+            expect_identical(booltype(c.booltype(x1,x2)), min(booltypes[[t1]],booltypes[[t2]])),
+            list(x1=x1, x2=x2, t1=t1, t2=t2)
+          ))
         }
 })
 
 
 test_that("subscript operations work", {
-  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L,2L*.BITS-1L,2L*.BITS,2L*.BITS+1L)
-  #N <- c(1L,.BITS/2L-1L,.BITS/2L,.BITS/2L+1L,.BITS-1L,.BITS,.BITS+1L)
   N <- c(1L,.BITS-1L,.BITS,.BITS+1L)
   X <- c(rev(-N), N)
   J <- c(rev(-N), 0L, N)
   N <- c(0L, N)
   R <- 1
-  fx <- function(x,n)as.integer(sign(x))*sample(n,abs(x), TRUE)
-  fi <- function(x,n)as.integer(sign(x))*sample(0:n,abs(x), FALSE)
+  fx <- function(x,n) as.integer(sign(x))*sample(n,abs(x), TRUE)
+  fi <- function(x,n) as.integer(sign(x))*sample(0:n,abs(x), FALSE)
 
-  for (r in 1:R){
-    for (n in N){
-      for (x in X[abs(X)<=abs(n)]){
+  for (r in 1:R) {
+    for (n in N) {
+      for (x in X[abs(X)<=abs(n)]) {
         set.seed(r)
         w <- bitwhich(n, fx(x,n))
         l <- as.logical(w)
@@ -453,10 +540,18 @@ test_that("aggregation functions work", {
     , sum=sum
   )
   S2 <- list(
-      min=function(x)if (booltype(x)=="logical")  {if (any(x)) which.max(x) else NA_integer_} else min(x)
-    , max=function(x)if (booltype(x)=="logical")  {if (any(x)) length(x)-which.max(rev(x))+1L else NA_integer_} else max(x)
-    , range=function(x)if (booltype(x)=="logical") range.booltype(x) else range(x)
-    , summary=function(x)if (booltype(x)=="logical") summary.booltype(x) else summary(x)
+      min=function(x) if (booltype(x)=="logical") {
+        if (any(x)) which.max(x) else NA_integer_
+      } else {
+        min(x)
+      },
+      max=function(x) if (booltype(x)=="logical") {
+        if (any(x)) length(x)-which.max(rev(x))+1L else NA_integer_
+      } else {
+        max(x)
+      },
+      range=function(x) if (booltype(x)=="logical") range.booltype(x) else range(x),
+      summary=function(x) if (booltype(x)=="logical") summary.booltype(x) else summary(x)
   )
   S3 <- list(
       sum=sum.booltype
