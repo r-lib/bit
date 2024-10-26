@@ -35,17 +35,17 @@
 \method{as.logical}{which}(x, length = attr(x, "maxindex"), ...)
 }
 \arguments{
-\item{x}{an object of class \code{\link{bit}}, \code{\link{bitwhich}} or
-\code{\link{ri}}}
+\item{x}{an object of class \code{\link[=bit]{bit()}}, \code{\link[=bitwhich]{bitwhich()}} or
+\code{\link[=ri]{ri()}}}
 
-\item{\dots}{ignored}
+\item{...}{ignored}
 
 \item{length}{length of the boolean vector (required for \code{as.logical.which})}
 }
 \value{
-\code{\link{as.logical}} returns a vector of \code{FALSE, TRUE},
-\code{\link{as.integer}} and \code{\link{as.double}} return a vector of
-\code{0,1}.
+\code{\link[=as.logical]{as.logical()}} returns a vector of \verb{FALSE, TRUE},
+\code{\link[=as.integer]{as.integer()}} and \code{\link[=as.double]{as.double()}} return a vector of
+\verb{0,1}.
 }
 \description{
 Coercion from bit is quite fast because we use a double loop that fixes each
@@ -72,8 +72,8 @@ word in a processor register.
   stopifnot(identical(y, as.double(as.bitwhich(x))))
 }
 \seealso{
-\code{\link{CoercionToStandard}}, \code{\link{as.booltype}}, \code{\link{as.bit}}, \code{\link{as.bitwhich}}
-, \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
+\code{\link{CoercionToStandard}}, \code{\link[=as.booltype]{as.booltype()}}, \code{\link[=as.bit]{as.bit()}},
+\code{\link[=as.bitwhich]{as.bitwhich()}} , \code{\link[=as.which]{as.which()}}, \code{\link[=as.ri]{as.ri()}}, \code{\link[ff:as.hi]{ff::as.hi()}},  \code{\link[ff:as.ff]{ff::as.ff()}}
 }
 \author{
 Jens Oehlschlägel

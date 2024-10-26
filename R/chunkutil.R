@@ -37,18 +37,21 @@
 
 #' Balanced Batch sizes
 #'
-#' \command{bbatch} calculates batch sizes in 1..N so that they have rather balanced
+#' `bbatch` calculates batch sizes in 1..N so that they have rather balanced
 #' sizes than very different sizes.
 #'
-#' Tries to have \code{rb==0} or \code{rb} as close to \code{b} as possible
-#' while guaranteeing that \code{rb < b && (b - rb) <= min(nb, b)}
+#' Tries to have `rb==0` or `rb` as close to `b` as possible
+#' while guaranteeing that `rb < b && (b - rb) <= min(nb, b)`
 #'
 #' @param N total size in 0..integer_max
 #' @param B desired batch size in 1..integer_max
-#' @return a list with components \item{ b }{ the batch size } \item{ nb }{ the
-#' number of batches } \item{ rb }{ the size of the rest }
+#' @return a list with components:
+#'  - b: the batch size
+#'  - nb: the number of batches
+#'  - rb: the size of the rest
+#'
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link{repfromto}}, \code{\link[ff:ffapply]{ffvecapply}}
+#' @seealso [repfromto()], [ff::ffvecapply()]
 #' @keywords IO data
 #' @examples
 #'
@@ -83,20 +86,20 @@ bbatch <- function(N,B){
 
 #' Virtual recycling
 #'
-#' \command{repfromto} virtually recylcles object \code{x} and cuts out
-#' positions \code{from .. to}
+#' `repfromto` virtually recylcles object `x` and cuts out
+#' positions `from .. to`
 #'
-#' \code{repfromto} is a generalization of \code{\link{rep}}, where
-#' \code{rep(x, n) == repfromto(x, 1, n)}.  You can see this as an R-side
-#' (vector) solution of the \code{mod_iterate} macro in arithmetic.c
+#' `repfromto` is a generalization of [rep()], where
+#' `rep(x, n) == repfromto(x, 1, n)`.  You can see this as an R-side
+#' (vector) solution of the `mod_iterate` macro in arithmetic.c
 #'
 #' @param x an object from which to recycle
 #' @param from first position to return
 #' @param to last position to return
 #' @param value value to assign
-#' @return a vector of length \code{from - to + 1}
+#' @return a vector of length `from - to + 1`
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link{rep}}, \code{\link[ff:ffapply]{ffvecapply}}
+#' @seealso [rep()], [ff::ffvecapply()]
 #' @keywords IO data
 #' @examples
 #'
@@ -226,12 +229,12 @@ if (FALSE){
 #' @param overlap number of values to overlap (will lower the starting value of
 #' the sequence, the first range becomes smaller
 #' @param method default 'bbatch' will try to balance the chunk size, see
-#' \code{\link{bbatch}}, 'seq' will create chunks like \code{\link[base]{seq}}
-#' @param maxindex passed to \code{\link{ri}}
-#' @return returns a named list of \code{\link{ri}} objects
+#' [bbatch()], 'seq' will create chunks like [`seq()`][base::seq]
+#' @param maxindex passed to [ri()]
+#' @return returns a named list of [ri()] objects
 #' representing chunks of subscripts
 #' @author Jens Oehlschlägel
-#' @seealso generic \code{\link{chunk}}, \code{\link{ri}}, \code{\link[base]{seq}}, \code{\link{bbatch}}
+#' @seealso generic [chunk()], [ri()], [`seq()`][base::seq], [bbatch()]
 #' @keywords data
 #' @examples
 #'
@@ -364,21 +367,25 @@ chunks <- function(
 
 #' Methods for chunked range index
 #'
-#' Calls \code{\link{chunks}} to create a sequence of range indexes along the object which causes the method dispatch.
+#' Calls [chunks()] to create a sequence of range indexes along the object which causes
+#'   the method dispatch.
 #'
-#' \code{chunk} is generic, the default method is described here, other methods
-#' that automatically consider RAM needs are provided with package 'ff', see
-#' for example \code{\link[ff]{chunk.ffdf}}
+#' `chunk` is generic, the default method is described here, other methods
+#'   that automatically consider RAM needs are provided with package 'ff', see
+#'   for example [ff::chunk.ffdf()]
 #'
 #' @param x the object along we want chunks
-#' @param RECORDBYTES integer scalar representing the bytes needed to process a single element of the boolean vector (default 4 bytes for logical)
-#' @param BATCHBYTES  integer scalar limiting the number of bytes to be processed in one chunk, default from \code{getOption("ffbatchbytes")} if not null, otherwise 16777216
-#' @param \dots further arguments passed to \code{\link{chunks}}
-#' @return returns a named list of \code{\link{ri}} objects
-#' representing chunks of subscripts
-#' @section available methods: \code{chunk.default}, \code{\link[ff:chunk.ffdf]{chunk.ff_vector}}, \code{\link[ff]{chunk.ffdf}}
+#' @param RECORDBYTES integer scalar representing the bytes needed to process a single
+#'   element of the boolean vector (default 4 bytes for logical)
+#' @param BATCHBYTES  integer scalar limiting the number of bytes to be processed in one
+#'   chunk, default from `getOption("ffbatchbytes")` if not null, otherwise 16777216
+#' @param ... further arguments passed to [chunks()]
+#' @return returns a named list of [ri()] objects
+#'   representing chunks of subscripts
+#' @section available methods: `chunk.default`, [ff::chunk.ff_vector()],
+#'   [ff::chunk.ffdf()]
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link{chunks}}, \code{\link{ri}}, \code{\link[base]{seq}}, \code{\link{bbatch}}
+#' @seealso [chunks()], [ri()], [`seq()`][base::seq], [bbatch()]
 #' @keywords data
 #' @examples
 #'   chunk(complex(1e7))
@@ -445,26 +452,27 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL){
 
 #' Vectorized Sequences
 #'
-#' \command{vecseq} returns concatenated multiple sequences
+#' `vecseq` returns concatenated multiple sequences
 #'
-#' This is a generalization of \code{\link{sequence}} in that you can choose
+#' This is a generalization of [sequence()] in that you can choose
 #' sequence starts other than 1 and also have options to no concat and/or
 #' return a call instead of the evaluated sequence.
 #'
 #' @param x vector of sequence start points
-#' @param y vector of sequence end points (if \code{is.null(y)} then \code{x}
+#' @param y vector of sequence end points (if `is.null(y)` then `x`
 #' are taken as endpoints, all starting at 1)
-#' @param concat vector of sequence end points (if \code{is.null(y)} then
-#' \code{x} are taken as endpoints, all starting at 1)
-#' @param eval vector of sequence end points (if \code{is.null(y)} then
-#' \code{x} are taken as endpoints, all starting at 1)
-#' @return if \code{concat==FALSE} and \code{eval==FALSE} a list with n calls
-#' that generate sequences \cr if \code{concat==FALSE} and \code{eval==TRUE } a
-#' list with n sequences \cr if \code{concat==TRUE } and \code{eval==FALSE} a
-#' single call generating the concatenated sequences \cr if \code{concat==TRUE
-#' } and \code{eval==TRUE } an integer vector of concatentated sequences
+#' @param concat vector of sequence end points (if `is.null(y)` then
+#' `x` are taken as endpoints, all starting at 1)
+#' @param eval vector of sequence end points (if `is.null(y)` then
+#' `x` are taken as endpoints, all starting at 1)
+#' @return
+#'  - if `concat==FALSE` and `eval==FALSE` a list with n calls that generate sequences
+#'  - if `concat==FALSE` and `eval==TRUE ` a list with n sequences
+#'  - if `concat==TRUE ` and `eval==FALSE` a single call generating the concatenated
+#'    sequences
+#'  - if `concat==TRUE` and `eval==TRUE ` an integer vector of concatentated sequences
 #' @author Angelo Canty, Jens Oehlschlägel
-#' @seealso \code{\link{:}}, \code{\link{seq}}, \code{\link{sequence}}
+#' @seealso [`:`][:], [seq()], [sequence()]
 #' @keywords manip
 #' @examples
 #'

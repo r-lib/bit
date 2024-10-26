@@ -7,7 +7,7 @@
 bitwhich_representation(x)
 }
 \arguments{
-\item{x}{a \code{\link{bitwhich}} object}
+\item{x}{a \code{\link[=bitwhich]{bitwhich()}} object}
 }
 \value{
 a scalar, one of \code{logical()}, \code{FALSE}, \code{TRUE}, \code{-1} or \code{1}

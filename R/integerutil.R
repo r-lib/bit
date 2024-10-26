@@ -7,12 +7,12 @@
 ##
 ## Gets C reference count of a vector
 ##
-## Queries the vector reference count using C-macro \code{NAMED}
+## Queries the vector reference count using C-macro `NAMED`
 ##
 ## @param x a vector
 ##
 ## @return integer scalar
-## @seealso \code{\link{get_parent_refcnt}}, \code{\link{set_refcnt}}
+## @seealso [get_parent_refcnt()], [set_refcnt()]
 ##
 ## @examples
 ## x <- integer()
@@ -34,7 +34,7 @@
 ##
 ## Sets C reference count of a vector
 ##
-## Manipulates the vector reference count using C-macro \code{SET_NAMED}
+## Manipulates the vector reference count using C-macro `SET_NAMED`
 ##
 ## @note Do use this only if you know what you do! Otherwise unexpected behaviour can result!
 ##
@@ -42,7 +42,7 @@
 ## @param refcnt integer scalar to be assigned (must be 1L or 2L)
 ##
 ## @return integer scalar
-## @seealso @seealso \code{\link{get_refcnt}}, \code{\link{get_parent_refcnt}}
+## @seealso @seealso [get_refcnt()], [get_parent_refcnt()]
 ##
 ## @examples
 ## x <- integer()
@@ -59,12 +59,12 @@
 ##
 ## Gets C reference count of a vector in parent frame
 ##
-## Queries the vector reference count using C-macro \code{NAMED}
+## Queries the vector reference count using C-macro `NAMED`
 ##
 ## @param x a vector
 ##
 ## @return integer scalar
-## @seealso \code{\link{get_refcnt}}, \code{\link{set_refcnt}}
+## @seealso [get_refcnt()], [set_refcnt()]
 ##
 ## @examples
 ## f <- function(x)c(refcnt=get_refcnt(x), parent_refcnt=get_parent_refcnt(x))
@@ -97,7 +97,8 @@
 #'
 #' Gets C length of a vector ignoring any length-methods dispatched by classes
 #'
-#' Queries the vector length using C-macro \code{LENGTH}, this can be substantially faster than \code{length(unclass(x))}
+#' Queries the vector length using C-macro `LENGTH`, this can be substantially faster than
+#'   `length(unclass(x))`
 #'
 #' @param x a vector
 #' @return integer scalar
@@ -128,14 +129,15 @@ still.identical <- function(x, y){
 
 #' Copy atomic R vector
 #'
-#' Creates a true copy of the underlying C-vector -- dropping all attributes -- and optionally reverses the direction of the elements.
+#' Creates a true copy of the underlying C-vector -- dropping all attributes -- and
+#'   optionally reverses the direction of the elements.
 #'
-#' This can be substantially faster than \code{duplicate(as.vector(unclass(x)))}
+#' This can be substantially faster than `duplicate(as.vector(unclass(x)))`
 #'
 #' @param x an R vector
-#' @param revx default \code{FALSE}, set to \code{TRUE} to reverse the elements in 'x'
+#' @param revx default `FALSE`, set to `TRUE` to reverse the elements in 'x'
 #' @return copied R vector
-#' @seealso \code{\link{clone}}, \code{\link{still.identical}},  \code{\link{reverse_vector}}
+#' @seealso [clone()], [still.identical()],  [reverse_vector()]
 #' @examples
 #' x <- factor(letters)
 #' y <- x
@@ -155,11 +157,11 @@ copy_vector <- function(x, revx=FALSE){
 #'
 #' Returns a reversed copy -- with attributes retained.
 #'
-#' This is substantially faster than \code{\link{rev}}
+#' This is substantially faster than [rev()]
 #'
 #' @param x an R vector
 #' @return a reversed vector
-#' @seealso \code{\link{rev}}, \code{\link{copy_vector}}
+#' @seealso [rev()], [copy_vector()]
 #' @examples
 #' x <- factor(letters)
 #' rev(x)
@@ -176,11 +178,11 @@ reverse_vector <- function(x){
 
 #' Position of first NA
 #'
-#' This is substantially faster than \code{which.max(is.na(x))}
+#' This is substantially faster than `which.max(is.na(x))`
 #'
 #' @param x an R vector
 #' @return a reversed vector
-#' @seealso \code{\link{which.max}}, \code{\link{is.na}}, \code{\link{anyNA}}, \code{\link{anyDuplicated}}, \code{\link{bit_anyDuplicated}}
+#' @seealso [which.max()], [is.na()], [anyNA()], [anyDuplicated()], [bit_anyDuplicated()]
 #' @examples
 #' x <- c(FALSE,NA,TRUE)
 #' firstNA(x)

@@ -22,11 +22,11 @@ repfromto(x, from, to) <- value
 a vector of length \code{from - to + 1}
 }
 \description{
-\command{repfromto} virtually recylcles object \code{x} and cuts out
-positions \code{from .. to}
+\code{repfromto} virtually recylcles object \code{x} and cuts out
+positions \verb{from .. to}
 }
 \details{
-\code{repfromto} is a generalization of \code{\link{rep}}, where
+\code{repfromto} is a generalization of \code{\link[=rep]{rep()}}, where
 \code{rep(x, n) == repfromto(x, 1, n)}.  You can see this as an R-side
 (vector) solution of the \code{mod_iterate} macro in arithmetic.c
 }
@@ -37,7 +37,7 @@ positions \code{from .. to}
 
 }
 \seealso{
-\code{\link{rep}}, \code{\link[ff:ffapply]{ffvecapply}}
+\code{\link[=rep]{rep()}}, \code{\link[ff:ffapply]{ff::ffvecapply()}}
 }
 \author{
 Jens Oehlschlägel

@@ -33,15 +33,8 @@ Function \code{setattr} sets a singe attribute and function
 \details{
 The attributes of 'x' are changed in place without copying x. function
 \code{setattributes} does only change the named attributes, it does not
-delete the non-names attributes like \code{\link{attributes}} does.
+delete the non-names attributes like \code{\link[=attributes]{attributes()}} does.
 }
-\section{Functions}{
-\itemize{
-\item \code{setattr()}: 
-
-\item \code{setattributes()}: 
-
-}}
 \examples{
 
   x <- as.single(runif(10))
@@ -76,7 +69,8 @@ delete the non-names attributes like \code{\link{attributes}} does.
   memory.size(max=TRUE)
 
   # look at the memory limits
-  # on my win32 machine the first line fails beause of not enough RAM, the second works
+  # on my win32 machine the first line fails
+  #   because of not enough RAM, the second works
   x <- single(1e8)
   x <- mysingle(1e8)
 
@@ -135,7 +129,7 @@ Writing R extensions -- System and foreign language interfaces
 Development)
 }
 \seealso{
-\code{\link{attr}} \code{\link{unattr}}
+\code{\link[=attr]{attr()}} \code{\link[=unattr]{unattr()}}
 }
 \author{
 Jens Oehlschlägel

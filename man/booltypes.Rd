@@ -11,23 +11,28 @@ An object of class \code{ordered} (inherits from \code{factor}) of length 6.
 booltypes
 }
 \description{
-The \code{\link{ordered}} factor \code{booltypes} ranks the boolean types.
+The \code{\link[=ordered]{ordered()}} factor \code{booltypes} ranks the boolean types.
 }
 \details{
-There are currently six boolean types, \code{booltypes} is an \code{\link{ordered}} vector with the following ordinal \code{\link{levels}} \describe{
-\item{nobool}{non-boolean types}
-\item{\code{\link{logical}}}{for representing any boolean data including \code{NA} }
-\item{\code{\link{bit}}}{for representing dense boolean data }
-\item{\code{\link{bitwhich}}}{for representing sparse (skewed) boolean data  }
-\item{\code{\link{which}}}{for representing sparse boolean data with few \code{TRUE}}
-\item{\code{\link{ri}}}{range-indexing, for representing sparse boolean data with a single range of \code{TRUE} }
+There are currently six boolean types, \code{booltypes} is an \code{\link[=ordered]{ordered()}} vector with the
+following ordinal \code{\link[=levels]{levels()}}:
+\itemize{
+\item nobool: non-boolean type
+\item \code{\link[=logical]{logical()}}: for representing any boolean data including \code{NA}
+\item \code{\link[=bit]{bit()}}: for representing dense boolean data
+\item \code{\link[=bitwhich]{bitwhich()}}: for representing sparse (skewed) boolean data
+\item \code{\link[=which]{which()}}: for representing sparse boolean data with few `TRUE
+\item \code{\link[=ri]{ri()}}: range-indexing, for representing sparse boolean data with a single range of
+\code{TRUE}
 }
-\code{booltypes} has a \code{\link{names}} attribute such that elements can be selected by name.
+
+\code{booltypes} has a \code{\link[=names]{names()}} attribute such that elements can be selected by name.
 }
 \note{
-do not rely on the internal integer codes of these levels, we might add-in \code{\link[ff]{hi}} later
+do not rely on the internal integer codes of these levels, we might add-in
+\code{\link[ff:hi]{hi}} later
 }
 \seealso{
-\code{\link{booltype}}, \code{\link{is.booltype}}, \code{\link{as.booltype}}
+\code{\link[=booltype]{booltype()}}, \code{\link[=is.booltype]{is.booltype()}}, \code{\link[=as.booltype]{as.booltype()}}
 }
 \keyword{datasets}

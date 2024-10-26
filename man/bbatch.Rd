@@ -12,11 +12,15 @@ bbatch(N, B)
 \item{B}{desired batch size in 1..integer_max}
 }
 \value{
-a list with components \item{ b }{ the batch size } \item{ nb }{ the
-number of batches } \item{ rb }{ the size of the rest }
+a list with components:
+\itemize{
+\item b: the batch size
+\item nb: the number of batches
+\item rb: the size of the rest
+}
 }
 \description{
-\command{bbatch} calculates batch sizes in 1..N so that they have rather balanced
+\code{bbatch} calculates batch sizes in 1..N so that they have rather balanced
 sizes than very different sizes.
 }
 \details{
@@ -29,7 +33,7 @@ while guaranteeing that \code{rb < b && (b - rb) <= min(nb, b)}
 
 }
 \seealso{
-\code{\link{repfromto}}, \code{\link[ff:ffapply]{ffvecapply}}
+\code{\link[=repfromto]{repfromto()}}, \code{\link[ff:ffapply]{ff::ffvecapply()}}
 }
 \author{
 Jens Oehlschlägel

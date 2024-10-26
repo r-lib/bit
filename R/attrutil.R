@@ -12,12 +12,12 @@
 
 #' Attribute setting by reference
 #'
-#' Function \code{setattr} sets a singe attribute and function
-#' \code{setattributes} sets a list of attributes.
+#' Function `setattr` sets a singe attribute and function
+#' `setattributes` sets a list of attributes.
 #'
 #' The attributes of 'x' are changed in place without copying x. function
-#' \code{setattributes} does only change the named attributes, it does not
-#' delete the non-names attributes like \code{\link{attributes}} does.
+#' `setattributes` does only change the named attributes, it does not
+#' delete the non-names attributes like [attributes()] does.
 #'
 #' @param x an R object
 #' @param which name of the attribute
@@ -27,7 +27,7 @@
 #' the fact that this function is called for its side-effect of changing its
 #' input object.
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link{attr}} \code{\link{unattr}}
+#' @seealso [attr()] [unattr()]
 #' @references Writing R extensions -- System and foreign language interfaces
 #' -- Handling R objects in C -- Attributes (Version 2.11.1 (2010-06-03 ) R
 #' Development)
@@ -66,7 +66,8 @@
 #'   memory.size(max=TRUE)
 #'
 #'   # look at the memory limits
-#'   # on my win32 machine the first line fails beause of not enough RAM, the second works
+#'   # on my win32 machine the first line fails
+#'   #   because of not enough RAM, the second works
 #'   x <- single(1e8)
 #'   x <- mysingle(1e8)
 #'
@@ -126,7 +127,7 @@ getsetattr <- function(x, which, value)
   ret
 }
 
-#' @describeIn getsetattr
+#' @rdname getsetattr
 #' @export
 setattr <- function(x, which, value)
 {
@@ -134,7 +135,7 @@ setattr <- function(x, which, value)
   invisible()
 }
 
-#' @describeIn getsetattr
+#' @rdname getsetattr
 #' @export
 setattributes <- function(x, attributes)
 {
@@ -155,8 +156,8 @@ setattributes <- function(x, attributes)
 #' @param x any R object
 #' @return a similar object with attributes removed
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link{attributes}}, \code{\link{setattributes}},
-#' \code{\link{unclass}}
+#' @seealso [attributes()], [setattributes()],
+#' [unclass()]
 #' @keywords attribute
 #' @examples
 #'

@@ -7,7 +7,7 @@
 \method{as.character}{bitwhich}(x, ...)
 }
 \arguments{
-\item{x}{a \code{\link{bitwhich}} vector}
+\item{x}{a \code{\link[=bitwhich]{bitwhich()}} vector}
 
 \item{...}{ignored}
 }

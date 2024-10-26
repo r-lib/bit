@@ -25,8 +25,8 @@ attribute removal copies the object as usual
 
 }
 \seealso{
-\code{\link{attributes}}, \code{\link{setattributes}},
-\code{\link{unclass}}
+\code{\link[=attributes]{attributes()}}, \code{\link[=setattributes]{setattributes()}},
+\code{\link[=unclass]{unclass()}}
 }
 \author{
 Jens Oehlschlägel

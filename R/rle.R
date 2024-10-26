@@ -11,29 +11,36 @@
 #'
 #' These C-coded utilitites speed up index preprocessing considerably.
 #'
-#' \code{intrle} is by factor 50 faster and needs less RAM (2x its input
-#' vector) compared to \code{\link{rle}} which needs 9x the RAM of its input
-#' vector.  This is achieved because we allow the C-code of \code{intrle} to
+#' `intrle` is by factor 50 faster and needs less RAM (2x its input
+#' vector) compared to [rle()] which needs 9x the RAM of its input
+#' vector.  This is achieved because we allow the C-code of `intrle` to
 #' break when it turns out, that rle-packing will not achieve a compression
-#' factor of 3 or better.  \cr \code{intisasc} is a faster version of
-#' \code{\link{is.unsorted}}: it checks whether \code{x} is sorted.\cr
-#' \code{intisdesc} checks for being sorted descending and
-#' by default default assumes that the input \code{x} contains no NAs.
-#' \code{na.method="none"} treats \code{NAs} (the smallest integer) like every other integer and hence returns either \code{TRUE} or \code{FALSE}
-#' \code{na.method="break"} checks for \code{NAs} and returns either \code{NA} as soon as  \code{NA} is encountered.
-#' \code{na.method="skip"} checks for \code{NAs} and skips over them, hence decides the return value only on the basis of non-NA values.
+#' factor of 3 or better.
+#'
+#' `intisasc` is a faster version of [is.unsorted()]: it checks whether `x` is sorted.
+#'
+#' `intisdesc` checks for being sorted descending and by default default assumes that the
+#'    input `x` contains no NAs.
+#'
+#' `na.method="none"` treats `NAs` (the smallest integer) like every other integer and
+#'   hence returns either `TRUE` or `FALSE` `na.method="break"` checks for `NAs` and
+#'   returns either `NA` as soon as  `NA` is encountered. `na.method="skip"` checks for
+#'   `NAs` and skips over them, hence decides the return value only on the basis of
+#'   non-NA values.
 #'
 #'
 #' @param x an integer vector
-#' @param na.method one of "none","break","skip", see details. The strange defaults stem from the initial usage.
-#' @return \code{intrle} returns an object of class \code{\link{rle}} or NULL,
-#' if rle-compression is not efficient (compression factor <3 or length(x)<3).
-#' \cr \code{intisasc} returns one of \code{FALSE, NA, TRUE} \cr
-#' \code{intisdesc} returns one of \code{FALSE, TRUE} (if the input contains
-#' NAs, the output is undefined)
+#' @param na.method one of "none","break","skip", see details. The strange defaults stem
+#'   from the initial usage.
+#' @return
+#'  - `intrle` returns an object of class [rle()] or NULL, if rle-compression is not
+#'    efficient (compression factor <3 or length(x)<3).
+#'  - `intisasc` returns one of `FALSE, NA, TRUE`
+#'  - `intisdesc` returns one of `FALSE, TRUE` (if the input contains NAs, the output is
+#'    undefined)
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link[ff]{hi}}, \code{\link{rle}}, \code{\link{is.unsorted}},
-#' \code{\link[ff]{is.sorted}}
+#' @seealso [ff::hi()], [rle()], [is.unsorted()],
+#' [ff::is.sorted.default()]
 #' @keywords IO data
 #' @examples
 #'
@@ -94,21 +101,22 @@ intisdesc <- function(x, na.method=c("none","break","skip")[1]){
 #' Hybrid Index, rle-pack utilities
 #'
 #' Basic utilities for rle packing and unpacking and apropriate methods for
-#' \code{\link{rev}} and \code{\link{unique}}.
+#' [rev()] and [unique()].
 #'
 #'
 #' @param x in 'rlepack' an integer vector, in the other functions an object of
 #' class 'rlepack'
 #' @param pack FALSE to suppress packing
 #' @param incomparables just to keep R CMD CHECK quiet (not used)
-#' @param \dots just to keep R CMD CHECK quiet (not used)
-#' @return A list with components \item{ first }{ the first element of the
-#' packed sequence } \item{ dat }{ either an object of class \code{\link{rle}}
-#' or the complete input vector \code{x} if rle-packing is not efficient }
-#' \item{ last }{ the last element of the packed sequence }
+#' @param ... just to keep R CMD CHECK quiet (not used)
+#' @return A list with components:
+#'  - first: the first element of the packed sequence
+#'  - dat: either an object of class [rle()] or the complete input vector `x` if
+#'    rle-packing is not efficient
+#'  - last: the last element of the packed sequence
+#'
 #' @author Jens Oehlschlägel
-#' @seealso \code{\link[ff]{hi}}, \code{\link{intrle}}, \code{\link{rle}},
-#' \code{\link{rev}}, \code{\link{unique}}
+#' @seealso [ff::hi()], [intrle()], [rle()], [rev()], [unique()]
 #' @keywords IO data
 #' @examples
 #'

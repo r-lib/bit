@@ -18,7 +18,7 @@ immediately before the timing?  Default is \code{TRUE}.}
 the calling frame)}
 }
 \value{
-A object of class \code{"proc_time"}: see \code{\link{proc.time}}
+A object of class \code{"proc_time"}: see \code{\link[=proc.time]{proc.time()}}
 for details.
 }
 \description{
@@ -33,9 +33,9 @@ Repeats timing expr until minSec is reached
 
 }
 \seealso{
-\code{\link{system.time}}
+\code{\link[=system.time]{system.time()}}
 }
 \author{
-Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschlägel \href{mailto:Jens.Oehlschlaegel@truecluster.com}{Jens.Oehlschlaegel@truecluster.com}
 }
 \keyword{utilities}

@@ -46,7 +46,7 @@ maxindex(x, ...)
 poslength(x, ...)
 }
 \arguments{
-\item{x}{an R object, typically a \code{\link{is.booltype}} object.}
+\item{x}{an R object, typically a \code{\link[=is.booltype]{is.booltype()}} object.}
 
 \item{...}{further arguments (ignored)}
 }
@@ -54,40 +54,40 @@ poslength(x, ...)
 an integer scalar
 }
 \description{
-For \code{\link{is.booltype}} objects the term \code{\link{length}} is ambiguous. 
-For example the length of \code{\link{which}} corresponds to the sum of \code{\link{logical}}.
-The generic \code{maxindex} gives \code{length(logical)} for all \code{\link{booltype}s}.
-The generic \code{poslength} gives the number of positively selected elements, i.e. \code{sum(logical)} for all \code{\link{booltype}s} 
-(and gives \code{NA} if \code{NAs} are present).
+For \code{\link[=is.booltype]{is.booltype()}} objects the term \code{\link[=length]{length()}} is ambiguous.
+For example the length of \code{\link[=which]{which()}} corresponds to the sum of \code{\link[=logical]{logical()}}.
+The generic \code{maxindex} gives \code{length(logical)} for all \code{\link[=booltype]{booltype()}}s.
+The generic \code{poslength} gives the number of positively selected elements, i.e.
+\code{sum(logical)} for all \code{\link[=booltype]{booltype()}}s (and gives \code{NA} if \code{NAs} are present).
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{maxindex(default)}: default method for \code{maxindex}
 
-\item \code{maxindex(logical)}: \code{maxindex} method for class \code{\link{logical}}
+\item \code{maxindex(logical)}: \code{maxindex} method for class \code{\link[=logical]{logical()}}
 
-\item \code{maxindex(bit)}: \code{maxindex} method for class \code{\link{bit}}
+\item \code{maxindex(bit)}: \code{maxindex} method for class \code{\link[=bit]{bit()}}
 
-\item \code{maxindex(bitwhich)}: \code{maxindex} method for class \code{\link{bitwhich}}
+\item \code{maxindex(bitwhich)}: \code{maxindex} method for class \code{\link[=bitwhich]{bitwhich()}}
 
-\item \code{maxindex(which)}: \code{maxindex} method for class \code{\link[=as.which]{which}}
+\item \code{maxindex(which)}: \code{maxindex} method for class \code{\link[=as.which]{which()}}
 
-\item \code{maxindex(ri)}: \code{maxindex} method for class \code{\link{ri}}
+\item \code{maxindex(ri)}: \code{maxindex} method for class \code{\link[=ri]{ri()}}
 
 }}
 \section{Functions}{
 \itemize{
 \item \code{poslength(default)}: default method for \code{poslength}
 
-\item \code{poslength(logical)}: \code{poslength} method for class \code{\link{logical}}
+\item \code{poslength(logical)}: \code{poslength} method for class \code{\link[=logical]{logical()}}
 
-\item \code{poslength(bit)}: \code{poslength} method for class \code{\link{bit}}
+\item \code{poslength(bit)}: \code{poslength} method for class \code{\link[=bit]{bit()}}
 
-\item \code{poslength(bitwhich)}: \code{poslength} method for class \code{\link{bitwhich}}
+\item \code{poslength(bitwhich)}: \code{poslength} method for class \code{\link[=bitwhich]{bitwhich()}}
 
-\item \code{poslength(which)}: \code{poslength} method for class \code{\link[=as.which]{which}}
+\item \code{poslength(which)}: \code{poslength} method for class \code{\link[=as.which]{which()}}
 
-\item \code{poslength(ri)}: \code{poslength} method for class \code{\link{ri}}
+\item \code{poslength(ri)}: \code{poslength} method for class \code{\link[=ri]{ri()}}
 
 }}
 \examples{

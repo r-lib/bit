@@ -15,16 +15,18 @@ range_sortna(x, decreasing = FALSE, na.last = NA)
 \code{TRUE} puts NAs at the end}
 }
 \value{
-an integer vector with \code{NA}s are treated and an \code{attribute} \code{\link{range_na}}  with four elements \describe{
-  \item{ 1 }{ min integer }
-  \item{ 2 }{ max integer }
-  \item{ 3 }{ number of NAs }
-  \item{ 3 }{ 0 for sorted vector and 1 for \code{\link{is.unsorted}}  }
-  }
+an integer vector with \code{NA}s are treated and an \code{attribute} \code{\link[=range_na]{range_na()}}  with
+four elements:
+\enumerate{
+\item min integer
+\item max integer
+\item number of NAs
+\item 0 for sorted vector and 1 for \code{\link[=is.unsorted]{is.unsorted()}}
+}
 }
 \description{
 In one pass over the vector \code{NA}s are treated according to parameter
-\code{na.last} exactly like \code{\link{sort}} does, the \code{\link{range}},
+\code{na.last} exactly like \code{\link[=sort]{sort()}} does, the \code{\link[=range]{range()}},
 number of \code{NA}s and unsortedness is determined.
 }
 \examples{
@@ -36,5 +38,5 @@ range_sortna(c(0L,1L,NA,2L), na.last=FALSE)
 range_sortna(c(2L,NA,1L,0L), na.last=FALSE)
 }
 \seealso{
-\code{\link{range_na}} and \code{\link{range_nanozero}}
+\code{\link[=range_na]{range_na()}} and \code{\link[=range_nanozero]{range_nanozero()}}
 }

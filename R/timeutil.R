@@ -11,14 +11,14 @@
 #'
 #' @param expr Valid expression to be timed.
 #' @param gcFirst Logical - should a garbage collection be performed
-#' immediately before the timing?  Default is \code{TRUE}.
+#' immediately before the timing?  Default is `TRUE`.
 #' @param minSec number of seconds to repeat at least
-#' @param envir the environment in which to evaluate \code{expr} (by default
+#' @param envir the environment in which to evaluate `expr` (by default
 #' the calling frame)
-#' @return A object of class \code{"proc_time"}: see \code{\link{proc.time}}
+#' @return A object of class `"proc_time"`: see [proc.time()]
 #' for details.
 #' @author Jens Oehlschlägel <Jens.Oehlschlaegel@@truecluster.com>
-#' @seealso \code{\link{system.time}}
+#' @seealso [system.time()]
 #' @keywords utilities
 #' @examples
 #'

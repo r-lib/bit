@@ -34,7 +34,7 @@ nties(x, ...) <- value
 \arguments{
 \item{x}{some object}
 
-\item{\dots}{ignored}
+\item{...}{ignored}
 
 \item{value}{value assigned on responsibility of the user}
 }
@@ -52,14 +52,11 @@ see help of the available methods
   methods("na.count")
 }
 \seealso{
-\code{\link[bit64]{is.sorted.integer64}},
-\code{\link[bit64:is.sorted.integer64]{na.count.integer64}},
-\code{\link[bit64:is.sorted.integer64]{nvalid.integer64}},
-\code{\link[bit64:is.sorted.integer64]{nunique.integer64}}, \code{\link[bit64:is.sorted.integer64]{nties.integer64}}
-\cr
+\code{\link[bit64:is.sorted.integer64]{bit64::is.sorted.integer64()}}, \code{\link[bit64:is.sorted.integer64]{bit64::na.count.integer64()}},
+\code{\link[bit64:is.sorted.integer64]{bit64::nvalid.integer64()}}, \code{\link[bit64:is.sorted.integer64]{bit64::nunique.integer64()}}, \code{\link[bit64:is.sorted.integer64]{bit64::nties.integer64()}}
 }
 \author{
-Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschlägel \href{mailto:Jens.Oehlschlaegel@truecluster.com}{Jens.Oehlschlaegel@truecluster.com}
 }
 \keyword{environment}
 \keyword{methods}

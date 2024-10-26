@@ -127,10 +127,10 @@
 \arguments{
 \item{x}{an object of class bit or bitwhich}
 
-\item{range}{a \code{\link{ri}} or an integer vector of length==2 giving a
+\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length==2 giving a
 range restriction for chunked processing}
 
-\item{\dots}{formally required but not used}
+\item{...}{formally required but not used}
 
 \item{recursive}{formally required but not used}
 
@@ -140,41 +140,46 @@ range restriction for chunked processing}
 as expected
 }
 \description{
-Fast aggregation functions for \code{\link{booltype}} vectors. namely \code{\link{bit}}, \code{\link{all}}, \code{\link{any}}, \code{\link{anyNA}},
-\code{\link{min}}, \code{\link{max}}, \code{\link{range}},
-\code{\link{sum}} and \code{\link{summary}}.
-Now all boolean summaries (except for \code{anyNA} because the generic does not allow it) have an optional \code{range} argument to restrict the range of evalution.
-Note that the boolean summaries have meaning and return values differing from logical aggregation functions: they treat \code{NA} as \code{FALSE}, 
-\code{min}, \code{max} and \code{range} give the minimum and maximum positions of \code{TRUE}, \code{summary} returns counts of \code{FALSE},  \code{TRUE} and the \code{range}.
-Note that you can force the boolean interpretation by calling the booltype method explicitely on any \code{\link{booltypes}} input, e.g. \code{min.booltype()}, see the examples.
+Fast aggregation functions for \code{\link[=booltype]{booltype()}} vectors. namely \code{\link[=bit]{bit()}}, \code{\link[=all]{all()}}, \code{\link[=any]{any()}},
+\code{\link[=anyNA]{anyNA()}}, \code{\link[=min]{min()}}, \code{\link[=max]{max()}}, \code{\link[=range]{range()}}, \code{\link[=sum]{sum()}} and \code{\link[=summary]{summary()}}.
+Now all boolean summaries (except for \code{anyNA} because the generic does not allow it)
+have an optional \code{range} argument to restrict the range of evalution.
+Note that the boolean summaries have meaning and return values differing from logical
+aggregation functions: they treat \code{NA} as \code{FALSE}, \code{min}, \code{max} and \code{range} give the
+minimum and maximum positions of \code{TRUE}, \code{summary} returns counts of \code{FALSE},  \code{TRUE}
+and the \code{range}.
+Note that you can force the boolean interpretation by calling the booltype method
+explicitly on any \code{\link{booltypes}} input, e.g. \code{min.booltype()}, see the
+examples.
 }
 \details{
-Summaries of \code{\link{bit}} vectors are quite fast because we use a double loop that fixes each
-word in a processor register.  Furthermore we break out of looping as soon
-as possible. Summaries of \code{\link{bitwhich}} vectors are even faster, if the selection is very skewed.
+Summaries of \code{\link[=bit]{bit()}} vectors are quite fast because we use a double loop that fixes
+each word in a processor register.  Furthermore we break out of looping as soon
+as possible. Summaries of \code{\link[=bitwhich]{bitwhich()}} vectors are even faster, if the selection is
+very skewed.
 }
 \examples{
 
   l <- c(NA, FALSE, TRUE)
   b <- as.bit(l)
-  
+
   all(l)
   all(b)
   all(b, range=c(3,3))
   all.booltype(l, range=c(3,3))
-  
+
   min(l)
   min(b)
-  
+
   sum(l)
   sum(b)
-  
+
   summary(l)
   summary(b)
   summary.booltype(l)
 }
 \seealso{
-\code{\link{length}}
+\code{\link[=length]{length()}}
 }
 \author{
 Jens Oehlschlägel

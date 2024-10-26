@@ -64,93 +64,95 @@
 xor(x, y)
 }
 \arguments{
-\item{x}{a \code{\link{is.booltype}} vector}
+\item{x}{a \code{\link[=is.booltype]{is.booltype()}} vector}
 
-\item{y}{a \code{\link{is.booltype}} vector}
+\item{y}{a \code{\link[=is.booltype]{is.booltype()}} vector}
 
-\item{e1}{a \code{\link{is.booltype}} vector}
+\item{e1}{a \code{\link[=is.booltype]{is.booltype()}} vector}
 
-\item{e2}{a \code{\link{is.booltype}} vector}
+\item{e2}{a \code{\link[=is.booltype]{is.booltype()}} vector}
 }
 \value{
-An object of class \code{\link{booltype}} or \code{\link{logical}}
+An object of class \code{\link[=booltype]{booltype()}} or \code{\link[=logical]{logical()}}
 }
 \description{
-Boolean NEGATION '!', AND '&', OR '|' and EXCLUSIVE OR xor', see \code{\link[base]{Logic}}.
+Boolean NEGATION '!', AND '&', OR '|' and EXCLUSIVE OR xor', see
+\code{\link[base:Logic]{Logic}}.
 }
 \details{
-The binary operators and function \code{xor} can now combine any \code{\link{is.booltype}} vectors. 
-They now recycle if vectors have different length. If the two arguments have different \code{\link{booltypes}} the return value corresponds to the lower \code{\link{booltype}} of the two. \cr
+The binary operators and function \code{xor} can now combine any \code{\link[=is.booltype]{is.booltype()}} vectors.
+They now recycle if vectors have different length. If the two arguments have different
+\code{\link[=booltypes]{booltypes()}} the return value corresponds to the lower \code{\link[=booltype]{booltype()}} of the two.
 
-Boolean operations on \code{\link{bit}} vectors are extremely fast because they are
-implemented using C's bitwise operators. Boolean operations on or \code{\link{bitwhich}}  
-vectors are even faster, if they represent very skewed selections.  \cr
+Boolean operations on \code{\link[=bit]{bit()}} vectors are extremely fast because they are
+implemented using C's bitwise operators. Boolean operations on or \code{\link[=bitwhich]{bitwhich()}}
+vectors are even faster, if they represent very skewed selections.
 
 The \code{xor} function has been made generic and \code{xor.default} has
-been implemented much faster than R's standard \code{\link[base:Logic]{xor}}.
+been implemented much faster than R's standard \code{\link[=xor]{xor()}}.
 This was possible because actually boolean function \code{xor} and
 comparison operator \code{!=} do the same (even with NAs), and \code{!=} is
 much faster than the multiple calls in \code{(x | y) & !(x & y)}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{xor(default)}: default method for \code{\link{xor}}
+\item \code{xor(default)}: default method for \code{\link[=xor]{xor()}}
 
-\item \code{xor(logical)}: \code{\link{logical}} method for \code{\link{xor}}
+\item \code{xor(logical)}: \code{\link[=logical]{logical()}} method for \code{\link[=xor]{xor()}}
 
-\item \code{xor(bit)}: \code{\link{bit}} method for \code{\link{xor}}
+\item \code{xor(bit)}: \code{\link[=bit]{bit()}} method for \code{\link[=xor]{xor()}}
 
-\item \code{xor(bitwhich)}: \code{\link{bitwhich}} method for \code{\link{xor}}
+\item \code{xor(bitwhich)}: \code{\link[=bitwhich]{bitwhich()}} method for \code{\link[=xor]{xor()}}
 
-\item \code{xor(booltype)}: \code{\link{booltype}} method for \code{\link{xor}}
+\item \code{xor(booltype)}: \code{\link[=booltype]{booltype()}} method for \code{\link[=xor]{xor()}}
 
 }}
 \section{Functions}{
 \itemize{
-\item \code{`!`(bit)}: \code{\link{bit}} method for \code{\link{!}}
+\item \code{`!`(bit)}: \code{\link[=bit]{bit()}} method for \code{\link[=Logic]{!}}
 
-\item \code{ & }: \code{\link{bit}} method for \code{\link{&}}
+\item \code{ & }: \code{\link[=bit]{bit()}} method for \code{\link[=Logic]{&}}
 
-\item \code{ | }: \code{\link{bit}} method for \code{\link{|}}
+\item \code{ | }: \code{\link[=bit]{bit()}} method for \code{\link[=Logic]{|}}
 
-\item \code{ == }: \code{\link{bit}} method for \code{\link{==}}
+\item \code{ == }: \code{\link[=bit]{bit()}} method for \code{\link[=Comparison]{==}}
 
-\item \code{ != }: \code{\link{bit}} method for \code{\link{!=}}
+\item \code{ != }: \code{\link[=bit]{bit()}} method for \code{\link[=Comparison]{!=}}
 
-\item \code{`!`(bitwhich)}: \code{\link{bitwhich}} method for \code{\link{!}}
+\item \code{`!`(bitwhich)}: \code{\link[=bitwhich]{bitwhich()}} method for \code{\link[=Logic]{!}}
 
-\item \code{ & }: \code{\link{bitwhich}} method for \code{\link{&}}
+\item \code{ & }: \code{\link[=bitwhich]{bitwhich()}} method for \code{\link[=Logic]{&}}
 
-\item \code{ | }: \code{\link{bitwhich}} method for \code{\link{|}}
+\item \code{ | }: \code{\link[=bitwhich]{bitwhich()}} method for \code{\link[=Logic]{|}}
 
-\item \code{ == }: \code{\link{bitwhich}} method for \code{\link{==}}
+\item \code{ == }: \code{\link[=bitwhich]{bitwhich()}} method for \code{\link[=Comparison]{==}}
 
-\item \code{ != }: \code{\link{bitwhich}} method for \code{\link{!=}}
+\item \code{ != }: \code{\link[=bitwhich]{bitwhich()}} method for \code{\link[=Comparison]{!=}}
 
-\item \code{ & }: \code{\link{booltype}} method for \code{\link{&}}
+\item \code{ & }: \code{\link[=booltype]{booltype()}} method for \code{\link[=Logic]{&}}
 
-\item \code{ | }: \code{\link{booltype}} method for \code{\link{|}}
+\item \code{ | }: \code{\link[=booltype]{booltype()}} method for \code{\link[=Logic]{|}}
 
-\item \code{ == }: \code{\link{booltype}} method for \code{\link{==}}
+\item \code{ == }: \code{\link[=booltype]{booltype()}} method for \code{\link[=Comparison]{==}}
 
-\item \code{ != }: \code{\link{booltype}} method for \code{\link{!=}}
+\item \code{ != }: \code{\link[=booltype]{booltype()}} method for \code{\link[=Comparison]{!=}}
 
 }}
 \examples{
 
   x <- c(FALSE, FALSE, FALSE, NA, NA, NA, TRUE, TRUE, TRUE)
   y <- c(FALSE, NA, TRUE, FALSE, NA, TRUE, FALSE, NA, TRUE)
-  
+
   x|y
   x|as.bit(y)
   x|as.bitwhich(y)
   x|as.which(y)
   x|ri(1,1,9)
-  
-  
+
+
 }
 \seealso{
-\code{\link{booltypes}}, \code{\link{Logic}}
+\code{\link[=booltypes]{booltypes()}}, \code{\link{Logic}}
 }
 \author{
 Jens Oehlschlägel

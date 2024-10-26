@@ -19,28 +19,32 @@ bit_sumDuplicated(x, na.rm = NA, range_na = NULL)
 \arguments{
 \item{x}{an integer vector}
 
-\item{na.rm}{\code{NA} treats NAs like other integers, \code{TRUE} treats 
-\emph{all} NAs as duplicates, \code{FALSE} treats \emph{no} NAs as 
+\item{na.rm}{\code{NA} treats NAs like other integers, \code{TRUE} treats
+\emph{all} NAs as duplicates, \code{FALSE} treats \emph{no} NAs as
 duplicates}
 
-\item{range_na}{\code{NULL} calls \code{\link{range_na}}, optionally the result of \code{\link{range_na}} can be given here to avoid calling it again}
+\item{range_na}{\code{NULL} calls \code{\link[=range_na]{range_na()}}, optionally the result of \code{\link[=range_na]{range_na()}} can be
+given here to avoid calling it again}
 
-\item{retFUN}{a function that coerces \code{\link{bit}} and \code{\link{logical}} vectors}
+\item{retFUN}{a function that coerces \code{\link[=bit]{bit()}} and \code{\link[=logical]{logical()}} vectors}
 }
 \value{
-\code{bit_unique} returns a vector of unique integers, \cr
-  \code{bit_duplicated} returns a boolean vector coerced to \code{retFUN}, \cr
-  \code{bit_anyDuplicated} returns the position of the first duplicate (or zero if no duplicates) \cr
-  \code{bit_sumDuplicated} returns the number of duplicated values (as.integer)
+\itemize{
+\item \code{bit_unique} returns a vector of unique integers,
+\item \code{bit_duplicated} returns a boolean vector coerced to \code{retFUN},
+\item \code{bit_anyDuplicated} returns the position of the first duplicate (or zero if no
+duplicates)
+\item \code{bit_sumDuplicated} returns the number of duplicated values (as.integer)
+}
 }
 \description{
-Fast versions of \code{\link{unique}}, \code{\link{duplicated}} ,
-\code{\link{anyDuplicated}} and \code{sum(duplicated(x))} for integers.
+Fast versions of \code{\link[=unique]{unique()}}, \code{\link[=duplicated]{duplicated()}} ,
+\code{\link[=anyDuplicated]{anyDuplicated()}} and \code{sum(duplicated(x))} for integers.
 }
 \details{
-determines the range of the integers and checks if the density justifies use 
-of a bit vector; if yes, uses a bit vector for finding duplicates; if no, 
-falls back to \code{\link{unique}}, \code{\link{duplicated}}, \code{\link{anyDuplicated}} and \code{sum(duplicated(x))}
+determines the range of the integers and checks if the density justifies use
+of a bit vector; if yes, uses a bit vector for finding duplicates; if no,
+falls back to \code{\link[=unique]{unique()}}, \code{\link[=duplicated]{duplicated()}}, \code{\link[=anyDuplicated]{anyDuplicated()}} and \code{sum(duplicated(x))}
 }
 \section{Functions}{
 \itemize{
@@ -71,5 +75,5 @@ bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
 bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
 }
 \seealso{
-\code{\link{bit_sort_unique}}
+\code{\link[=bit_sort_unique]{bit_sort_unique()}}
 }

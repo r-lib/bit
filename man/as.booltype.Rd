@@ -12,7 +12,7 @@ as.booltype(x, booltype, ...)
 \arguments{
 \item{x}{object to coerce}
 
-\item{booltype}{target \code{\link{booltype}} given as integer or as character}
+\item{booltype}{target \code{\link[=booltype]{booltype()}} given as integer or as character}
 
 \item{...}{further arguments}
 }
@@ -36,5 +36,6 @@ as.booltype(0:1, "which", maxindex=2)
 as.booltype(0:1, "ri")
 }
 \seealso{
-\code{\link{CoercionToStandard}}, \code{\link{booltypes}}, \code{\link{booltype}}, \code{\link{is.booltype}}
+\code{\link{CoercionToStandard}}, \code{\link[=booltypes]{booltypes()}}, \code{\link[=booltype]{booltype()}},
+\code{\link[=is.booltype]{is.booltype()}}
 }

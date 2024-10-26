@@ -12,14 +12,15 @@ bitsort(x, na.last = NA, depth = 1)
 \item{na.last}{\code{NA} removes NAs, \code{FALSE} puts NAs at the beginning,
 \code{TRUE} puts NAs at the end}
 
-\item{depth}{an integer scalar giving the number of bit-passed before switching to quicksort}
+\item{depth}{an integer scalar giving the number of bit-passed before switching to
+quicksort}
 }
 \value{
 a sorted vector
 }
 \description{
 In one pass over the vector \code{NA}s are handled according to parameter
-\code{na.last} by \code{\link{range_sortna}}, then, if the vector is unsorted, 
+\code{na.last} by \code{\link[=range_sortna]{range_sortna()}}, then, if the vector is unsorted,
 bit sort is invoked.
 }
 \examples{

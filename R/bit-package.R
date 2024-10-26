@@ -10,8 +10,7 @@
 #' sorted and unsorted sets of integers, and foundations for ff (range indices,
 #' compression, chunked processing).
 #'
-#' For details view the vignettes \url{../doc/bit-usage.pdf} and
-#' \url{../doc/bit-performance.pdf}
+#' For details view the `vignette("bit-usage")` and `vignette("bit-performance")`.
 #'
 #'@name bit-package
 NULL

@@ -34,42 +34,43 @@ as.bitwhich(x = NULL, ...)
 \item{x}{An object of class 'bitwhich', 'integer', 'logical' or 'bit' or an
 integer vector as resulting from 'which'}
 
-\item{\dots}{further arguments}
+\item{...}{further arguments}
 
 \item{maxindex}{the length of the new bitwhich vector}
 
 \item{poslength}{the number of selected elements}
 
-\item{range}{a \code{\link{ri}} or an integer vector of length==2 giving a
+\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length==2 giving a
 range restriction for chunked processing}
 }
 \value{
-a value of class \code{\link{bitwhich}}
+a value of class \code{\link[=bitwhich]{bitwhich()}}
 }
 \description{
 Functions to coerce to bitwhich
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{as.bitwhich(`NULL`)}: method to coerce to \code{\link{bitwhich}} (zero length) from \code{\link{NULL}}
+\item \code{as.bitwhich(`NULL`)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} (zero length) from
+\code{\link{NULL}}
 
-\item \code{as.bitwhich(bitwhich)}: method to coerce to \code{\link{bitwhich}} from \code{\link{bitwhich}}
+\item \code{as.bitwhich(bitwhich)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from \code{\link[=bitwhich]{bitwhich()}}
 
-\item \code{as.bitwhich(which)}: method to coerce to \code{\link{bitwhich}} from \code{\link[=as.which]{which}}
+\item \code{as.bitwhich(which)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from \code{\link[=as.which]{which()}}
 
-\item \code{as.bitwhich(ri)}: method to coerce to \code{\link{bitwhich}} from \code{\link{ri}}
+\item \code{as.bitwhich(ri)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from \code{\link[=ri]{ri()}}
 
-\item \code{as.bitwhich(integer)}: method to coerce to \code{\link{bitwhich}} from
-\code{\link{integer}} (\code{0} and \code{NA} become \code{FALSE}, everthing
+\item \code{as.bitwhich(integer)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from
+\code{\link[=integer]{integer()}} (\code{0} and \code{NA} become \code{FALSE}, everthing
 else becomes \code{TRUE})
 
-\item \code{as.bitwhich(double)}: method to coerce to \code{\link{bitwhich}} from
-\code{\link{double}} (\code{0} and \code{NA} become \code{FALSE}, everthing
+\item \code{as.bitwhich(double)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from
+\code{\link[=double]{double()}} (\code{0} and \code{NA} become \code{FALSE}, everthing
 else becomes \code{TRUE})
 
-\item \code{as.bitwhich(logical)}: method to coerce to \code{\link{bitwhich}} from \code{\link{logical}}
+\item \code{as.bitwhich(logical)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from \code{\link[=logical]{logical()}}
 
-\item \code{as.bitwhich(bit)}: method to coerce to \code{\link{bitwhich}} from \code{\link{bit}}
+\item \code{as.bitwhich(bit)}: method to coerce to \code{\link[=bitwhich]{bitwhich()}} from \code{\link[=bit]{bit()}}
 
 }}
 \examples{
@@ -84,8 +85,8 @@ as.bitwhich(c(0,1,2,-2,NA))
 
 }
 \seealso{
-\code{\link{CoercionToStandard}}, \code{\link{as.booltype}}, \code{\link{as.bit}}, \code{\link{as.bitwhich}}
-, \code{\link{as.which}}, \code{\link{as.ri}}, \code{\link[ff]{as.hi}},  \code{\link[ff]{as.ff}}
+\code{\link{CoercionToStandard}}, \code{\link[=as.booltype]{as.booltype()}}, \code{\link[=as.bit]{as.bit()}},
+\code{\link[=as.bitwhich]{as.bitwhich()}} , \code{\link[=as.which]{as.which()}}, \code{\link[=as.ri]{as.ri()}}, \code{\link[ff:as.hi]{ff::as.hi()}},  \code{\link[ff:as.ff]{ff::as.ff()}}
 }
 \author{
 Jens Oehlschlägel

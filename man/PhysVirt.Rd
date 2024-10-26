@@ -39,11 +39,10 @@ virtual(x) <- value
 
 \item{value}{a list with named elements}
 
-\item{\dots}{further arguments}
+\item{...}{further arguments}
 }
 \value{
-\command{physical} and \command{virtual} returns a list with named
-elements
+\code{physical} and \code{virtual} returns a list with named elements
 }
 \description{
 Compatibility functions (to package ff) for getting and setting physical and
@@ -53,8 +52,8 @@ virtual attributes.
 ff objects have physical and virtual attributes, which have different
 copying semantics: physical attributes are shared between copies of ff
 objects while virtual attributes might differ between copies.
-\code{\link[ff:as.ff]{as.ram}} will retain some physical and virtual atrributes in
-the ram clone, such that \code{\link[ff]{as.ff}} can restore an ff object
+\code{\link[ff:as.ff]{ff::as.ram()}} will retain some physical and virtual atrributes in
+the ram clone, such that \code{\link[ff:as.ff]{ff::as.ff()}} can restore an ff object
 with the same attributes.
 }
 \examples{
@@ -63,7 +62,7 @@ with the same attributes.
   virtual(bit(12))
 }
 \seealso{
-\code{\link[ff]{physical.ff}}, \code{\link[ff]{physical.ffdf}}
+\code{\link[ff:physical.ff]{ff::physical.ff()}}, \code{\link[ff:physical.ffdf]{ff::physical.ffdf()}}
 }
 \author{
 Jens Oehlschlägel

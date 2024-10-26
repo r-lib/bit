@@ -19,7 +19,7 @@ known)}
 
 \item{x}{an object of class 'ri'}
 
-\item{\dots}{further arguments}
+\item{...}{further arguments}
 }
 \value{
 A two element integer vector with class 'ri'
@@ -34,7 +34,7 @@ of the data
 
 }
 \seealso{
-\code{\link[ff]{as.hi}}
+\code{\link[ff:as.hi]{ff::as.hi()}}
 }
 \author{
 Jens Oehlschlägel

@@ -7,7 +7,7 @@
 bit_rangediff(rx, y, revx = FALSE, revy = FALSE)
 }
 \arguments{
-\item{rx}{range of integers given as \code{\link{ri}} or as a two-element \code{\link{integer}}}
+\item{rx}{range of integers given as \code{\link[=ri]{ri()}} or as a two-element \code{\link[=integer]{integer()}}}
 
 \item{y}{an integer vector of elements to exclude}
 
@@ -22,9 +22,9 @@ an integer vector
 Fast version of \code{setdiff(rx[1]:rx[2], y)}.
 }
 \details{
-determines the range of the integers \code{y} and checks if the density justifies use 
-of a bit vector; if yes, uses a bit vector for the set operation; if no, 
-falls back to a quicksort and \code{\link{merge_rangediff}}
+determines the range of the integers \code{y} and checks if the density justifies use
+of a bit vector; if yes, uses a bit vector for the set operation; if no,
+falls back to a quicksort and \code{\link[=merge_rangediff]{merge_rangediff()}}
 }
 \examples{
 bit_rangediff(c(1L,6L), c(3L,4L))
@@ -33,5 +33,5 @@ bit_rangediff(c(6L,1L), c(3L,4L), revx=TRUE)
 bit_rangediff(c(6L,1L), c(3L,4L), revx=TRUE, revy=TRUE)
 }
 \seealso{
-\code{\link{bit_setdiff}}, \code{\link{merge_rangediff}}
+\code{\link[=bit_setdiff]{bit_setdiff()}}, \code{\link[=merge_rangediff]{merge_rangediff()}}
 }

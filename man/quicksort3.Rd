@@ -17,7 +17,7 @@ a sorted vector
 }
 \description{
 In one pass over the vector \code{NA}s are handled according to parameter
-\code{na.last} by \code{\link{range_sortna}}, then, if the vector is unsorted, 
+\code{na.last} by \code{\link[=range_sortna]{range_sortna()}}, then, if the vector is unsorted,
 threeway quicksort is invoked.
 }
 \examples{
