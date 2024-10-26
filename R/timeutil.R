@@ -51,5 +51,7 @@ repeat.time <- function (expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame())
     }
     new.time <- proc.time()
     on.exit()
-    structure((new.time - time0)/r, class = "proc_time")
+    out = (new.time - time0) / r
+    class(out) = "proc_time"
+    out
 }

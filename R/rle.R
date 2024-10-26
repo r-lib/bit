@@ -140,12 +140,14 @@ rlepack.integer <- function(
       r <- intrle(diff(x))  # returns NULL if rle is inefficient, old condition was 2*length(r$lengths)<n
     else
       r <- NULL
-    structure(list(first=x[1], dat=if (is.null(r)) x else r, last=x[n]), class="rlepack")
+    out = list(first=x[1], dat=if (is.null(r)) x else r, last=x[n])
   }else if (n==1){
-    structure(list(first=x[1], dat=x, last=x[1]), class="rlepack")
+    out = list(first=x[1], dat=x, last=x[1])
   }else{
-    structure(list(first=NA_integer_, dat=x, last=NA_integer_), class="rlepack")
+    out = list(first=NA_integer_, dat=x, last=NA_integer_)
   }
+  class(out) <- "rlepack"
+  out
 }
 
 #' @rdname rlepack

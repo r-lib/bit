@@ -12,8 +12,8 @@ vignette: >
 
 ```{r, echo = FALSE, results = "hide", message = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-require(bit)
-require(microbenchmark)
+library(bit)
+library(microbenchmark)
 # rmarkdown::render("vignettes/bit-performance.Rmd")
 # these are the real settings for the performance vignette
 times <- 5

@@ -1,6 +1,14 @@
 linters = all_linters(
   packages = "lintr",
   semicolon_linter(allow_compound = TRUE),
+  # TODO(r-lib/lintr#2172): Finer-tuned handling for some of these.
+  undesirable_function_linter(modify_defaults(
+    defaults = default_undesirable_functions,
+    library = NULL,
+    options = NULL,
+    par = NULL,
+    sapply = NULL
+  )),
   assignment_linter = NULL,
   brace_linter = NULL,
   commas_linter = NULL,
@@ -9,6 +17,7 @@ linters = all_linters(
   cyclocomp_linter = NULL,
   function_argument_linter = NULL,
   function_left_parentheses_linter = NULL,
+  # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere with allow_scoped=TRUE
   implicit_assignment_linter = NULL,
   # TODO(r-lib/lintr#2172): Exclude this from vignettes/ enforce elsewhere.
   implicit_integer_linter = NULL,
@@ -26,7 +35,5 @@ linters = all_linters(
   spaces_inside_linter = NULL,
   spaces_left_parentheses_linter = NULL,
   todo_comment_linter = NULL,
-  undesirable_function_linter = NULL,
-  undesirable_operator_linter = NULL,
   unreachable_code_linter = NULL
 )
