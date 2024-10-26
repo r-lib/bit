@@ -1744,12 +1744,12 @@ xor.bitwhich <- function(x, y) x != y
     if (n1 < n2){
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
-      e1 <- rep_len(e1, n2)
+      e1 <- rep(e1, length.out=n2)
       n1 <- n2
     }else if (n2 < n1){
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
-      e2 <- rep_len(e2, n1)
+      e2 <- rep(e2, length.out=n1)
     }
   }
   # do the operation
@@ -1777,12 +1777,12 @@ xor.bitwhich <- function(x, y) x != y
     if (n1 < n2){
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
-      e1 <- rep_len(e1, n2)
+      e1 <- rep(e1, length.out=n2)
       n1 <- n2
     }else if (n2 < n1){
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
-      e2 <- rep_len(e2, n1)
+      e2 <- rep(e2, length.out=n1)
     }
   }
   # do the operation
@@ -1810,12 +1810,12 @@ xor.bitwhich <- function(x, y) x != y
     if (n1 < n2){
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
-      e1 <- rep_len(e1, n2)
+      e1 <- rep(e1, length.out=n2)
       n1 <- n2
     }else if (n2 < n1){
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
-      e2 <- rep_len(e2, n1)
+      e2 <- rep(e2, length.out=n1)
     }
   }
   # do the operation
@@ -1843,12 +1843,12 @@ xor.bitwhich <- function(x, y) x != y
     if (n1 < n2){
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
-      e1 <- rep_len(e1, n2)
+      e1 <- rep(e1, length.out=n2)
       n1 <- n2
     }else if (n2 < n1){
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
-      e2 <- rep_len(e2, n1)
+      e2 <- rep(e2, length.out=n1)
     }
   }
   # do the operation
@@ -2804,7 +2804,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
               stop("replacement has length zero")
             if (nx%%nv)
               warning("number of items to replace is not a multiple of replacement length")
-            ret <- as.bitwhich(rep_len(b, nx))
+            ret <- as.bitwhich(rep(b, length.out=nx))
           }
         }
       }else{
