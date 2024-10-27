@@ -21,7 +21,7 @@ an integer vector with three elements:
 Get range and number of NAs
 }
 \examples{
-range_na(c(0L,1L,2L,NA))
+range_na(c(0L, 1L, 2L, NA))
 }
 \seealso{
 \code{\link[=range_nanozero]{range_nanozero()}} and \code{\link[=range_sortna]{range_sortna()}}

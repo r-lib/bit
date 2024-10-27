@@ -25,7 +25,7 @@ Creating new boolean vectors by concatenating boolean vectors
  c(bit(4), !bit(4))
  c(bit(4), !bitwhich(4))
  c(bitwhich(4), !bit(4))
- c(ri(1,2,4), !bit(4))
+ c(ri(1, 2, 4), !bit(4))
  c(bit(4), !logical(4))
  message("logical in first argument does not dispatch: c(logical(4), bit(4))")
  c.booltype(logical(4), !bit(4))

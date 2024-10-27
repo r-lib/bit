@@ -36,7 +36,7 @@ for integers.
 determines the range of the integers and checks if the density justifies use
 of a bit vector; if yes, uses a bit vector for finding duplicates; if no,
 falls back to \code{\link[=union]{union()}}, \code{\link[=intersect]{intersect()}},
-\code{\link[=setdiff]{setdiff()}}, \code{union(setdiff(x,y),setdiff(y,x))} and \code{\link[=setequal]{setequal()}}
+\code{\link[=setdiff]{setdiff()}}, \code{union(setdiff(x, y), setdiff(y, x))} and \code{\link[=setequal]{setequal()}}
 }
 \section{Functions}{
 \itemize{

@@ -38,12 +38,12 @@ of a bit vector; if yes, creates the result using a bit vector; if no, falls bac
 \code{sort(unique())}
 }
 \examples{
-bit_sort_unique(c(2L,1L,NA,NA,1L,2L))
-bit_sort_unique(c(2L,1L,NA,NA,1L,2L), na.last=FALSE)
-bit_sort_unique(c(2L,1L,NA,NA,1L,2L), na.last=TRUE)
-bit_sort_unique(c(2L,1L,NA,NA,1L,2L), decreasing = TRUE)
-bit_sort_unique(c(2L,1L,NA,NA,1L,2L), decreasing = TRUE, na.last=FALSE)
-bit_sort_unique(c(2L,1L,NA,NA,1L,2L), decreasing = TRUE, na.last=TRUE)
+bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L))
+bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), na.last=FALSE)
+bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), na.last=TRUE)
+bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), decreasing = TRUE)
+bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), decreasing = TRUE, na.last=FALSE)
+bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), decreasing = TRUE, na.last=TRUE)
 
 \dontrun{
 x <- sample(1e7, replace=TRUE)

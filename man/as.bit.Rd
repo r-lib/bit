@@ -79,8 +79,8 @@ to TRUE.  This differs from the NA-to-FALSE coercion in package ff and may
 change in the future.
 }
 \examples{
-as.bit(c(0L,1L,2L,-2L,NA))
-as.bit(c(0,1,2,-2,NA))
+as.bit(c(0L, 1L, 2L, -2L, NA))
+as.bit(c(0, 1, 2, -2, NA))
 
 as.bit(c(FALSE, NA, TRUE))
 

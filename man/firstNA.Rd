@@ -16,7 +16,7 @@ a reversed vector
 This is substantially faster than \code{which.max(is.na(x))}
 }
 \examples{
-x <- c(FALSE,NA,TRUE)
+x <- c(FALSE, NA, TRUE)
 firstNA(x)
 reverse_vector(x)
 \dontrun{

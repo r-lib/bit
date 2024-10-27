@@ -193,17 +193,17 @@ x is empty), hence \code{x[n]} or \code{merge_rev(x)[n]}
 
 \item \code{merge_firstin()}: quickly returns the first common element of a range rx and a
 sorted set y, (or \code{NA} if the intersection is empty), hence
-\code{merge_first(merge_rangesect(rx,y))}
+\code{merge_first(merge_rangesect(rx, y))}
 
 \item \code{merge_lastin()}: quickly returns the last common element of a range rx and a
 sorted set y, (or \code{NA} if the intersection is empty), hence
-\code{merge_last(merge_rangesect(rx,y))}
+\code{merge_last(merge_rangesect(rx, y))}
 
 \item \code{merge_firstnotin()}: quickly returns the first element of a range rx which is not in a
-sorted set y (or \code{NA} if all rx are in y), hence \code{merge_first(merge_rangediff(rx,y))}
+sorted set y (or \code{NA} if all rx are in y), hence \code{merge_first(merge_rangediff(rx, y))}
 
 \item \code{merge_lastnotin()}: quickly returns the last element of a range rx which is not in a
-sorted set y (or \code{NA} if all rx are in y), hence \code{merge_last(merge_rangediff(rx,y))}
+sorted set y (or \code{NA} if all rx are in y), hence \code{merge_last(merge_rangediff(rx, y))}
 
 }}
 \note{
@@ -222,28 +222,28 @@ merge_match(merge_rev(1:7), merge_rev(3:9))
 merge_in(1:7, 3:9)
 merge_notin(1:7, 3:9)
 
-merge_anyDuplicated(c(1L,1L,2L,3L))
-merge_duplicated(c(1L,1L,2L,3L))
-merge_unique(c(1L,1L,2L,3L))
+merge_anyDuplicated(c(1L, 1L, 2L, 3L))
+merge_duplicated(c(1L, 1L, 2L, 3L))
+merge_unique(c(1L, 1L, 2L, 3L))
 
-merge_union(c(1L,2L,2L,2L), c(2L,2L,3L))
-merge_union(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
-merge_union(c(1L,2L,2L,2L), c(2L,2L,3L), method="all")
+merge_union(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+merge_union(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
+merge_union(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="all")
 
-merge_setdiff(c(1L,2L,2L,2L), c(2L,2L,3L))
-merge_setdiff(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
-merge_setdiff(c(1L,2L,2L), c(2L,2L,2L,3L), method="exact")
+merge_setdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+merge_setdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
+merge_setdiff(c(1L, 2L, 2L), c(2L, 2L, 2L, 3L), method="exact")
 
-merge_symdiff(c(1L,2L,2L,2L), c(2L,2L,3L))
-merge_symdiff(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
-merge_symdiff(c(1L,2L,2L), c(2L,2L,2L,3L), method="exact")
+merge_symdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+merge_symdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
+merge_symdiff(c(1L, 2L, 2L), c(2L, 2L, 2L, 3L), method="exact")
 
-merge_intersect(c(1L,2L,2L,2L), c(2L,2L,3L))
-merge_intersect(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
+merge_intersect(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+merge_intersect(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
 
-merge_setequal(c(1L,2L,2L), c(1L,2L))
-merge_setequal(c(1L,2L,2L), c(1L,2L,2L))
-merge_setequal(c(1L,2L,2L), c(1L,2L), method="exact")
-merge_setequal(c(1L,2L,2L), c(1L,2L,2L), method="exact")
+merge_setequal(c(1L, 2L, 2L), c(1L, 2L))
+merge_setequal(c(1L, 2L, 2L), c(1L, 2L, 2L))
+merge_setequal(c(1L, 2L, 2L), c(1L, 2L), method="exact")
+merge_setequal(c(1L, 2L, 2L), c(1L, 2L, 2L), method="exact")
 
 }

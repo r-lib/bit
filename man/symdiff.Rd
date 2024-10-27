@@ -12,18 +12,18 @@ symdiff(x, y)
 \item{y}{a vector}
 }
 \value{
-\code{union(setdiff(x,y), setdiff(y,x))}
+\code{union(setdiff(x, y), setdiff(y, x))}
 }
 \description{
 Symmetric set complement
 }
 \note{
-that \code{symdiff(x,y)} is not \code{\link[=identical]{identical()}}
-as \code{symdiff(y,x)} without applying \code{\link[=sort]{sort()}} to the result
+that \code{symdiff(x, y)} is not \code{\link[=identical]{identical()}}
+as \code{symdiff(y, x)} without applying \code{\link[=sort]{sort()}} to the result
 }
 \examples{
-symdiff(c(1L,2L,2L), c(2L,3L))
-symdiff(c(2L,3L), c(1L,2L,2L))
+symdiff(c(1L, 2L, 2L), c(2L, 3L))
+symdiff(c(2L, 3L), c(1L, 2L, 2L))
 }
 \seealso{
 \code{\link[=merge_symdiff]{merge_symdiff()}} and \code{\link[=xor]{xor()}}

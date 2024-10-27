@@ -30,12 +30,12 @@ In one pass over the vector \code{NA}s are treated according to parameter
 number of \code{NA}s and unsortedness is determined.
 }
 \examples{
-range_sortna(c(0L,1L,NA,2L))
-range_sortna(c(2L,NA,1L,0L))
-range_sortna(c(0L,1L,NA,2L), na.last=TRUE)
-range_sortna(c(2L,NA,1L,0L), na.last=TRUE)
-range_sortna(c(0L,1L,NA,2L), na.last=FALSE)
-range_sortna(c(2L,NA,1L,0L), na.last=FALSE)
+range_sortna(c(0L, 1L, NA, 2L))
+range_sortna(c(2L, NA, 1L, 0L))
+range_sortna(c(0L, 1L, NA, 2L), na.last=TRUE)
+range_sortna(c(2L, NA, 1L, 0L), na.last=TRUE)
+range_sortna(c(0L, 1L, NA, 2L), na.last=FALSE)
+range_sortna(c(2L, NA, 1L, 0L), na.last=FALSE)
 }
 \seealso{
 \code{\link[=range_na]{range_na()}} and \code{\link[=range_nanozero]{range_nanozero()}}

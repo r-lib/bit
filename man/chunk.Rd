@@ -48,11 +48,11 @@ for example \code{\link[ff:chunk.ffdf]{ff::chunk.ffdf()}}
   chunk(raw(1e7))
   chunk(raw(1e7), length=3)
 
-  chunks(1,10,3)
+  chunks(1, 10, 3)
   # no longer do
-  chunk(1,100,10)
+  chunk(1, 100, 10)
   # but for bckward compatibility this works
-  chunk(from=1,to=100,by=10)
+  chunk(from=1, to=100, by=10)
 
 }
 \seealso{

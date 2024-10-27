@@ -25,8 +25,8 @@ This can be substantially faster than \code{duplicate(as.vector(unclass(x)))}
 x <- factor(letters)
 y <- x
 z <- copy_vector(x)
-still.identical(x,y)
-still.identical(x,z)
+still.identical(x, y)
+still.identical(x, z)
 str(x)
 str(y)
 str(z)
