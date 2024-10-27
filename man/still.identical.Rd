@@ -21,6 +21,6 @@ Test for C-level identity of two atomic vectors
 x <- 1:2
 y <- x
 z <- copy_vector(x)
-still.identical(y,x)
-still.identical(z,x)
+still.identical(y, x)
+still.identical(z, x)
 }

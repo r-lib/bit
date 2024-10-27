@@ -74,10 +74,10 @@ else becomes \code{TRUE})
 
 }}
 \examples{
-as.bitwhich(c(0L,1L,2L,-2L,NA))
-as.bitwhich(c(0,1,2,-2,NA))
+as.bitwhich(c(0L, 1L, 2L, -2L, NA))
+as.bitwhich(c(0, 1, 2, -2, NA))
 
- as.bitwhich(c(NA,NA,NA))
+ as.bitwhich(c(NA, NA, NA))
  as.bitwhich(c(FALSE, FALSE, FALSE))
  as.bitwhich(c(FALSE, FALSE, TRUE))
  as.bitwhich(c(FALSE, TRUE, TRUE))

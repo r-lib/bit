@@ -29,9 +29,9 @@ of a bit vector; if yes, sorts the first occurences of each integer in the
 range using a bit vector, sorts the rest and merges; if no, falls back to quicksort.
 }
 \examples{
-bit_sort(c(2L,1L,NA,NA,1L,2L))
-bit_sort(c(2L,1L,NA,NA,1L,2L), na.last=FALSE)
-bit_sort(c(2L,1L,NA,NA,1L,2L), na.last=TRUE)
+bit_sort(c(2L, 1L, NA, NA, 1L, 2L))
+bit_sort(c(2L, 1L, NA, NA, 1L, 2L), na.last=FALSE)
+bit_sort(c(2L, 1L, NA, NA, 1L, 2L), na.last=TRUE)
 
 \dontrun{
 x <- sample(1e7, replace=TRUE)

@@ -27,10 +27,10 @@ Creating new bit or bitwhich by recycling such vectors
 }
 \examples{
 
- rep(as.bit(c(FALSE,TRUE)), 2)
- rep(as.bit(c(FALSE,TRUE)), length.out=7)
- rep(as.bitwhich(c(FALSE,TRUE)), 2)
- rep(as.bitwhich(c(FALSE,TRUE)), length.out=1)
+ rep(as.bit(c(FALSE, TRUE)), 2)
+ rep(as.bit(c(FALSE, TRUE)), length.out=7)
+ rep(as.bitwhich(c(FALSE, TRUE)), 2)
+ rep(as.bitwhich(c(FALSE, TRUE)), length.out=1)
 }
 \seealso{
 \code{\link[=rep]{rep()}}, \code{\link[=bit]{bit()}} , \code{\link[=bitwhich]{bitwhich()}}

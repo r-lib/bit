@@ -24,7 +24,7 @@ In one pass over the vector \code{NA}s are handled according to parameter
 bit sort is invoked.
 }
 \examples{
-bitsort(c(2L,0L,1L,NA,2L))
-bitsort(c(2L,0L,1L,NA,2L), na.last=TRUE)
-bitsort(c(2L,0L,1L,NA,2L), na.last=FALSE)
+bitsort(c(2L, 0L, 1L, NA, 2L))
+bitsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE)
+bitsort(c(2L, 0L, 1L, NA, 2L), na.last=FALSE)
 }

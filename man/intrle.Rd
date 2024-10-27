@@ -15,7 +15,7 @@ intisdesc(x, na.method = c("none", "break", "skip")[1])
 \arguments{
 \item{x}{an integer vector}
 
-\item{na.method}{one of "none","break","skip", see details. The strange defaults stem
+\item{na.method}{one of "none", "break", "skip", see details. The strange defaults stem
 from the initial usage.}
 }
 \value{

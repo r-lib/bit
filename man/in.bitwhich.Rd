@@ -23,7 +23,7 @@ If the table is sorted, this can be much faster than \code{\link[=match]{\%in\%}
 \examples{
 x <- bitwhich(100)
 x[3] <- TRUE
-in.bitwhich(c(NA,2,3), x)
+in.bitwhich(c(NA, 2, 3), x)
 }
 \seealso{
 \code{\link[=match]{\%in\%}}

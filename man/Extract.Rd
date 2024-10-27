@@ -59,8 +59,8 @@ converted to positive ones, beware the RAM consumption.
   x[] <- c(FALSE, NA, TRUE)
   x[1:2]
   x[-3]
-  x[ri(1,2)]
-  x[as.bitwhich(c(TRUE,TRUE,FALSE))]
+  x[ri(1, 2)]
+  x[as.bitwhich(c(TRUE, TRUE, FALSE))]
   x[[1]]
   x[] <- TRUE
   x[1:2] <- FALSE

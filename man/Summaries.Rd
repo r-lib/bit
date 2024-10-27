@@ -165,8 +165,8 @@ very skewed.
 
   all(l)
   all(b)
-  all(b, range=c(3,3))
-  all.booltype(l, range=c(3,3))
+  all(b, range=c(3, 3))
+  all.booltype(l, range=c(3, 3))
 
   min(l)
   min(b)

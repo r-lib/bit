@@ -21,7 +21,7 @@ In one pass over the vector \code{NA}s are handled according to parameter
 counting sort is invoked.
 }
 \examples{
-countsort(c(2L,0L,1L,NA,2L))
-countsort(c(2L,0L,1L,NA,2L), na.last=TRUE)
-countsort(c(2L,0L,1L,NA,2L), na.last=FALSE)
+countsort(c(2L, 0L, 1L, NA, 2L))
+countsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE)
+countsort(c(2L, 0L, 1L, NA, 2L), na.last=FALSE)
 }

@@ -22,7 +22,7 @@ elements:
 Remove zeros and get range and number of NAs
 }
 \examples{
-range_nanozero(c(0L,1L,2L,NA))
+range_nanozero(c(0L, 1L, 2L, NA))
 }
 \seealso{
 \code{\link[=range_na]{range_na()}} and \code{\link[=range_sortna]{range_sortna()}}

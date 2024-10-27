@@ -58,21 +58,21 @@ falls back to \code{\link[=unique]{unique()}}, \code{\link[=duplicated]{duplicat
 
 }}
 \examples{
-bit_unique(c(2L,1L,NA,NA,1L,2L))
-bit_unique(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-bit_unique(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+bit_unique(c(2L, 1L, NA, NA, 1L, 2L))
+bit_unique(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+bit_unique(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 
-bit_duplicated(c(2L,1L,NA,NA,1L,2L))
-bit_duplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-bit_duplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+bit_duplicated(c(2L, 1L, NA, NA, 1L, 2L))
+bit_duplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+bit_duplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 
-bit_anyDuplicated(c(2L,1L,NA,NA,1L,2L))
-bit_anyDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-bit_anyDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+bit_anyDuplicated(c(2L, 1L, NA, NA, 1L, 2L))
+bit_anyDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+bit_anyDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 
-bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L))
-bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+bit_sumDuplicated(c(2L, 1L, NA, NA, 1L, 2L))
+bit_sumDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+bit_sumDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 }
 \seealso{
 \code{\link[=bit_sort_unique]{bit_sort_unique()}}

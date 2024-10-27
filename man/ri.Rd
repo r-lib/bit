@@ -30,7 +30,7 @@ of the data
 }
 \examples{
 
- bit(12)[ri(1,6)]
+ bit(12)[ri(1, 6)]
 
 }
 \seealso{
