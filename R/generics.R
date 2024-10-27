@@ -19,14 +19,14 @@
 #' @param ... further arguments (ignored)
 #' @return an integer scalar
 #' @examples
-#' r <- ri(1,2,12)
+#' r <- ri(1, 2, 12)
 #' i <- as.which(r)
 #' w <- as.bitwhich(r)
 #' b <- as.bit(r)
 #' l <- as.logical(r)
 #' u <- which(l)      # unclassed which
 #'
-#' sapply(list(r=r,u=u,i=i,w=w,b=b,l=l), function(x){
+#' sapply(list(r=r, u=u, i=i, w=w, b=b, l=l), function(x){
 #'   c(length=length(x), sum=sum(x), maxindex=maxindex(x), poslength=poslength(x))
 #' })
 #' @export
@@ -115,7 +115,7 @@ as.bit <- function(x=NULL, ...)
 #' @keywords classes logic
 #' @examples
 #'
-#'  as.bitwhich(c(NA,NA,NA))
+#'  as.bitwhich(c(NA, NA, NA))
 #'  as.bitwhich(c(FALSE, FALSE, FALSE))
 #'  as.bitwhich(c(FALSE, FALSE, TRUE))
 #'  as.bitwhich(c(FALSE, TRUE, TRUE))
@@ -217,7 +217,7 @@ as.ri <- function(x, ...) {
 #'   x|as.bit(y)
 #'   x|as.bitwhich(y)
 #'   x|as.which(y)
-#'   x|ri(1,1,9)
+#'   x|ri(1, 1, 9)
 #'
 #'
 #' @export

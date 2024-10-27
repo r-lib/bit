@@ -141,10 +141,10 @@ b
 Increasing the length of `bitwhich` initializes new elements to *the majority* of the old elements, hence a `bitwhich` with a few exclusions has majority `TRUE` and will have new elements initialized to `TRUE` (if both, `TRUE` and `FALSE` have equal frequency the default is `FALSE`).
 
 ```{r}
-w <- bitwhich(3,2)
+w <- bitwhich(3, 2)
 length(w) <- 6
 w
-w <- bitwhich(3,-2)
+w <- bitwhich(3, -2)
 length(w) <- 6
 w
 ```
@@ -229,7 +229,7 @@ as.logical(w)  # does not coerce back
 Furthermore from class `which` we can deduce that the positions are sorted which can be leveraged for performance. Note that `as.which.integer` is a core method for converting integer positions to class `which` and it enforces sorting
 
 ```{r}
-i <- c(7,3)
+i <- c(7, 3)
 w <- as.which(i, maxindex=12)
 w
 ```
@@ -261,7 +261,7 @@ which integer double
 although the length of the Boolean vector is lost when coercing from `which` to `integer` or `double`, therefore coercing to them is not reversible. Let's first create all six types and compare their sizes:
 
 ```{r}
-r <- ri(1, 2^16, 2^20) # sample(2^20, replace=TRUE, prob=c(.125,875))
+r <- ri(1, 2^16, 2^20) # sample(2^20, replace=TRUE, prob=c(.125, 875))
 all.as <- list(
   double = as.double,
   integer= as.integer,
@@ -280,14 +280,14 @@ Now let's create all combinations of coercion:
 ```{r}
 all.comb <- vector('list', length(all.types)^2)
 all.id <- rep(NA, length(all.types)^2)
-dim(all.comb)      <- dim(all.id)      <-    c(from=length(all.types),  to=length(all.types))
-dimnames(all.comb) <- dimnames(all.id) <- list(from= names(all.types) , to= names(all.types))
+dim(all.comb)      <- dim(all.id)      <-    c(from=length(all.types), to=length(all.types))
+dimnames(all.comb) <- dimnames(all.id) <- list(from= names(all.types), to= names(all.types))
 for (i in seq_along(all.types)) {
   for (j in seq_along(all.as)) {
     # coerce all types to all types (FROM -> TO)
-    all.comb[[i,j]] <- all.as[[j]](all.types[[i]])
+    all.comb[[i, j]] <- all.as[[j]](all.types[[i]])
     # and test whether coercing back to the FROM type gives the orginal object
-    all.id[i,j] <- identical(all.as[[i]](all.comb[[i,j]]),  all.types[[i]])
+    all.id[i, j] <- identical(all.as[[i]](all.comb[[i, j]]),  all.types[[i]])
   }
 }
 all.id
@@ -348,12 +348,12 @@ Concatenation follows the same promotion rules as Boolean operators. Note that `
 ```{r}
 l <- logical(6)
 b <- bit(6)
-c(l,b)
+c(l, b)
 ```
 because `c.logical` treats the six bits as a single value. The following expressions work
 
 ```{r}
-c(b,l)
+c(b, l)
 c(l, as.logical(b))
 ```
 and of course the most efficient is
@@ -374,7 +374,7 @@ Both, `bit` and `bitwhich` also have replication (`rep`) and reverse (`rev`) met
 ```{r, echo=3:6}
 # TODO(r-lib/lintr#773): nolint as a chunk option.
 # nolint start: rep_len_linter.
-b <- as.bit(c(FALSE,TRUE))
+b <- as.bit(c(FALSE, TRUE))
 rev(b)
 rep(b, 3)
 rep(b, length.out=6)
@@ -388,7 +388,7 @@ rep(b, length.out=6)
 The usual logical aggregation functions `length`, `all`, `any` and `anyNA` work as expected. Note the exception that `length(which)` does not give the length of the Boolean vector but the length of the vector of positive integers (like the result of function `which`). `sum` gives the number of `TRUE` for all Boolean types. For the `booltype > 1` `min` gives the first position of a `TRUE` (i.e. `which.max`), `max` gives the last position of a `TRUE`, `range` gives both, the range at which we find `TRUE`, and finally `summary` gives the the counts of `FALSE` and `TRUE` as well as `min` and `max`. For example
 
 ```{r}
-l <- c(NA,NA,FALSE,TRUE,TRUE)
+l <- c(NA, NA, FALSE, TRUE, TRUE)
 b <- as.bit(l)
 length(b)
 anyNA(b)
@@ -405,16 +405,16 @@ These special interpretations of `min`, `max`, `range` and `summary` can be enfo
 
 ```{r}
 # minimum after coercion to integer
-min(c(FALSE,TRUE))
+min(c(FALSE, TRUE))
 # minimum  position of first TRUE
-min.booltype(c(FALSE,TRUE))
+min.booltype(c(FALSE, TRUE))
 ```
 
 Except for `length` and `anyNA` the aggregation functions support an optional argument `range` which restricts evaluation the specified range of the Boolean vector. This is useful in the context of *chunked processing*. For example analyzing the first 30\% of a million Booleans
 
 ```{r}
 b <- as.bit(sample(c(FALSE, TRUE), 1e6, TRUE))
-summary(b,range=c(1,3e5))
+summary(b, range=c(1, 3e5))
 ```
 and analyzing all such chunks
 
@@ -500,8 +500,8 @@ y <- sample(n, replace=TRUE)
 x
 y
 x %in% y
-bit_in(x,y)
-bit_in(x,y, retFUN=as.logical)
+bit_in(x, y)
+bit_in(x, y, retFUN=as.logical)
 ```
 
 The `bit_in` function combines a bit vector optimization with reverse look-up, i.e. if the range of `x` is smaller than the range of `table`, we build the bit vector on `x` instead of the `table`.
@@ -511,7 +511,7 @@ The `bit_in` function combines a bit vector optimization with reverse look-up, i
 The `bit_duplicated` function can handle `NA` in three different ways
 
 ```{r}
-x <- c(NA,NA,1L,1L,2L,3L)
+x <- c(NA, NA, 1L, 1L, 2L, 3L)
 duplicated(x)
 bit_duplicated(x, retFUN=as.logical)
 bit_duplicated(x, na.rm=NA, retFUN=as.logical)
@@ -525,7 +525,7 @@ bit_duplicated(x, na.rm=TRUE, retFUN=as.logical)
 The `bit_unique` function can also handle `NA` in three different ways
 
 ```{r}
-x <- c(NA,NA,1L,1L,2L,3L)
+x <- c(NA, NA, 1L, 1L, 2L, 3L)
 unique(x)
 bit_unique(x)
 
@@ -538,19 +538,19 @@ bit_unique(x, na.rm=TRUE)
 The `bit_union` function build a bit vector spanning the united range of both input sets and filters all unites duplicates:
 
 ```{r}
-x <- c(NA,NA,1L,1L,3L)
-y <- c(NA,NA,2L,2L,3L)
-union(x,y)
-bit_union(x,y)
+x <- c(NA, NA, 1L, 1L, 3L)
+y <- c(NA, NA, 2L, 2L, 3L)
+union(x, y)
+bit_union(x, y)
 ```
 
 The `bit_intersect` function builds a bit vector spanning only the intersected range of both input sets and filters all elements outside and the duplicates inside:
 
 ```{r}
-x <- c(0L,NA,NA,1L,1L,3L)
-y <- c(NA,NA,2L,2L,3L,4L)
-intersect(x,y)
-bit_intersect(x,y)
+x <- c(0L, NA, NA, 1L, 1L, 3L)
+y <- c(NA, NA, 2L, 2L, 3L, 4L)
+intersect(x, y)
+bit_intersect(x, y)
 ```
 
 ---
@@ -558,53 +558,53 @@ bit_intersect(x,y)
 The `bit_setdiff` function builds a bit vector spanning the range of the first input set, marks elements of the second set within this range as tabooed, and then outputs the remaining elements of the first set unless they are duplicates:
 
 ```{r}
-x <- c(0L,NA,NA,1L,1L,3L)
-y <- c(NA,NA,2L,2L,3L,4L)
-setdiff(x,y)
-bit_setdiff(x,y)
+x <- c(0L, NA, NA, 1L, 1L, 3L)
+y <- c(NA, NA, 2L, 2L, 3L, 4L)
+setdiff(x, y)
+bit_setdiff(x, y)
 ```
 The `bit_symdiff` function implements symmetric set difference. It builds two bit vectors spanning the full range and then outputs those elements of both sets that are marked at exactly one of the bit vectors.
 
 ```{r}
-x <- c(0L,NA,NA,1L,1L,3L)
-y <- c(NA,NA,2L,2L,3L,4L)
-union(setdiff(x,y),setdiff(y,x))
-bit_symdiff(x,y)
+x <- c(0L, NA, NA, 1L, 1L, 3L)
+y <- c(NA, NA, 2L, 2L, 3L, 4L)
+union(setdiff(x, y), setdiff(y, x))
+bit_symdiff(x, y)
 ```
 
 The `bit_setequal` function terminates early if the ranges of the two sets (or the presence of `NA`) differ. Otherwise it builds two bit vectors spanning the identical range; finally it checks the two vectors for being equal with early termination if two unequal integers are found.
 
 ```{r}
-x <- c(0L,NA,NA,1L,1L,3L)
-y <- c(NA,NA,2L,2L,3L,4L)
-setequal(y,x)
-bit_setequal(x,y)
+x <- c(0L, NA, NA, 1L, 1L, 3L)
+y <- c(NA, NA, 2L, 2L, 3L, 4L)
+setequal(y, x)
+bit_setequal(x, y)
 ```
 
 ---
 
-The `bit_rangediff` function works like `bit_setdiff` with two differences: the first set is specified as a *range* of integers, and it has two arguments `revx` and `revy` which allow to reverse *order* and *sign* of the two sets *before* the set-diff operation is done. The order of the range is significant, e.g. `c(1L,7L)` is different from `c(7L,1L)`, while the order of the second set has no influence:
+The `bit_rangediff` function works like `bit_setdiff` with two differences: the first set is specified as a *range* of integers, and it has two arguments `revx` and `revy` which allow to reverse *order* and *sign* of the two sets *before* the set-diff operation is done. The order of the range is significant, e.g. `c(1L, 7L)` is different from `c(7L, 1L)`, while the order of the second set has no influence:
 
 ```{r}
-bit_rangediff(c(1L,7L), (3:5))
-bit_rangediff(c(7L,1L), (3:5))
-bit_rangediff(c(1L,7L), -(3:5), revy=TRUE)
-bit_rangediff(c(1L,7L), -(3:5), revx=TRUE)
+bit_rangediff(c(1L, 7L), (3:5))
+bit_rangediff(c(7L, 1L), (3:5))
+bit_rangediff(c(1L, 7L), -(3:5), revy=TRUE)
+bit_rangediff(c(1L, 7L), -(3:5), revx=TRUE)
 ```
 
 If the range and the second set don't overlap, for example due to different signs, the full range is returned:
 
 ```{r}
-bit_rangediff(c(1L,7L), (1:7))
-bit_rangediff(c(1L,7L), -(1:7))
-bit_rangediff(c(1L,7L), (1:7), revy=TRUE)
+bit_rangediff(c(1L, 7L), (1:7))
+bit_rangediff(c(1L, 7L), -(1:7))
+bit_rangediff(c(1L, 7L), (1:7), revy=TRUE)
 ```
 
 Note that `bit_rangediff` provides faster negative subscripting from a range of integers than the usual phrase `(1:n)[-i]`:
 
 ```{r}
 (1:9)[-7]
-bit_rangediff(c(1L,9L), -7L, revy=TRUE)
+bit_rangediff(c(1L, 9L), -7L, revy=TRUE)
 ```
 
 ---
@@ -614,7 +614,7 @@ Functions `bit_anyDuplicated` is a faster version of `anyDuplicated`
 ```{r, echo=3:7}
 # TODO(r-lib/lintr#773): nolint as a chunk option.
 # nolint start: any_duplicated_linter.
-x <- c(NA,NA,1L,1L,2L,3L)
+x <- c(NA, NA, 1L, 1L, 2L, 3L)
 any(duplicated(x))      # full hash work, returns FALSE or TRUE
 anyDuplicated(x)        # early termination of hash work, returns 0 or position of first duplicate
 any(bit_duplicated(x))  # full bit work, returns FALSE or TRUE
@@ -625,7 +625,7 @@ bit_anyDuplicated(x)    # early termination of bit work, returns 0 or position o
 For the meaning of the `na.rm` parameter see `bit_duplicated`. Function `bit_sumDuplicated` is a faster version of `sum(bit_duplicated)`
 
 ```{r}
-x <- c(NA,NA,1L,1L,2L,3L)
+x <- c(NA, NA, 1L, 1L, 2L, 3L)
 sum(duplicated(x))      # full hash work, returns FALSE or TRUE
 sum(bit_duplicated(x))  # full bit work, returns FALSE or TRUE
 bit_sumDuplicated(x)    # early termination of bit work, returns 0 or position of first duplicated
@@ -634,7 +634,7 @@ bit_sumDuplicated(x)    # early termination of bit work, returns 0 or position o
 
 ### Methods using bit vectors for sorting integers
 
-A bit vector cannot replace a hash table for all possible kind of tasks (when it comes to counting values or to their positions), but on the other hand a bit vector allows something impossible with a hash table: *sorting* keys (without payload). Sorting a large subset of unique integers in [1,N] using a bit vector has been described in *"Programming pearls -- cracking the oyster"* by Jon Bentley (where 'uniqueness' is not an input condition but an output feature). This is easily generalized to sorting a large subset of integers in a range [min,max]. A first scan over the data determines the range of the keys, arranges `NA`s according to the usual `na.last=` argument and checks for presortedness (see `range_sortna`), then the range is projected to a bit vector of size `max-min+1`, all keys are registered causing random access and a final scan over the bit vector sequentially writes out the sorted keys. This is a *synthetical sort* because unlike a *comparison sort* the elements are not moved towards their ordered positions, instead they are *synthesized* from the bit-representation.
+A bit vector cannot replace a hash table for all possible kind of tasks (when it comes to counting values or to their positions), but on the other hand a bit vector allows something impossible with a hash table: *sorting* keys (without payload). Sorting a large subset of unique integers in [1, N] using a bit vector has been described in *"Programming pearls -- cracking the oyster"* by Jon Bentley (where 'uniqueness' is not an input condition but an output feature). This is easily generalized to sorting a large subset of integers in a range [min, max]. A first scan over the data determines the range of the keys, arranges `NA`s according to the usual `na.last=` argument and checks for presortedness (see `range_sortna`), then the range is projected to a bit vector of size `max-min+1`, all keys are registered causing random access and a final scan over the bit vector sequentially writes out the sorted keys. This is a *synthetical sort* because unlike a *comparison sort* the elements are not moved towards their ordered positions, instead they are *synthesized* from the bit-representation.
 
 For `N` consecutive permuted integers this is by an order of magnitude faster than *quicksort*. For a *density* $d=N/(max-min) \ge 1$ this sort beats quicksort, but for $d << 1$ the bit vector becomes too large relative to `N` and hence quicksort is faster. `bit_sort_unique` implements a hybrid algorithm automatically choosing the faster of both, hence for integers the following gives identical results
 
@@ -672,13 +672,13 @@ Both, `bit_sort_unique` and `bit_sort` can sort *decreasing*, however, currently
 
 Efficient handling of sorted sets is backbone of class `bitwhich`. The `merge_*` and `merge_range*` integer functions expect sorted input (non-decreasing sets or increasing ranges) and return sorted sets (some return Boolean vectors or scalars). Exploiting the sortedness makes them even faster than the `bit_` functions. Many of them have `revx` or `revy` arguments, which reverse the scanning direction of an input vector *and* the  interpreted *sign* of its elements, hence we can change signs of input vectors in an order-preserving way and without any extra pass over the data. By default these functions return *unique* sets which have each element not more than once. However, the *binary* `merge_*` functions have a `method="exact"` which in both sets treats consecutive occurrences of the same value as different. With `method="exact"` for example `merge_setdiff` behaves as if counting the values in the first set and subtraction the respective counts of the second set (and capping the lower end at zero). Assuming positive integers and equal `tabulate(, nbins=)` with `method="exact"` the following is identical:
 
-|merging then counting           |counting then combining            |
-|:-------------------------------|:----------------------------------|
-|`tabulate(merge_union(x,y))`    |`pmax(tabulate(x) ,tabulate(y))`   |
-|`tabulate(merge_intersect(x,y))`|`pmin(tabulate(x) ,tabulate(y))`   |
-|`tabulate(merge_setdiff(x,y))`  |`pmax(tabulate(x) -tabulate(y), 0)`|
-|`tabulate(merge_symdiff(x,y))`  |` abs(tabulate(x) -tabulate(y))`   |
-|`tabulate(merge_setequal(x,y))` |` all(tabulate(x)==tabulate(y))`   |
+|merging then counting            |counting then combining             |
+|:--------------------------------|:-----------------------------------|
+|`tabulate(merge_union(x, y))`    |`pmax(tabulate(x), tabulate(y))`    |
+|`tabulate(merge_intersect(x, y))`|`pmin(tabulate(x), tabulate(y))`    |
+|`tabulate(merge_setdiff(x, y))`  |`pmax(tabulate(x) - tabulate(y), 0)`|
+|`tabulate(merge_symdiff(x, y))`  |` abs(tabulate(x) - tabulate(y))`   |
+|`tabulate(merge_setequal(x, y))` |` all(tabulate(x)==tabulate(y))`    |
 
 
 Note further that `method="exact"` delivers *unique* output if the input is unique, and in this case works faster than `method="unique"`.
@@ -701,25 +701,25 @@ bit_sort_unique(x)
 For binary functions let's start with *set equality*:
 
 ```{r}
-x = as.integer(c(3,4,4,5))
-y = as.integer(c(3,4,5))
-setequal(x,y)
-merge_setequal(x,y)
-merge_setequal(x,y, method="exact")
+x = as.integer(c(3, 4, 4, 5))
+y = as.integer(c(3, 4, 5))
+setequal(x, y)
+merge_setequal(x, y)
+merge_setequal(x, y, method="exact")
 ```
 
 For *set complement* there is also a `merge_range*` function:
 
 ```{r}
-x = as.integer(c(0,1,2,2,3,3,3))
-y = as.integer(c(1,2,3))
-setdiff(x,y)
-merge_setdiff(x,y)
-merge_setdiff(x,y, method="exact")
-merge_rangediff(c(0L,4L),y)
-merge_rangediff(c(0L,4L),c(-3L,-2L)) # y has no effect due to different sign
-merge_rangediff(c(0L,4L),c(-3L,-2L), revy=TRUE)
-merge_rangediff(c(0L,4L),c(-3L,-2L), revx=TRUE)
+x = as.integer(c(0, 1, 2, 2, 3, 3, 3))
+y = as.integer(c(1, 2, 3))
+setdiff(x, y)
+merge_setdiff(x, y)
+merge_setdiff(x, y, method="exact")
+merge_rangediff(c(0L, 4L), y)
+merge_rangediff(c(0L, 4L), c(-3L, -2L)) # y has no effect due to different sign
+merge_rangediff(c(0L, 4L), c(-3L, -2L), revy=TRUE)
+merge_rangediff(c(0L, 4L), c(-3L, -2L), revx=TRUE)
 ```
 
 `merge_symdiff` for *symmetric set complement* is used similar (without a `merge_range*` function), as is `merge_intersect`, where the latter is accompanied by a `merge_range*` function:
@@ -727,24 +727,24 @@ merge_rangediff(c(0L,4L),c(-3L,-2L), revx=TRUE)
 ```{r}
 x = -2:1
 y = -1:2
-setdiff(x,y)
-union(setdiff(x,y),setdiff(y,x))
-merge_symdiff(x,y)
-merge_intersect(x,y)
-merge_rangesect(c(-2L,1L),y)
+setdiff(x, y)
+union(setdiff(x, y), setdiff(y, x))
+merge_symdiff(x, y)
+merge_intersect(x, y)
+merge_rangesect(c(-2L, 1L), y)
 ```
 
 The `merge_union` function has a third method `all` which behaves like `c` but keeps the output sorted
 
 ```{r}
-x = as.integer(c(1,2,2,3,3,3))
+x = as.integer(c(1, 2, 2, 3, 3, 3))
 y = 2:4
-union(x,y)
-merge_union(x,y, method="unique")
-merge_union(x,y, method="exact")
-merge_union(x,y, method="all")
-sort(c(x,y))
-c(x,y)
+union(x, y)
+merge_union(x, y, method="unique")
+merge_union(x, y, method="exact")
+merge_union(x, y, method="all")
+sort(c(x, y))
+c(x, y)
 ```
 
 ---
@@ -753,24 +753,24 @@ Unlike the `bit_*` functions the `merge_*` functions have a `merge_match` functi
 
 ```{r}
 x = 2:4
-y = as.integer(c(0,1,2,2,3,3,3))
-match(x,y)
-merge_match(x,y)
+y = as.integer(c(0, 1, 2, 2, 3, 3, 3))
+match(x, y)
+merge_match(x, y)
 ```
 and unlike R's `%in%` operator the following functions are directly implemented, not on top of merge, and hence save extra passes over the data:
 
 ```{r}
 x %in% y
-merge_in(x,y)
-merge_notin(x,y)
+merge_in(x, y)
+merge_notin(x, y)
 ```
 
 The range versions extract logical vectors from `y`, but only for the range in `rx`.
 
 ```{r}
-x <- c(2L,4L)
-merge_rangein(x,y)
-merge_rangenotin(x,y)
+x <- c(2L, 4L)
+merge_rangein(x, y)
+merge_rangenotin(x, y)
 ```
 Compare this to `merge_rangesect` above. `merge_rangein` is useful in the context of chunked processing, see the `any`, `all`, `sum` and `[` methods of class `bitwhich`.
 
@@ -779,13 +779,13 @@ Compare this to `merge_rangesect` above. `merge_rangein` is useful in the contex
 The functions `merge_first` and `merge_last` give first and last element of a sorted set. By default that is *min* and *max*, however these functions also have an `revx` argument. There are also functions that deliver the first resp. last elements *of* a certain range that are *in* or *not in* a certain set.
 
 ```{r}
-x <- bit_sort(sample(1000,10))
+x <- bit_sort(sample(1000, 10))
 merge_first(x)
 merge_last(x)
-merge_firstnotin(c(300L,600L), x)
-merge_firstin(c(300L,600L), x)
-merge_lastin(c(300L,600L), x)
-merge_lastnotin(c(300L,600L), x)
+merge_firstnotin(c(300L, 600L), x)
+merge_firstin(c(300L, 600L), x)
+merge_lastin(c(300L, 600L), x)
+merge_lastnotin(c(300L, 600L), x)
 ```
 
 ---

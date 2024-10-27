@@ -59,29 +59,29 @@
 #' merge_in(1:7, 3:9)
 #' merge_notin(1:7, 3:9)
 #'
-#' merge_anyDuplicated(c(1L,1L,2L,3L))
-#' merge_duplicated(c(1L,1L,2L,3L))
-#' merge_unique(c(1L,1L,2L,3L))
+#' merge_anyDuplicated(c(1L, 1L, 2L, 3L))
+#' merge_duplicated(c(1L, 1L, 2L, 3L))
+#' merge_unique(c(1L, 1L, 2L, 3L))
 #'
-#' merge_union(c(1L,2L,2L,2L), c(2L,2L,3L))
-#' merge_union(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
-#' merge_union(c(1L,2L,2L,2L), c(2L,2L,3L), method="all")
+#' merge_union(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+#' merge_union(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
+#' merge_union(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="all")
 #'
-#' merge_setdiff(c(1L,2L,2L,2L), c(2L,2L,3L))
-#' merge_setdiff(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
-#' merge_setdiff(c(1L,2L,2L), c(2L,2L,2L,3L), method="exact")
+#' merge_setdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+#' merge_setdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
+#' merge_setdiff(c(1L, 2L, 2L), c(2L, 2L, 2L, 3L), method="exact")
 #'
-#' merge_symdiff(c(1L,2L,2L,2L), c(2L,2L,3L))
-#' merge_symdiff(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
-#' merge_symdiff(c(1L,2L,2L), c(2L,2L,2L,3L), method="exact")
+#' merge_symdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+#' merge_symdiff(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
+#' merge_symdiff(c(1L, 2L, 2L), c(2L, 2L, 2L, 3L), method="exact")
 #'
-#' merge_intersect(c(1L,2L,2L,2L), c(2L,2L,3L))
-#' merge_intersect(c(1L,2L,2L,2L), c(2L,2L,3L), method="exact")
+#' merge_intersect(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L))
+#' merge_intersect(c(1L, 2L, 2L, 2L), c(2L, 2L, 3L), method="exact")
 #'
-#' merge_setequal(c(1L,2L,2L), c(1L,2L))
-#' merge_setequal(c(1L,2L,2L), c(1L,2L,2L))
-#' merge_setequal(c(1L,2L,2L), c(1L,2L), method="exact")
-#' merge_setequal(c(1L,2L,2L), c(1L,2L,2L), method="exact")
+#' merge_setequal(c(1L, 2L, 2L), c(1L, 2L))
+#' merge_setequal(c(1L, 2L, 2L), c(1L, 2L, 2L))
+#' merge_setequal(c(1L, 2L, 2L), c(1L, 2L), method="exact")
+#' merge_setequal(c(1L, 2L, 2L), c(1L, 2L, 2L), method="exact")
 #'
 #' @export
 
@@ -166,7 +166,7 @@ merge_unique <- function(x, revx=FALSE){
 #'   input set; `method='all'` returns a sorted set with the sum of ties in both input
 #'   sets.
 #' @export
-merge_union <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact","all")){
+merge_union <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique", "exact", "all")){
   method <- match.arg(method)
   if (!(is.integer(x) || is.ordered(x)))
     stop("x must be integer (or ordered factor)")
@@ -179,7 +179,7 @@ merge_union <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact",
 #' Default `method='unique'` returns a unique sorted set, see [setdiff()];
 #' `ethod='exact'` returns a sorted set with sum(x ties) minus sum(y ties);
 #' @export
-merge_setdiff <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact")){
+merge_setdiff <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique", "exact")){
   if (!(is.integer(x) || is.ordered(x)))
     stop("x must be integer (or ordered factor)")
   if (!(is.integer(y) || is.ordered(y)))
@@ -193,7 +193,7 @@ merge_setdiff <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact
 #'   `method='exact'` returns a sorted set set complement with
 #'   `abs(sum(x ties) - sum(y ties))`.
 #' @export
-merge_symdiff <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact")){
+merge_symdiff <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique", "exact")){
   if (!(is.integer(x) || is.ordered(x)))
     stop("x must be integer (or ordered factor)")
   if (!(is.integer(y) || is.ordered(y)))
@@ -205,7 +205,7 @@ merge_symdiff <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact
 #' Default `method='unique'` returns the sorted unique intersect, see [intersect()];
 #' `method='exact'` returns the intersect with the minium number of ties in either set;
 #' @export
-merge_intersect <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact")){
+merge_intersect <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique", "exact")){
   if (!(is.integer(x) || is.ordered(x)))
     stop("x must be integer (or ordered factor)")
   if (!(is.integer(y) || is.ordered(y)))
@@ -217,7 +217,7 @@ merge_intersect <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exa
 #' Default `method='unique'` compares the sets after removing ties, see [setequal()];
 #' `method='exact'` compares the sets without removing ties;
 #' @export
-merge_setequal <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique","exact")){
+merge_setequal <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique", "exact")){
   if (!(is.integer(x) || is.ordered(x)))
     stop("x must be integer (or ordered factor)")
   if (!(is.integer(y) || is.ordered(y)))
@@ -295,7 +295,7 @@ merge_last <- function(x, revx=FALSE){
 
 #' @describeIn merge_rev quickly returns the first common element of a range rx and a
 #'   sorted set y, (or `NA` if the intersection is empty), hence
-#'   `merge_first(merge_rangesect(rx,y))`
+#'   `merge_first(merge_rangesect(rx, y))`
 #' @export
 merge_firstin <- function(rx, y, revx=FALSE, revy=FALSE){
   if (!is.ri(rx)){
@@ -308,7 +308,7 @@ merge_firstin <- function(rx, y, revx=FALSE, revy=FALSE){
 }
 #' @describeIn merge_rev quickly returns the last common element of a range rx and a
 #'   sorted set y, (or `NA` if the intersection is empty), hence
-#'   `merge_last(merge_rangesect(rx,y))`
+#'   `merge_last(merge_rangesect(rx, y))`
 #' @export
 merge_lastin <- function(rx, y, revx=FALSE, revy=FALSE){
   if (!is.ri(rx)){
@@ -320,7 +320,7 @@ merge_lastin <- function(rx, y, revx=FALSE, revy=FALSE){
   .Call(C_R_merge_lastin, rx, y, as.logical(revx), as.logical(revy))
 }
 #' @describeIn merge_rev quickly returns the first element of a range rx which is not in a
-#'   sorted set y (or `NA` if all rx are in y), hence `merge_first(merge_rangediff(rx,y))`
+#'   sorted set y (or `NA` if all rx are in y), hence `merge_first(merge_rangediff(rx, y))`
 #' @export
 merge_firstnotin <- function(rx, y, revx=FALSE, revy=FALSE){
   if (!is.ri(rx)){
@@ -332,7 +332,7 @@ merge_firstnotin <- function(rx, y, revx=FALSE, revy=FALSE){
   .Call(C_R_merge_firstnotin, rx, y, as.logical(revx), as.logical(revy))
 }
 #' @describeIn merge_rev quickly returns the last element of a range rx which is not in a
-#'   sorted set y (or `NA` if all rx are in y), hence `merge_last(merge_rangediff(rx,y))`
+#'   sorted set y (or `NA` if all rx are in y), hence `merge_last(merge_rangediff(rx, y))`
 #' @export
 merge_lastnotin <- function(rx, y, revx=FALSE, revy=FALSE){
   if (!is.ri(rx)){
@@ -350,14 +350,14 @@ merge_lastnotin <- function(rx, y, revx=FALSE, revy=FALSE){
 #'
 #' @param x a vector
 #' @param y a vector
-#' @return `union(setdiff(x,y), setdiff(y,x))`
+#' @return `union(setdiff(x, y), setdiff(y, x))`
 #' @seealso [merge_symdiff()] and [xor()]
-#' @note that `symdiff(x,y)` is not [identical()]
-#' as `symdiff(y,x)` without applying [sort()] to the result
+#' @note that `symdiff(x, y)` is not [identical()]
+#' as `symdiff(y, x)` without applying [sort()] to the result
 #' @examples
-#' symdiff(c(1L,2L,2L), c(2L,3L))
-#' symdiff(c(2L,3L), c(1L,2L,2L))
+#' symdiff(c(1L, 2L, 2L), c(2L, 3L))
+#' symdiff(c(2L, 3L), c(1L, 2L, 2L))
 #' @export
-symdiff <- function(x,y){
-  union(setdiff(x,y), setdiff(y,x))
+symdiff <- function(x, y){
+  union(setdiff(x, y), setdiff(y, x))
 }

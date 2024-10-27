@@ -43,11 +43,11 @@ Before we measure performance of the main functionality of the package, note tha
 ```{r, echo=TRUE, results='asis'}
 a <- 1L
 b <- 1e7L
-i <- sample(a:b,1e3)
+i <- sample(a:b, 1e3)
 x <- c(
   R = median(microbenchmark((a:b)[-i], times=times)$time),
-  bit = median(microbenchmark(bit_rangediff(c(a,b), i), times=times)$time),
-  merge = median(microbenchmark(merge_rangediff(c(a,b), bit_sort(i)), times=times)$time)
+  bit = median(microbenchmark(bit_rangediff(c(a, b), i), times=times)$time),
+  merge = median(microbenchmark(merge_rangediff(c(a, b), bit_sort(i)), times=times)$time)
 )
 knitr::kable(as.data.frame(as.list(x/x["R"]*100)), caption="% of time relative to R", digits=1)
 ```
@@ -79,7 +79,7 @@ knitr::kable(
 ```
 
 ```{r, echo=FALSE, results='asis'}
-B <- booltypes[c("logical","bit","bitwhich","which","ri")]
+B <- booltypes[c("logical", "bit", "bitwhich", "which", "ri")]
 M <-
   c("size", "[]", "[which]", "[which]<-TRUE", "[]<-logical", "!", "&", "|", "==", "!=", "summary")
 G <- list(
@@ -97,39 +97,39 @@ tim <- array(NA,
 )
 for (g in names(G)){
   x <- G[[g]](Sample[["big"]])
-  if (g %in% c("coin","often","rare"))
+  if (g %in% c("coin", "often", "rare"))
     w <- as.which(as.logical(x))
   for (b in B){
     if (booltypes[[b]] < 'ri' || (b == 'ri' && g=='chunk')){
-      X[[b,g]] <- as.booltype(x, b)
-      if (g %in% c("coin","often","rare") && b %in% c("logical","bit","bitwhich")){
+      X[[b, g]] <- as.booltype(x, b)
+      if (g %in% c("coin", "often", "rare") && b %in% c("logical", "bit", "bitwhich")){
         l <- as.booltype(logical(Sample[["big"]]), b)
-        tim[b,"[which]",g] <- median(microbenchmark(l[w], times=times)$time)
-        tim[b,"[which]<-TRUE",g] <- median(microbenchmark(l[w]<-TRUE, times=times)$time)
-        tim[b,"[]",g] <- median(microbenchmark(l[], times=times)$time)
-        tim[b,"[]<-logical",g] <- median(microbenchmark(l[]<-x, times=times)$time)
+        tim[b, "[which]", g] <- median(microbenchmark(l[w], times=times)$time)
+        tim[b, "[which]<-TRUE", g] <- median(microbenchmark(l[w]<-TRUE, times=times)$time)
+        tim[b, "[]", g] <- median(microbenchmark(l[], times=times)$time)
+        tim[b, "[]<-logical", g] <- median(microbenchmark(l[]<-x, times=times)$time)
       }
-      tim[b,"size",g] <- object.size(X[[b,g]])
+      tim[b, "size", g] <- object.size(X[[b, g]])
     }
   }
 }
 for (g in names(G)){
-  for (b in c("logical","bit","bitwhich")){
-    x <- X[[b,g]]
+  for (b in c("logical", "bit", "bitwhich")){
+    x <- X[[b, g]]
     if (!is.null(x)){
-      tim[b,"!",g] <- median(microbenchmark(!x, times=times)$time)
-      tim[b,"&",g] <- median(microbenchmark(x & x, times=times)$time)
-      tim[b,"|",g] <- median(microbenchmark(x | x, times=times)$time)
-      tim[b,"==",g] <- median(microbenchmark(x == x, times=times)$time)
-      tim[b,"!=",g] <- median(microbenchmark(x != x, times=times)$time)
-      tim[b,"summary",g] <- median(microbenchmark(summary.booltype(x), times=times)$time)
+      tim[b, "!", g] <- median(microbenchmark(!x, times=times)$time)
+      tim[b, "&", g] <- median(microbenchmark(x & x, times=times)$time)
+      tim[b, "|", g] <- median(microbenchmark(x | x, times=times)$time)
+      tim[b, "==", g] <- median(microbenchmark(x == x, times=times)$time)
+      tim[b, "!=", g] <- median(microbenchmark(x != x, times=times)$time)
+      tim[b, "summary", g] <- median(microbenchmark(summary.booltype(x), times=times)$time)
     }
   }
 }
 i <- match("size", M)
 for (b in rev(names(B))) { # logical was in first position, so we do this last!
-  tim[b,i,] <- 100 * tim[b,i,] / tim["logical",i,]
-  tim[b,-i,] <- 100 * tim[b,-i,] / max(tim["logical",-i,], na.rm=TRUE)
+  tim[b, i, ] <- 100 * tim[b, i, ] / tim["logical", i, ]
+  tim[b, -i, ] <- 100 * tim[b, -i, ] / max(tim["logical", -i, ], na.rm=TRUE)
 }
 #rm(X)
 ```
@@ -137,26 +137,26 @@ for (b in rev(names(B))) { # logical was in first position, so we do this last!
 There are substantial savings in skewed filter situations:
 
 ```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'rare' scenario"}
-x <- tim[1:3,,"rare"]
+x <- tim[1:3, , "rare"]
 m <- rep("", ncol(x))
 m <- as.vector(rbind(m, colnames(x), m))
 dotchart(x,
-  xlim=c(0,max(100, max(x))),
+  xlim=c(0, max(100, max(x))),
   labels=m,
-  pch=c("R","b","w"),
-  col=c("black","blue","red"),
+  pch=c("R", "b", "w"),
+  col=c("black", "blue", "red"),
   main="% size and timings in 'rare' scenario",
   sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios"
 )
 ```
 
 ```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'often' scenario"}
-x <- tim[1:3,,"often"]
+x <- tim[1:3, , "often"]
 dotchart(x,
-  xlim=c(0,max(100, max(x))),
+  xlim=c(0, max(100, max(x))),
   labels=m,
-  pch=c("R","b","w"),
-  col=c("black","blue","red"),
+  pch=c("R", "b", "w"),
+  col=c("black", "blue", "red"),
   main="% size and timings in 'often' scenario",
   sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios"
 )
@@ -165,12 +165,12 @@ dotchart(x,
 Even in non-skewed situations the new booltypes are competitive:
 
 ```{r, echo=FALSE, fig.cap = "% size and execution time for bit (b) and bitwhich (w) relative to logical (R) in the 'coin' scenario"}
-x <- tim[1:3,,"coin"]
+x <- tim[1:3, , "coin"]
 dotchart(x,
-  xlim=c(0,max(100, max(x))),
+  xlim=c(0, max(100, max(x))),
   labels=m,
-  pch=c("R","b","w"),
-  col=c("black","blue","red"),
+  pch=c("R", "b", "w"),
+  col=c("black", "blue", "red"),
   main="% size and timings in 'coin' scenario",
   sub="l='logical'  b='bit'  w='bitwhich'           % of max(R) in all scenarios"
 )
@@ -185,67 +185,67 @@ Detailed tables follow.
 ### % memory consumption of filter
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"size",], 1), caption="% bytes of logical")
+knitr::kable(round(tim[, "size", ], 1), caption="% bytes of logical")
 ```
 
 ### % time extracting
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[]",], 1), caption="% time of logical")
+knitr::kable(round(tim[, "[]", ], 1), caption="% time of logical")
 ```
 
 ### % time assigning
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[]<-logical",], 1), caption="% time of logical")
+knitr::kable(round(tim[, "[]<-logical", ], 1), caption="% time of logical")
 ```
 
 ### % time subscripting with 'which'
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[which]",], 1), caption="% time of logical")
+knitr::kable(round(tim[, "[which]", ], 1), caption="% time of logical")
 ```
 
 ### % time assigning with 'which'
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"[which]<-TRUE",], 1), caption="% time of logical")
+knitr::kable(round(tim[, "[which]<-TRUE", ], 1), caption="% time of logical")
 ```
 
 ### % time Boolean NOT
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"!",], 1), caption="% time for Boolean NOT")
+knitr::kable(round(tim[, "!", ], 1), caption="% time for Boolean NOT")
 ```
 
 ### % time Boolean AND
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"&",], 1), caption="% time for Boolean &")
+knitr::kable(round(tim[, "&", ], 1), caption="% time for Boolean &")
 ```
 
 
 ### % time Boolean OR
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"|",], 1), caption="% time for Boolean |")
+knitr::kable(round(tim[, "|", ], 1), caption="% time for Boolean |")
 ```
 
 ### % time Boolean EQUALITY
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"==",], 1), caption="% time for Boolean ==")
+knitr::kable(round(tim[, "==", ], 1), caption="% time for Boolean ==")
 ```
 
 ### % time Boolean XOR
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"!=",], 1), caption="% time for Boolean !=")
+knitr::kable(round(tim[, "!=", ], 1), caption="% time for Boolean !=")
 ```
 
 ### % time Boolean SUMMARY
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[,"summary",][1:2,1:2], 1), caption="% time for Boolean summary")
+knitr::kable(round(tim[, "summary", ][1:2, 1:2], 1), caption="% time for Boolean summary")
 ```
 
 ---
@@ -270,17 +270,17 @@ binarySample <- list(
   bigbig=rep(Sample["big"], 2L)
 )
 
-M <- c("R","bit","merge")
-G <- c("sort","sortunique")
-D <- c("unsorted","sorted")
+M <- c("R", "bit", "merge")
+G <- c("sort", "sortunique")
+D <- c("unsorted", "sorted")
 
 sortM <- vector("list", length(M)*length(G))
 dim(sortM) <- c(method=length(M), goal=length(G))
 dimnames(sortM) <- list(method=M, goal=G)
-sortM[["R","sort"]] <- sort
+sortM[["R", "sort"]] <- sort
 sortM[["R", "sortunique"]] <- function(x)sort(unique(x))
-sortM[["bit","sort"]] <- bit_sort
-sortM[["bit","sortunique"]] <- bit_sort_unique
+sortM[["bit", "sort"]] <- bit_sort
+sortM[["bit", "sortunique"]] <- bit_sort_unique
 
 timsort <- array(NA_integer_,
   dim=c(M=2, G=length(G), D=length(D), N=length(Domain)),
@@ -289,82 +289,83 @@ timsort <- array(NA_integer_,
 for (n in names(Domain)) {
   x <- sample(Domain[[n]], Sample[[n]], replace = TRUE)
   d <- "unsorted"
-  for (m in c("R","bit")){
+  for (m in c("R", "bit")){
     for (g in G){
-      timsort[m,g,d,n] <- median(microbenchmark(sortM[[m,g]](x), times=times)$time)
+      timsort[m, g, d, n] <- median(microbenchmark(sortM[[m, g]](x), times=times)$time)
     }
   }
   x <- bit_sort(x)
   d <- "sorted"
   for (m in 1:2){
     for (g in G){
-      timsort[m,g,d,n] <- median(microbenchmark(sortM[[m,g]](x), times=times)$time)
+      timsort[m, g, d, n] <- median(microbenchmark(sortM[[m, g]](x), times=times)$time)
     }
   }
 }
 
 
-binaryU <- c("match","in","notin","union","intersect","setdiff","symdiff","setequal","setearly")
+binaryU <-
+  c("match", "in", "notin", "union", "intersect", "setdiff", "symdiff", "setequal", "setearly")
 binaryM <- vector("list", length(M)*length(binaryU))
 dim(binaryM) <- c(method=length(M), task=length(binaryU))
 dimnames(binaryM) <- list(method=M, task=binaryU)
-binaryM[["R","match"]] <- match
-binaryM[["merge","match"]] <- merge_match
+binaryM[["R", "match"]] <- match
+binaryM[["merge", "match"]] <- merge_match
 
-binaryM[["R","in"]] <- get("%in%")
-binaryM[["bit","in"]] <- bit_in
-binaryM[["merge","in"]] <- merge_in
+binaryM[["R", "in"]] <- get("%in%")
+binaryM[["bit", "in"]] <- bit_in
+binaryM[["merge", "in"]] <- merge_in
 
-binaryM[["R","notin"]] <- function(x, y)!(x %in% y)
-binaryM[["bit","notin"]] <- function(x, y)!bit_in(x,y)
-binaryM[["merge","notin"]] <- merge_notin
+binaryM[["R", "notin"]] <- function(x, y)!(x %in% y)
+binaryM[["bit", "notin"]] <- function(x, y)!bit_in(x, y)
+binaryM[["merge", "notin"]] <- merge_notin
 
-binaryM[["R","union"]] <- union
-binaryM[["bit","union"]] <- bit_union
-binaryM[["merge","union"]] <- merge_union
+binaryM[["R", "union"]] <- union
+binaryM[["bit", "union"]] <- bit_union
+binaryM[["merge", "union"]] <- merge_union
 
-binaryM[["R","intersect"]] <- intersect
-binaryM[["bit","intersect"]] <- bit_intersect
-binaryM[["merge","intersect"]] <- merge_intersect
+binaryM[["R", "intersect"]] <- intersect
+binaryM[["bit", "intersect"]] <- bit_intersect
+binaryM[["merge", "intersect"]] <- merge_intersect
 
-binaryM[["R","setdiff"]] <- setdiff
-binaryM[["bit","setdiff"]] <- bit_setdiff
-binaryM[["merge","setdiff"]] <- merge_setdiff
+binaryM[["R", "setdiff"]] <- setdiff
+binaryM[["bit", "setdiff"]] <- bit_setdiff
+binaryM[["merge", "setdiff"]] <- merge_setdiff
 
-binaryM[["R","symdiff"]] <- function(x,y)union(setdiff(x,y), setdiff(y,x))
-binaryM[["bit","symdiff"]] <- bit_symdiff
-binaryM[["merge","symdiff"]] <- merge_symdiff
+binaryM[["R", "symdiff"]] <- function(x, y)union(setdiff(x, y), setdiff(y, x))
+binaryM[["bit", "symdiff"]] <- bit_symdiff
+binaryM[["merge", "symdiff"]] <- merge_symdiff
 
-binaryM[["R","setequal"]] <-
-  function(x,y) setequal(x,x) # we compare x to x which avoids early termination
-binaryM[["bit","setequal"]] <- function(x,y)bit_setequal(x,x)
-binaryM[["merge","setequal"]] <- function(x,y)merge_setequal(x,x)
+binaryM[["R", "setequal"]] <-
+  function(x, y) setequal(x, x) # we compare x to x which avoids early termination
+binaryM[["bit", "setequal"]] <- function(x, y)bit_setequal(x, x)
+binaryM[["merge", "setequal"]] <- function(x, y)merge_setequal(x, x)
 
-binaryM[["R","setearly"]] <-
-  function(x,y) setequal(x,y) # we compare x to x which avoids early termination
-binaryM[["bit","setearly"]] <- function(x,y)bit_setequal(x,y)
-binaryM[["merge","setearly"]] <- function(x,y)merge_setequal(x,y)
+binaryM[["R", "setearly"]] <-
+  function(x, y) setequal(x, y) # we compare x to x which avoids early termination
+binaryM[["bit", "setearly"]] <- function(x, y)bit_setequal(x, y)
+binaryM[["merge", "setearly"]] <- function(x, y)merge_setequal(x, y)
 
-unaryU <- c("unique","duplicated","anyDuplicated","sumDuplicated")
+unaryU <- c("unique", "duplicated", "anyDuplicated", "sumDuplicated")
 unaryM <- vector("list", length(M)*length(unaryU))
 dim(unaryM) <- c(method=length(M), task=length(unaryU))
 dimnames(unaryM) <- list(method=M, task=unaryU)
-unaryM[["R","unique"]] <- unique
-unaryM[["bit","unique"]] <- bit_unique
-unaryM[["merge","unique"]] <- merge_unique
-unaryM[["R","duplicated"]] <- duplicated
-unaryM[["bit","duplicated"]] <- bit_duplicated
-unaryM[["merge","duplicated"]] <- merge_duplicated
-unaryM[["R","anyDuplicated"]] <- anyDuplicated
-unaryM[["bit","anyDuplicated"]] <- bit_anyDuplicated
-unaryM[["merge","anyDuplicated"]] <- merge_anyDuplicated
-unaryM[["R","sumDuplicated"]] <- function(x)sum(duplicated(x))
-unaryM[["bit","sumDuplicated"]] <- bit_sumDuplicated
-unaryM[["merge","sumDuplicated"]] <- merge_sumDuplicated
+unaryM[["R", "unique"]] <- unique
+unaryM[["bit", "unique"]] <- bit_unique
+unaryM[["merge", "unique"]] <- merge_unique
+unaryM[["R", "duplicated"]] <- duplicated
+unaryM[["bit", "duplicated"]] <- bit_duplicated
+unaryM[["merge", "duplicated"]] <- merge_duplicated
+unaryM[["R", "anyDuplicated"]] <- anyDuplicated
+unaryM[["bit", "anyDuplicated"]] <- bit_anyDuplicated
+unaryM[["merge", "anyDuplicated"]] <- merge_anyDuplicated
+unaryM[["R", "sumDuplicated"]] <- function(x)sum(duplicated(x))
+unaryM[["bit", "sumDuplicated"]] <- bit_sumDuplicated
+unaryM[["merge", "sumDuplicated"]] <- merge_sumDuplicated
 
 tim <- array(NA_integer_,
   dim=c(M=length(M), U=length(unaryU)+length(binaryU), N=length(binaryDomain), D=length(D)),
-  dimnames=list(M=M, U=c(unaryU,binaryU), N=names(binaryDomain), D=D)
+  dimnames=list(M=M, U=c(unaryU, binaryU), N=names(binaryDomain), D=D)
 )
 
 for (n in names(binaryDomain)) {
@@ -375,18 +376,18 @@ for (n in names(binaryDomain)) {
   d <- "unsorted"
   if (length(x)==length(y)) {
     for (u in unaryU){
-      for (m in setdiff(M,"merge")){
-        f <- unaryM[[m,u]]
+      for (m in setdiff(M, "merge")){
+        f <- unaryM[[m, u]]
         if (!is.null(f))
-          tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
+          tim[m, u, n, d] <- median(microbenchmark(f(x), times=times)$time)
       }
     }
   }
   for (u in binaryU){
-    for (m in setdiff(M,"merge")){
-      f <- binaryM[[m,u]]
+    for (m in setdiff(M, "merge")){
+      f <- binaryM[[m, u]]
       if (!is.null(f))
-        tim[m,u,n,d] <- median(microbenchmark(f(x,y), times=times)$time)
+        tim[m, u, n, d] <- median(microbenchmark(f(x, y), times=times)$time)
     }
   }
   x <- bit_sort(x)
@@ -395,9 +396,9 @@ for (n in names(binaryDomain)) {
   if (length(x) == length(y)) {
     for (u in unaryU) {
       for (m in M) {
-        f <- unaryM[[m,u]]
+        f <- unaryM[[m, u]]
         if (!is.null(f)) {
-          tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
+          tim[m, u, n, d] <- median(microbenchmark(f(x), times=times)$time)
           # now plug-in measures for unsorted merge
           if (m == "merge") {
             tim["merge", u, n, "unsorted"] <-
@@ -409,9 +410,9 @@ for (n in names(binaryDomain)) {
   }
   for (u in binaryU) {
     for (m in M) {
-      f <- binaryM[[m,u]]
+      f <- binaryM[[m, u]]
       if (!is.null(f)) {
-        tim[m,u,n,d] <- median(microbenchmark(f(x,y), times=times)$time)
+        tim[m, u, n, d] <- median(microbenchmark(f(x, y), times=times)$time)
         # now plug-in measures for unsorted merge
         if (m == "merge") {
           tim["merge", u, n, "unsorted"] =
@@ -427,26 +428,26 @@ for (n in names(binaryDomain)) {
 
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R (R) and bit (b)"}
-y <- timsort[,,,"big"]
-y <- 100 * y / max(y["R",,], na.rm=TRUE)
-oldpar <- par(mfrow=c(2,1), mar=c(5,8,2,1))
-x <- y[,,"unsorted"]
+y <- timsort[, , , "big"]
+y <- 100 * y / max(y["R", , ], na.rm=TRUE)
+oldpar <- par(mfrow=c(2, 1), mar=c(5, 8, 2, 1))
+x <- y[, , "unsorted"]
 dotchart(x,
   xlim=c(0, max(100, max(y))),
   labels="",
-  pch=c("R","b"),
+  pch=c("R", "b"),
   xlab="execution time",
   main="unsorted",
-  col=c("red","blue")
+  col=c("red", "blue")
 )
-x <- y[,,"sorted"]
+x <- y[, , "sorted"]
 dotchart(x,
   xlim=c(0, max(100, max(y))),
   labels="",
-  pch=c("R","b"),
+  pch=c("R", "b"),
   xlab="execution time",
   main="sorted",
-  col=c("red","blue")
+  col=c("red", "blue")
 )
 par(oldpar)
 ```
@@ -456,7 +457,7 @@ par(oldpar)
 tim2 <- tim
 for (n in names(binaryDomain)) {
   for (d in D) {
-    tim2[,,n,d] <- 100*tim[,,n,d]/max(tim["R",,n,d], na.rm=TRUE)
+    tim2[, , n, d] <- 100*tim[, , n, d]/max(tim["R", , n, d], na.rm=TRUE)
   }
 }
 ```
@@ -465,28 +466,28 @@ for (n in names(binaryDomain)) {
 
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R, bit and merge relative to most expensive R in 'unsorted bigbig' scenario"}
-y <- tim2[,,"bigbig",]
-y <- 100 * y / max(y["R",,], na.rm=TRUE)
-x <- y[,,"unsorted"]
+y <- tim2[, , "bigbig", ]
+y <- 100 * y / max(y["R", , ], na.rm=TRUE)
+x <- y[, , "unsorted"]
 m <- rep("", ncol(x))
 m <- as.vector(rbind(m, colnames(x), m))
 dotchart(x,
-  xlim=c(0, max(100,max(y, na.rm=TRUE))),
+  xlim=c(0, max(100, max(y, na.rm=TRUE))),
   labels=m,
-  pch=c("R","b","m"),
-  col=c("red","blue","black"),
+  pch=c("R", "b", "m"),
+  col=c("red", "blue", "black"),
   main="Timings in 'unsorted bigbig' scenario",
   sub="R='hash'   b='bit'   m='merge'"
 )
 ```
 
 ```{r, echo=FALSE, fig.cap = "Execution time for R, bit and merge in 'sorted bigbig' scenario"}
-x <- y[,,"sorted"]
+x <- y[, , "sorted"]
 dotchart(x,
   xlim=c(0, max(y, na.rm=TRUE)),
   labels=m,
-  pch=c("R","b","m"),
-  col=c("red","blue","black"),
+  pch=c("R", "b", "m"),
+  col=c("red", "blue", "black"),
   main="Timings in 'sorted bigbig' scenario",
   sub="R='hash'   b='bit'   m='merge'"
 )
@@ -498,40 +499,40 @@ dotchart(x,
 ### % time for sorting
 
 ```{r, echo=FALSE, results='asis'}
-x <- 100*timsort["bit",,,]/timsort["R",,,]
+x <- 100*timsort["bit", , , ]/timsort["R", , , ]
 s <- "sorted"
-knitr::kable(x[,s,], caption=paste(s,"data relative to R's sort"), digits=1)
+knitr::kable(x[, s, ], caption=paste(s, "data relative to R's sort"), digits=1)
 ```
 
 
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,s,], caption=paste(s,"data relative to R's sort"), digits=1)
+knitr::kable(x[, s, ], caption=paste(s, "data relative to R's sort"), digits=1)
 ```
 
 ### % time for unique
 
 ```{r, echo=FALSE, results='asis'}
 f <- function(u){
-  n <- c("smallsmall","bigbig")
-  x <- tim[c("bit","merge","merge"),u,n,]
+  n <- c("smallsmall", "bigbig")
+  x <- tim[c("bit", "merge", "merge"), u, n, ]
   dimnames(x)$M[3] <- "sort"
-  dimnames(x)$N <- c("small","big")
-  x["sort",,"unsorted"] <- timsort["bit","sort","unsorted",]
-  x["sort",,"sorted"] <- 0
+  dimnames(x)$N <- c("small", "big")
+  x["sort", , "unsorted"] <- timsort["bit", "sort", "unsorted", ]
+  x["sort", , "sorted"] <- 0
   for (m in dimnames(x)$M) {
-    x[m,,] <- x[m,,] / tim["R",u,n,] * 100
+    x[m, , ] <- x[m, , ] / tim["R", u, n, ] * 100
   }
   x
 }
 x <- f("unique")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 
@@ -540,12 +541,12 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("duplicated")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 
@@ -555,12 +556,12 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("anyDuplicated")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for sumDuplicated
@@ -568,12 +569,12 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("sumDuplicated")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 
@@ -582,24 +583,24 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ### % time for match
 ```{r, echo=FALSE, results='asis'}
 f <- function(u) {
-  x <- tim[c("bit","merge","merge"),u,,]
+  x <- tim[c("bit", "merge", "merge"), u, , ]
   dimnames(x)$M[3] <- "sort"
-  s <- timsort["bit","sort","unsorted",]
-  x["sort",,"unsorted"] <- rep(s, c(2,2)) + c(s,s)
-  x["sort",,"sorted"] <- 0
+  s <- timsort["bit", "sort", "unsorted", ]
+  x["sort", , "unsorted"] <- rep(s, c(2, 2)) + c(s, s)
+  x["sort", , "sorted"] <- 0
   for (m in dimnames(x)$M) {
-    x[m,,] <- x[m,,] / tim["R",u,,] * 100
+    x[m, , ] <- x[m, , ] / tim["R", u, , ] * 100
   }
   x
 }
 x <- f("match")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for in
@@ -607,11 +608,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("in")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for notin
@@ -619,11 +620,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("notin")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 
@@ -633,11 +634,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("union")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for intersect
@@ -646,11 +647,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("intersect")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for setdiff
@@ -659,11 +660,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("setdiff")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for symdiff
@@ -672,11 +673,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("symdiff")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 
@@ -686,11 +687,11 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("setequal")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 
 ### % time for setearly
@@ -699,10 +700,10 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 ```{r, echo=FALSE, results='asis'}
 x <- f("setearly")
 s <- "sorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 ```{r, echo=FALSE, results='asis'}
 s <- "unsorted"
-knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
+knitr::kable(x[, , s], caption=paste(s, "data relative to R"), digits=1)
 ```
 

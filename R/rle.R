@@ -30,7 +30,7 @@
 #'
 #'
 #' @param x an integer vector
-#' @param na.method one of "none","break","skip", see details. The strange defaults stem
+#' @param na.method one of "none", "break", "skip", see details. The strange defaults stem
 #'   from the initial usage.
 #' @return
 #'  - `intrle` returns an object of class [rle()] or NULL, if rle-compression is not
@@ -71,7 +71,7 @@ intrle <- function(x){
 
 #' @describeIn intrle check whether integer vector is ascending
 #' @export
-intisasc <- function(x, na.method=c("none","break","skip")[2]){
+intisasc <- function(x, na.method=c("none", "break", "skip")[2]){
   stopifnot(is.integer(x))
   if (na.method=="break")
     .Call(C_R_int_is_asc_break, x)
@@ -83,7 +83,7 @@ intisasc <- function(x, na.method=c("none","break","skip")[2]){
 
 #' @describeIn intrle check whether integer vector is descending
 #' @export
-intisdesc <- function(x, na.method=c("none","break","skip")[1]){
+intisdesc <- function(x, na.method=c("none", "break", "skip")[1]){
   stopifnot(is.integer(x))
   if (na.method=="none")
     .Call(C_R_int_is_desc_none, x)
@@ -163,7 +163,7 @@ rleunpack.rlepack <- function(x){
 #' @rdname rlepack
 #' @export
 rev.rlepack <- function(x){
-  if (inherits(x$dat,"rle")){
+  if (inherits(x$dat, "rle")){
     x$dat$values <- -rev(x$dat$values)
     x$dat$lengths <- rev(x$dat$lengths)
   }else{
@@ -182,7 +182,7 @@ rev.rlepack <- function(x){
 #' @rdname rlepack
 #' @export
 unique.rlepack <- function(x, incomparables = FALSE, ...) {
-  if (inherits(x$dat,"rle")) {
+  if (inherits(x$dat, "rle")) {
     tab <- tabulate(sign(x$dat$values)+2L, nbins=3L)
     if (tab[1] && tab[3])
       x <- rlepack(unique(rleunpack(x)))

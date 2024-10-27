@@ -100,7 +100,7 @@
 #'
 #'   system.time(x <- mysimplefactor(1e7))
 #'   memory.size(max=TRUE)
-#'   system.time(setattr(x, "levels", c("a","b")))
+#'   system.time(setattr(x, "levels", c("a", "b")))
 #'   memory.size(max=TRUE)
 #'   x[1:4]
 #'   memory.size(max=TRUE)
@@ -109,7 +109,7 @@
 #'
 #'   system.time(x <- simplefactor(1e7))
 #'   memory.size(max=TRUE)
-#'   system.time(levels(x) <- c("x","y"))
+#'   system.time(levels(x) <- c("x", "y"))
 #'   memory.size(max=TRUE)
 #'   x[1:4]
 #'   memory.size(max=TRUE)
