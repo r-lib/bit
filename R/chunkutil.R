@@ -287,18 +287,16 @@ if (FALSE){
 #'    }
 #'
 #' @export
-
 chunks <- function(
-  from = NULL
-  , to = NULL
-  , by = NULL
-  , length.out = NULL
-  , along.with = NULL
-  , overlap = 0L
-  , method=c("bbatch", "seq")
-  , maxindex = NA
-)
-{
+  from = NULL,
+  to = NULL,
+  by = NULL,
+  length.out = NULL,
+  along.with = NULL,
+  overlap = 0L,
+  method=c("bbatch", "seq"),
+  maxindex = NA
+) {
   method <- match.arg(method)
   if (!is.null(along.with)){
     if (is.null(from))
