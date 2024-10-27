@@ -120,8 +120,8 @@ get_length <- function(x){
 #' x <- 1:2
 #' y <- x
 #' z <- copy_vector(x)
-#' still.identical(y,x)
-#' still.identical(z,x)
+#' still.identical(y, x)
+#' still.identical(z, x)
 #' @export
 still.identical <- function(x, y){
   .Call(C_R_still_identical, x = x, y = y)
@@ -142,8 +142,8 @@ still.identical <- function(x, y){
 #' x <- factor(letters)
 #' y <- x
 #' z <- copy_vector(x)
-#' still.identical(x,y)
-#' still.identical(x,z)
+#' still.identical(x, y)
+#' still.identical(x, z)
 #' str(x)
 #' str(y)
 #' str(z)
@@ -184,7 +184,7 @@ reverse_vector <- function(x){
 #' @return a reversed vector
 #' @seealso [which.max()], [is.na()], [anyNA()], [anyDuplicated()], [bit_anyDuplicated()]
 #' @examples
-#' x <- c(FALSE,NA,TRUE)
+#' x <- c(FALSE, NA, TRUE)
 #' firstNA(x)
 #' reverse_vector(x)
 #' \dontrun{

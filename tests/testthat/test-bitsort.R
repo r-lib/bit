@@ -11,7 +11,7 @@ test_that("bitsort function work on several inputs", {
   nas <- list(
     integer(),
     NA_integer_,
-    c(NA_integer_,NA_integer_)
+    c(NA_integer_, NA_integer_)
   )
   set.seed(1)
   for (num in nums) {
@@ -24,7 +24,7 @@ test_that("bitsort function work on several inputs", {
       expect_identical(
         range_na(x),
         range_result,
-        label=paste0("range_na(c(", paste(x, collapse=","), "))")
+        label=paste0("range_na(c(", toString(x), "))")
       )
 
       range_result <- suppressWarnings(as.integer(c(
@@ -32,9 +32,9 @@ test_that("bitsort function work on several inputs", {
         sum(is.na(x))
       )))
       expect_identical(
-        attr(range_nanozero(x),"range_na"),
+        attr(range_nanozero(x), "range_na"),
         range_result,
-        label=paste0("range_na(c(", paste(x, collapse=","), ")")
+        label=paste0("range_na(c(", toString(x), ")")
       )
 
       for (na.last in c(NA, FALSE, TRUE)) {
@@ -67,72 +67,72 @@ test_that("bitsort function work on several inputs", {
         expect_identical(
           bit_sort(x, na.last=na.last),
           sort.int(x, na.last=na.last, method="quick"),
-          label=paste0("bit_sort(c(", paste(x, collapse=","), "), na.last=", na.last,")")
+          label=paste0("bit_sort(c(", toString(x), "), na.last=", na.last, ")")
         )
       }
 
       expect_identical(
         bit_unique(x, na.rm=NA),
         unique(x, incomparables=FALSE),
-        label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
+        label=paste0("bit_unique(c(", toString(x), "), na.rm=", NA, ")")
       )
       expect_identical(
         bit_unique(x, na.rm=FALSE),
         unique(x, incomparables=NA),
-        label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
+        label=paste0("bit_unique(c(", toString(x), "), na.rm=", FALSE, ")")
       )
       expect_identical(
         bit_unique(x, na.rm=TRUE),
         unique(x[!is.na(x)]),
-        label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
+        label=paste0("bit_unique(c(", toString(x), "), na.rm=", TRUE, ")")
       )
 
       expect_identical(
         bit_duplicated(x, na.rm=NA),
         as.bit(duplicated(x, incomparables=FALSE)),
-        label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
+        label=paste0("bit_duplicated(c(", toString(x), "), na.rm=", NA, ")")
       )
       expect_identical(
         bit_duplicated(x, na.rm=FALSE),
         as.bit(duplicated(x, incomparables=NA)),
-        label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
+        label=paste0("bit_duplicated(c(", toString(x), "), na.rm=", FALSE, ")")
       )
       expect_identical(
         bit_duplicated(x, na.rm=TRUE),
         as.bit(duplicated(x) | is.na(x)),
-        label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
+        label=paste0("bit_duplicated(c(", toString(x), "), na.rm=", TRUE, ")")
       )
 
       expect_identical(
         bit_anyDuplicated(x, na.rm=NA),
         anyDuplicated(x, incomparables=FALSE),
-        label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
+        label=paste0("bit_anyDuplicated(c(", toString(x), "), na.rm=", NA, ")")
       )
       expect_identical(
         bit_anyDuplicated(x, na.rm=FALSE),
         anyDuplicated(x, incomparables=NA),
-        label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
+        label=paste0("bit_anyDuplicated(c(", toString(x), "), na.rm=", FALSE, ")")
       )
       expect_identical(
         bit_anyDuplicated(x, na.rm=TRUE),
         max(0L, head(which(is.na(x)|duplicated(x)), 1)),
-        label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
+        label=paste0("bit_anyDuplicated(c(", toString(x), "), na.rm=", TRUE, ")")
       )
 
       expect_identical(
         bit_sumDuplicated(x, na.rm=NA),
         sum(duplicated(x, incomparables=FALSE)),
-        label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+        label=paste0("bit_sumDuplicated(c(", toString(x), "))")
       )
       expect_identical(
         bit_sumDuplicated(x, na.rm=FALSE),
         sum(duplicated(x, incomparables=NA)),
-        label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+        label=paste0("bit_sumDuplicated(c(", toString(x), "))")
       )
       expect_identical(
         bit_sumDuplicated(x, na.rm=TRUE),
         sum(duplicated(x, incomparables=NA)) + sum(is.na(x)),
-        label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+        label=paste0("bit_sumDuplicated(c(", toString(x), "))")
       )
 
     }
@@ -146,11 +146,11 @@ test_that("bit_sort and bit_sort_unique are OK", {
   for (s in 1:10) {
     set.seed(s)
     x <- 2L*sample(n, replace=TRUE)
-    for (napos in c(-1L,0L,1L)) {
+    for (napos in c(-1L, 0L, 1L)) {
       if (napos == -1) {
-        y <- c(NA,x)
+        y <- c(NA, x)
       } else if (napos == 1) {
-        y <- c(x,NA)
+        y <- c(x, NA)
       } else {
         y <- c(x[1:(n%/%2)], NA, x[(n%/%2+1L):n])
       }

@@ -5,7 +5,7 @@ regtest.bit <- function(
   OK <- TRUE
   pool <- c(FALSE, TRUE)
 
-  if (!identical(unattr(as.bit(c(FALSE,NA,TRUE))[]), c(FALSE,FALSE,TRUE))){
+  if (!identical(unattr(as.bit(c(FALSE, NA, TRUE))[]), c(FALSE, FALSE, TRUE))){
     message("bit error: wrong coercion of triboolean to (bi)boolean")
     OK <- FALSE
   }
@@ -20,7 +20,7 @@ regtest.bit <- function(
   }
 
   i <- c(2, 1, 0, 1, NA)
-  if (!identical(l[i],unattr(b[i]))){
+  if (!identical(l[i], unattr(b[i]))){
     message("\nregression test difference between b[i] and l[i]")
     message(l[i])
     message(unattr(b[i]))
@@ -29,7 +29,7 @@ regtest.bit <- function(
 
   l[0] <- TRUE
   b[0] <- TRUE
-  if (!identical(l,unattr(b[]))){
+  if (!identical(l, unattr(b[]))){
     message("\nregression test difference after assigning at R position zero")
     message(l)
     message(unattr(b[]))
@@ -38,7 +38,7 @@ regtest.bit <- function(
 
   l[2] <- TRUE
   b[2] <- TRUE
-  if (!identical(ifelse(is.na(l), FALSE, l),unattr(b[]))){
+  if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))){
     message("\nregression test difference after assigning after vector length (at 2)")
     message(l)
     message(unattr(b[]))
@@ -47,21 +47,21 @@ regtest.bit <- function(
 
   l[.BITS+1] <- FALSE
   b[.BITS+1] <- NA
-  if (!identical(ifelse(is.na(l), FALSE, l),unattr(b[]))){
+  if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))){
     message("\nregression test difference after assigning after vector length (at .BITS+1)")
     message(l)
     message(unattr(b[]))
     OK <- FALSE
   }
 
-  if (!identical(ifelse(is.na(l[TRUE]), FALSE, l[TRUE]),unattr(b[TRUE]))){
+  if (!identical(ifelse(is.na(l[TRUE]), FALSE, l[TRUE]), unattr(b[TRUE]))){
     message("\nregression test difference after subscripting with scalar TRUE")
     message(l)
     message(unattr(b[]))
     OK <- FALSE
   }
 
-  if (!identical(ifelse(is.na(l[FALSE]), FALSE, l[FALSE]),unattr(b[FALSE]))){
+  if (!identical(ifelse(is.na(l[FALSE]), FALSE, l[FALSE]), unattr(b[FALSE]))){
     message("\nregression test difference after subscripting with scalar FALSE")
     message(l)
     message(unattr(b[]))
@@ -76,7 +76,7 @@ regtest.bit <- function(
     # check direct coercion
     b <- as.bit(l)
     l2 <- as.logical(b)
-    if (!identical(l,l2)){
+    if (!identical(l, l2)){
       message("\nregression test difference between logical")
       message(l)
       message("and as.logical(as.bit(logical))")
@@ -88,7 +88,7 @@ regtest.bit <- function(
     # summary functions with logical return
     s <- c(all=all(l), any=any(l))
     s2 <- c(all=all(b), any=any(b))
-    if (!identical(s,s2)){
+    if (!identical(s, s2)){
       message("\nregression test difference between logical summaries")
       message(s)
       message("and bit summaries")
@@ -124,7 +124,7 @@ regtest.bit <- function(
       )
     }
     s2 <- c(min=min(b), max=max(b), range=range(b), sum=sum(b), summary=summary(b))
-    if (!identical(s,s2)) {
+    if (!identical(s, s2)) {
       message("\nregression test difference between logical summaries")
       message(s)
       message("and bit summaries")
@@ -134,7 +134,7 @@ regtest.bit <- function(
     # check positive whichs
     w <- as.which(l)
     w2 <- as.which(as.bit(w, n))
-    if (!identical(w,w2)) {
+    if (!identical(w, w2)) {
       message("\nregression test difference between which")
       message(w)
       message("and as.which(as.bit.which(which))")
@@ -153,7 +153,7 @@ regtest.bit <- function(
       w <- which(l)
     }
     w2 <- as.vector(as.bitwhich(as.bit(l)))
-    if (!identical(w,w2)) {
+    if (!identical(w, w2)) {
       message("\nregression test difference between which")
       message(w)
       message("and as.which(as.bit.which(which))")
@@ -167,7 +167,7 @@ regtest.bit <- function(
       NOT = identical(!l, as.logical(!b))
       , AND = identical(l&l2, as.logical(b&b2))
       , OR = identical(l|l2, as.logical(b|b2))
-      , XOR = identical(xor(l,l2), as.logical(xor(b,b2)))
+      , XOR = identical(xor(l, l2), as.logical(xor(b, b2)))
       , NEQ = identical(l!=l2, as.logical(b!=b2))
       , EQ = identical(l==l2, as.logical(b==b2))
     )
@@ -183,7 +183,7 @@ regtest.bit <- function(
       NOT = identical(!l, as.logical(!w))
       , AND = identical(l&l2, as.logical(w&w2))
       , OR = identical(l|l2, as.logical(w|w2))
-      , XOR = identical(xor(l,l2), as.logical(xor(w,w2)))
+      , XOR = identical(xor(l, l2), as.logical(xor(w, w2)))
       , NEQ = identical(l!=l2, as.logical(w!=w2))
       , EQ = identical(l==l2, as.logical(w==w2))
     )
@@ -193,7 +193,7 @@ regtest.bit <- function(
       message(cbind(l=l, l2=l))
       OK <- FALSE
     }
-    rm(l2,b2,w2)
+    rm(l2, b2, w2)
     # check extractors
     n2 <- sample(1:n, 1)
     j <- sample(1:n, n2)
@@ -281,46 +281,46 @@ regtest.bit <- function(
   OK <- OK && identical(l3 | l3, as.logical(bw3 | bw3))
 
 
-  OK <- OK && identical(xor(l0,l0), as.logical(xor(bw0,bw0)))
-  OK <- OK && identical(xor(l0,l1), as.logical(xor(bw0,bw1)))
-  OK <- OK && identical(xor(l0,l2), as.logical(xor(bw0,bw2)))
-  OK <- OK && identical(xor(l0,l3), as.logical(xor(bw0,bw3)))
+  OK <- OK && identical(xor(l0, l0), as.logical(xor(bw0, bw0)))
+  OK <- OK && identical(xor(l0, l1), as.logical(xor(bw0, bw1)))
+  OK <- OK && identical(xor(l0, l2), as.logical(xor(bw0, bw2)))
+  OK <- OK && identical(xor(l0, l3), as.logical(xor(bw0, bw3)))
 
-  OK <- OK && identical(xor(l1,l0), as.logical(xor(bw1,bw0)))
-  OK <- OK && identical(xor(l1,l1), as.logical(xor(bw1,bw1)))
-  OK <- OK && identical(xor(l1,l2), as.logical(xor(bw1,bw2)))
-  OK <- OK && identical(xor(l1,l3), as.logical(xor(bw1,bw3)))
+  OK <- OK && identical(xor(l1, l0), as.logical(xor(bw1, bw0)))
+  OK <- OK && identical(xor(l1, l1), as.logical(xor(bw1, bw1)))
+  OK <- OK && identical(xor(l1, l2), as.logical(xor(bw1, bw2)))
+  OK <- OK && identical(xor(l1, l3), as.logical(xor(bw1, bw3)))
 
-  OK <- OK && identical(xor(l2,l0), as.logical(xor(bw2,bw0)))
-  OK <- OK && identical(xor(l2,l1), as.logical(xor(bw2,bw1)))
-  OK <- OK && identical(xor(l2,l2), as.logical(xor(bw2,bw2)))
-  OK <- OK && identical(xor(l2,l3), as.logical(xor(bw2,bw3)))
+  OK <- OK && identical(xor(l2, l0), as.logical(xor(bw2, bw0)))
+  OK <- OK && identical(xor(l2, l1), as.logical(xor(bw2, bw1)))
+  OK <- OK && identical(xor(l2, l2), as.logical(xor(bw2, bw2)))
+  OK <- OK && identical(xor(l2, l3), as.logical(xor(bw2, bw3)))
 
-  OK <- OK && identical(xor(l3,l0), as.logical(xor(bw3,bw0)))
-  OK <- OK && identical(xor(l3,l1), as.logical(xor(bw3,bw1)))
-  OK <- OK && identical(xor(l3,l2), as.logical(xor(bw3,bw2)))
-  OK <- OK && identical(xor(l3,l3), as.logical(xor(bw3,bw3)))
+  OK <- OK && identical(xor(l3, l0), as.logical(xor(bw3, bw0)))
+  OK <- OK && identical(xor(l3, l1), as.logical(xor(bw3, bw1)))
+  OK <- OK && identical(xor(l3, l2), as.logical(xor(bw3, bw2)))
+  OK <- OK && identical(xor(l3, l3), as.logical(xor(bw3, bw3)))
 
 
-  OK <- OK && identical(c(l0,l0), as.logical(c(bw0,bw0)))
-  OK <- OK && identical(c(l0,l1), as.logical(c(bw0,bw1)))
-  OK <- OK && identical(c(l0,l2), as.logical(c(bw0,bw2)))
-  OK <- OK && identical(c(l0,l3), as.logical(c(bw0,bw3)))
+  OK <- OK && identical(c(l0, l0), as.logical(c(bw0, bw0)))
+  OK <- OK && identical(c(l0, l1), as.logical(c(bw0, bw1)))
+  OK <- OK && identical(c(l0, l2), as.logical(c(bw0, bw2)))
+  OK <- OK && identical(c(l0, l3), as.logical(c(bw0, bw3)))
 
-  OK <- OK && identical(c(l1,l0), as.logical(c(bw1,bw0)))
-  OK <- OK && identical(c(l1,l1), as.logical(c(bw1,bw1)))
-  OK <- OK && identical(c(l1,l2), as.logical(c(bw1,bw2)))
-  OK <- OK && identical(c(l1,l3), as.logical(c(bw1,bw3)))
+  OK <- OK && identical(c(l1, l0), as.logical(c(bw1, bw0)))
+  OK <- OK && identical(c(l1, l1), as.logical(c(bw1, bw1)))
+  OK <- OK && identical(c(l1, l2), as.logical(c(bw1, bw2)))
+  OK <- OK && identical(c(l1, l3), as.logical(c(bw1, bw3)))
 
-  OK <- OK && identical(c(l2,l0), as.logical(c(bw2,bw0)))
-  OK <- OK && identical(c(l2,l1), as.logical(c(bw2,bw1)))
-  OK <- OK && identical(c(l2,l2), as.logical(c(bw2,bw2)))
-  OK <- OK && identical(c(l2,l3), as.logical(c(bw2,bw3)))
+  OK <- OK && identical(c(l2, l0), as.logical(c(bw2, bw0)))
+  OK <- OK && identical(c(l2, l1), as.logical(c(bw2, bw1)))
+  OK <- OK && identical(c(l2, l2), as.logical(c(bw2, bw2)))
+  OK <- OK && identical(c(l2, l3), as.logical(c(bw2, bw3)))
 
-  OK <- OK && identical(c(l3,l0), as.logical(c(bw3,bw0)))
-  OK <- OK && identical(c(l3,l1), as.logical(c(bw3,bw1)))
-  OK <- OK && identical(c(l3,l2), as.logical(c(bw3,bw2)))
-  OK <- OK && identical(c(l3,l3), as.logical(c(bw3,bw3)))
+  OK <- OK && identical(c(l3, l0), as.logical(c(bw3, bw0)))
+  OK <- OK && identical(c(l3, l1), as.logical(c(bw3, bw1)))
+  OK <- OK && identical(c(l3, l2), as.logical(c(bw3, bw2)))
+  OK <- OK && identical(c(l3, l3), as.logical(c(bw3, bw3)))
 
   N <- 2L*.BITS
   l <- logical(N)
@@ -328,7 +328,7 @@ regtest.bit <- function(
   for (i in 1:N){
     l[i] <- TRUE
     b[i] <- TRUE
-    if (!identical(l,as.logical(b))){
+    if (!identical(l, as.logical(b))){
       message("\nregression test difference when replacing at position", i, "")
       OK <- FALSE
     }
@@ -394,27 +394,27 @@ test_that("some old regression tests are also OK for bitwhich", {
   expect_identical(as.logical(w), l)
 
   expect_identical(
-    as.bit(rep(c(FALSE,TRUE), .BITS))[TRUE],
-    rep(c(FALSE,TRUE), .BITS)[TRUE],
+    as.bit(rep(c(FALSE, TRUE), .BITS))[TRUE],
+    rep(c(FALSE, TRUE), .BITS)[TRUE],
     ignore_attr="vmode",
     label="subscripting with scalar TRUE"
   )
   expect_identical(
-    as.bitwhich(rep(c(FALSE,TRUE), .BITS))[TRUE],
-    rep(c(FALSE,TRUE), .BITS)[TRUE],
+    as.bitwhich(rep(c(FALSE, TRUE), .BITS))[TRUE],
+    rep(c(FALSE, TRUE), .BITS)[TRUE],
     ignore_attr="vmode",
     label="subscripting with scalar TRUE"
   )
 
   expect_identical(
-    as.bit(rep(c(FALSE,TRUE), .BITS))[FALSE],
-    rep(c(FALSE,TRUE), .BITS)[FALSE],
+    as.bit(rep(c(FALSE, TRUE), .BITS))[FALSE],
+    rep(c(FALSE, TRUE), .BITS)[FALSE],
     ignore_attr="vmode",
     label="subscripting with scalar FALSE"
   )
   expect_identical(
-    as.bitwhich(rep(c(FALSE,TRUE), .BITS))[FALSE],
-    rep(c(FALSE,TRUE), .BITS)[FALSE],
+    as.bitwhich(rep(c(FALSE, TRUE), .BITS))[FALSE],
+    rep(c(FALSE, TRUE), .BITS)[FALSE],
     ignore_attr="vmode",
     label="subscripting with scalar FALSE"
   )

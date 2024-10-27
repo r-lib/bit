@@ -56,40 +56,40 @@ test_that("positive merging is OK with NAs", {
       y <- sort.int(ys[[yi]], na.last=FALSE, method="quick")
       env = list(x=x, y=y)
       eval(substitute(env=env, expect_identical(
-        merge_union(x,y, method="all"),
-        sort.int(c(x,y), na.last=FALSE, method="quick")
+        merge_union(x, y, method="all"),
+        sort.int(c(x, y), na.last=FALSE, method="quick")
       )))
       eval(substitute(env=env, expect_identical(
-        merge_union(x,y, method="exact"),
-        rep(c(NA, 1:9), pmax(NAtab(x,9), NAtab(y,9)))
+        merge_union(x, y, method="exact"),
+        rep(c(NA, 1:9), pmax(NAtab(x, 9), NAtab(y, 9)))
       )))
       eval(substitute(env=env, expect_identical(
-        merge_intersect(x,y, method="exact"),
-        rep(c(NA, 1:9), pmin(NAtab(x,9), NAtab(y,9)))
+        merge_intersect(x, y, method="exact"),
+        rep(c(NA, 1:9), pmin(NAtab(x, 9), NAtab(y, 9)))
       )))
       eval(substitute(env=env, expect_identical(
-        merge_setdiff(x,y, method="exact"),
-        rep(c(NA, 1:9), pmax(0L, NAtab(x,9) - NAtab(y,9)))
+        merge_setdiff(x, y, method="exact"),
+        rep(c(NA, 1:9), pmax(0L, NAtab(x, 9) - NAtab(y, 9)))
       )))
       eval(substitute(env=env, expect_identical(
-        merge_symdiff(x,y, method="exact"),
-        rep(c(NA, 1:9), abs(NAtab(x,9) - NAtab(y,9)))
+        merge_symdiff(x, y, method="exact"),
+        rep(c(NA, 1:9), abs(NAtab(x, 9) - NAtab(y, 9)))
       )))
       eval(substitute(env=env, expect_identical(
-        merge_union(x,y),
-        sort.int(union(x,y), na.last=FALSE, method="quick")
+        merge_union(x, y),
+        sort.int(union(x, y), na.last=FALSE, method="quick")
       )))
       eval(substitute(env=env, expect_identical(
-        merge_intersect(x,y),
-        sort.int(intersect(x,y), na.last=FALSE, method="quick")
+        merge_intersect(x, y),
+        sort.int(intersect(x, y), na.last=FALSE, method="quick")
       )))
       eval(substitute(env=env, expect_identical(
-        merge_setdiff(x,y),
-        sort.int(setdiff(x,y), na.last=FALSE, method="quick")
+        merge_setdiff(x, y),
+        sort.int(setdiff(x, y), na.last=FALSE, method="quick")
       )))
       eval(substitute(env=env, expect_identical(
-        merge_symdiff(x,y),
-        sort.int(union(setdiff(x,y),setdiff(y,x)), na.last=FALSE, method="quick")
+        merge_symdiff(x, y),
+        sort.int(union(setdiff(x, y), setdiff(y, x)), na.last=FALSE, method="quick")
       )))
     }
   }
@@ -101,51 +101,51 @@ test_that("reversed merging is OK (without NAs)", {
   for (i in 1:24){
     x <- sort.int(sample(9, replace=TRUE), na.last=FALSE, method="quick")
     y <- sort.int(sample(9, replace=TRUE), na.last=FALSE, method="quick")
-    for (revx in c(FALSE,TRUE)){
+    for (revx in c(FALSE, TRUE)){
       if (revx)
         rx <- rev(-x)
       else
         rx <- x
-      for (revy in c(FALSE,TRUE)){
+      for (revy in c(FALSE, TRUE)){
         if (revy)
           ry <- rev(-y)
         else
           ry <- y
         eval(substitute(expect_identical(
-          merge_union(rx,ry,revx=revx, revy=revy, method="all")
-          , sort.int(c(x,y), na.last=FALSE, method="quick")
+          merge_union(rx, ry, revx=revx, revy=revy, method="all")
+          , sort.int(c(x, y), na.last=FALSE, method="quick")
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_union(rx,ry,revx=revx, revy=revy, method="exact")
-          , rep(c(NA, 1:9), pmax(NAtab(x,9), NAtab(y,9)))
+          merge_union(rx, ry, revx=revx, revy=revy, method="exact")
+          , rep(c(NA, 1:9), pmax(NAtab(x, 9), NAtab(y, 9)))
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_intersect(rx,ry,revx=revx, revy=revy, method="exact")
-          , rep(c(NA, 1:9), pmin(NAtab(x,9), NAtab(y,9)))
+          merge_intersect(rx, ry, revx=revx, revy=revy, method="exact")
+          , rep(c(NA, 1:9), pmin(NAtab(x, 9), NAtab(y, 9)))
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_setdiff(rx,ry,revx=revx, revy=revy, method="exact")
-          , rep(c(NA, 1:9), pmax(0L, NAtab(x,9) - NAtab(y,9)))
+          merge_setdiff(rx, ry, revx=revx, revy=revy, method="exact")
+          , rep(c(NA, 1:9), pmax(0L, NAtab(x, 9) - NAtab(y, 9)))
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_symdiff(rx,ry,revx=revx, revy=revy, method="exact")
-          , rep(c(NA, 1:9), abs(NAtab(x,9) - NAtab(y,9)))
+          merge_symdiff(rx, ry, revx=revx, revy=revy, method="exact")
+          , rep(c(NA, 1:9), abs(NAtab(x, 9) - NAtab(y, 9)))
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_union(rx,ry,revx=revx, revy=revy)
-          , sort.int(union(x,y), na.last=FALSE, method="quick")
+          merge_union(rx, ry, revx=revx, revy=revy)
+          , sort.int(union(x, y), na.last=FALSE, method="quick")
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_intersect(rx,ry,revx=revx, revy=revy)
-          , sort.int(intersect(x,y), na.last=FALSE, method="quick")
+          merge_intersect(rx, ry, revx=revx, revy=revy)
+          , sort.int(intersect(x, y), na.last=FALSE, method="quick")
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_setdiff(rx,ry,revx=revx, revy=revy)
-          , sort.int(setdiff(x,y), na.last=FALSE, method="quick")
+          merge_setdiff(rx, ry, revx=revx, revy=revy)
+          , sort.int(setdiff(x, y), na.last=FALSE, method="quick")
         ), list(x=x, y=y, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_symdiff(rx,ry,revx=revx, revy=revy)
-          , sort.int(union(setdiff(x,y),setdiff(y,x)), na.last=FALSE, method="quick")
+          merge_symdiff(rx, ry, revx=revx, revy=revy)
+          , sort.int(union(setdiff(x, y), setdiff(y, x)), na.last=FALSE, method="quick")
         ), list(x=x, y=y, revx=revx, revy=revy)))
 
       }
@@ -161,36 +161,36 @@ test_that("for-looped merging is OK (without NAs)", {
   set.seed(1)
   for (i in 1:12){
     y <- sort.int(sample(nx, replace=TRUE), na.last=FALSE, method="quick")
-    for (revx in c(FALSE,TRUE)){
+    for (revx in c(FALSE, TRUE)){
       if (revx){
         rx <- rev(-x)
         rnx <- c(-nx, -1L)
       }else{
         rx <- x
-        rnx <- c(1L,nx)
+        rnx <- c(1L, nx)
       }
-      for (revy in c(FALSE,TRUE)){
+      for (revy in c(FALSE, TRUE)){
         if (revy){
           ry <- rev(-y)
         }else{
           ry <- y
         }
         eval(substitute(expect_identical(
-          merge_rangesect(rnx,ry,revx=revx, revy=revy)
-          , merge_intersect(rx,ry,revx=revx, revy=revy)
-        ), list(rnx=rnx, rx=rx, ry=ry,revx=revx, revy=revy)))
+          merge_rangesect(rnx, ry, revx=revx, revy=revy)
+          , merge_intersect(rx, ry, revx=revx, revy=revy)
+        ), list(rnx=rnx, rx=rx, ry=ry, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_rangediff(rnx,ry,revx=revx, revy=revy)
-          , merge_setdiff(rx,ry,revx=revx, revy=revy)
-        ), list(rnx=rnx, rx=rx, ry=ry,revx=revx, revy=revy)))
+          merge_rangediff(rnx, ry, revx=revx, revy=revy)
+          , merge_setdiff(rx, ry, revx=revx, revy=revy)
+        ), list(rnx=rnx, rx=rx, ry=ry, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_rangein(rnx,ry,revx=revx, revy=revy)
-          , copy_vector(rx,revx=revx) %in% copy_vector(ry, revx=revy)
-        ), list(rnx=rnx, rx=rx, ry=ry,revx=revx, revy=revy)))
+          merge_rangein(rnx, ry, revx=revx, revy=revy)
+          , copy_vector(rx, revx=revx) %in% copy_vector(ry, revx=revy)
+        ), list(rnx=rnx, rx=rx, ry=ry, revx=revx, revy=revy)))
         eval(substitute(expect_identical(
-          merge_rangenotin(rnx,ry,revx=revx, revy=revy)
-          , !(copy_vector(rx,revx=revx) %in% copy_vector(ry, revx=revy))
-        ), list(rnx=rnx, rx=rx, ry=ry,revx=revx, revy=revy)))
+          merge_rangenotin(rnx, ry, revx=revx, revy=revy)
+          , !(copy_vector(rx, revx=revx) %in% copy_vector(ry, revx=revy))
+        ), list(rnx=rnx, rx=rx, ry=ry, revx=revx, revy=revy)))
       }
     }
   }

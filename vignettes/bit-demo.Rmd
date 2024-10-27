@@ -100,7 +100,7 @@ summary(b1 & w2)
 Many bit functions support a range restriction,
 
 ```{r}
-summary(b1, range=c(1,1000))
+summary(b1, range=c(1, 1000))
 ```
 
 which is useful

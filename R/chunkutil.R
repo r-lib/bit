@@ -12,7 +12,7 @@
 
 # non-vectorized
 #bbatch <-
-#function(N,B){
+#function(N, B){
 #  N <- as.integer(N)
 #  B <- as.integer(B)
 #  RB <- N %% B
@@ -58,13 +58,13 @@
 #'   bbatch(100, 24)
 #'
 #' @export
-bbatch <- function(N,B){
+bbatch <- function(N, B){
   if (any(B<1))
     stop("B too small")
   if (any(N<0))
     stop("N too small")
   N <- as.integer(N)
-  B <- pmin(pmax(1L,N), as.integer(B))
+  B <- pmin(pmax(1L, N), as.integer(B))
   RB <- N %% B
   NB <- N %/% B
   cc <- pmin((B - RB) %/% NB, (B - RB) %/% (NB + 1L))
@@ -150,7 +150,7 @@ if (FALSE){
   for (n in 1:20)
   for (i1 in 1:30){
     i2 <- i1+n-1
-    cat(i1,i2,"|",repfromto(x,i1,i2), "\n")
+    cat(i1, i2, "|", repfromto(x, i1, i2), "\n")
   }
 }
 
@@ -295,7 +295,7 @@ chunks <- function(
   , length.out = NULL
   , along.with = NULL
   , overlap = 0L
-  , method=c("bbatch","seq")
+  , method=c("bbatch", "seq")
   , maxindex = NA
 )
 {
@@ -392,11 +392,11 @@ chunks <- function(
 #'   chunk(raw(1e7))
 #'   chunk(raw(1e7), length=3)
 #'
-#'   chunks(1,10,3)
+#'   chunks(1, 10, 3)
 #'   # no longer do
-#'   chunk(1,100,10)
+#'   chunk(1, 100, 10)
 #'   # but for bckward compatibility this works
-#'   chunk(from=1,to=100,by=10)
+#'   chunk(from=1, to=100, by=10)
 #'
 #' @export
 chunk <- function(x = NULL, ...){
@@ -469,13 +469,13 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
 #' @keywords manip
 #' @examples
 #'
-#'   sequence(c(3,4))
-#'   vecseq(c(3,4))
-#'   vecseq(c(1,11), c(5, 15))
-#'   vecseq(c(1,11), c(5, 15), concat=FALSE, eval=FALSE)
-#'   vecseq(c(1,11), c(5, 15), concat=FALSE, eval=TRUE)
-#'   vecseq(c(1,11), c(5, 15), concat=TRUE, eval=FALSE)
-#'   vecseq(c(1,11), c(5, 15), concat=TRUE, eval=TRUE)
+#'   sequence(c(3, 4))
+#'   vecseq(c(3, 4))
+#'   vecseq(c(1, 11), c(5, 15))
+#'   vecseq(c(1, 11), c(5, 15), concat=FALSE, eval=FALSE)
+#'   vecseq(c(1, 11), c(5, 15), concat=FALSE, eval=TRUE)
+#'   vecseq(c(1, 11), c(5, 15), concat=TRUE, eval=FALSE)
+#'   vecseq(c(1, 11), c(5, 15), concat=TRUE, eval=TRUE)
 #'
 #' @export
 vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
@@ -485,7 +485,7 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
   }
   if (concat) {
     if (eval) {
-      # pure R version was: eval(parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")")))
+      # pure R version was: eval(parse(text=paste("c(", paste(x, y, sep=":", collapse=", "), ")")))
       # now calling C-code
       nx <- length(x)
       ny <- length(y)
@@ -495,12 +495,12 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
         y <- rep(as.integer(y), length.out=nx)
       .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y))
     }else
-      parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")"))[[1]]
+      parse(text=paste("c(", paste(x, y, sep=":", collapse=", "), ")"))[[1]]
   } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism.
     if (eval)
-      eval(parse(text=paste("list(",paste(x,y,sep=":",collapse=","),")")))
+      eval(parse(text=paste("list(", paste(x, y, sep=":", collapse=", "), ")")))
     else
-      as.list(parse(text=paste(x,y,sep=":")))
+      as.list(parse(text=paste(x, y, sep=":")))
   }
 }

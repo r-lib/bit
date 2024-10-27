@@ -1,9 +1,10 @@
 linters = all_linters(
   packages = "lintr",
   line_length_linter(100L),
+  # TODO(org/repo#000) or TODO(#000) allowed as canonical TODO comments.
+  todo_comment_linter(except_regex = "TODO\\((?:[a-zA-Z0-9-]+/[a-zA-Z0-9._-]+)?#[0-9]+\\)"),
   assignment_linter = NULL,
   brace_linter = NULL,
-  commas_linter = NULL,
   commented_code_linter = NULL,
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,
@@ -15,7 +16,6 @@ linters = all_linters(
   quotes_linter = NULL,
   # TODO(#19): Activate this; it's not trivial to replace on some old R versions.
   rep_len_linter = NULL,
-  todo_comment_linter = NULL,
   unreachable_code_linter = NULL,
   # TODO(r-lib/lintr#2172): Exclude the below from vignettes/, enforce elsewhere
   # Finer-tuned handling for some of these.

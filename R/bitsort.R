@@ -15,7 +15,7 @@
 #' @seealso [range_nanozero()] and [range_sortna()]
 #'
 #' @examples
-#' range_na(c(0L,1L,2L,NA))
+#' range_na(c(0L, 1L, 2L, NA))
 #' @export
 range_na <- function(x){
   if (!(is.integer(x) || is.factor(x)))
@@ -35,7 +35,7 @@ range_na <- function(x){
 #' @seealso [range_na()] and [range_sortna()]
 #'
 #' @examples
-#' range_nanozero(c(0L,1L,2L,NA))
+#' range_nanozero(c(0L, 1L, 2L, NA))
 #' @export
 range_nanozero <- function(x){
   if (!(is.integer(x) || is.factor(x)))
@@ -63,12 +63,12 @@ range_nanozero <- function(x){
 #' @seealso [range_na()] and [range_nanozero()]
 #'
 #' @examples
-#' range_sortna(c(0L,1L,NA,2L))
-#' range_sortna(c(2L,NA,1L,0L))
-#' range_sortna(c(0L,1L,NA,2L), na.last=TRUE)
-#' range_sortna(c(2L,NA,1L,0L), na.last=TRUE)
-#' range_sortna(c(0L,1L,NA,2L), na.last=FALSE)
-#' range_sortna(c(2L,NA,1L,0L), na.last=FALSE)
+#' range_sortna(c(0L, 1L, NA, 2L))
+#' range_sortna(c(2L, NA, 1L, 0L))
+#' range_sortna(c(0L, 1L, NA, 2L), na.last=TRUE)
+#' range_sortna(c(2L, NA, 1L, 0L), na.last=TRUE)
+#' range_sortna(c(0L, 1L, NA, 2L), na.last=FALSE)
+#' range_sortna(c(2L, NA, 1L, 0L), na.last=FALSE)
 #' @export
 range_sortna <- function(x, decreasing = FALSE, na.last=NA){
   if (!(is.integer(x) || is.factor(x)))
@@ -89,9 +89,9 @@ range_sortna <- function(x, decreasing = FALSE, na.last=NA){
 #' @return a sorted vector
 #'
 #' @examples
-#' quicksort2(c(2L,0L,1L,NA,2L))
-#' quicksort2(c(2L,0L,1L,NA,2L), na.last=TRUE)
-#' quicksort2(c(2L,0L,1L,NA,2L), na.last=FALSE)
+#' quicksort2(c(2L, 0L, 1L, NA, 2L))
+#' quicksort2(c(2L, 0L, 1L, NA, 2L), na.last=TRUE)
+#' quicksort2(c(2L, 0L, 1L, NA, 2L), na.last=FALSE)
 #' @export
 quicksort2 <- function(x, na.last=NA){
   if (!(is.integer(x) || is.factor(x)))
@@ -120,9 +120,9 @@ quicksort2 <- function(x, na.last=NA){
 #' @return a sorted vector
 #'
 #' @examples
-#' countsort(c(2L,0L,1L,NA,2L))
-#' countsort(c(2L,0L,1L,NA,2L), na.last=TRUE)
-#' countsort(c(2L,0L,1L,NA,2L), na.last=FALSE)
+#' countsort(c(2L, 0L, 1L, NA, 2L))
+#' countsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE)
+#' countsort(c(2L, 0L, 1L, NA, 2L), na.last=FALSE)
 #' @export
 quicksort3 <- function(x, na.last=NA){
   if (!(is.integer(x) || is.factor(x)))
@@ -152,9 +152,9 @@ quicksort3 <- function(x, na.last=NA){
 #' @return a sorted vector
 #'
 #' @examples
-#' countsort(c(2L,0L,1L,NA,2L))
-#' countsort(c(2L,0L,1L,NA,2L), na.last=TRUE)
-#' countsort(c(2L,0L,1L,NA,2L), na.last=FALSE)
+#' countsort(c(2L, 0L, 1L, NA, 2L))
+#' countsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE)
+#' countsort(c(2L, 0L, 1L, NA, 2L), na.last=FALSE)
 #' @export
 countsort <- function(x, na.last=NA){
   if (!(is.integer(x) || is.factor(x)))
@@ -185,9 +185,9 @@ countsort <- function(x, na.last=NA){
 #' @return a sorted vector
 #'
 #' @examples
-#' bitsort(c(2L,0L,1L,NA,2L))
-#' bitsort(c(2L,0L,1L,NA,2L), na.last=TRUE)
-#' bitsort(c(2L,0L,1L,NA,2L), na.last=FALSE)
+#' bitsort(c(2L, 0L, 1L, NA, 2L))
+#' bitsort(c(2L, 0L, 1L, NA, 2L), na.last=TRUE)
+#' bitsort(c(2L, 0L, 1L, NA, 2L), na.last=FALSE)
 #' @export
 bitsort <- function(x, na.last=NA, depth=1){
   if (!(is.integer(x) || is.factor(x)))
@@ -211,53 +211,53 @@ bitsort <- function(x, na.last=NA, depth=1){
 #   require(microbenchmark)
 #   require(bit)
 #   require(ff)
-#   x <- sample(2,1e8,T)
+#   x <- sample(2, 1e8, T)
 #   system.time(bitsort(x))
-#   x <- sample(1e8,1e8,T)
+#   x <- sample(1e8, 1e8, T)
 #   system.time(bitsort(x))
 #
 #   D <- as.integer(2^(1:27))
 #   N <- as.integer(2^(1:27))
-#   M <- c("b","c","q") #,"r")
+#   M <- c("b", "c", "q") #, "r")
 #   tim <- array(NA, dim=c(D=length(D), N=length(N), M=length(M)), dimnames=list(D=D, N=N, M=M))
 #   for (ni in seq_along(N)){
 #     n <- N[ni]
 #     for (di in seq_along(D)){
 #       d <- D[di]
-#       x <- sample(d,n,T)
+#       x <- sample(d, n, T)
 #       x[1] <- d
 #       if (di > ni-5 && di < ni+10){
-#         tim[di,ni,"b"] <- microbenchmark(bitsort(x), times = 1)$time
-#         tim[di,ni,"c"] <- microbenchmark(countsort(x), times = 1)$time
-#         tim[di,ni,"q"] <- microbenchmark(quicksort3(x), times = 1)$time
-#         #tim[di,ni,"r"] <- microbenchmark(radixsort(copy_vector(x)), times = 1)$time
+#         tim[di, ni, "b"] <- microbenchmark(bitsort(x), times = 1)$time
+#         tim[di, ni, "c"] <- microbenchmark(countsort(x), times = 1)$time
+#         tim[di, ni, "q"] <- microbenchmark(quicksort3(x), times = 1)$time
+#         #tim[di, ni, "r"] <- microbenchmark(radixsort(copy_vector(x)), times = 1)$time
 #       }
 #     }
-#     apply(tim[,1:ni,,drop=FALSE], 1:2, \(x){i <- which.min(x); if (length(i))M[i] else "."}) |>
+#     apply(tim[, 1:ni, , drop=FALSE], 1:2, \(x){i <- which.min(x); if (length(i))M[i] else "."}) |>
 #       print(quote=FALSE)
 #   }
 #
-#   round(tim[,,"b"] / tim[,,"c"], 1)
-#   round(tim[,,"b"] / tim[,,"q"], 1)
-#   round(tim[,,"c"] / tim[,,"q"], 1)
-#   round(tim[,,"c"] / tim[,,"r"], 1)
-#   round(tim[,,"q"] / tim[,,"r"], 1)
+#   round(tim[, , "b"] / tim[, , "c"], 1)
+#   round(tim[, , "b"] / tim[, , "q"], 1)
+#   round(tim[, , "c"] / tim[, , "q"], 1)
+#   round(tim[, , "c"] / tim[, , "r"], 1)
+#   round(tim[, , "q"] / tim[, , "r"], 1)
 #
 #   M <- dimnames(tim)[[3]]
-#   r <- as.integer(rownames(tim[,,1]))[row(tim[,,1])]
-#   n <- as.integer(colnames(tim[,,1]))[col(tim[,,1])]
+#   r <- as.integer(rownames(tim[, , 1]))[row(tim[, , 1])]
+#   n <- as.integer(colnames(tim[, , 1]))[col(tim[, , 1])]
 #   d <- n/r
 #   #x <- ifelse(d>=1, "c", "q")
-#   x <- ifelse(d>=0.5,"c",ifelse(n<=1024,"q",ifelse(d<0.0625,"q","b")))
+#   x <- ifelse(d>=0.5, "c", ifelse(n<=1024, "q", ifelse(d<0.0625, "q", "b")))
 #   x <- ifelse(n<=1024, ifelse(d<0.5, "q", "c"), ifelse(d<1, ifelse(d<0.0625, "q", "b"), "c"))
-#   dim(x) <- dim(tim[,,1])
-#   dimnames(x) <- dimnames(tim[,,1])
+#   dim(x) <- dim(tim[, , 1])
+#   dimnames(x) <- dimnames(tim[, , 1])
 #   y <- tim[cbind(as.vector(row(x)), as.vector(col(x)), match(as.vector(x), M))]
 #   attributes(y) <- attributes(x)
 #   print(apply(tim, 1:2, function(x){i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
 #   print(x, quote=F)
-#   round(y / apply(tim[,,-4], 1:2, min, na.rm=T), 1)
-#   round(y / tim[,,1], 1)
+#   round(y / apply(tim[, , -4], 1:2, min, na.rm=T), 1)
+#   round(y / tim[, , 1], 1)
 #
 #   f <- function(n, d=1, k=1){
 #     x <- dbinom(1:log2(n), n, 1/(d*n))*n
@@ -317,9 +317,9 @@ bitsort <- function(x, na.last=NA, depth=1){
 #'   [bit_sort_unique()]
 #'
 #' @examples
-#' bit_sort(c(2L,1L,NA,NA,1L,2L))
-#' bit_sort(c(2L,1L,NA,NA,1L,2L), na.last=FALSE)
-#' bit_sort(c(2L,1L,NA,NA,1L,2L), na.last=TRUE)
+#' bit_sort(c(2L, 1L, NA, NA, 1L, 2L))
+#' bit_sort(c(2L, 1L, NA, NA, 1L, 2L), na.last=FALSE)
+#' bit_sort(c(2L, 1L, NA, NA, 1L, 2L), na.last=TRUE)
 #'
 #' \dontrun{
 #' x <- sample(1e7, replace=TRUE)
@@ -385,12 +385,12 @@ bit_sort <- function(x, decreasing = FALSE, na.last=NA, has.dup = TRUE){
 #'   [bit_sort()], [bit_unique()]
 #'
 #' @examples
-#' bit_sort_unique(c(2L,1L,NA,NA,1L,2L))
-#' bit_sort_unique(c(2L,1L,NA,NA,1L,2L), na.last=FALSE)
-#' bit_sort_unique(c(2L,1L,NA,NA,1L,2L), na.last=TRUE)
-#' bit_sort_unique(c(2L,1L,NA,NA,1L,2L), decreasing = TRUE)
-#' bit_sort_unique(c(2L,1L,NA,NA,1L,2L), decreasing = TRUE, na.last=FALSE)
-#' bit_sort_unique(c(2L,1L,NA,NA,1L,2L), decreasing = TRUE, na.last=TRUE)
+#' bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L))
+#' bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), na.last=FALSE)
+#' bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), na.last=TRUE)
+#' bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), decreasing = TRUE)
+#' bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), decreasing = TRUE, na.last=FALSE)
+#' bit_sort_unique(c(2L, 1L, NA, NA, 1L, 2L), decreasing = TRUE, na.last=TRUE)
 #'
 #' \dontrun{
 #' x <- sample(1e7, replace=TRUE)
@@ -509,21 +509,21 @@ bit_in <- function(x, table, retFUN=as.bit){
 #' @seealso [bit_sort_unique()]
 #'
 #' @examples
-#' bit_unique(c(2L,1L,NA,NA,1L,2L))
-#' bit_unique(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-#' bit_unique(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+#' bit_unique(c(2L, 1L, NA, NA, 1L, 2L))
+#' bit_unique(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+#' bit_unique(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 #'
-#' bit_duplicated(c(2L,1L,NA,NA,1L,2L))
-#' bit_duplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-#' bit_duplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+#' bit_duplicated(c(2L, 1L, NA, NA, 1L, 2L))
+#' bit_duplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+#' bit_duplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 #'
-#' bit_anyDuplicated(c(2L,1L,NA,NA,1L,2L))
-#' bit_anyDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-#' bit_anyDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+#' bit_anyDuplicated(c(2L, 1L, NA, NA, 1L, 2L))
+#' bit_anyDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+#' bit_anyDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 #'
-#' bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L))
-#' bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=FALSE)
-#' bit_sumDuplicated(c(2L,1L,NA,NA,1L,2L), na.rm=TRUE)
+#' bit_sumDuplicated(c(2L, 1L, NA, NA, 1L, 2L))
+#' bit_sumDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=FALSE)
+#' bit_sumDuplicated(c(2L, 1L, NA, NA, 1L, 2L), na.rm=TRUE)
 NULL
 
 #' @describeIn bit_unidup extracts unique elements
@@ -667,7 +667,7 @@ bit_sumDuplicated <- function(x, na.rm = NA, range_na=NULL){
 #' determines the range of the integers and checks if the density justifies use
 #' of a bit vector; if yes, uses a bit vector for finding duplicates; if no,
 #' falls back to [union()], [intersect()],
-#' [setdiff()], `union(setdiff(x,y),setdiff(y,x))` and [setequal()]
+#' [setdiff()], `union(setdiff(x, y), setdiff(y, x))` and [setequal()]
 #'
 #' @name bit_setops
 #' @param x an integer vector
@@ -696,10 +696,10 @@ bit_union <- function(x, y){
   ny <- length(y)
   rx <- range_na(x)
   ry <- range_na(y)
-  range_na <- c(min(rx[1],ry[1]), max(rx[2],ry[2]), rx[3]+ry[3])
-  if (max(rx[1],ry[1])>min(rx[2],ry[2])) {
+  range_na <- c(min(rx[1], ry[1]), max(rx[2], ry[2]), rx[3]+ry[3])
+  if (max(rx[1], ry[1])>min(rx[2], ry[2])) {
     if (range_na[3]>0 && (rx[3]>0) == (rx[3]>0))
-      return(bit_unique(c(x,y), range_na=range_na))
+      return(bit_unique(c(x, y), range_na=range_na))
     else
       return(c(bit_unique(x, range_na=rx), bit_unique(y, range_na=ry)))
   }
@@ -709,7 +709,7 @@ bit_union <- function(x, y){
     nr <- as.double(range_na[2])-as.double(range_na[1])+1
   d <- (nx+ny) / nr
   if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
-    ret <- union(x,y)
+    ret <- union(x, y)
   } else {
     ret <- .Call(C_R_bit_union, tmp=bit(nr), x, y, range_na)
   }
@@ -727,7 +727,7 @@ bit_intersect <- function(x, y){
   ny <- length(y)
   rx <- range_na(x)
   ry <- range_na(y)
-  range_na <- c(max(rx[1],ry[1]), min(rx[2],ry[2]), rx[3]+ry[3])
+  range_na <- c(max(rx[1], ry[1]), min(rx[2], ry[2]), rx[3]+ry[3])
   if (range_na[1]>range_na[2])
     return(integer())
   if (is.na(range_na[1]))
@@ -736,7 +736,7 @@ bit_intersect <- function(x, y){
     nr <- as.double(range_na[2])-as.double(range_na[1])+1
   d <- (nx+ny) / nr
   if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
-    ret <- intersect(x,y)
+    ret <- intersect(x, y)
   }else{
     ret <- .Call(C_R_bit_intersect, tmp=bit(nr), x, y, range_na)
   }
@@ -759,7 +759,7 @@ bit_setdiff <- function(x, y){
     nr <- as.double(range_na[2])-as.double(range_na[1])+1
   d <- (nx+ny) / nr
   if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
-    ret <- setdiff(x,y)
+    ret <- setdiff(x, y)
   }else{
     ret <- .Call(C_R_bit_setdiff, tmp=bit(nr), x, y, range_na)
   }
@@ -777,10 +777,10 @@ bit_symdiff <- function(x, y){
   ny <- length(y)
   rx <- range_na(x)
   ry <- range_na(y)
-  range_na <- c(min(rx[1],ry[1]), max(rx[2],ry[2]), rx[3]+ry[3])
-  if (max(rx[1],ry[1])>min(rx[2],ry[2])) {
+  range_na <- c(min(rx[1], ry[1]), max(rx[2], ry[2]), rx[3]+ry[3])
+  if (max(rx[1], ry[1])>min(rx[2], ry[2])) {
     if (range_na[3]>0 && (rx[3]>0) == (rx[3]>0))
-      return(bit_unique(c(x,y), range_na=range_na))
+      return(bit_unique(c(x, y), range_na=range_na))
     else
       return(c(bit_unique(x, range_na=rx), bit_unique(y, range_na=ry)))
   }
@@ -790,7 +790,7 @@ bit_symdiff <- function(x, y){
     nr <- as.double(range_na[2])-as.double(range_na[1])+1
   d <- (nx+ny) / nr
   if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
-    ret <- union(setdiff(x,y),setdiff(y,x))
+    ret <- union(setdiff(x, y), setdiff(y, x))
   } else {
     ret <- .Call(C_R_bit_symdiff, bit(nr), bit(nr), x, y, range_na, rx[3]>0, ry[3]>0)
   }
@@ -810,7 +810,7 @@ bit_setequal <- function(x, y){
   ry <- range_na(y)
   rx[3] <- as.logical(rx[3])  # map NA count to 0/1
   ry[3] <- as.logical(ry[3])  # map NA count to 0/1
-  if (!identical(rx,ry))
+  if (!identical(rx, ry))
     return(FALSE)
   range_na <- rx
   if (is.na(range_na[1]))
@@ -819,7 +819,7 @@ bit_setequal <- function(x, y){
     nr <- as.double(range_na[2])-as.double(range_na[1])+1
   d <- (nx+ny) / nr
   if (nr==0L || nr > .Machine$integer.max || d < 1/256) {
-    ret <- setequal(x,y)
+    ret <- setequal(x, y)
   } else {
     ret <- .Call(C_R_bit_setequal, bit(nr), bit(nr), x, y, range_na)
   }
@@ -844,10 +844,10 @@ bit_setequal <- function(x, y){
 #' @seealso [bit_setdiff()], [merge_rangediff()]
 #'
 #' @examples
-#' bit_rangediff(c(1L,6L), c(3L,4L))
-#' bit_rangediff(c(6L,1L), c(3L,4L))
-#' bit_rangediff(c(6L,1L), c(3L,4L), revx=TRUE)
-#' bit_rangediff(c(6L,1L), c(3L,4L), revx=TRUE, revy=TRUE)
+#' bit_rangediff(c(1L, 6L), c(3L, 4L))
+#' bit_rangediff(c(6L, 1L), c(3L, 4L))
+#' bit_rangediff(c(6L, 1L), c(3L, 4L), revx=TRUE)
+#' bit_rangediff(c(6L, 1L), c(3L, 4L), revx=TRUE, revy=TRUE)
 #' @export
 bit_rangediff <- function(rx, y, revx=FALSE, revy=FALSE){
   if (!is.integer(y))
