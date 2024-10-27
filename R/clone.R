@@ -33,15 +33,8 @@
 #'   rm(x,y); gc()
 #'
 #' @export
-clone  <- function(x, ...){
-  UseMethod("clone")
-}
+clone  <- function(x, ...) UseMethod("clone")
 
 #' @describeIn clone default method uses R's C-API 'duplicate()'
 #' @export
-clone.default <- function(
-  x
-, ... # ignored here
-){
-  .Call(C_R_duplicate, x)
-}
+clone.default <- function(x, ...) .Call(C_R_duplicate, x)

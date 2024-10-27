@@ -9,8 +9,7 @@
   bit_init()
 }
 
-.onUnload <- function(libpath){
-   #packageStartupMessage("Unloading package bit")
-   bit_done()
-   library.dynam.unload("bit", libpath)
+.onUnload <- function(libpath) {
+  bit_done()
+  library.dynam.unload("bit", libpath)
 }
