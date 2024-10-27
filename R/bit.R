@@ -489,28 +489,23 @@ is.booltype <- function(x){
 
 #' @describeIn is.booltype tests for [bit()]
 #' @export
-is.bit <- function(x)
-  inherits(x, "bit")
+is.bit <- function(x) inherits(x, "bit")
 
 #' @describeIn is.booltype tests for [bitwhich()]
 #' @export
-is.bitwhich <- function(x)
-  inherits(x, "bitwhich")
+is.bitwhich <- function(x) inherits(x, "bitwhich")
 
 #' @describeIn is.booltype tests for [`which()`][as.which]
 #' @export
-is.which <- function(x)
-  inherits(x, "which")
+is.which <- function(x) inherits(x, "which")
 
 #' @describeIn is.booltype tests for [`hi`][ff::hi]
 #' @export
-is.hi <- function(x)
-  inherits(x, "hi")
+is.hi <- function(x) inherits(x, "hi")
 
 #' @describeIn is.booltype tests for [ri()]
 #' @export
-is.ri <- function(x)
-  inherits(x, "ri")
+is.ri <- function(x) inherits(x, "ri")
 
 
 #' @describeIn as.booltype default method for as.booltype
@@ -561,62 +556,43 @@ poslength.default <- function(x, ...) {
 
 #' @describeIn maxindex `maxindex` method for class [logical()]
 #' @export
-maxindex.logical <- function(x, ...){
-  length(x)
-}
+maxindex.logical <- function(x, ...) length(x)
 
 #' @describeIn maxindex `poslength` method for class [logical()]
 #' @export
-poslength.logical <- function(x, ...){
-  sum(x)
-}
+poslength.logical <- function(x, ...) sum(x)
 
 #' @describeIn maxindex `maxindex` method for class [bit()]
 #' @export
-maxindex.bit <- function(x, ...){
-  length(x)
-}
+maxindex.bit <- function(x, ...) length(x)
 
 #' @describeIn maxindex `poslength` method for class [bit()]
 #' @export
-poslength.bit <- function(x, ...)
-  sum(x, ...)
+poslength.bit <- function(x, ...) sum(x, ...)
 
 #' @describeIn maxindex `maxindex` method for class [bitwhich()]
 #' @export
-maxindex.bitwhich <- function(x, ...)
-  length(x, ...)
+maxindex.bitwhich <- function(x, ...) length(x, ...)
 
 #' @describeIn maxindex `poslength` method for class [bitwhich()]
 #' @export
-poslength.bitwhich <- function(x, ...)
-  sum(x, ...)
+poslength.bitwhich <- function(x, ...) sum(x, ...)
 
 #' @describeIn maxindex `maxindex` method for class [`which()`][as.which]
 #' @export
-maxindex.which <- function(x, ...){
-  attr(x, "maxindex")
-}
+maxindex.which <- function(x, ...) attr(x, "maxindex")
 
 #' @describeIn maxindex `poslength` method for class [`which()`][as.which]
 #' @export
-poslength.which <- function(x, ...){
-  length(x)
-}
+poslength.which <- function(x, ...) length(x)
 
 #' @describeIn maxindex `maxindex` method for class [ri()]
 #' @export
-maxindex.ri <- function(x, ...){
-  x[[3]]
-}
+maxindex.ri <- function(x, ...) x[[3L]]
 
 #' @describeIn maxindex `poslength` method for class [ri()]
 #' @export
-poslength.ri <- function(x, ...){
-  x[[2]] - x[[1]] + 1L
-}
-
-
+poslength.ri <- function(x, ...) x[[2L]] - x[[1L]] + 1L
 
 #' Getting and setting length of bit, bitwhich and ri objects
 #'
@@ -734,8 +710,7 @@ poslength.ri <- function(x, ...){
 #'   stopifnot(sum(x)==32)
 #'
 #' @export
-length.bit <- function(x)
-  virtual(x)$Length
+length.bit <- function(x) virtual(x)$Length
 
 #' @rdname length.bit
 #' @export
@@ -771,11 +746,9 @@ length.bit <- function(x)
     x
 }
 
-
 #' @rdname length.bit
 #' @export
-length.bitwhich <- function(x)
-  attr(x, "maxindex")
+length.bitwhich <- function(x) attr(x, "maxindex")
 
 #' @rdname length.bit
 #' @export
@@ -976,17 +949,13 @@ rep.bitwhich <- function(x, times = 1L, length.out = NA, ...){
   as.bitwhich(rep(as.bit(x), times=times, length.out=as.integer(length.out), ...))
 }
 
-
 #' @describeIn as.bit method to coerce to [bit()] (zero length) from [`NULL`][NULL]
 #' @export
-as.bit.NULL <- function(x, ...){
-  bit(0L)
-}
+as.bit.NULL <- function(x, ...) bit(0L)
 
 #' @describeIn as.bit method to coerce to [bit()] from [bit()]
 #' @export
-as.bit.bit <- function(x, ...)
-  x
+as.bit.bit <- function(x, ...) x
 
 #' @describeIn as.bit method to coerce to [bit()] from [logical()]
 #' @export
@@ -1368,16 +1337,14 @@ as.bitwhich.ri <- function(x, ...){
   }
 }
 
-
-
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from
 #'   [integer()] (`0` and `NA` become `FALSE`, everthing
 #'   else becomes `TRUE`)
 #' @examples as.bitwhich(c(0L, 1L, 2L, -2L, NA))
 #' @export
-as.bitwhich.integer <- function(x, poslength=NULL, ...)
+as.bitwhich.integer <- function(x, poslength=NULL, ...) {
   as.bitwhich(as.logical(x), poslength=poslength, ...)
-
+}
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from
 #'   [double()] (`0` and `NA` become `FALSE`, everthing
@@ -1385,7 +1352,6 @@ as.bitwhich.integer <- function(x, poslength=NULL, ...)
 #' @examples as.bitwhich(c(0, 1, 2, -2, NA))
 #' @export
 as.bitwhich.double <- as.bitwhich.integer
-
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from [logical()]
 #' @export
@@ -1972,9 +1938,7 @@ any.bit <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-anyNA.bit <- function(x
-                      #, range=NULL
-                      , recursive = FALSE)FALSE
+anyNA.bit <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
@@ -2095,9 +2059,7 @@ any.bitwhich <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-anyNA.bitwhich <- function(x
-                           #, range=NULL
-                           , recursive = FALSE)FALSE
+anyNA.bitwhich <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
@@ -2212,9 +2174,7 @@ any.which <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-anyNA.which <- function(x
-                        #, range=NULL
-                        , recursive = FALSE)FALSE
+anyNA.which <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
@@ -3036,13 +2996,14 @@ ri <- function(from, to=NULL, maxindex=NA){
 
 #' @rdname ri
 #' @export
-print.ri <- function(x, ...)
+print.ri <- function(x, ...) {
   cat("range index (ri) from", x[[1]], "to", x[[2]], "maxindex",  x[[3]], "\n")
+  invisible(x)
+}
 
 #' @rdname length.bit
 #' @export
 length.ri <- function(x)x[[3]]
-
 
 #' @rdname Summaries
 #' @export
@@ -3066,9 +3027,7 @@ any.ri <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-anyNA.ri <- function(x
-                     #, range=NULL
-                     , recursive = FALSE)FALSE
+anyNA.ri <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
@@ -3111,8 +3070,6 @@ summary.ri <- function(object, ...){
   c(`FALSE` = object[[3]] - s, `TRUE` = s, Min. = object[[1]], Max. = object[[2]])
 }
 
-
-
 # this version without vmode() will be overwritte by the version in package ff
 #' @rdname PhysVirt
 #' @export
@@ -3128,7 +3085,6 @@ physical.default <- function(x){
   x
 }
 
-
 #' @rdname PhysVirt
 #' @export
 virtual.default <- function(x){
@@ -3141,7 +3097,6 @@ virtual.default <- function(x){
   attributes(attr(x, "virtual")) <- c(value, list(class="virtual"))
   x
 }
-
 
 #' @rdname PhysVirt
 #' @export
@@ -3159,9 +3114,5 @@ print.virtual <- function(x, ...){
   invisible()
 }
 
-
-
-
 # not exported - just here to avoid cross calling the dll from ff
-R_bit_as_hi <- function(x, range, offset)
-  .Call(C_R_bit_as_hi, x, range, offset)
+R_bit_as_hi <- function(x, range, offset) .Call(C_R_bit_as_hi, x, range, offset)

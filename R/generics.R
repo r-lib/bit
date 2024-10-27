@@ -30,19 +30,11 @@
 #'   c(length=length(x), sum=sum(x), maxindex=maxindex(x), poslength=poslength(x))
 #' })
 #' @export
-maxindex <- function(x, ...)
-{
-  UseMethod("maxindex", x)
-}
+maxindex <- function(x, ...) UseMethod("maxindex", x)
 
 #' @name maxindex
 #' @export
-poslength <- function(x, ...)
-{
-  UseMethod("poslength")
-}
-
-
+poslength <- function(x, ...) UseMethod("poslength")
 
 #' Coerce to booltype (generic)
 #'
@@ -62,10 +54,7 @@ poslength <- function(x, ...)
 #' as.booltype(0:1, "which", maxindex=2)
 #' as.booltype(0:1, "ri")
 #' @export
-as.booltype <- function(x, booltype, ...) {
-  UseMethod("as.booltype")
-}
-
+as.booltype <- function(x, booltype, ...) UseMethod("as.booltype")
 
 #' Coercing to bit
 #'
@@ -93,9 +82,7 @@ as.booltype <- function(x, booltype, ...) {
 #' as.bit(c(FALSE, NA, TRUE))
 #'
 #' @export
-as.bit <- function(x=NULL, ...)
-  UseMethod("as.bit", x)
-
+as.bit <- function(x=NULL, ...) UseMethod("as.bit", x)
 
 #' Coercing to bitwhich
 #'
@@ -122,9 +109,7 @@ as.bit <- function(x=NULL, ...)
 #'  as.bitwhich(c(TRUE, TRUE, TRUE))
 #'
 #' @export
-as.bitwhich <- function(x=NULL, ...)
-  UseMethod("as.bitwhich")
-
+as.bitwhich <- function(x=NULL, ...) UseMethod("as.bitwhich")
 
 #' Coercion to (positive) integer positions
 #'
@@ -157,9 +142,7 @@ as.bitwhich <- function(x=NULL, ...)
 #'   stopifnot(identical(x, as.which(as.bit(r))))
 #'
 #' @export
-as.which <- function(x, ...)
-  UseMethod("as.which")
-
+as.which <- function(x, ...) UseMethod("as.which")
 
 #' Coerce to ri
 #'
@@ -175,11 +158,7 @@ as.which <- function(x, ...)
 #' @examples
 #' as.ri(c(FALSE, TRUE, FALSE, TRUE))
 #' @export
-as.ri <- function(x, ...) {
-  UseMethod("as.ri")
-}
-
-
+as.ri <- function(x, ...) UseMethod("as.ri")
 
 #' Boolean operators and functions
 #'
@@ -221,10 +200,7 @@ as.ri <- function(x, ...) {
 #'
 #'
 #' @export
-xor <- function(x, y)
-  UseMethod("xor", x)
-
-
+xor <- function(x, y) UseMethod("xor", x)
 
 #' Physical and virtual attributes
 #'

@@ -532,15 +532,15 @@ test_that("aggregation functions work", {
   )
   S1 <- list(any=any, all=all, sum=sum)
   S2 <- list(
-    min=function(x) if (booltype(x)=="logical") {
-      if (any(x)) which.max(x) else NA_integer_
-    } else {
-      min(x)
+    min=function(x) {
+      if (booltype(x) != "logical") return(min(x))
+      if (!any(x)) return(NA_integer_)
+      which.max(x)
     },
-    max=function(x) if (booltype(x)=="logical") {
-      if (any(x)) length(x)-which.max(rev(x))+1L else NA_integer_
-    } else {
-      max(x)
+    max=function(x) {
+      if (booltype(x) != "logical") return(max(x))
+      if (!any(x)) return(NA_integer_)
+      length(x) - which.max(rev(x)) + 1L
     },
     range=function(x) if (booltype(x)=="logical") range.booltype(x) else range(x),
     summary=function(x) if (booltype(x)=="logical") summary.booltype(x) else summary(x)
