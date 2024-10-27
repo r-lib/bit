@@ -1,31 +1,30 @@
 test_that("bitsort function work on several inputs", {
   nums <- list(
-      integer()
-    , as.integer(9:0)
-    , as.integer(0:9)
-    , as.integer(0:(-9))
-    , as.integer((-9):0)
-    , as.integer((-4):4)
-    , as.integer(4:(-4))
+    integer(),
+    as.integer(9:0),
+    as.integer(0:9),
+    as.integer(0:(-9)),
+    as.integer((-9):0),
+    as.integer((-4):4),
+    as.integer(4:(-4))
   )
   nas <- list(
-      integer()
-    , NA_integer_
-    , c(NA_integer_,NA_integer_)
+    integer(),
+    NA_integer_,
+    c(NA_integer_,NA_integer_)
   )
   set.seed(1)
-  for (num in nums){
-    for (na in nas){
-      x <- c(num,na)
-      if (length(x)>1)
+  for (num in nums) {
+    for (na in nas) {
+      x <- c(num, na)
+      if (length(x) > 1)
         x <- sample(x)
-      #dput(x)
 
       range_result <- suppressWarnings(as.integer(c(range(x, na.rm=TRUE), sum(is.na(x)))))
       expect_identical(
-        range_na(x)
-      , range_result
-      , label=paste0("range_na(c(", paste(x, collapse=","), "))")
+        range_na(x),
+        range_result,
+        label=paste0("range_na(c(", paste(x, collapse=","), "))")
       )
 
       range_result <- suppressWarnings(as.integer(c(
@@ -33,11 +32,12 @@ test_that("bitsort function work on several inputs", {
         sum(is.na(x))
       )))
       expect_identical(
-        attr(range_nanozero(x),"range_na")
-      , range_result
-      , label=paste0("range_na(c(", paste(x, collapse=","), ")"))
+        attr(range_nanozero(x),"range_na"),
+        range_result,
+        label=paste0("range_na(c(", paste(x, collapse=","), ")")
+      )
 
-      for (na.last in c(NA,FALSE,TRUE)){
+      for (na.last in c(NA, FALSE, TRUE)) {
         expected = range_sortna(x, na.last=na.last)
         expected[!is.na(expected)] = 1L
 
@@ -52,9 +52,9 @@ test_that("bitsort function work on several inputs", {
         )
 
         expect_identical(
-           bit_sort_unique(x, na.last=na.last, has.dup = TRUE),
-           sort.int(unique(x), na.last=na.last, method="quick"),
-           label=sprintf("bit_sort_unique(c(%s), na.last=%s, has.dup=TRUE)", toString(x), na.last)
+          bit_sort_unique(x, na.last=na.last, has.dup = TRUE),
+          sort.int(unique(x), na.last=na.last, method="quick"),
+          label=sprintf("bit_sort_unique(c(%s), na.last=%s, has.dup=TRUE)", toString(x), na.last)
         )
 
         y <- unique(x)
@@ -65,74 +65,74 @@ test_that("bitsort function work on several inputs", {
         )
 
         expect_identical(
-          bit_sort(x, na.last=na.last)
-        , sort.int(x, na.last=na.last, method="quick")
-        , label=paste0("bit_sort(c(", paste(x, collapse=","), "), na.last=", na.last,")")
+          bit_sort(x, na.last=na.last),
+          sort.int(x, na.last=na.last, method="quick"),
+          label=paste0("bit_sort(c(", paste(x, collapse=","), "), na.last=", na.last,")")
         )
       }
 
       expect_identical(
-        bit_unique(x, na.rm=NA)
-      , unique(x, incomparables=FALSE)
-      , label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
+        bit_unique(x, na.rm=NA),
+        unique(x, incomparables=FALSE),
+        label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
       )
       expect_identical(
-        bit_unique(x, na.rm=FALSE)
-      , unique(x, incomparables=NA)
-      , label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
+        bit_unique(x, na.rm=FALSE),
+        unique(x, incomparables=NA),
+        label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
       )
       expect_identical(
-        bit_unique(x, na.rm=TRUE)
-      , unique(x[!is.na(x)])
-      , label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
-      )
-
-      expect_identical(
-        bit_duplicated(x, na.rm=NA)
-      , as.bit(duplicated(x, incomparables=FALSE))
-      , label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
-      )
-      expect_identical(
-        bit_duplicated(x, na.rm=FALSE)
-      , as.bit(duplicated(x, incomparables=NA))
-      , label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
-      )
-      expect_identical(
-        bit_duplicated(x, na.rm=TRUE)
-      , as.bit(duplicated(x) | is.na(x))
-      , label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
+        bit_unique(x, na.rm=TRUE),
+        unique(x[!is.na(x)]),
+        label=paste0("bit_unique(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
       )
 
       expect_identical(
-        bit_anyDuplicated(x, na.rm=NA)
-      , anyDuplicated(x, incomparables=FALSE)
-      , label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
-        )
-      expect_identical(
-        bit_anyDuplicated(x, na.rm=FALSE)
-      , anyDuplicated(x, incomparables=NA)
-      , label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
+        bit_duplicated(x, na.rm=NA),
+        as.bit(duplicated(x, incomparables=FALSE)),
+        label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
       )
       expect_identical(
-        bit_anyDuplicated(x, na.rm=TRUE)
-      , max(0L, head(which(is.na(x)|duplicated(x)), 1))
-      , label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
+        bit_duplicated(x, na.rm=FALSE),
+        as.bit(duplicated(x, incomparables=NA)),
+        label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
+      )
+      expect_identical(
+        bit_duplicated(x, na.rm=TRUE),
+        as.bit(duplicated(x) | is.na(x)),
+        label=paste0("bit_duplicated(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
       )
 
       expect_identical(
-        bit_sumDuplicated(x, na.rm=NA)
-      , sum(duplicated(x, incomparables=FALSE))
-      , label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+        bit_anyDuplicated(x, na.rm=NA),
+        anyDuplicated(x, incomparables=FALSE),
+        label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", NA, ")")
       )
       expect_identical(
-        bit_sumDuplicated(x, na.rm=FALSE)
-      , sum(duplicated(x, incomparables=NA))
-      , label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+        bit_anyDuplicated(x, na.rm=FALSE),
+        anyDuplicated(x, incomparables=NA),
+        label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", FALSE, ")")
       )
       expect_identical(
-        bit_sumDuplicated(x, na.rm=TRUE)
-      , sum(duplicated(x, incomparables=NA)) + sum(is.na(x))
-      , label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+        bit_anyDuplicated(x, na.rm=TRUE),
+        max(0L, head(which(is.na(x)|duplicated(x)), 1)),
+        label=paste0("bit_anyDuplicated(c(", paste(x, collapse=","), "), na.rm=", TRUE, ")")
+      )
+
+      expect_identical(
+        bit_sumDuplicated(x, na.rm=NA),
+        sum(duplicated(x, incomparables=FALSE)),
+        label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+      )
+      expect_identical(
+        bit_sumDuplicated(x, na.rm=FALSE),
+        sum(duplicated(x, incomparables=NA)),
+        label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
+      )
+      expect_identical(
+        bit_sumDuplicated(x, na.rm=TRUE),
+        sum(duplicated(x, incomparables=NA)) + sum(is.na(x)),
+        label=paste0("bit_sumDuplicated(c(", paste(x, collapse=","), "))")
       )
 
     }
@@ -142,50 +142,46 @@ test_that("bitsort function work on several inputs", {
 
 
 test_that("bit_sort and bit_sort_unique are OK", {
-    n <- 6L
-    for (s in 1:10){
-      set.seed(s)
-      x <- 2L*sample(n, replace=TRUE)
-      for (napos in c(-1L,0L,1L)){
-        if (napos == -1){
-          y <- c(NA,x)
-        } else if (napos == 1){
-          y <- c(x,NA)
-        } else {
-          y <- c(x[1:(n%/%2)],NA,x[(n%/%2+1L):n])
-        }
-        for (has.dup in c(TRUE,FALSE)){
-          if (!has.dup)
-            y <- unique(y)
-        for (na.last in c(NA, FALSE, TRUE)){
-          eval(
-            substitute(
+  n <- 6L
+  for (s in 1:10) {
+    set.seed(s)
+    x <- 2L*sample(n, replace=TRUE)
+    for (napos in c(-1L,0L,1L)) {
+      if (napos == -1) {
+        y <- c(NA,x)
+      } else if (napos == 1) {
+        y <- c(x,NA)
+      } else {
+        y <- c(x[1:(n%/%2)], NA, x[(n%/%2+1L):n])
+      }
+      for (has.dup in c(TRUE, FALSE)) {
+        if (!has.dup)
+          y <- unique(y)
+        for (na.last in c(NA, FALSE, TRUE)) {
+          eval(substitute(
+            expect_identical(
+              bit_sort(y, na.last=na.last, has.dup = has.dup),
+              sort(y, na.last = na.last)
+            ),
+            list(
+              y=y,
+              na.last=na.last,
+              has.dup = has.dup
+            )
+          ))
+          for (decreasing in c(FALSE, TRUE)) {
+            eval(substitute(
               expect_identical(
-                bit_sort(y, na.last=na.last, has.dup = has.dup)
-              , sort(y, na.last = na.last)
+                bit_sort_unique(y, decreasing=decreasing, na.last=na.last, has.dup = has.dup),
+                sort(unique(y), decreasing=decreasing, na.last = na.last)
+              ),
+              list(
+                y=y,
+                decreasing=decreasing,
+                na.last=na.last,
+                has.dup = has.dup
               )
-              , list(
-                  y=y
-                , na.last=na.last
-                , has.dup = has.dup
-              )
-            )
-          )
-         for (decreasing in c(FALSE, TRUE)){
-              eval(
-              substitute(
-                expect_identical(
-                    bit_sort_unique(y, decreasing=decreasing, na.last=na.last, has.dup = has.dup)
-                  , sort(unique(y), decreasing=decreasing, na.last = na.last)
-                )
-                , list(
-                    y=y
-                  , decreasing=decreasing
-                  , na.last=na.last
-                  , has.dup = has.dup
-                )
-              )
-            )
+            ))
             range_na = range_na(y)
             env = list(
               y=y,
@@ -211,8 +207,8 @@ test_that("bit_sort and bit_sort_unique are OK", {
           }
         }
       }
-      }
     }
+  }
 })
 
 test_that("bit_setops work", {

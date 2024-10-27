@@ -37,9 +37,9 @@ repeat.time <- function(expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame()) 
     y[1L:3L]
   }
   if (!exists("proc.time"))
-      return(rep(NA_real_, 5L))
+    return(rep(NA_real_, 5L))
   if (gcFirst)
-      gc(FALSE)
+    gc(FALSE)
   time0 <- proc.time()
   on.exit(cat("Timing stopped at:", ppt(proc.time() - time0), "\n"))
   r <- 0L

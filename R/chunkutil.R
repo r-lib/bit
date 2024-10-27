@@ -406,20 +406,16 @@ chunk <- function(x = NULL, ...){
 }
 #' @describeIn chunk default vector method
 #' @export
-chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL){
-  if (is.null(BATCHBYTES)){
+chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) {
+  if (is.null(BATCHBYTES)) {
     BATCHBYTES <- getOption("ffbatchbytes", 16777216L)
   }
-  if (is.null(RECORDBYTES)){
-    RECORDBYTES <- if ("ff" %in% loadedNamespaces())
-      get(".rambytes")[get("vmode")(x)]
-    else c(raw = 1L
-    , character = 4L
-    , logical = 4L
-    , integer = 4L
-    , double = 8L
-    , complex = 16L
-    )[typeof(x)]
+  if (is.null(RECORDBYTES)) {
+    if ("ff" %in% loadedNamespaces())
+      RECORDBYTES = get(".rambytes")[get("vmode")(x)]
+    else
+      RECORDBYTES =
+        switch(typeof(x), raw=1L, character=4L, logical=4L, integer=4L, double=8L, complex=16L)
   }
   RECORDBYTES <- sum(RECORDBYTES)
   if (is.na(RECORDBYTES) || RECORDBYTES == 0L)
@@ -446,9 +442,6 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL){
   }
   ret
 }
-
-
-
 
 #' Vectorized Sequences
 #'
@@ -485,30 +478,29 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL){
 #'   vecseq(c(1,11), c(5, 15), concat=TRUE, eval=TRUE)
 #'
 #' @export
-
 vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
-        if (missing(y)){
-          y <- x
-          x <- 1L
-        }
-        if (concat){
-          if (eval){
-            # pure R version was: eval(parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")")))
-            # now calling C-code
-            nx <- length(x)
-            ny <- length(y)
-            if (nx<ny)
-              x <- rep(as.integer(x), length.out=ny)
-            if (ny<nx)
-              y <- rep(as.integer(y), length.out=nx)
-            .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y))
-          }else
-            parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")"))[[1]]
-        }else{
-          # nolint next: unnecessary_nesting_linter. Good parallelism.
-          if (eval)
-            eval(parse(text=paste("list(",paste(x,y,sep=":",collapse=","),")")))
-          else
-            as.list(parse(text=paste(x,y,sep=":")))
-        }
+  if (missing(y)) {
+    y <- x
+    x <- 1L
+  }
+  if (concat) {
+    if (eval) {
+      # pure R version was: eval(parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")")))
+      # now calling C-code
+      nx <- length(x)
+      ny <- length(y)
+      if (nx<ny)
+        x <- rep(as.integer(x), length.out=ny)
+      if (ny<nx)
+        y <- rep(as.integer(y), length.out=nx)
+      .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y))
+    }else
+      parse(text=paste("c(",paste(x,y,sep=":",collapse=","),")"))[[1]]
+  } else {
+    # nolint next: unnecessary_nesting_linter. Good parallelism.
+    if (eval)
+      eval(parse(text=paste("list(",paste(x,y,sep=":",collapse=","),")")))
+    else
+      as.list(parse(text=paste(x,y,sep=":")))
+  }
 }

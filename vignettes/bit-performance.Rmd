@@ -45,9 +45,9 @@ a <- 1L
 b <- 1e7L
 i <- sample(a:b,1e3)
 x <- c(
-  R = median(microbenchmark((a:b)[-i], times=times)$time)
-, bit = median(microbenchmark(bit_rangediff(c(a,b), i), times=times)$time)
-, merge = median(microbenchmark(merge_rangediff(c(a,b), bit_sort(i)), times=times)$time)
+  R = median(microbenchmark((a:b)[-i], times=times)$time),
+  bit = median(microbenchmark(bit_rangediff(c(a,b), i), times=times)$time),
+  merge = median(microbenchmark(merge_rangediff(c(a,b), bit_sort(i)), times=times)$time)
 )
 knitr::kable(as.data.frame(as.list(x/x["R"]*100)), caption="% of time relative to R", digits=1)
 ```
@@ -83,18 +83,18 @@ B <- booltypes[c("logical","bit","bitwhich","which","ri")]
 M <-
   c("size", "[]", "[which]", "[which]<-TRUE", "[]<-logical", "!", "&", "|", "==", "!=", "summary")
 G <- list(
-  coin = function(n)sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.5,0.5))
-, often = function(n)sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.01,0.99))
-, rare = function(n)sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.99,0.01))
-, chunk = function(n)ri(n%/%20,2L*n%/%20,n)
+  coin = function(n) sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.5, 0.5)),
+  often = function(n) sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.01, 0.99)),
+  rare = function(n) sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.99, 0.01)),
+  chunk = function(n) ri(n%/%20, 2L*n%/%20, n)
 )
 X <- vector("list", length(B)*length(G))
 dim(X) <- c(booltype=length(B), data=length(G))
 dimnames(X) <- list(booltype=names(B), data=names(G))
-tim <- array(NA
-             , dim=c(booltype=length(B), metric=length(M), data=length(G))
-             , dimnames=list(booltype=names(B), metric=M, data=names(G))
-             )
+tim <- array(NA,
+  dim=c(booltype=length(B), metric=length(M), data=length(G)),
+  dimnames=list(booltype=names(B), metric=M, data=names(G))
+)
 for (g in names(G)){
   x <- G[[g]](Sample[["big"]])
   if (g %in% c("coin","often","rare"))
@@ -258,16 +258,16 @@ knitr::kable(round(tim[,"summary",][1:2,1:2], 1), caption="% time for Boolean su
 
 ```{r, echo=FALSE, results='asis'}
 binaryDomain <- list(
-    smallsmall = rep(Domain["small"], 2)
-  , smallbig=Domain
-  , bigsmall=rev(Domain)
-  , bigbig=rep(Domain["big"], 2)
+  smallsmall = rep(Domain["small"], 2L),
+  smallbig=Domain,
+  bigsmall=rev(Domain),
+  bigbig=rep(Domain["big"], 2L)
 )
 binarySample <- list(
-    smallsmall = rep(Sample["small"], 2)
-  , smallbig=Sample
-  , bigsmall=rev(Sample)
-  , bigbig=rep(Sample["big"], 2)
+  smallsmall = rep(Sample["small"], 2L),
+  smallbig=Sample,
+  bigsmall=rev(Sample),
+  bigbig=rep(Sample["big"], 2L)
 )
 
 M <- c("R","bit","merge")
@@ -282,10 +282,10 @@ sortM[["R", "sortunique"]] <- function(x)sort(unique(x))
 sortM[["bit","sort"]] <- bit_sort
 sortM[["bit","sortunique"]] <- bit_sort_unique
 
-timsort <- array(NA_integer_
-             , dim=c(M=2, G=length(G), D=length(D), N=length(Domain))
-             , dimnames=list(M=M[1:2], G=G, D=D, N=names(Domain))
-             )
+timsort <- array(NA_integer_,
+  dim=c(M=2, G=length(G), D=length(D), N=length(Domain)),
+  dimnames=list(M=M[1:2], G=G, D=D, N=names(Domain))
+)
 for (n in names(Domain)) {
   x <- sample(Domain[[n]], Sample[[n]], replace = TRUE)
   d <- "unsorted"
@@ -373,12 +373,13 @@ for (n in names(binaryDomain)) {
   x <- sample(binaryDomain[[n]][1], binarySample[[n]][1], replace = FALSE)
   y <- sample(binaryDomain[[n]][2], binarySample[[n]][2], replace = FALSE)
   d <- "unsorted"
-  if (length(x)==length(y))
-  for (u in unaryU){
-    for (m in setdiff(M,"merge")){
-      f <- unaryM[[m,u]]
-      if (!is.null(f))
-        tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
+  if (length(x)==length(y)) {
+    for (u in unaryU){
+      for (m in setdiff(M,"merge")){
+        f <- unaryM[[m,u]]
+        if (!is.null(f))
+          tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
+      }
     }
   }
   for (u in binaryU){
@@ -391,16 +392,18 @@ for (n in names(binaryDomain)) {
   x <- bit_sort(x)
   y <- bit_sort(y)
   d <- "sorted"
-  if (length(x)==length(y))
-  for (u in unaryU) {
-    for (m in M) {
-      f <- unaryM[[m,u]]
-      if (!is.null(f)) {
-        tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
-        # now plug-in measures for unsorted merge
-        if (m == "merge")
-          tim["merge", u, n, "unsorted"] <-
-            timsort["bit", "sort", "unsorted", xnam] +  tim["merge", u, n, "sorted"]
+  if (length(x) == length(y)) {
+    for (u in unaryU) {
+      for (m in M) {
+        f <- unaryM[[m,u]]
+        if (!is.null(f)) {
+          tim[m,u,n,d] <- median(microbenchmark(f(x), times=times)$time)
+          # now plug-in measures for unsorted merge
+          if (m == "merge") {
+            tim["merge", u, n, "unsorted"] <-
+              timsort["bit", "sort", "unsorted", xnam] +  tim["merge", u, n, "sorted"]
+          }
+        }
       }
     }
   }
@@ -410,11 +413,12 @@ for (n in names(binaryDomain)) {
       if (!is.null(f)) {
         tim[m,u,n,d] <- median(microbenchmark(f(x,y), times=times)$time)
         # now plug-in measures for unsorted merge
-        if (m == "merge")
+        if (m == "merge") {
           tim["merge", u, n, "unsorted"] =
             timsort["bit", "sort", "unsorted", xnam] +
             timsort["bit", "sort", "unsorted", ynam] +
             tim["merge", u, n, "sorted"]
+        }
       }
     }
   }
@@ -450,9 +454,11 @@ par(oldpar)
 
 ```{r, echo=FALSE, results='hide'}
 tim2 <- tim
-for (n in names(binaryDomain))
-  for (d in D)
+for (n in names(binaryDomain)) {
+  for (d in D) {
     tim2[,,n,d] <- 100*tim[,,n,d]/max(tim["R",,n,d], na.rm=TRUE)
+  }
+}
 ```
 
 `r pagebreak()`
@@ -513,8 +519,9 @@ f <- function(u){
   dimnames(x)$N <- c("small","big")
   x["sort",,"unsorted"] <- timsort["bit","sort","unsorted",]
   x["sort",,"sorted"] <- 0
-  for (m in dimnames(x)$M)
+  for (m in dimnames(x)$M) {
     x[m,,] <- x[m,,] / tim["R",u,n,] * 100
+  }
   x
 }
 x <- f("unique")
@@ -574,14 +581,15 @@ knitr::kable(x[,,s], caption=paste(s,"data relative to R"), digits=1)
 
 ### % time for match
 ```{r, echo=FALSE, results='asis'}
-f <- function(u){
+f <- function(u) {
   x <- tim[c("bit","merge","merge"),u,,]
   dimnames(x)$M[3] <- "sort"
   s <- timsort["bit","sort","unsorted",]
   x["sort",,"unsorted"] <- rep(s, c(2,2)) + c(s,s)
   x["sort",,"sorted"] <- 0
-  for (m in dimnames(x)$M)
+  for (m in dimnames(x)$M) {
     x[m,,] <- x[m,,] / tim["R",u,,] * 100
+  }
   x
 }
 x <- f("match")

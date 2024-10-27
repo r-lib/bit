@@ -263,13 +263,13 @@ although the length of the Boolean vector is lost when coercing from `which` to 
 ```{r}
 r <- ri(1, 2^16, 2^20) # sample(2^20, replace=TRUE, prob=c(.125,875))
 all.as <- list(
-  double = as.double
-, integer= as.integer
-, logical = as.logical
-, bit = as.bit
-, bitwhich = as.bitwhich
-, which = as.which
-, ri = function(x)x
+  double = as.double,
+  integer= as.integer,
+  logical = as.logical,
+  bit = as.bit,
+  bitwhich = as.bitwhich,
+  which = as.which,
+  ri = function(x) x
 )
 all.types <- lapply(all.as, function(f)f(r))
 sapply(all.types, object.size)
@@ -282,13 +282,14 @@ all.comb <- vector('list', length(all.types)^2)
 all.id <- rep(NA, length(all.types)^2)
 dim(all.comb)      <- dim(all.id)      <-    c(from=length(all.types),  to=length(all.types))
 dimnames(all.comb) <- dimnames(all.id) <- list(from= names(all.types) , to= names(all.types))
-for (i in seq_along(all.types))
-  for (j in seq_along(all.as)){
+for (i in seq_along(all.types)) {
+  for (j in seq_along(all.as)) {
     # coerce all types to all types (FROM -> TO)
     all.comb[[i,j]] <- all.as[[j]](all.types[[i]])
     # and test whether coercing back to the FROM type gives the orginal object
     all.id[i,j] <- identical(all.as[[i]](all.comb[[i,j]]),  all.types[[i]])
   }
+}
 all.id
 ```
 
@@ -614,10 +615,10 @@ Functions `bit_anyDuplicated` is a faster version of `anyDuplicated`
 # TODO(r-lib/lintr#773): nolint as a chunk option.
 # nolint start: any_duplicated_linter.
 x <- c(NA,NA,1L,1L,2L,3L)
-    any(duplicated(x))  # full hash work, returns FALSE or TRUE
-     anyDuplicated(x)   # early termination of hash work, returns 0 or position of first duplicate
+any(duplicated(x))      # full hash work, returns FALSE or TRUE
+anyDuplicated(x)        # early termination of hash work, returns 0 or position of first duplicate
 any(bit_duplicated(x))  # full bit work, returns FALSE or TRUE
- bit_anyDuplicated(x)   # early termination of bit work, returns 0 or position of first duplicate
+bit_anyDuplicated(x)    # early termination of bit work, returns 0 or position of first duplicate
 # nolint end: any_duplicated_linter.
 ```
 
@@ -625,9 +626,9 @@ For the meaning of the `na.rm` parameter see `bit_duplicated`. Function `bit_sum
 
 ```{r}
 x <- c(NA,NA,1L,1L,2L,3L)
-    sum(duplicated(x))  # full hash work, returns FALSE or TRUE
+sum(duplicated(x))      # full hash work, returns FALSE or TRUE
 sum(bit_duplicated(x))  # full bit work, returns FALSE or TRUE
- bit_sumDuplicated(x)   # early termination of bit work, returns 0 or position of first duplicated
+bit_sumDuplicated(x)    # early termination of bit work, returns 0 or position of first duplicated
 ```
 ---
 

@@ -29,16 +29,11 @@
 #'   bit_init()
 #'
 #' @export
-bit_init <- function()
-  .Call(C_R_bit_init, .BITS)
+bit_init <- function() .Call(C_R_bit_init, .BITS)
 
 #' @rdname bit_init
 #' @export
-bit_done <- function()
-  .Call(C_R_bit_done)
-
-
-
+bit_done <- function() .Call(C_R_bit_done)
 
 #' Create empty bit vector
 #'
@@ -125,13 +120,13 @@ as.character.bit <- function(x, ...){
 #' @examples
 #' str(bit(120))
 #' @export
-str.bit <- function(object
-, vec.len  = strO$vec.len
-, give.head = TRUE
-, give.length = give.head
-, ...
-)
-  {
+str.bit <- function(
+  object,
+  vec.len  = strO$vec.len,
+  give.head = TRUE,
+  give.length = give.head,
+  ...
+) {
   strO <- strOptions()
   vec.len <- 8*vec.len
   n <- length(object)
@@ -167,12 +162,13 @@ as.character.bitwhich <- function(x, ...)c("0","1")[1+as.logical(x)]
 #' @examples
 #' str(bitwhich(120))
 #' @export
-str.bitwhich <- function(object
-                    , vec.len  = strO$vec.len
-                    , give.head = TRUE
-                    , give.length = give.head
-                    , ...
-){
+str.bitwhich <- function(
+  object,
+  vec.len  = strO$vec.len,
+  give.head = TRUE,
+  give.length = give.head,
+  ...
+) {
   strO <- strOptions()
   vec.len <- 8*vec.len
   n <- length(object)
@@ -521,14 +517,15 @@ is.ri <- function(x)
 #' @export
 as.booltype.default <- function(x, booltype="logical", ...){
   bt <- match.arg(as.character(booltype), as.character(booltypes))
-  do.call(switch(bt
-    , logical = "as.logical"
-    , bit     = "as.bit"
-    , bitwhich= "as.bitwhich"
-    , which= "as.which"
-    , hi= stop("not implemented for booltype hi")
-    , ri= "as.ri"
-    ), c(list(x, ...)))
+  f = switch(bt,
+    logical="as.logical",
+    bit="as.bit",
+    bitwhich="as.bitwhich",
+    which="as.which",
+    hi=stop("not implemented for booltype hi"),
+    ri="as.ri"
+  )
+  do.call(f, c(list(x, ...)))
 }
 
 
@@ -786,37 +783,37 @@ length.bitwhich <- function(x)
   if (value!=length(x)){
     value <- as.integer(value)
     a <- attributes(x)
-    if (value){
-      if (is.integer(x)){
-          oldClass(x) <- NULL
-          if (x[1]>0){
-            ret <- x[x <= value]
-            l <- length(ret)
-            if (l==0)
-              ret <- copy_vector(FALSE)
-            else if (l==value)
-              ret <- copy_vector(TRUE)
-            else if (l > value%/%2L)
-              ret <- merge_rangediff(c(-value,-1L), ret, revy=TRUE)
-          }else{
-            ret <- x[x >= -value]
-            l <- length(ret)
-            if (l==0)
-              ret <- copy_vector(TRUE)
-            else if (l==value)
-              ret <- copy_vector(FALSE)
-            else if (value-l <= value%/%2L)
-              ret <- merge_rangediff(c(1L,value), ret, revy=TRUE)
-            l <- value - l
-          }
-        } else if (length(x) && x) {
-          ret <- bitwhich(value, x=TRUE, poslength=value)
-          l <- value
+    if (value) {
+      if (is.integer(x)) {
+        oldClass(x) <- NULL
+        if (x[1]>0) {
+          ret <- x[x <= value]
+          l <- length(ret)
+          if (l==0)
+            ret <- copy_vector(FALSE)
+          else if (l==value)
+            ret <- copy_vector(TRUE)
+          else if (l > value%/%2L)
+            ret <- merge_rangediff(c(-value,-1L), ret, revy=TRUE)
         } else {
-          ret <- bitwhich(value, x=FALSE, poslength=0L)
-          l <- 0L
+          ret <- x[x >= -value]
+          l <- length(ret)
+          if (l==0)
+            ret <- copy_vector(TRUE)
+          else if (l==value)
+            ret <- copy_vector(FALSE)
+          else if (value-l <= value%/%2L)
+            ret <- merge_rangediff(c(1L,value), ret, revy=TRUE)
+          l <- value - l
         }
-    }else{
+      } else if (length(x) && x) {
+        ret <- bitwhich(value, x=TRUE, poslength=value)
+        l <- value
+      } else {
+        ret <- bitwhich(value, x=FALSE, poslength=0L)
+        l <- 0L
+      }
+    } else {
       ret <- bitwhich()
       l <- 0L
     }
@@ -858,11 +855,7 @@ c.booltype <- function(...){
   bt <- as.character(bt)
   f <- list(logical=as.logical, bit=as.bit, bitwhich=as.bitwhich, which=as.which)[[bt]]
   l <- lapply(l, f)
-  do.call(switch(bt
- , logical="c"
- , bit="c.bit"
- , bitwhich="c.bitwhich"
-  ),  l)
+  do.call(switch(bt, logical="c", bit="c.bit", bitwhich="c.bitwhich"),  l)
 }
 
 #' @rdname c.booltype
@@ -1483,7 +1476,7 @@ xor.default <- function(x, y) {
 #' @describeIn xor [logical()] method for [xor()]
 #' @export
 xor.logical <- function(x,y){
-    as.logical(x) != as.logical(y)
+  as.logical(x) != as.logical(y)
 }
 
 #' @describeIn xor [bit()] method for [`!`][Logic]
@@ -2274,14 +2267,14 @@ summary.which <- function(object, range=NULL, ...){
 #' @export all.booltype
 #' @export
 all.booltype <- function(x, range=NULL, ...){
-  switch(as.character(booltype(x))
-         , nobool=all.bit(as.bit(x), range=range, ...)
-         , logical=all.bit(as.bit(x), range=range, ...)
-         , bit=all.bit(x, range=range, ...)
-         , bitwhich=all.bitwhich(x, range=range, ...)
-         , which=all.bit(as.bit(x), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=all.ri(x, range=range, ...)
+  switch(as.character(booltype(x)),
+    nobool=all.bit(as.bit(x), range=range, ...),
+    logical=all.bit(as.bit(x), range=range, ...),
+    bit=all.bit(x, range=range, ...),
+    bitwhich=all.bitwhich(x, range=range, ...),
+    which=all.bit(as.bit(x), range=range, ...),
+    hi=stop("not implemented"),
+    ri=all.ri(x, range=range, ...)
   )
 }
 
@@ -2289,43 +2282,29 @@ all.booltype <- function(x, range=NULL, ...){
 #' @export any.booltype
 #' @export
 any.booltype <- function(x, range=NULL, ...){
-  switch(as.character(booltype(x))
-         , nobool=any.bit(as.bit(x), range=range, ...)
-         , logical=any.bit(as.bit(x), range=range, ...)
-         , bit=any.bit(x, range=range, ...)
-         , bitwhich=any.bitwhich(x, range=range, ...)
-         , which=any.bit(as.bit(x), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=any.ri(x, range=range, ...)
+  switch(as.character(booltype(x)),
+    nobool=any.bit(as.bit(x), range=range, ...),
+    logical=any.bit(as.bit(x), range=range, ...),
+    bit=any.bit(x, range=range, ...),
+    bitwhich=any.bitwhich(x, range=range, ...),
+    which=any.bit(as.bit(x), range=range, ...),
+    hi=stop("not implemented"),
+    ri=any.ri(x, range=range, ...)
   )
 }
 
 #' @rdname Summaries
 #' @export anyNA.booltype
 #' @export
-anyNA.booltype <- function(x
-                           #, range=NULL
-                           , ...){
-  switch(as.character(booltype(x))
-         , nobool=anyNA.bit(as.bit(x)
-                            #, range=range
-                            , ...)
-         , logical=anyNA.bit(as.bit(x)
-                             #, range=range
-                             , ...)
-         , bit=anyNA.bit(x
-                         #, range=range
-                         , ...)
-         , bitwhich=anyNA.bitwhich(x
-                                   #, range=range
-                                   , ...)
-         , which=anyNA.bit(as.bit(x)
-                           #, range=range
-                           , ...)
-         , hi=stop("not implemented")
-         , ri=anyNA.ri(x
-                       #, range=range
-                       , ...)
+anyNA.booltype <- function(x, ...) {
+  switch(as.character(booltype(x)),
+    nobool=anyNA.bit(as.bit(x), ...),
+    logical=anyNA.bit(as.bit(x), ...),
+    bit=anyNA.bit(x, ...),
+    bitwhich=anyNA.bitwhich(x , ...),
+    which=anyNA.bit(as.bit(x) , ...),
+    hi=stop("not implemented"),
+    ri=anyNA.ri(x, ...)
   )
 }
 
@@ -2334,14 +2313,14 @@ anyNA.booltype <- function(x
 #' @export sum.booltype
 #' @export
 sum.booltype <- function(x, range=NULL, ...){
-  switch(as.character(booltype(x))
-         , nobool=sum.bit(as.bit(x), range=range, ...)
-         , logical=sum.bit(as.bit(x), range=range, ...)
-         , bit=sum.bit(x, range=range, ...)
-         , bitwhich=sum.bitwhich(x, range=range, ...)
-         , which=sum.bit(as.bit(x), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=sum.ri(x, range=range, ...)
+  switch(as.character(booltype(x)),
+    nobool=sum.bit(as.bit(x), range=range, ...),
+    logical=sum.bit(as.bit(x), range=range, ...),
+    bit=sum.bit(x, range=range, ...),
+    bitwhich=sum.bitwhich(x, range=range, ...),
+    which=sum.bit(as.bit(x), range=range, ...),
+    hi=stop("not implemented"),
+    ri=sum.ri(x, range=range, ...)
   )
 }
 
@@ -2349,14 +2328,14 @@ sum.booltype <- function(x, range=NULL, ...){
 #' @export min.booltype
 #' @export
 min.booltype <- function(x, range=NULL, ...){
-  switch(as.character(booltype(x))
-         , nobool=min.bit(as.bit(x), range=range, ...)
-         , logical=min.bit(as.bit(x), range=range, ...)
-         , bit=min.bit(x, range=range, ...)
-         , bitwhich=min.bitwhich(x, range=range, ...)
-         , which=min.bit(as.bit(x), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=min.ri(x, range=range, ...)
+  switch(as.character(booltype(x)),
+    nobool=min.bit(as.bit(x), range=range, ...),
+    logical=min.bit(as.bit(x), range=range, ...),
+    bit=min.bit(x, range=range, ...),
+    bitwhich=min.bitwhich(x, range=range, ...),
+    which=min.bit(as.bit(x), range=range, ...),
+    hi=stop("not implemented"),
+    ri=min.ri(x, range=range, ...)
   )
 }
 
@@ -2364,14 +2343,14 @@ min.booltype <- function(x, range=NULL, ...){
 #' @export max.booltype
 #' @export
 max.booltype <- function(x, range=NULL, ...){
-  switch(as.character(booltype(x))
-         , nobool=max.bit(as.bit(x), range=range, ...)
-         , logical=max.bit(as.bit(x), range=range, ...)
-         , bit=max.bit(x, range=range, ...)
-         , bitwhich=max.bitwhich(x, range=range, ...)
-         , which=max.bit(as.bit(x), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=max.ri(x, range=range, ...)
+  switch(as.character(booltype(x)),
+    nobool=max.bit(as.bit(x), range=range, ...),
+    logical=max.bit(as.bit(x), range=range, ...),
+    bit=max.bit(x, range=range, ...),
+    bitwhich=max.bitwhich(x, range=range, ...),
+    which=max.bit(as.bit(x), range=range, ...),
+    hi=stop("not implemented"),
+    ri=max.ri(x, range=range, ...)
   )
 }
 
@@ -2379,14 +2358,14 @@ max.booltype <- function(x, range=NULL, ...){
 #' @export range.booltype
 #' @export
 range.booltype <- function(x, range=NULL, ...){
-  switch(as.character(booltype(x))
-         , nobool=range.bit(as.bit(x), range=range, ...)
-         , logical=range.bit(as.bit(x), range=range, ...)
-         , bit=range.bit(x, range=range, ...)
-         , bitwhich=range.bitwhich(x, range=range, ...)
-         , which=range.bit(as.bit(x), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=range.ri(x, range=range, ...)
+  switch(as.character(booltype(x)),
+    nobool=range.bit(as.bit(x), range=range, ...),
+    logical=range.bit(as.bit(x), range=range, ...),
+    bit=range.bit(x, range=range, ...),
+    bitwhich=range.bitwhich(x, range=range, ...),
+    which=range.bit(as.bit(x), range=range, ...),
+    hi=stop("not implemented"),
+    ri=range.ri(x, range=range, ...)
   )
 }
 
@@ -2394,14 +2373,14 @@ range.booltype <- function(x, range=NULL, ...){
 #' @export summary.booltype
 #' @export
 summary.booltype <- function(object, range=NULL, ...){
-  switch(as.character(booltype(object))
-         , nobool=summary.bit(as.bit(object), range=range, ...)
-         , logical=summary.bit(as.bit(object), range=range, ...)
-         , bit=summary.bit(object, range=range, ...)
-         , bitwhich=summary.bitwhich(object, range=range, ...)
-         , which=summary.bit(as.bit(object), range=range, ...)
-         , hi=stop("not implemented")
-         , ri=summary.ri(object, range=range, ...)
+  switch(as.character(booltype(object)),
+    nobool=summary.bit(as.bit(object), range=range, ...),
+    logical=summary.bit(as.bit(object), range=range, ...),
+    bit=summary.bit(object, range=range, ...),
+    bitwhich=summary.bitwhich(object, range=range, ...),
+    which=summary.bit(as.bit(object), range=range, ...),
+    hi=stop("not implemented"),
+    ri=summary.ri(object, range=range, ...)
   )
 }
 
@@ -2521,7 +2500,7 @@ NULL
       }
     } else if (is.logical(i)) {
       if (poslength(i)==0L) {
-         ret <- logical()
+        ret <- logical()
       } else {
         if (inherits(i, "bitwhich")) {
           i <- unclass(i)
@@ -2591,7 +2570,7 @@ NULL
         ni <- length(i)
         if (ni) {
           if (r[3]>0L)
-             stop("NAs are not allowed in subscripted assignments")
+            stop("NAs are not allowed in subscripted assignments")
           if (r[1]>0L) {
             if (r[2] > nx)
               length(x) <- r[2]
@@ -2961,7 +2940,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
               )
             }
           }
-        # object maintains inclusions
+          # object maintains inclusions
         } else if (value) {
           # assignment has inclusions
           if (i[1]<0) {
@@ -3129,7 +3108,7 @@ summary.ri <- function(object, ...){
   if (any(names(match.call(expand.dots = TRUE))=="range") && !is.null(list(...)$range))
     stop("parameter 'range' allowed only for 'bit' but not for 'ri'")
   s <- object[[2]] - object[[1]] + 1L
-   c(`FALSE` = object[[3]] - s, `TRUE` = s, Min. = object[[1]], Max. = object[[2]])
+  c(`FALSE` = object[[3]] - s, `TRUE` = s, Min. = object[[1]], Max. = object[[2]])
 }
 
 

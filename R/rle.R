@@ -123,28 +123,23 @@ intisdesc <- function(x, na.method=c("none","break","skip")[1]){
 #'   x <- rlepack(rep(0L, 10))
 #'
 #' @export
-rlepack <- function(x, ...)
-UseMethod("rlepack")
+rlepack <- function(x, ...) UseMethod("rlepack")
 
 #' @rdname rlepack
 #' @export
-rlepack.integer <- function(
-  x
-, pack = TRUE   # TRUE / FALSE
-, ... # dummy to keep R CMD check quiet
-){
+rlepack.integer <- function(x, pack = TRUE, ...) {
   stopifnot(is.integer(x))
   n <- length(x)
-  if (n>1){
+  if (n>1) {
     if (pack)
       # returns NULL if rle is inefficient, old condition was 2*length(r$lengths)<n
       r <- intrle(diff(x))
     else
       r <- NULL
     out = list(first=x[1], dat=if (is.null(r)) x else r, last=x[n])
-  }else if (n==1){
+  } else if (n==1) {
     out = list(first=x[1], dat=x, last=x[1])
-  }else{
+  } else {
     out = list(first=NA_integer_, dat=x, last=NA_integer_)
   }
   class(out) <- "rlepack"
@@ -153,8 +148,7 @@ rlepack.integer <- function(
 
 #' @rdname rlepack
 #' @export
-rleunpack <- function(x)
-UseMethod("rleunpack")
+rleunpack <- function(x) UseMethod("rleunpack")
 
 #' @rdname rlepack
 #' @export
@@ -187,20 +181,17 @@ rev.rlepack <- function(x){
 # we use this only in hi() and as.hi.default()
 #' @rdname rlepack
 #' @export
-unique.rlepack <- function(x
-, incomparables = FALSE # dummy to keep R CMD check quiet
-, ... # dummy to keep R CMD check quiet
-){
-  if (inherits(x$dat,"rle")){
+unique.rlepack <- function(x, incomparables = FALSE, ...) {
+  if (inherits(x$dat,"rle")) {
     tab <- tabulate(sign(x$dat$values)+2L, nbins=3L)
     if (tab[1] && tab[3])
       x <- rlepack(unique(rleunpack(x)))
-    else if (tab[2]){
+    else if (tab[2]) {
       x$dat$lengths <- x$dat$lengths[x$dat$values != 0]
       x$dat$values <- x$dat$values[x$dat$values != 0]
     }
     # else nothing to do: no repeated values
-  }else{
+  } else {
     x$dat <- unique(x$dat)
   }
   x
@@ -211,27 +202,18 @@ unique.rlepack <- function(x
 # beware: returns TRUE/FALSE, not position of first duplicate
 #' @rdname rlepack
 #' @export
-anyDuplicated.rlepack <- function(x
-, incomparables = FALSE # dummy to keep R CMD check quiet
-, ... # dummy to keep R CMD check quiet
-){
-  if (inherits(x$dat,"rle")){
-    tab <- tabulate(sign(x$dat$values)+2L, nbins=3L)
-    if (tab[1] && tab[3])
-      anyDuplicated(rleunpack(x))
-    else if (tab[2]){
-      w <- .Call(C_R_first_zero, x$dat$values)
-      if (w)
-        if (w>1L)
-          sum(x$dat$lengths[1:(w-1L)]) + 2L
-        else
-          2L
-      else
-        0L
-    }
-    else
-      0L
-  }else{
-    anyDuplicated(x$dat)
-  }
+anyDuplicated.rlepack <- function(x, incomparables = FALSE, ...) {
+  if (!inherits(x$dat, "rle"))
+    return(anyDuplicated(x$dat))
+  tab <- tabulate(sign(x$dat$values)+2L, nbins=3L)
+  if (tab[1] && tab[3])
+    return(anyDuplicated(rleunpack(x)))
+  if (!tab[2])
+    return(0L)
+  w <- .Call(C_R_first_zero, x$dat$values)
+  if (!w)
+    return(0L)
+  if (w <= 1L)
+    return(2L)
+  sum(x$dat$lengths[1:(w-1L)]) + 2L
 }
