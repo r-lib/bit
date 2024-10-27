@@ -340,8 +340,6 @@ bitwhich <- function(
   ret
 }
 
-
-
 #' Diagnose representation of bitwhich
 #'
 #' @param x a [bitwhich()] object
@@ -353,12 +351,7 @@ bitwhich <- function(
 #' bitwhich_representation(bitwhich(12, -3))
 #' bitwhich_representation(bitwhich(12, 3))
 #' @export
-bitwhich_representation <- function(x)
-{
-  .Call(C_R_bitwhich_representation, x)
-}
-
-
+bitwhich_representation <- function(x) .Call(C_R_bitwhich_representation, x)
 
 #' Print method for bitwhich
 #'

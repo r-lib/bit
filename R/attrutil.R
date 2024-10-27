@@ -120,8 +120,7 @@
 #'
 #'
 #' @export
-getsetattr <- function(x, which, value)
-{
+getsetattr <- function(x, which, value) {
   ret <- copy_vector(attr(x, which))
   .Call(C_R_bit_set_attr, x, which, value)
   ret
@@ -129,23 +128,20 @@ getsetattr <- function(x, which, value)
 
 #' @rdname getsetattr
 #' @export
-setattr <- function(x, which, value)
-{
+setattr <- function(x, which, value) {
   .Call(C_R_bit_set_attr, x, which, value)
   invisible()
 }
 
 #' @rdname getsetattr
 #' @export
-setattributes <- function(x, attributes)
-{
+setattributes <- function(x, attributes) {
   nam <- names(attributes)
   for (i in seq_len(length(attributes))){
     .Call(C_R_bit_set_attr, x, nam[[i]], attributes[[i]])
   }
   invisible()
 }
-
 
 #' Attribute removal
 #'
