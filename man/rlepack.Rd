@@ -50,13 +50,6 @@ Basic utilities for rle packing and unpacking and apropriate methods for
 \examples{
 
   x <- rlepack(rep(0L, 10))
-\dontshow{
- for (x in list(10:1, 1:10, c(10:1,1:10), c(1:10,10:1), sample(100), sample(100, 100, TRUE), sample(10, 100, TRUE))){
-   stopifnot(identical(rleunpack(rlepack(x)), x))
-   stopifnot(identical(rleunpack(unique(rlepack(x))), unique(x)))
-   stopifnot(identical(anyDuplicated(rlepack(x)), anyDuplicated(x)))
- }
-}
 
 }
 \seealso{

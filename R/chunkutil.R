@@ -414,7 +414,8 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
     if ("ff" %in% loadedNamespaces())
       RECORDBYTES = get(".rambytes")[get("vmode")(x)]
     else
-      switch(typeof(x), raw=1L, character=4L, logical=4L, integer=4L, double=8L, complex=16L)
+      RECORDBYTES =
+        switch(typeof(x), raw=1L, character=4L, logical=4L, integer=4L, double=8L, complex=16L)
   }
   RECORDBYTES <- sum(RECORDBYTES)
   if (is.na(RECORDBYTES) || RECORDBYTES == 0L)
