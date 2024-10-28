@@ -143,11 +143,11 @@ much faster than the multiple calls in \code{(x | y) & !(x & y)}
   x <- c(FALSE, FALSE, FALSE, NA, NA, NA, TRUE, TRUE, TRUE)
   y <- c(FALSE, NA, TRUE, FALSE, NA, TRUE, FALSE, NA, TRUE)
 
-  x|y
-  x|as.bit(y)
-  x|as.bitwhich(y)
-  x|as.which(y)
-  x|ri(1, 1, 9)
+  x | y
+  x | as.bit(y)
+  x | as.bitwhich(y)
+  x | as.which(y)
+  x | ri(1, 1, 9)
 
 
 }

@@ -49,7 +49,7 @@ x <- c(
   bit = median(microbenchmark(bit_rangediff(c(a, b), i), times=times)$time),
   merge = median(microbenchmark(merge_rangediff(c(a, b), bit_sort(i)), times=times)$time)
 )
-knitr::kable(as.data.frame(as.list(x/x["R"]*100)), caption="% of time relative to R", digits=1)
+knitr::kable(as.data.frame(as.list(x / x["R"] * 100)), caption="% of time relative to R", digits=1)
 ```
 
 The vignette is compiled with the following performance settings: `r times` replications with domain size small `r Domain["small"]` and big `r Domain["big"]`, sample size small `r Sample["small"]` and big `r Sample["big"]`.
@@ -86,9 +86,9 @@ G <- list(
   coin = function(n) sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.5, 0.5)),
   often = function(n) sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.01, 0.99)),
   rare = function(n) sample(c(FALSE, TRUE), n, replace=TRUE, prob=c(0.99, 0.01)),
-  chunk = function(n) ri(n%/%20, 2L*n%/%20, n)
+  chunk = function(n) ri(n %/% 20, 2L * n %/% 20, n)
 )
-X <- vector("list", length(B)*length(G))
+X <- vector("list", length(B) * length(G))
 dim(X) <- c(booltype=length(B), data=length(G))
 dimnames(X) <- list(booltype=names(B), data=names(G))
 tim <- array(NA,
@@ -100,14 +100,14 @@ for (g in names(G)) {
   if (g %in% c("coin", "often", "rare"))
     w <- as.which(as.logical(x))
   for (b in B) {
-    if (booltypes[[b]] < 'ri' || (b == 'ri' && g=='chunk')) {
+    if (booltypes[[b]] < 'ri' || (b == 'ri' && g == 'chunk')) {
       X[[b, g]] <- as.booltype(x, b)
       if (g %in% c("coin", "often", "rare") && b %in% c("logical", "bit", "bitwhich")) {
         l <- as.booltype(logical(Sample[["big"]]), b)
         tim[b, "[which]", g] <- median(microbenchmark(l[w], times=times)$time)
-        tim[b, "[which]<-TRUE", g] <- median(microbenchmark(l[w]<-TRUE, times=times)$time)
+        tim[b, "[which]<-TRUE", g] <- median(microbenchmark(l[w] <- TRUE, times=times)$time)
         tim[b, "[]", g] <- median(microbenchmark(l[], times=times)$time)
-        tim[b, "[]<-logical", g] <- median(microbenchmark(l[]<-x, times=times)$time)
+        tim[b, "[]<-logical", g] <- median(microbenchmark(l[] <- x, times=times)$time)
       }
       tim[b, "size", g] <- object.size(X[[b, g]])
     }
@@ -274,7 +274,7 @@ M <- c("R", "bit", "merge")
 G <- c("sort", "sortunique")
 D <- c("unsorted", "sorted")
 
-sortM <- vector("list", length(M)*length(G))
+sortM <- vector("list", length(M) * length(G))
 dim(sortM) <- c(method=length(M), goal=length(G))
 dimnames(sortM) <- list(method=M, goal=G)
 sortM[["R", "sort"]] <- sort
@@ -306,7 +306,7 @@ for (n in names(Domain)) {
 
 binaryU <-
   c("match", "in", "notin", "union", "intersect", "setdiff", "symdiff", "setequal", "setearly")
-binaryM <- vector("list", length(M)*length(binaryU))
+binaryM <- vector("list", length(M) * length(binaryU))
 dim(binaryM) <- c(method=length(M), task=length(binaryU))
 dimnames(binaryM) <- list(method=M, task=binaryU)
 binaryM[["R", "match"]] <- match
@@ -347,7 +347,7 @@ binaryM[["bit", "setearly"]] <- function(x, y) bit_setequal(x, y)
 binaryM[["merge", "setearly"]] <- function(x, y) merge_setequal(x, y)
 
 unaryU <- c("unique", "duplicated", "anyDuplicated", "sumDuplicated")
-unaryM <- vector("list", length(M)*length(unaryU))
+unaryM <- vector("list", length(M) * length(unaryU))
 dim(unaryM) <- c(method=length(M), task=length(unaryU))
 dimnames(unaryM) <- list(method=M, task=unaryU)
 unaryM[["R", "unique"]] <- unique
@@ -364,7 +364,7 @@ unaryM[["bit", "sumDuplicated"]] <- bit_sumDuplicated
 unaryM[["merge", "sumDuplicated"]] <- merge_sumDuplicated
 
 tim <- array(NA_integer_,
-  dim=c(M=length(M), U=length(unaryU)+length(binaryU), N=length(binaryDomain), D=length(D)),
+  dim=c(M=length(M), U=length(unaryU) + length(binaryU), N=length(binaryDomain), D=length(D)),
   dimnames=list(M=M, U=c(unaryU, binaryU), N=names(binaryDomain), D=D)
 )
 
@@ -374,7 +374,7 @@ for (n in names(binaryDomain)) {
   x <- sample(binaryDomain[[n]][1], binarySample[[n]][1], replace = FALSE)
   y <- sample(binaryDomain[[n]][2], binarySample[[n]][2], replace = FALSE)
   d <- "unsorted"
-  if (length(x)==length(y)) {
+  if (length(x) == length(y)) {
     for (u in unaryU) {
       for (m in setdiff(M, "merge")) {
         f <- unaryM[[m, u]]
@@ -457,7 +457,7 @@ par(oldpar)
 tim2 <- tim
 for (n in names(binaryDomain)) {
   for (d in D) {
-    tim2[, , n, d] <- 100*tim[, , n, d]/max(tim["R", , n, d], na.rm=TRUE)
+    tim2[, , n, d] <- 100 * tim[, , n, d] / max(tim["R", , n, d], na.rm=TRUE)
   }
 }
 ```
@@ -499,7 +499,7 @@ dotchart(x,
 ### % time for sorting
 
 ```{r, echo=FALSE, results='asis'}
-x <- 100*timsort["bit", , , ]/timsort["R", , , ]
+x <- 100 * timsort["bit", , , ] / timsort["R", , , ]
 s <- "sorted"
 knitr::kable(x[, s, ], caption=paste(s, "data relative to R's sort"), digits=1)
 ```

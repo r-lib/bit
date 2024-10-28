@@ -21,7 +21,7 @@ from the initial usage.}
 \value{
 \itemize{
 \item \code{intrle} returns an object of class \code{\link[=rle]{rle()}} or NULL, if rle-compression is not
-efficient (compression factor <3 or length(x)<3).
+efficient (compression factor <3 or \code{length(x) < 3}).
 \item \code{intisasc} returns one of \verb{FALSE, NA, TRUE}
 \item \code{intisdesc} returns one of \verb{FALSE, TRUE} (if the input contains NAs, the output is
 undefined)

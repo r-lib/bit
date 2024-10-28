@@ -33,7 +33,7 @@ b1
 It costs only one bit per element
 
 ```{r}
-object.size(b1)/n
+object.size(b1) / n
 ```
 
 
@@ -72,7 +72,7 @@ Since we have a very skewed distribution we may coerce to an even sparser repres
 ```{r}
 w1 <- as.bitwhich(b1)
 w2 <- as.bitwhich(b2)
-object.size(w1)/n
+object.size(w1) / n
 ```
 
 and everything

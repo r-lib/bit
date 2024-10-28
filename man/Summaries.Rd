@@ -127,7 +127,7 @@
 \arguments{
 \item{x}{an object of class bit or bitwhich}
 
-\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length==2 giving a
+\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length == 2 giving a
 range restriction for chunked processing}
 
 \item{...}{formally required but not used}

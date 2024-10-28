@@ -3,7 +3,7 @@ NAtab <- function(x, nbins=max(1L, x, na.rm = TRUE)) {
   force(nbins)
   x <- x + 1L
   x[is.na(x)] <- 1L
-  tabulate(x, nbins+1L)
+  tabulate(x, nbins + 1L)
 }
 
 test_that("positive merging is OK with NAs", {

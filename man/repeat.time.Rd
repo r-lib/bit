@@ -26,8 +26,8 @@ Repeats timing expr until minSec is reached
 }
 \examples{
 
-  system.time(1+1)
-  repeat.time(1+1)
+  system.time(1 + 1)
+  repeat.time(1 + 1)
   system.time(sort(runif(1e6)))
   repeat.time(sort(runif(1e6)))
 

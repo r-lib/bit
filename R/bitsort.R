@@ -200,7 +200,7 @@ bitsort <- function(x, na.last=NA, depth=1) {
     return(rep(NA_integer_, range_sortna[3]))
   if (!range_sortna[4])  # already sorted
     return(x)
-  n <- as.double(range_sortna[2])-as.double(range_sortna[1])+1
+  n <- as.double(range_sortna[2]) - as.double(range_sortna[1]) + 1
   .Call(C_R_bit_sort, tmp=bit(n), x, range_sortna, as.logical(na.last), depth=as.integer(depth))
 }
 
@@ -226,7 +226,7 @@ bitsort <- function(x, na.last=NA, depth=1) {
 #       d <- D[di]
 #       x <- sample(d, n, T)
 #       x[1] <- d
-#       if (di > ni-5 && di < ni+10) {
+#       if (di > ni-5 && di < ni + 10) {
 #         tim[di, ni, "b"] <- microbenchmark(bitsort(x), times = 1)$time
 #         tim[di, ni, "c"] <- microbenchmark(countsort(x), times = 1)$time
 #         tim[di, ni, "q"] <- microbenchmark(quicksort3(x), times = 1)$time
@@ -248,9 +248,10 @@ bitsort <- function(x, na.last=NA, depth=1) {
 #   r <- as.integer(rownames(tim[, , 1]))[row(tim[, , 1])]
 #   n <- as.integer(colnames(tim[, , 1]))[col(tim[, , 1])]
 #   d <- n/r
-#   #x <- ifelse(d>=1, "c", "q")
-#   x <- ifelse(d>=0.5, "c", ifelse(n<=1024, "q", ifelse(d<0.0625, "q", "b")))
-#   x <- ifelse(n<=1024, ifelse(d<0.5, "q", "c"), ifelse(d<1, ifelse(d<0.0625, "q", "b"), "c"))
+#   #x <- ifelse(d >= 1, "c", "q")
+#   x <- ifelse(d >= 0.5, "c", ifelse(n <= 1024, "q", ifelse(d < 0.0625, "q", "b")))
+#   x <-
+#     ifelse(n <= 1024, ifelse(d < 0.5, "q", "c"), ifelse(d < 1, ifelse(d < 0.0625, "q", "b"), "c"))
 #   dim(x) <- dim(tim[, , 1])
 #   dimnames(x) <- dimnames(tim[, , 1])
 #   y <- tim[cbind(as.vector(row(x)), as.vector(col(x)), match(as.vector(x), M))]
@@ -266,8 +267,8 @@ bitsort <- function(x, na.last=NA, depth=1) {
 #     r <- rev(cumsum(rev(x)))
 #     rr <- c(r[-1], 0)
 #     c <- r*log2(r)
-#     b <- n*k+r+rr*log2(rr)
-#     w <- as.integer(!is.na(b) & b<c)
+#     b <- n*k + r + rr*log2(rr)
+#     w <- as.integer(!is.na(b) & b < c)
 #     #print(round(data.frame(x=x, r=r, rr=rr, c=c, b=b, w=w)))
 #     sum(w)
 #   }
@@ -344,10 +345,10 @@ bit_sort <- function(x, decreasing = FALSE, na.last=NA, has.dup = TRUE) {
     return(rep(NA_integer_, range_sortna[3]))
   if (!range_sortna[4])  # already sorted
     return(x)
-  nr <- as.double(range_sortna[2])-as.double(range_sortna[1])+1
+  nr <- as.double(range_sortna[2]) - as.double(range_sortna[1]) + 1
   d <- length(x) / nr
-  if (nr<=65536) {
-    if (d<0.5)
+  if (nr <= 65536) {
+    if (d < 0.5)
       ret <- .Call(C_R_int_quicksort3, x, range_sortna, as.logical(na.last))
     else
       ret <- .Call(C_R_int_countsort, x, range_sortna, as.logical(na.last))
@@ -411,12 +412,12 @@ bit_sort_unique <- function(x, decreasing = FALSE, na.last=NA, has.dup=TRUE, ran
   else
     range_na <- as.integer(range_na)
   if (is.na(range_na[1])) {
-    if (is.na(na.last) || length(range_na)<3L || range_na[3]==0)
+    if (is.na(na.last) || length(range_na) < 3L || range_na[3] == 0)
       return(integer())
     else
       return(NA_integer_)
   }
-  nr <- as.double(range_na[2])-as.double(range_na[1])+1
+  nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
   d <- length(x) / nr
   if (nr > .Machine$integer.max || d < 0) {
     if (has.dup) {
@@ -465,7 +466,7 @@ bit_in <- function(x, table, retFUN=as.bit) {
     stop("table must be integer (or factor)")
   nx <- length(x)
   nt <- length(table)
-  reverse <- nx<nt
+  reverse <- nx < nt
   if (reverse) {
     range_na <- range_na(x)
   } else {
@@ -474,9 +475,9 @@ bit_in <- function(x, table, retFUN=as.bit) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
-  d <- (nx+nt) / nr
-  if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
+  d <- (nx + nt) / nr
+  if (nr == 0L || nr > .Machine$integer.max || d < 1 / 64) {
     ret <- !is.na(match(x, table))
   } else if (reverse) {
     ret <- .Call(C_R_bit_table_in, tmp=bit(nr), x, table, range_na, ret=bit(length(x)))
@@ -550,9 +551,9 @@ bit_unique <- function(x, na.rm = NA, range_na=NULL) {
       return(rep(NA_integer_, range_na[3]))
     }
   }
-  nr <- as.double(range_na[2])-as.double(range_na[1])+1
+  nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
   d <- length(x) / nr
-  if (nr > .Machine$integer.max || d < 1/64) {
+  if (nr > .Machine$integer.max || d < 1 / 64) {
     if (is.na(na.rm)) {
       unique(x, incomparables = FALSE)
     } else if (na.rm) {
@@ -582,9 +583,9 @@ bit_duplicated <- function(x, na.rm = NA, range_na=NULL, retFUN=as.bit) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
   d <- length(x) / nr
-  if (nr > .Machine$integer.max || d < 1/64) {
+  if (nr > .Machine$integer.max || d < 1 / 64) {
     if (is.na(na.rm)) {
       ret <- duplicated(x, incomparables = FALSE)
     } else if (na.rm) {
@@ -614,9 +615,9 @@ bit_anyDuplicated <- function(x, na.rm = NA, range_na=NULL) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
   d <- length(x) / nr
-  if (nr > .Machine$integer.max || d < 1/64) {
+  if (nr > .Machine$integer.max || d < 1 / 64) {
     if (is.na(na.rm)) {
       anyDuplicated(x, incomparables = FALSE)
     } else if (na.rm) {
@@ -643,9 +644,9 @@ bit_sumDuplicated <- function(x, na.rm = NA, range_na=NULL) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
   d <- length(x) / nr
-  if (nr > .Machine$integer.max || d < 1/64) {
+  if (nr > .Machine$integer.max || d < 1 / 64) {
     if (is.na(na.rm)) {
       sum(duplicated(x, incomparables = FALSE))
     } else if (na.rm) {
@@ -699,9 +700,9 @@ bit_union <- function(x, y) {
   ny <- length(y)
   rx <- range_na(x)
   ry <- range_na(y)
-  range_na <- c(min(rx[1], ry[1]), max(rx[2], ry[2]), rx[3]+ry[3])
-  if (max(rx[1], ry[1])>min(rx[2], ry[2])) {
-    if (range_na[3]>0 && (rx[3]>0) == (rx[3]>0))
+  range_na <- c(min(rx[1], ry[1]), max(rx[2], ry[2]), rx[3] + ry[3])
+  if (max(rx[1], ry[1]) > min(rx[2], ry[2])) {
+    if (range_na[3] > 0 && (rx[3] > 0) == (rx[3] > 0))
       return(bit_unique(c(x, y), range_na=range_na))
     else
       return(c(bit_unique(x, range_na=rx), bit_unique(y, range_na=ry)))
@@ -709,9 +710,9 @@ bit_union <- function(x, y) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
-  d <- (nx+ny) / nr
-  if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
+  d <- (nx + ny) / nr
+  if (nr == 0L || nr > .Machine$integer.max || d < 1 / 64) {
     ret <- union(x, y)
   } else {
     ret <- .Call(C_R_bit_union, tmp=bit(nr), x, y, range_na)
@@ -730,15 +731,15 @@ bit_intersect <- function(x, y) {
   ny <- length(y)
   rx <- range_na(x)
   ry <- range_na(y)
-  range_na <- c(max(rx[1], ry[1]), min(rx[2], ry[2]), rx[3]+ry[3])
-  if (range_na[1]>range_na[2])
+  range_na <- c(max(rx[1], ry[1]), min(rx[2], ry[2]), rx[3] + ry[3])
+  if (range_na[1] > range_na[2])
     return(integer())
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
-  d <- (nx+ny) / nr
-  if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
+  d <- (nx + ny) / nr
+  if (nr == 0L || nr > .Machine$integer.max || d < 1 / 64) {
     ret <- intersect(x, y)
   } else {
     ret <- .Call(C_R_bit_intersect, tmp=bit(nr), x, y, range_na)
@@ -759,9 +760,9 @@ bit_setdiff <- function(x, y) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
-  d <- (nx+ny) / nr
-  if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
+  d <- (nx + ny) / nr
+  if (nr == 0L || nr > .Machine$integer.max || d < 1 / 64) {
     ret <- setdiff(x, y)
   } else {
     ret <- .Call(C_R_bit_setdiff, tmp=bit(nr), x, y, range_na)
@@ -780,9 +781,9 @@ bit_symdiff <- function(x, y) {
   ny <- length(y)
   rx <- range_na(x)
   ry <- range_na(y)
-  range_na <- c(min(rx[1], ry[1]), max(rx[2], ry[2]), rx[3]+ry[3])
-  if (max(rx[1], ry[1])>min(rx[2], ry[2])) {
-    if (range_na[3]>0 && (rx[3]>0) == (rx[3]>0))
+  range_na <- c(min(rx[1], ry[1]), max(rx[2], ry[2]), rx[3] + ry[3])
+  if (max(rx[1], ry[1]) > min(rx[2], ry[2])) {
+    if (range_na[3] > 0 && (rx[3] > 0) == (rx[3] > 0))
       return(bit_unique(c(x, y), range_na=range_na))
     else
       return(c(bit_unique(x, range_na=rx), bit_unique(y, range_na=ry)))
@@ -790,12 +791,12 @@ bit_symdiff <- function(x, y) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
-  d <- (nx+ny) / nr
-  if (nr==0L || nr > .Machine$integer.max || d < 1/64) {
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
+  d <- (nx + ny) / nr
+  if (nr == 0L || nr > .Machine$integer.max || d < 1 / 64) {
     ret <- union(setdiff(x, y), setdiff(y, x))
   } else {
-    ret <- .Call(C_R_bit_symdiff, bit(nr), bit(nr), x, y, range_na, rx[3]>0, ry[3]>0)
+    ret <- .Call(C_R_bit_symdiff, bit(nr), bit(nr), x, y, range_na, rx[3] > 0, ry[3] > 0)
   }
   ret
 }
@@ -819,9 +820,9 @@ bit_setequal <- function(x, y) {
   if (is.na(range_na[1]))
     nr <- 0L  # no numbers, no temp bit vector
   else
-    nr <- as.double(range_na[2])-as.double(range_na[1])+1
-  d <- (nx+ny) / nr
-  if (nr==0L || nr > .Machine$integer.max || d < 1/256) {
+    nr <- as.double(range_na[2]) - as.double(range_na[1]) + 1
+  d <- (nx + ny) / nr
+  if (nr == 0L || nr > .Machine$integer.max || d < 1 / 256) {
     ret <- setequal(x, y)
   } else {
     ret <- .Call(C_R_bit_setequal, bit(nr), bit(nr), x, y, range_na)
@@ -856,20 +857,20 @@ bit_rangediff <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.integer(y))
     stop("y must be integer")
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
-  if (rx[1]>rx[2])
+  if (rx[1] > rx[2])
     ox <- as.double(rev(rx))
   else
     ox <- as.double(rx)
-  n <- ox[2]-ox[1]+1L
+  n <- ox[2] - ox[1] + 1L
   d <- length(y) / n
-  if (n > .Machine$integer.max || d < 1/64) {
+  if (n > .Machine$integer.max || d < 1 / 64) {
     ox <- as.integer(ox)
     y <- .Call(C_R_int_quicksort2, copy_vector(y), c(ox, 0L), na.last=NA)
     ret <- merge_rangediff(ox, y, revx=revx, revy=revy)
-    if (rx[1]>rx[2])
+    if (rx[1] > rx[2])
       ret <- rev(ret)
     ret
   } else {
@@ -880,7 +881,7 @@ bit_rangediff <- function(rx, y, revx=FALSE, revy=FALSE) {
 
 # /* some experiments - just ignore
 # bit_sample1 <- function (x, size, replace = FALSE, prob = NULL) {
-#   if (length(x)==1L) {
+#   if (length(x) == 1L) {
 #     x <- seq_len(x)
 #   } else {
 #     x <- as.integer(x)
@@ -894,14 +895,14 @@ bit_rangediff <- function(rx, y, revx=FALSE, revy=FALSE) {
 #   }
 # }
 # bit_sample <- function (x, size=length(x), replace = FALSE, prob = NULL) {
-#   if (length(x)==1L) {
+#   if (length(x) == 1L) {
 #     x <- seq_len(x)
 #   } else {
 #     x <- as.integer(x)
 #   }
 #   size <- as.integer(size)
 #   replace <- as.logical(replace)
-#   if (!replace && size>length(x))
+#   if (!replace && size > length(x))
 #     stop("size > length(x) without replace")
 #   .Call(C_R_bit_sample, x, size, replace)
 # }

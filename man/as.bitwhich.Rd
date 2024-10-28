@@ -40,7 +40,7 @@ integer vector as resulting from 'which'}
 
 \item{poslength}{the number of selected elements}
 
-\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length==2 giving a
+\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length == 2 giving a
 range restriction for chunked processing}
 }
 \value{

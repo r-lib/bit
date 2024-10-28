@@ -28,7 +28,7 @@ test_that("bitsort function work on several inputs", {
       )
 
       range_result <- suppressWarnings(as.integer(c(
-        range(x[is.na(x) | x!=0], na.rm=TRUE),
+        range(x[is.na(x) | x != 0], na.rm=TRUE),
         sum(is.na(x))
       )))
       expect_identical(
@@ -115,7 +115,7 @@ test_that("bitsort function work on several inputs", {
       )
       expect_identical(
         bit_anyDuplicated(x, na.rm=TRUE),
-        max(0L, head(which(is.na(x)|duplicated(x)), 1)),
+        max(0L, head(which(is.na(x) | duplicated(x)), 1)),
         label=paste0("bit_anyDuplicated(c(", toString(x), "), na.rm=", TRUE, ")")
       )
 
@@ -145,14 +145,14 @@ test_that("bit_sort and bit_sort_unique are OK", {
   n <- 6L
   for (s in 1:10) {
     set.seed(s)
-    x <- 2L*sample(n, replace=TRUE)
+    x <- 2L * sample(n, replace=TRUE)
     for (napos in c(-1L, 0L, 1L)) {
       if (napos == -1) {
         y <- c(NA, x)
       } else if (napos == 1) {
         y <- c(x, NA)
       } else {
-        y <- c(x[1:(n%/%2)], NA, x[(n%/%2+1L):n])
+        y <- c(x[1:(n %/% 2)], NA, x[(n %/% 2 + 1L):n])
       }
       for (has.dup in c(TRUE, FALSE)) {
         if (!has.dup)
