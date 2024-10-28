@@ -10,7 +10,6 @@ linters = all_linters(
   infix_spaces_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
-  paren_body_linter = NULL,
   quotes_linter = NULL,
   # TODO(#19): Activate this; it's not trivial to replace on some old R versions.
   rep_len_linter = NULL,

@@ -150,7 +150,7 @@ str.bit <- function(
 #' @examples
 #' as.character(bitwhich(12))
 #' @export
-as.character.bitwhich <- function(x, ...)c("0", "1")[1+as.logical(x)]
+as.character.bitwhich <- function(x, ...) c("0", "1")[1+as.logical(x)]
 
 
 #' Str method for bitwhich
@@ -517,7 +517,7 @@ as.booltype.default <- function(x, booltype="logical", ...) {
 
 #' @describeIn as.ri method to coerce [ri()] to [ri()]
 #' @export
-as.ri.ri <- function(x, ...)x
+as.ri.ri <- function(x, ...) x
 
 #' @describeIn as.ri default method to coerce to [ri()]
 #' @export
@@ -1168,7 +1168,7 @@ as.logical.which <- function(x, length=attr(x, "maxindex"), ...) {
 #' @describeIn as.which method to coerce to [`which()`][as.which] from
 #'   [`which()`][as.which]
 #' @export
-as.which.which <- function(x, maxindex=NA_integer_, ...)x
+as.which.which <- function(x, maxindex=NA_integer_, ...) x
 
 #' @describeIn as.which method to coerce to zero length [`which()`][as.which] from
 #'   [`NULL`][NULL]
@@ -1407,11 +1407,11 @@ as.bitwhich.bit <- function(x, range=NULL, poslength=NULL, ...) {
 #' @examples
 #' is.na(bit(6))
 #' is.na(bitwhich(6))
-is.na.bit <- function(x)bit(length(x))
+is.na.bit <- function(x) bit(length(x))
 
 #' @describeIn is.na.bit method for [is.na()] from [bitwhich()]
 #' @export
-is.na.bitwhich <- function(x)bitwhich(length(x))
+is.na.bitwhich <- function(x) bitwhich(length(x))
 
 
 #' @describeIn xor default method for [xor()]
@@ -2961,7 +2961,7 @@ print.ri <- function(x, ...) {
 
 #' @rdname length.bit
 #' @export
-length.ri <- function(x)x[[3]]
+length.ri <- function(x) x[[3]]
 
 #' @rdname Summaries
 #' @export

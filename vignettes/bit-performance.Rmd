@@ -278,7 +278,7 @@ sortM <- vector("list", length(M)*length(G))
 dim(sortM) <- c(method=length(M), goal=length(G))
 dimnames(sortM) <- list(method=M, goal=G)
 sortM[["R", "sort"]] <- sort
-sortM[["R", "sortunique"]] <- function(x)sort(unique(x))
+sortM[["R", "sortunique"]] <- function(x) sort(unique(x))
 sortM[["bit", "sort"]] <- bit_sort
 sortM[["bit", "sortunique"]] <- bit_sort_unique
 
@@ -316,8 +316,8 @@ binaryM[["R", "in"]] <- get("%in%")
 binaryM[["bit", "in"]] <- bit_in
 binaryM[["merge", "in"]] <- merge_in
 
-binaryM[["R", "notin"]] <- function(x, y)!(x %in% y)
-binaryM[["bit", "notin"]] <- function(x, y)!bit_in(x, y)
+binaryM[["R", "notin"]] <- function(x, y) !(x %in% y)
+binaryM[["bit", "notin"]] <- function(x, y) !bit_in(x, y)
 binaryM[["merge", "notin"]] <- merge_notin
 
 binaryM[["R", "union"]] <- union
@@ -332,19 +332,19 @@ binaryM[["R", "setdiff"]] <- setdiff
 binaryM[["bit", "setdiff"]] <- bit_setdiff
 binaryM[["merge", "setdiff"]] <- merge_setdiff
 
-binaryM[["R", "symdiff"]] <- function(x, y)union(setdiff(x, y), setdiff(y, x))
+binaryM[["R", "symdiff"]] <- function(x, y) union(setdiff(x, y), setdiff(y, x))
 binaryM[["bit", "symdiff"]] <- bit_symdiff
 binaryM[["merge", "symdiff"]] <- merge_symdiff
 
 binaryM[["R", "setequal"]] <-
   function(x, y) setequal(x, x) # we compare x to x which avoids early termination
-binaryM[["bit", "setequal"]] <- function(x, y)bit_setequal(x, x)
-binaryM[["merge", "setequal"]] <- function(x, y)merge_setequal(x, x)
+binaryM[["bit", "setequal"]] <- function(x, y) bit_setequal(x, x)
+binaryM[["merge", "setequal"]] <- function(x, y) merge_setequal(x, x)
 
 binaryM[["R", "setearly"]] <-
   function(x, y) setequal(x, y) # we compare x to x which avoids early termination
-binaryM[["bit", "setearly"]] <- function(x, y)bit_setequal(x, y)
-binaryM[["merge", "setearly"]] <- function(x, y)merge_setequal(x, y)
+binaryM[["bit", "setearly"]] <- function(x, y) bit_setequal(x, y)
+binaryM[["merge", "setearly"]] <- function(x, y) merge_setequal(x, y)
 
 unaryU <- c("unique", "duplicated", "anyDuplicated", "sumDuplicated")
 unaryM <- vector("list", length(M)*length(unaryU))
@@ -359,7 +359,7 @@ unaryM[["merge", "duplicated"]] <- merge_duplicated
 unaryM[["R", "anyDuplicated"]] <- anyDuplicated
 unaryM[["bit", "anyDuplicated"]] <- bit_anyDuplicated
 unaryM[["merge", "anyDuplicated"]] <- merge_anyDuplicated
-unaryM[["R", "sumDuplicated"]] <- function(x)sum(duplicated(x))
+unaryM[["R", "sumDuplicated"]] <- function(x) sum(duplicated(x))
 unaryM[["bit", "sumDuplicated"]] <- bit_sumDuplicated
 unaryM[["merge", "sumDuplicated"]] <- merge_sumDuplicated
 

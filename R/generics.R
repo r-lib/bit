@@ -230,19 +230,19 @@ NULL
 
 #' @rdname PhysVirt
 #' @export
-physical <- function(x)UseMethod("physical")
+physical <- function(x) UseMethod("physical")
 
 #' @rdname PhysVirt
 #' @export
-`physical<-` <- function(x, value)UseMethod("physical<-")
+`physical<-` <- function(x, value) UseMethod("physical<-")
 
 #' @rdname PhysVirt
 #' @export
-virtual <- function(x)UseMethod("virtual")
+virtual <- function(x) UseMethod("virtual")
 
 #' @rdname PhysVirt
 #' @export
-`virtual<-` <- function(x, value)UseMethod("virtual<-")
+`virtual<-` <- function(x, value) UseMethod("virtual<-")
 
 
 #' Generics for in-RAM sorting and ordering
@@ -308,58 +308,58 @@ NULL
 
 #' @rdname Sorting
 #' @export
-ramsort <- function(x, ...)UseMethod("ramsort")
+ramsort <- function(x, ...) UseMethod("ramsort")
 #' @rdname Sorting
 #' @export
-ramorder <- function(x, i, ...)UseMethod("ramorder")
+ramorder <- function(x, i, ...) UseMethod("ramorder")
 #' @rdname Sorting
 #' @export
-ramsortorder <- function(x, i, ...)UseMethod("ramsortorder")
+ramsortorder <- function(x, i, ...) UseMethod("ramsortorder")
 #' @rdname Sorting
 #' @export
-mergesort <- function(x, ...)UseMethod("mergesort")
+mergesort <- function(x, ...) UseMethod("mergesort")
 #' @rdname Sorting
 #' @export
-mergeorder <- function(x, i, ...)UseMethod("mergeorder")
+mergeorder <- function(x, i, ...) UseMethod("mergeorder")
 #' @rdname Sorting
 #' @export
-mergesortorder <- function(x, i, ...)UseMethod("mergesortorder")
+mergesortorder <- function(x, i, ...) UseMethod("mergesortorder")
 #' @rdname Sorting
 #' @export
-quicksort <- function(x, ...)UseMethod("quicksort")
+quicksort <- function(x, ...) UseMethod("quicksort")
 #' @rdname Sorting
 #' @export
-quickorder <- function(x, i, ...)UseMethod("quickorder")
+quickorder <- function(x, i, ...) UseMethod("quickorder")
 #' @rdname Sorting
 #' @export
-quicksortorder <- function(x, i, ...)UseMethod("quicksortorder")
+quicksortorder <- function(x, i, ...) UseMethod("quicksortorder")
 #' @rdname Sorting
 #' @export
-shellsort <- function(x, ...)UseMethod("shellsort")
+shellsort <- function(x, ...) UseMethod("shellsort")
 #' @rdname Sorting
 #' @export
-shellorder <- function(x, i, ...)UseMethod("shellorder")
+shellorder <- function(x, i, ...) UseMethod("shellorder")
 #' @rdname Sorting
 #' @export
-shellsortorder <- function(x, i, ...)UseMethod("shellsortorder")
+shellsortorder <- function(x, i, ...) UseMethod("shellsortorder")
 #' @rdname Sorting
 #' @export
-radixsort <- function(x, ...)UseMethod("radixsort")
+radixsort <- function(x, ...) UseMethod("radixsort")
 #' @rdname Sorting
 #' @export
-radixorder <- function(x, i, ...)UseMethod("radixorder")
+radixorder <- function(x, i, ...) UseMethod("radixorder")
 #' @rdname Sorting
 #' @export
-radixsortorder <- function(x, i, ...)UseMethod("radixsortorder")
+radixsortorder <- function(x, i, ...) UseMethod("radixsortorder")
 #' @rdname Sorting
 #' @export
-keysort <- function(x, ...)UseMethod("keysort")
+keysort <- function(x, ...) UseMethod("keysort")
 #' @rdname Sorting
 #' @export
-keyorder <- function(x, i, ...)UseMethod("keyorder")
+keyorder <- function(x, i, ...) UseMethod("keyorder")
 #' @rdname Sorting
 #' @export
-keysortorder <- function(x, i, ...)UseMethod("keysortorder")
+keysortorder <- function(x, i, ...) UseMethod("keysortorder")
 
 
 #' Generics related to cache access
@@ -384,36 +384,36 @@ NULL
 
 #' @rdname Metadata
 #' @export
-is.sorted <- function(x, ...)UseMethod("is.sorted")
+is.sorted <- function(x, ...) UseMethod("is.sorted")
 
 #' @rdname Metadata
 #' @export
-`is.sorted<-` <- function(x, ..., value)UseMethod("is.sorted<-")
+`is.sorted<-` <- function(x, ..., value) UseMethod("is.sorted<-")
 
 #' @rdname Metadata
 #' @export
-na.count <- function(x, ...)UseMethod("na.count")
+na.count <- function(x, ...) UseMethod("na.count")
 
 #' @rdname Metadata
 #' @export
-`na.count<-` <- function(x, ..., value)UseMethod("na.count<-")
+`na.count<-` <- function(x, ..., value) UseMethod("na.count<-")
 
 #' @rdname Metadata
 #' @export
-nvalid <- function(x, ...)UseMethod("nvalid")
+nvalid <- function(x, ...) UseMethod("nvalid")
 
 #' @rdname Metadata
 #' @export
-nunique <- function(x, ...)UseMethod("nunique")
+nunique <- function(x, ...) UseMethod("nunique")
 
 #' @rdname Metadata
 #' @export
-`nunique<-` <- function(x, ..., value)UseMethod("nunique<-")
+`nunique<-` <- function(x, ..., value) UseMethod("nunique<-")
 
 #' @rdname Metadata
 #' @export
-nties <- function(x, ...)UseMethod("nties")
+nties <- function(x, ...) UseMethod("nties")
 
 #' @rdname Metadata
 #' @export
-`nties<-` <- function(x, ..., value)UseMethod("nties<-")
+`nties<-` <- function(x, ..., value) UseMethod("nties<-")

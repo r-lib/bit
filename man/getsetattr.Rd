@@ -40,8 +40,8 @@ delete the non-names attributes like \code{\link[=attributes]{attributes()}} doe
   x <- as.single(runif(10))
   attr(x, "Csingle")
 
-  f <- function(x)attr(x, "Csingle") <- NULL
-  g <- function(x)setattr(x, "Csingle", NULL)
+  f <- function(x) attr(x, "Csingle") <- NULL
+  g <- function(x) setattr(x, "Csingle", NULL)
 
   f(x)
   x

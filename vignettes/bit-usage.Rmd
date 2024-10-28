@@ -271,7 +271,7 @@ all.as <- list(
   which = as.which,
   ri = function(x) x
 )
-all.types <- lapply(all.as, function(f)f(r))
+all.types <- lapply(all.as, function(f) f(r))
 sapply(all.types, object.size)
 ```
 
@@ -419,13 +419,13 @@ summary(b, range=c(1, 3e5))
 and analyzing all such chunks
 
 ```{r}
-sapply(chunk(b, by=3e5, method="seq"), function(i)summary(b, range=i))
+sapply(chunk(b, by=3e5, method="seq"), function(i) summary(b, range=i))
 ```
 
 or better balanced
 
 ```{r}
-sapply(chunk(b, by=3e5), function(i)summary(b, range=i))
+sapply(chunk(b, by=3e5), function(i) summary(b, range=i))
 ```
 
 
@@ -440,12 +440,12 @@ summary(x[])
 we can process the ff vector in chunks
 
 ```{r, eval=.ff.is.available}
-sapply(chunk(x, by=3e5), function(i)summary(x[i]))
+sapply(chunk(x, by=3e5), function(i) summary(x[i]))
 ```
 and even can process a bit-filtered ff vector in chunks
 
 ```{r, eval=.ff.is.available}
-sapply(chunk(x, by=3e5), function(i)summary(x[as.hi(b, range=i)]))
+sapply(chunk(x, by=3e5), function(i) summary(x[as.hi(b, range=i)]))
 ```
 
 
