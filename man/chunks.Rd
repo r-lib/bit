@@ -66,7 +66,7 @@ print(system.time(for (i in 1:n) z <- i))
 z
 
 z <- 0L; n <- m*k;
-print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2])z <- i}))
+print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2]) z <- i}))
 z
 
 message("Seven ways to calculate sum(1:n).
@@ -84,7 +84,7 @@ z <- 0; print(system.time(for (i in 1:n) z <- z + i)); z
 print(system.time(sum(as.double(1:n))))
 
 z <- 0; n <- m*k
-print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2])z <- z + i}))
+print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2]) z <- z + i}))
 z
 
 z <- 0; n <- m*k
