@@ -58,7 +58,7 @@ print(k*system.time({it <- icount(m); foreach (i = it) \%do\% { z <- i; NULL }})
 z
 
 z <- 0L
-print(system.time({i <- 0L; while (i<n) {i <- i + 1L; z <- i}}))
+print(system.time({i <- 0L; while (i < n) {i <- i + 1L; z <- i}}))
 z
 
 z <- 0L
@@ -77,7 +77,7 @@ z <- 0;
 print(k*system.time({it <- icount(m); foreach (i = it) \%do\% { z <- z + i; NULL }}))
 z
 
-z <- 0; print(system.time({i <- 0L;while (i<n) {i <- i + 1L; z <- z + i}})); z
+z <- 0; print(system.time({i <- 0L;while (i < n) {i <- i + 1L; z <- z + i}})); z
 
 z <- 0; print(system.time(for (i in 1:n) z <- z + i)); z
 
@@ -88,7 +88,7 @@ print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2]) z <- z 
 z
 
 z <- 0; n <- m*k
-print(system.time(for (ch in chunks(1, n, by=m)) {z <- z+sum(as.double(ch[1]:ch[2]))}))
+print(system.time(for (ch in chunks(1, n, by=m)) {z <- z + sum(as.double(ch[1]:ch[2]))}))
 z
    }
 

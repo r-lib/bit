@@ -41,7 +41,7 @@ if (.ff.is.available) library(ff)
 
 ## Boolean data types
 
-R's `logical` vectors cost 32 bit per element in order to code three states `FALSE`, `TRUE` and `NA`. By contrast `bit` vectors cost only 1 bit per element and support only the two Boolean states `FALSE` and `TRUE`. Internally `bit` are stored as `integer`. `bitwhich` vectors manage very skewed Boolean data as a set of sorted unique integers denoting either *included* or *excluded* positions, whatever costs less memory. Internally `bitwhich` are stored as `integer` *or* as `logical` for the extreme cases *all included* (`TRUE`), *all excluded* (`FALSE`) or *zero length* (`logical()`). Function `bitwhich_representation` allows to distinguish these five cases without the copying-cost of `unclass(bitwhich)`. All three Boolean types `logical`, `bit`, and `bitwhich` are unified in a super-class `booltype` and have `is.booltype(x)==TRUE`. Classes `which` and `ri` can be somewhat considered as a fourth and fifth even more special Boolean types (for skewed data with mostly `FALSE` that represents the sorted positions of the few `TRUE`, and as a consecutive series of the latter), and hence have `booltype` `4` and `5` but coerce differently to `integer` and `double` and hence are not `is.booltype`.
+R's `logical` vectors cost 32 bit per element in order to code three states `FALSE`, `TRUE` and `NA`. By contrast `bit` vectors cost only 1 bit per element and support only the two Boolean states `FALSE` and `TRUE`. Internally `bit` are stored as `integer`. `bitwhich` vectors manage very skewed Boolean data as a set of sorted unique integers denoting either *included* or *excluded* positions, whatever costs less memory. Internally `bitwhich` are stored as `integer` *or* as `logical` for the extreme cases *all included* (`TRUE`), *all excluded* (`FALSE`) or *zero length* (`logical()`). Function `bitwhich_representation` allows to distinguish these five cases without the copying-cost of `unclass(bitwhich)`. All three Boolean types `logical`, `bit`, and `bitwhich` are unified in a super-class `booltype` and have `is.booltype(x) == TRUE`. Classes `which` and `ri` can be somewhat considered as a fourth and fifth even more special Boolean types (for skewed data with mostly `FALSE` that represents the sorted positions of the few `TRUE`, and as a consecutive series of the latter), and hence have `booltype` `4` and `5` but coerce differently to `integer` and `double` and hence are not `is.booltype`.
 
 ### Available classes
 
@@ -678,7 +678,7 @@ Efficient handling of sorted sets is backbone of class `bitwhich`. The `merge_*`
 |`tabulate(merge_intersect(x, y))`|`pmin(tabulate(x), tabulate(y))`    |
 |`tabulate(merge_setdiff(x, y))`  |`pmax(tabulate(x) - tabulate(y), 0)`|
 |`tabulate(merge_symdiff(x, y))`  |` abs(tabulate(x) - tabulate(y))`   |
-|`tabulate(merge_setequal(x, y))` |` all(tabulate(x)==tabulate(y))`    |
+|`tabulate(merge_setequal(x, y))` |` all(tabulate(x) == tabulate(y))`    |
 
 
 Note further that `method="exact"` delivers *unique* output if the input is unique, and in this case works faster than `method="unique"`.

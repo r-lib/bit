@@ -22,8 +22,8 @@
 #' @keywords utilities
 #' @examples
 #'
-#'   system.time(1+1)
-#'   repeat.time(1+1)
+#'   system.time(1 + 1)
+#'   repeat.time(1 + 1)
 #'   system.time(sort(runif(1e6)))
 #'   repeat.time(sort(runif(1e6)))
 #'
@@ -43,7 +43,7 @@ repeat.time <- function(expr, gcFirst = TRUE, minSec=0.5, envir=parent.frame()) 
   time0 <- proc.time()
   on.exit(cat("Timing stopped at:", ppt(proc.time() - time0), "\n"))
   r <- 0L
-  while ((proc.time()[3]-time0[3]) < minSec) {
+  while ((proc.time()[3L] - time0[3L]) < minSec) {
     r <- r + 1L
     eval(substitute(expr), envir=envir)
   }

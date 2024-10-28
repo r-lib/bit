@@ -18,12 +18,12 @@
 #  RB <- N %% B
 #  NB <- N %/% B
 #  if (RB) {
-#    cc <- min((B - RB) %/% NB, (B - RB) %/% (NB + 1L))
+#    cc <- min((B - RB) %/ % NB, (B - RB) % /% (NB + 1L))
 #    if (cc) {
 #      rb <- RB + cc * NB
 #      b <- B - cc
-#      if (rb==b) {
-#        return(list(b=b, nb=NB+1L, rb=0L))
+#      if (rb == b) {
+#        return(list(b=b, nb=NB + 1L, rb=0L))
 #      } else {
 #        return(list(b=b, nb=NB, rb=rb))
 #      }
@@ -40,7 +40,7 @@
 #' `bbatch` calculates batch sizes in 1..N so that they have rather balanced
 #' sizes than very different sizes.
 #'
-#' Tries to have `rb==0` or `rb` as close to `b` as possible
+#' Tries to have `rb == 0` or `rb` as close to `b` as possible
 #' while guaranteeing that `rb < b && (b - rb) <= min(nb, b)`
 #'
 #' @param N total size in 0..integer_max
@@ -59,23 +59,23 @@
 #'
 #' @export
 bbatch <- function(N, B) {
-  if (any(B<1))
+  if (any(B < 1))
     stop("B too small")
-  if (any(N<0))
+  if (any(N < 0))
     stop("N too small")
   N <- as.integer(N)
   B <- pmin(pmax(1L, N), as.integer(B))
   RB <- N %% B
   NB <- N %/% B
   cc <- pmin((B - RB) %/% NB, (B - RB) %/% (NB + 1L))
-  cc[RB==0 | NB == 0] <- 0L
+  cc[RB == 0 | NB == 0] <- 0L
   i <- cc > 0
   RB[i] <- RB[i] + cc[i] * NB[i]
   B[i] <- B[i] - cc[i]
   j <- i & (RB == B)
   NB[j] <- NB[j] + 1L
   RB[j] <- 0L
-  i <- (RB>0) & (NB == 0)
+  i <- (RB > 0) & (NB == 0)
   B[i] <- RB[i]
   NB[i] <- 1L
   RB[i] <- 0L
@@ -114,16 +114,16 @@ repfromto <- function(x, from, to) {
   }
   from <- as.integer(from)
   to <- as.integer(to)
-  if (to>nx) {
+  if (to > nx) {
     N <- to - from + 1L
-    from <- (from-1L)%%nx + 1L
-    to <- to%%nx
+    from <- (from - 1L) %% nx + 1L
+    to <- to %% nx
     # NOTE: fetch in sequence pre-main-post in case is.ff(x)
-    if (from<=to && N<nx) {
+    if (from <= to && N < nx) {
       ret <- x[from:to]
     } else {
       pre <- x[from:nx]
-      nrep <- (N - length(pre) - to) %/%nx
+      nrep <- (N - length(pre) - to) %/% nx
       main <- if (nrep) rep(x[1:nx], nrep)
       post <- if (to) x[1:to]
       ret <- c(pre, main, post)
@@ -149,7 +149,7 @@ if (FALSE) {
   x <- 1:10
   for (n in 1:20)
   for (i1 in 1:30) {
-    i2 <- i1+n-1
+    i2 <- i1 + n - 1
     cat(i1, i2, "|", repfromto(x, i1, i2), "\n")
   }
 }
@@ -201,10 +201,10 @@ if (FALSE) {
       length.out <- as.integer(length.out)
     }
     if (length.out) {
-      if (length.out==1L)
+      if (length.out == 1L)
         from
       else
-        cumsum(c(from, rep(by, length.out-1L)))
+        cumsum(c(from, rep(by, length.out - 1L)))
     } else {
       integer()
     }
@@ -249,7 +249,7 @@ if (FALSE) {
 #' z
 #'
 #' z <- 0L
-#' print(system.time({i <- 0L; while (i<n) {i <- i + 1L; z <- i}}))
+#' print(system.time({i <- 0L; while (i < n) {i <- i + 1L; z <- i}}))
 #' z
 #'
 #' z <- 0L
@@ -268,7 +268,7 @@ if (FALSE) {
 #' print(k*system.time({it <- icount(m); foreach (i = it) %do% { z <- z + i; NULL }}))
 #' z
 #'
-#' z <- 0; print(system.time({i <- 0L;while (i<n) {i <- i + 1L; z <- z + i}})); z
+#' z <- 0; print(system.time({i <- 0L;while (i < n) {i <- i + 1L; z <- z + i}})); z
 #'
 #' z <- 0; print(system.time(for (i in 1:n) z <- z + i)); z
 #'
@@ -279,7 +279,7 @@ if (FALSE) {
 #' z
 #'
 #' z <- 0; n <- m*k
-#' print(system.time(for (ch in chunks(1, n, by=m)) {z <- z+sum(as.double(ch[1]:ch[2]))}))
+#' print(system.time(for (ch in chunks(1, n, by=m)) {z <- z + sum(as.double(ch[1]:ch[2]))}))
 #' z
 #'    }
 #'
@@ -298,55 +298,55 @@ chunks <- function(
   if (!is.null(along.with)) {
     if (is.null(from))
       from <- 1L
-    else if (length(from)==1)
+    else if (length(from) == 1)
       from <- as.integer(from)
     else
       stop("'from' must be scalar")
     if (is.null(to))
       to <- length(along.with)
-    else if (length(to)==1)
+    else if (length(to) == 1)
       to <- as.integer(to)
     else
       stop("'to' must be scalar")
   }
-  if (length(from)==1)
+  if (length(from) == 1)
     from <- as.integer(from)
   else
     stop("'from' must be scalar")
-  if (length(to)==1)
+  if (length(to) == 1)
     to <- as.integer(to)
   else
     stop("'to' must be scalar")
 
-  if (to<from)
+  if (to < from)
     stop("to < from")
   N <- to - from + 1L
 
   if (is.null(by)) {
     if (is.null(length.out))
       stop("need either 'by' or 'length.out'")
-    if (length(length.out) !=1)
+    if (length(length.out) != 1L)
       stop("'length.out' must be scalar")
     length.out <- as.integer(length.out)
-    if (length.out>N)
+    if (length.out > N)
       length.out <- N
     by <- N %/% length.out
-  } else if (length(by)==1) {
+  } else if (length(by) == 1) {
     by <- as.integer(by)
-    if (by<1)
+    if (by < 1)
       stop("'by' must be > 0")
     length.out <- (N - 1L) %/% by + 1L
   } else {
     stop("'by' must be scalar")
   }
 
-  if (method=="bbatch")
+  if (method == "bbatch")
     by <- as.integer(bbatch(N, by)$b)
 
-  if (length.out>1L) {
+  if (length.out > 1L) {
     from <- cumsum(c(from, rep(by, length.out - 1L)))
     to <- c(from[-1], from[1] + N) - 1L  # fixed by Edwin de Jonge, 18.1.2011
-    if (overlap>0)
+    if (overlap > 0)
       from[-1] <- from[-1] - overlap
   }
   n <- length(from)
@@ -425,7 +425,7 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
       l$to <- n
     if (is.null(l$by) && is.null(l$len)) {
       b <- pmin(BATCHBYTES %/% RECORDBYTES, .Machine$integer.max)
-      if (b==0L) {
+      if (b == 0L) {
         b <- 1L
         warning("single record does not fit into BATCHBYTES")
       }
@@ -455,11 +455,11 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
 #' @param eval vector of sequence end points (if `is.null(y)` then
 #' `x` are taken as endpoints, all starting at 1)
 #' @return
-#'  - if `concat==FALSE` and `eval==FALSE` a list with n calls that generate sequences
-#'  - if `concat==FALSE` and `eval==TRUE ` a list with n sequences
-#'  - if `concat==TRUE ` and `eval==FALSE` a single call generating the concatenated
+#'  - if `concat == FALSE` and `eval == FALSE` a list with n calls that generate sequences
+#'  - if `concat == FALSE` and `eval == TRUE ` a list with n sequences
+#'  - if `concat == TRUE ` and `eval == FALSE` a single call generating the concatenated
 #'    sequences
-#'  - if `concat==TRUE` and `eval==TRUE ` an integer vector of concatentated sequences
+#'  - if `concat == TRUE` and `eval == TRUE ` an integer vector of concatentated sequences
 #' @author Angelo Canty, Jens Oehlschlägel
 #' @seealso [`:`][:], [seq()], [sequence()]
 #' @keywords manip
@@ -485,9 +485,9 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE) {
       # now calling C-code
       nx <- length(x)
       ny <- length(y)
-      if (nx<ny)
+      if (nx < ny)
         x <- rep(as.integer(x), length.out=ny)
-      if (ny<nx)
+      if (ny < nx)
         y <- rep(as.integer(y), length.out=nx)
       .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y))
     } else {

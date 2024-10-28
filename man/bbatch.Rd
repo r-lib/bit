@@ -24,7 +24,7 @@ a list with components:
 sizes than very different sizes.
 }
 \details{
-Tries to have \code{rb==0} or \code{rb} as close to \code{b} as possible
+Tries to have \code{rb == 0} or \code{rb} as close to \code{b} as possible
 while guaranteeing that \code{rb < b && (b - rb) <= min(nb, b)}
 }
 \examples{

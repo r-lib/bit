@@ -34,7 +34,7 @@
 #'   from the initial usage.
 #' @return
 #'  - `intrle` returns an object of class [rle()] or NULL, if rle-compression is not
-#'    efficient (compression factor <3 or length(x)<3).
+#'    efficient (compression factor <3 or `length(x) < 3`).
 #'  - `intisasc` returns one of `FALSE, NA, TRUE`
 #'  - `intisdesc` returns one of `FALSE, TRUE` (if the input contains NAs, the output is
 #'    undefined)
@@ -59,7 +59,8 @@
 # -- fast and efficient rle ------------------
 
 # integer only
-# returns rle object only if n>2 && rle is efficient (length(values)+lengths(lengths))<=length(x)
+# returns rle object only if n>2 && rle is efficient
+#   (length(values) + lengths(lengths)) <= length(x)
 # returns NULL if n<3 || rle is inefficient
 intrle <- function(x) {
   stopifnot(is.integer(x))
@@ -73,9 +74,9 @@ intrle <- function(x) {
 #' @export
 intisasc <- function(x, na.method=c("none", "break", "skip")[2]) {
   stopifnot(is.integer(x))
-  if (na.method=="break")
+  if (na.method == "break")
     .Call(C_R_int_is_asc_break, x)
-  else if (na.method=="none")
+  else if (na.method == "none")
     .Call(C_R_int_is_asc_none, x)
   else
     .Call(C_R_int_is_asc_skip, x)
@@ -85,9 +86,9 @@ intisasc <- function(x, na.method=c("none", "break", "skip")[2]) {
 #' @export
 intisdesc <- function(x, na.method=c("none", "break", "skip")[1]) {
   stopifnot(is.integer(x))
-  if (na.method=="none")
+  if (na.method == "none")
     .Call(C_R_int_is_desc_none, x)
-  else if (na.method=="break")
+  else if (na.method == "break")
     .Call(C_R_int_is_desc_break, x)
   else
     .Call(C_R_int_is_desc_skip, x)
@@ -130,14 +131,14 @@ rlepack <- function(x, ...) UseMethod("rlepack")
 rlepack.integer <- function(x, pack = TRUE, ...) {
   stopifnot(is.integer(x))
   n <- length(x)
-  if (n>1) {
+  if (n > 1L) {
     if (pack)
       # returns NULL if rle is inefficient, old condition was 2*length(r$lengths)<n
       r <- intrle(diff(x))
     else
       r <- NULL
     out = list(first=x[1], dat=if (is.null(r)) x else r, last=x[n])
-  } else if (n==1) {
+  } else if (n == 1) {
     out = list(first=x[1], dat=x, last=x[1])
   } else {
     out = list(first=NA_integer_, dat=x, last=NA_integer_)
@@ -183,7 +184,7 @@ rev.rlepack <- function(x) {
 #' @export
 unique.rlepack <- function(x, incomparables = FALSE, ...) {
   if (inherits(x$dat, "rle")) {
-    tab <- tabulate(sign(x$dat$values)+2L, nbins=3L)
+    tab <- tabulate(sign(x$dat$values) + 2L, nbins=3L)
     if (tab[1] && tab[3])
       x <- rlepack(unique(rleunpack(x)))
     else if (tab[2]) {
@@ -205,7 +206,7 @@ unique.rlepack <- function(x, incomparables = FALSE, ...) {
 anyDuplicated.rlepack <- function(x, incomparables = FALSE, ...) {
   if (!inherits(x$dat, "rle"))
     return(anyDuplicated(x$dat))
-  tab <- tabulate(sign(x$dat$values)+2L, nbins=3L)
+  tab <- tabulate(sign(x$dat$values) + 2L, nbins=3L)
   if (tab[1] && tab[3])
     return(anyDuplicated(rleunpack(x)))
   if (!tab[2])
@@ -215,5 +216,5 @@ anyDuplicated.rlepack <- function(x, incomparables = FALSE, ...) {
     return(0L)
   if (w <= 1L)
     return(2L)
-  sum(x$dat$lengths[1:(w-1L)]) + 2L
+  sum(x$dat$lengths[1:(w - 1L)]) + 2L
 }

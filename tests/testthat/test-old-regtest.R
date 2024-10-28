@@ -43,10 +43,10 @@ regtest.bit <- function(N = 50) {
     OK <- FALSE
   }
 
-  l[.BITS+1] <- FALSE
-  b[.BITS+1] <- NA
+  l[.BITS + 1] <- FALSE
+  b[.BITS + 1] <- NA
   if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))) {
-    message("\nregression test difference after assigning after vector length (at .BITS+1)")
+    message("\nregression test difference after assigning after vector length (at .BITS + 1)")
     message(l)
     message(unattr(b[]))
     OK <- FALSE
@@ -66,10 +66,8 @@ regtest.bit <- function(N = 50) {
     OK <- FALSE
   }
 
-
-
   for (i in 1:N) {
-    n <- sample(1:(2*.BITS), 1)
+    n <- sample(1:(2 * .BITS), 1)
     l <- sample(pool, n, TRUE)
     # check direct coercion
     b <- as.bit(l)
@@ -101,7 +99,7 @@ regtest.bit <- function(N = 50) {
         range=range(as.which(l)),
         sum=sum(l),
         summary=c(
-          `FALSE`=length(l)-sum(l),
+          `FALSE`=length(l) - sum(l),
           `TRUE`=sum(l),
           Min.=min(as.which(l)),
           Max.=max(as.which(l))
@@ -114,7 +112,7 @@ regtest.bit <- function(N = 50) {
         range=c(NA_integer_, NA_integer_),
         sum=sum(l),
         summary=c(
-          `FALSE`=length(l)-sum(l),
+          `FALSE`=length(l) - sum(l),
           `TRUE`=sum(l),
           Min.=NA_integer_,
           Max.=NA_integer_
@@ -141,11 +139,11 @@ regtest.bit <- function(N = 50) {
     }
     # check automatic whichs (pos or neg whatever shorter)
     s <- sum(l)
-    if (s==0) {
+    if (s == 0) {
       w <- FALSE
-    } else if (s==n) {
+    } else if (s == n) {
       w <- TRUE
-    } else if (s > n%/%2L) {
+    } else if (s > n %/% 2L) {
       w <- -rev(which(!l))
     } else {
       w <- which(l)
@@ -163,11 +161,11 @@ regtest.bit <- function(N = 50) {
     b2 <- as.bit(l2)
     ops <- c(
       NOT = identical(!l, as.logical(!b))
-      , AND = identical(l&l2, as.logical(b&b2))
-      , OR = identical(l|l2, as.logical(b|b2))
+      , AND = identical(l & l2, as.logical(b & b2))
+      , OR = identical(l | l2, as.logical(b | b2))
       , XOR = identical(xor(l, l2), as.logical(xor(b, b2)))
-      , NEQ = identical(l!=l2, as.logical(b!=b2))
-      , EQ = identical(l==l2, as.logical(b==b2))
+      , NEQ = identical(l != l2, as.logical(b != b2))
+      , EQ = identical(l == l2, as.logical(b == b2))
     )
     if (!all(ops)) {
       message("\nbit differs for boolean operators(s)")
@@ -179,11 +177,11 @@ regtest.bit <- function(N = 50) {
     w2 <- as.bitwhich(l2)
     ops <- c(
       NOT = identical(!l, as.logical(!w))
-      , AND = identical(l&l2, as.logical(w&w2))
-      , OR = identical(l|l2, as.logical(w|w2))
+      , AND = identical(l & l2, as.logical(w & w2))
+      , OR = identical(l | l2, as.logical(w | w2))
       , XOR = identical(xor(l, l2), as.logical(xor(w, w2)))
-      , NEQ = identical(l!=l2, as.logical(w!=w2))
-      , EQ = identical(l==l2, as.logical(w==w2))
+      , NEQ = identical(l != l2, as.logical(w != w2))
+      , EQ = identical(l == l2, as.logical(w == w2))
     )
     if (!all(ops)) {
       message("\nbitwhich differs for boolean operators(s)")
@@ -208,7 +206,7 @@ regtest.bit <- function(N = 50) {
       OK <- FALSE
     }
     # check replacement (recycle)
-    if (n%%2) {
+    if (n %% 2) {
       new_value <- sample(pool, 1)
       l[] <- new_value
       b[] <- new_value
@@ -320,7 +318,7 @@ regtest.bit <- function(N = 50) {
   OK <- OK && identical(c(l3, l2), as.logical(c(bw3, bw2)))
   OK <- OK && identical(c(l3, l3), as.logical(c(bw3, bw3)))
 
-  N <- 2L*.BITS
+  N <- 2L * .BITS
   l <- logical(N)
   b <- bit(N)
   for (i in 1:N) {

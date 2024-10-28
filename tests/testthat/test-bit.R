@@ -15,12 +15,12 @@ test_that("length<-.bit does set unused bits to FALSE", {
   length(b) <- .BITS
   length(b2) <- .BITS
   expect_identical(b, b2)
-  b <- !bit(2*.BITS)
+  b <- !bit(2 * .BITS)
   length(b) <- 7
   b2 <- !bit(7)
   expect_identical(b, b2)
-  length(b) <- 2*.BITS
-  length(b2) <- 2*.BITS
+  length(b) <- 2 * .BITS
+  length(b2) <- 2 * .BITS
   expect_identical(b, b2)
 })
 
@@ -31,16 +31,16 @@ test_that("length<-.bit does set new bits to FALSE", {
   b2[1] <- TRUE
   expect_identical(b, b2)
   b <- !bit(1)
-  length(b) <- 2*.BITS
-  b2 <- bit(2*.BITS)
+  length(b) <- 2 * .BITS
+  b2 <- bit(2 * .BITS)
   b2[1] <- TRUE
   expect_identical(b, b2)
 })
 
 test_that("c.bit does set unused bits to FALSE", {
-  b <- !bit(.BITS-1)
+  b <- !bit(.BITS - 1)
   b <- c(b, b)
-  b2 <- !bit(2*.BITS-2)
+  b2 <- !bit(2 * .BITS - 2)
   expect_identical(b, b2)
 })
 
@@ -197,11 +197,11 @@ test_that("rep() works", {
   l <- c(FALSE, TRUE)
   b <- as.bit(l)
   w <- as.bitwhich(l)
-  for (k in 1:(3*.BITS)) {
+  for (k in 1:(3 * .BITS)) {
     expect_identical(as.logical(rep(b, length.out=k)), rep(l, length.out=k))
     expect_identical(as.logical(rep(w, length.out=k)), rep(l, length.out=k))
   }
-  for (k in 1:(2*.BITS)) {
+  for (k in 1:(2 * .BITS)) {
     expect_identical(as.logical(rep(b, k)), rep(l, k))
     expect_identical(as.logical(rep(w, k)), rep(l, k))
   }
@@ -226,7 +226,7 @@ test_that("coercions work", {
         expect_identical(as.logical(as.bitwhich(as.bit(l))), l)
         set.seed(1)
         for (m in 1:ifelse(sum(l) %in% c(0L, 3L), 1, 24)) {
-          l <- sample(l, 3*.BITS, TRUE)
+          l <- sample(l, 3 * .BITS, TRUE)
           expect_identical(as.logical(as.bit(l)), l)
           expect_identical(as.logical(as.bitwhich(l)), l)
           expect_identical(as.logical(as.bit(as.bit(l))), l)
@@ -239,7 +239,7 @@ test_that("coercions work", {
   }
 
   set.seed(1)
-  for (k in 0:(3*.BITS)) {
+  for (k in 0:(3 * .BITS)) {
     l <- sample(c(FALSE, TRUE), k, TRUE)
     expect_identical(as.logical(as.bit(l)), l)
     expect_identical(as.logical(as.bit(as.bit(l))), l)
@@ -248,7 +248,7 @@ test_that("coercions work", {
     expect_identical(as.logical(as.bitwhich(as.bitwhich(l))), l)
   }
   set.seed(1)
-  for (k in 0:(3*.BITS)) {
+  for (k in 0:(3 * .BITS)) {
     l <- sample(c(NA, FALSE, TRUE), k, TRUE)
     b <- as.bit(l)
     expect_identical(as.bit(as.bit(l)), b)
@@ -258,7 +258,7 @@ test_that("coercions work", {
     expect_identical(as.bit(as.bitwhich(as.bitwhich(l))), b)
   }
   set.seed(1)
-  for (k in 0:(3*.BITS)) {
+  for (k in 0:(3 * .BITS)) {
     i <- sample(-2:2, k, TRUE)
     expect_identical(as.logical(as.bit(i)), as.logical(i))
     expect_identical(as.logical(as.bitwhich(i)), as.logical(i))
@@ -272,13 +272,13 @@ test_that("coercions work", {
 
 
 test_that("boolean operations work", {
-  N <- c(1L, .BITS-1L, .BITS, .BITS+1L)
+  N <- c(1L, .BITS - 1L, .BITS, .BITS + 1L)
   X <- c(rev(-N), N)
   N <- c(0L, N)
-  fx <- function(x, n) as.integer(sign(x))*sample(n, abs(x))
+  fx <- function(x, n) as.integer(sign(x)) * sample(n, abs(x))
   for (n in N) {
-    for (x1 in X[abs(X)<=abs(n)]) {
-      for (x2 in X[abs(X)<=abs(n)]) {
+    for (x1 in X[abs(X) <= abs(n)]) {
+      for (x2 in X[abs(X) <= abs(n)]) {
         set.seed(1)
         w1 <- bitwhich(n, fx(x1, n))
         w2 <- bitwhich(n, fx(x2, n))
@@ -378,7 +378,7 @@ test_that("promotion is correct in boolean operations and concatenation", {
             expect_identical(booltype(xor(x1, x2)), min(booltypes[[t1]], booltypes[[t2]])),
             list(x1=x1, x2=x2, t1=t1, t2=t2)
           ))
-          if (t1!="logical") { # c with first argument logical does not dispatch
+          if (t1 != "logical") { # c with first argument logical does not dispatch
             eval(substitute(
               expect_identical(booltype(c(x1, x2)), min(booltypes[[t1]], booltypes[[t2]])),
               list(x1=x1, x2=x2, t1=t1, t2=t2)
@@ -396,22 +396,22 @@ test_that("promotion is correct in boolean operations and concatenation", {
 
 
 test_that("subscript operations work", {
-  N <- c(1L, .BITS-1L, .BITS, .BITS+1L)
+  N <- c(1L, .BITS - 1L, .BITS, .BITS + 1L)
   X <- c(rev(-N), N)
   J <- c(rev(-N), 0L, N)
   N <- c(0L, N)
   R <- 1
-  fx <- function(x, n) as.integer(sign(x))*sample(n, abs(x), TRUE)
-  fi <- function(x, n) as.integer(sign(x))*sample(0:n, abs(x), FALSE)
+  fx <- function(x, n) as.integer(sign(x)) * sample(n, abs(x), TRUE)
+  fi <- function(x, n) as.integer(sign(x)) * sample(0:n, abs(x), FALSE)
 
   for (r in 1:R) {
     for (n in N) {
-      for (x in X[abs(X)<=abs(n)]) {
+      for (x in X[abs(X) <= abs(n)]) {
         set.seed(r)
         w <- bitwhich(n, fx(x, n))
         l <- as.logical(w)
         b <- as.bit(l)
-        I <- J[abs(J)<=n]
+        I <- J[abs(J) <= n]
         I <- lapply(I, fi, n=n)
         I <- c(list(FALSE, TRUE), I, lapply(I, as.which, maxindex=n))
         for (i in I) {
@@ -430,8 +430,8 @@ test_that("subscript operations work", {
             w2[i] <- !v
             expect_identical(w2, as.bitwhich(l2))
           }))
-          if (length(v)>1 && (length(v)%%2L) == 0) {
-            v2 <- !v[seq_len(ceiling(length(v)/2))]
+          if (length(v) > 1L && (length(v) %% 2L) == 0) {
+            v2 <- !v[seq_len(ceiling(length(v) / 2))]
             l2 <- l
             l2[i] <- v2
             eval(substitute(env = list(b=b, i=i, v=v, l2=l2), {
@@ -468,8 +468,8 @@ test_that("subscript operations work", {
             w2[i] <- !v
             expect_identical(w2, as.bitwhich(l2))
           }))
-          if (length(v)>1 && (length(v)%%2L) == 0) {
-            v2 <- !v[seq_len(ceiling(length(v)/2))]
+          if (length(v) > 1L && (length(v) %% 2L) == 0) {
+            v2 <- !v[seq_len(ceiling(length(v) / 2))]
             l2[i2] <- v2
             eval(substitute(env = list(b=b, i=i, v2=v2, l2=l2), {
               b2 <- b
@@ -542,8 +542,8 @@ test_that("aggregation functions work", {
       if (!any(x)) return(NA_integer_)
       length(x) - which.max(rev(x)) + 1L
     },
-    range=function(x) if (booltype(x)=="logical") range.booltype(x) else range(x),
-    summary=function(x) if (booltype(x)=="logical") summary.booltype(x) else summary(x)
+    range=function(x) if (booltype(x) == "logical") range.booltype(x) else range(x),
+    summary=function(x) if (booltype(x) == "logical") summary.booltype(x) else summary(x)
   )
   S3 <- list(
     sum=sum.booltype,
@@ -555,7 +555,7 @@ test_that("aggregation functions work", {
   for (d in names(D)) {
     for (i in names(I)) {
       x <- I[[i]](as.logical(D[[d]]))
-      for (a in names(A)) if (! (i=="not" && a %in% c("which", "ri"))) {
+      for (a in names(A)) if (! (i == "not" && a %in% c("which", "ri"))) {
         y <- I[[i]](A[[a]](D[[d]]))
         for (s in names(S1)) {
           expect_identical(S1[[s]](x), S1[[s]](y))

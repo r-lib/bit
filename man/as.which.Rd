@@ -43,7 +43,7 @@ default method, ignored otherwise)}
 
 \item{has.dup}{a logical scalar indicating whether the data may have duplicates}
 
-\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length==2 giving a
+\item{range}{a \code{\link[=ri]{ri()}} or an integer vector of length == 2 giving a
 range restriction for chunked processing}
 }
 \value{

@@ -20,11 +20,11 @@ are taken as endpoints, all starting at 1)}
 }
 \value{
 \itemize{
-\item if \code{concat==FALSE} and \code{eval==FALSE} a list with n calls that generate sequences
-\item if \code{concat==FALSE} and \code{eval==TRUE } a list with n sequences
-\item if \code{concat==TRUE } and \code{eval==FALSE} a single call generating the concatenated
+\item if \code{concat == FALSE} and \code{eval == FALSE} a list with n calls that generate sequences
+\item if \code{concat == FALSE} and \code{eval == TRUE } a list with n sequences
+\item if \code{concat == TRUE } and \code{eval == FALSE} a single call generating the concatenated
 sequences
-\item if \code{concat==TRUE} and \code{eval==TRUE } an integer vector of concatentated sequences
+\item if \code{concat == TRUE} and \code{eval == TRUE } an integer vector of concatentated sequences
 }
 }
 \description{

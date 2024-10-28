@@ -92,7 +92,7 @@ as.bit <- function(x=NULL, ...) UseMethod("as.bit", x)
 #' integer vector as resulting from 'which'
 #' @param maxindex the length of the new bitwhich vector
 #' @param poslength the number of selected elements
-#' @param range a [ri()] or an integer vector of length==2 giving a
+#' @param range a [ri()] or an integer vector of length == 2 giving a
 #' range restriction for chunked processing
 #' @param ... further arguments
 #' @return a value of class [bitwhich()]
@@ -119,7 +119,7 @@ as.bitwhich <- function(x=NULL, ...) UseMethod("as.bitwhich")
 #'
 #' @param x an object of classes [bit()], [bitwhich()],
 #' [ri()] or something on which [which()] works
-#' @param range a [ri()] or an integer vector of length==2 giving a
+#' @param range a [ri()] or an integer vector of length == 2 giving a
 #' range restriction for chunked processing
 #' @param maxindex the length of the boolean vector which is represented
 #' @param is.unsorted a logical scalar indicating whether the data may be unsorted
@@ -176,7 +176,7 @@ as.ri <- function(x, ...) UseMethod("as.ri")
 #' The `xor` function has been made generic and `xor.default` has
 #' been implemented much faster than R's standard [xor()].
 #' This was possible because actually boolean function `xor` and
-#' comparison operator `!=` do the same (even with NAs), and `!=` is
+#' comparison operator ` != ` do the same (even with NAs), and ` != ` is
 #' much faster than the multiple calls in `(x | y) & !(x & y)`
 #'
 #' @param x a [is.booltype()] vector
@@ -192,11 +192,11 @@ as.ri <- function(x, ...) UseMethod("as.ri")
 #'   x <- c(FALSE, FALSE, FALSE, NA, NA, NA, TRUE, TRUE, TRUE)
 #'   y <- c(FALSE, NA, TRUE, FALSE, NA, TRUE, FALSE, NA, TRUE)
 #'
-#'   x|y
-#'   x|as.bit(y)
-#'   x|as.bitwhich(y)
-#'   x|as.which(y)
-#'   x|ri(1, 1, 9)
+#'   x | y
+#'   x | as.bit(y)
+#'   x | as.bitwhich(y)
+#'   x | as.which(y)
+#'   x | ri(1, 1, 9)
 #'
 #'
 #' @export

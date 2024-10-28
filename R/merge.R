@@ -230,7 +230,7 @@ merge_setequal <- function(x, y, revx=FALSE, revy=FALSE, method=c("unique", "exa
 #' @export
 merge_rangein <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -243,7 +243,7 @@ merge_rangein <- function(rx, y, revx=FALSE, revy=FALSE) {
 #' @export
 merge_rangenotin <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -256,7 +256,7 @@ merge_rangenotin <- function(rx, y, revx=FALSE, revy=FALSE) {
 #' @export
 merge_rangesect <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -268,7 +268,7 @@ merge_rangesect <- function(rx, y, revx=FALSE, revy=FALSE) {
 #' @export
 merge_rangediff <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -299,7 +299,7 @@ merge_last <- function(x, revx=FALSE) {
 #' @export
 merge_firstin <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -312,7 +312,7 @@ merge_firstin <- function(rx, y, revx=FALSE, revy=FALSE) {
 #' @export
 merge_lastin <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -324,7 +324,7 @@ merge_lastin <- function(rx, y, revx=FALSE, revy=FALSE) {
 #' @export
 merge_firstnotin <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))
@@ -336,7 +336,7 @@ merge_firstnotin <- function(rx, y, revx=FALSE, revy=FALSE) {
 #' @export
 merge_lastnotin <- function(rx, y, revx=FALSE, revy=FALSE) {
   if (!is.ri(rx)) {
-    stopifnot(length(rx)==2)
+    stopifnot(length(rx) == 2)
     rx <- as.integer(rx)
   }
   if (!(is.integer(y) || is.ordered(y)))

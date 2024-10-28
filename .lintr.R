@@ -1,5 +1,6 @@
 linters = all_linters(
   packages = "lintr",
+  infix_spaces_linter(exclude_operators=c('EQ_SUB', 'EQ_FORMALS')),
   line_length_linter(100L),
   # TODO(org/repo#000) or TODO(#000) allowed as canonical TODO comments.
   todo_comment_linter(except_regex = "TODO\\((?:[a-zA-Z0-9-]+/[a-zA-Z0-9._-]+)?#[0-9]+\\)"),
@@ -7,7 +8,6 @@ linters = all_linters(
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,
   function_argument_linter = NULL,
-  infix_spaces_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
   quotes_linter = NULL,
