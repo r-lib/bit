@@ -6,6 +6,7 @@ linters = all_linters(
   todo_comment_linter(except_regex = "TODO\\((?:[a-zA-Z0-9-]+/[a-zA-Z0-9._-]+)?#[0-9]+\\)"),
   commented_code_linter = NULL,
   condition_call_linter = NULL,
+  # TODO(#34): Activate with limit of 25.
   cyclocomp_linter = NULL,
   function_argument_linter = NULL,
   nonportable_path_linter = NULL,
