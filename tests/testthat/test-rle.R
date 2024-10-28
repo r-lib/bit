@@ -49,7 +49,7 @@ test_that("rlepack, rleunpack, and rlepack methods for rev, uniqu and anyDuplica
     sample(100, 100, TRUE),
     sample(10, 100, TRUE)
   )
-  for (x in inputs){
+  for (x in inputs) {
     expect_identical(rleunpack(rlepack(x)), x)
     expect_identical(rleunpack(rev(rlepack(x))), rev(x))
     expect_identical(rleunpack(unique(rlepack(x))), unique(x))

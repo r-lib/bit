@@ -3,7 +3,7 @@ regtest.bit <- function(N = 50) {
   OK <- TRUE
   pool <- c(FALSE, TRUE)
 
-  if (!identical(unattr(as.bit(c(FALSE, NA, TRUE))[]), c(FALSE, FALSE, TRUE))){
+  if (!identical(unattr(as.bit(c(FALSE, NA, TRUE))[]), c(FALSE, FALSE, TRUE))) {
     message("bit error: wrong coercion of triboolean to (bi)boolean")
     OK <- FALSE
   }
@@ -12,13 +12,13 @@ regtest.bit <- function(N = 50) {
   b <- as.bit(l)
 
   i <- -c(1, 0, 1, NA)
-  if (!inherits(try(b[i], silent=TRUE), "try-error")){
+  if (!inherits(try(b[i], silent=TRUE), "try-error")) {
     message("bit error: did not throw on mixing zero with negative subscripts")
     OK <- FALSE
   }
 
   i <- c(2, 1, 0, 1, NA)
-  if (!identical(l[i], unattr(b[i]))){
+  if (!identical(l[i], unattr(b[i]))) {
     message("\nregression test difference between b[i] and l[i]")
     message(l[i])
     message(unattr(b[i]))
@@ -27,7 +27,7 @@ regtest.bit <- function(N = 50) {
 
   l[0] <- TRUE
   b[0] <- TRUE
-  if (!identical(l, unattr(b[]))){
+  if (!identical(l, unattr(b[]))) {
     message("\nregression test difference after assigning at R position zero")
     message(l)
     message(unattr(b[]))
@@ -36,7 +36,7 @@ regtest.bit <- function(N = 50) {
 
   l[2] <- TRUE
   b[2] <- TRUE
-  if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))){
+  if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))) {
     message("\nregression test difference after assigning after vector length (at 2)")
     message(l)
     message(unattr(b[]))
@@ -45,21 +45,21 @@ regtest.bit <- function(N = 50) {
 
   l[.BITS+1] <- FALSE
   b[.BITS+1] <- NA
-  if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))){
+  if (!identical(ifelse(is.na(l), FALSE, l), unattr(b[]))) {
     message("\nregression test difference after assigning after vector length (at .BITS+1)")
     message(l)
     message(unattr(b[]))
     OK <- FALSE
   }
 
-  if (!identical(ifelse(is.na(l[TRUE]), FALSE, l[TRUE]), unattr(b[TRUE]))){
+  if (!identical(ifelse(is.na(l[TRUE]), FALSE, l[TRUE]), unattr(b[TRUE]))) {
     message("\nregression test difference after subscripting with scalar TRUE")
     message(l)
     message(unattr(b[]))
     OK <- FALSE
   }
 
-  if (!identical(ifelse(is.na(l[FALSE]), FALSE, l[FALSE]), unattr(b[FALSE]))){
+  if (!identical(ifelse(is.na(l[FALSE]), FALSE, l[FALSE]), unattr(b[FALSE]))) {
     message("\nregression test difference after subscripting with scalar FALSE")
     message(l)
     message(unattr(b[]))
@@ -68,13 +68,13 @@ regtest.bit <- function(N = 50) {
 
 
 
-  for (i in 1:N){
+  for (i in 1:N) {
     n <- sample(1:(2*.BITS), 1)
     l <- sample(pool, n, TRUE)
     # check direct coercion
     b <- as.bit(l)
     l2 <- as.logical(b)
-    if (!identical(l, l2)){
+    if (!identical(l, l2)) {
       message("\nregression test difference between logical")
       message(l)
       message("and as.logical(as.bit(logical))")
@@ -86,7 +86,7 @@ regtest.bit <- function(N = 50) {
     # summary functions with logical return
     s <- c(all=all(l), any=any(l))
     s2 <- c(all=all(b), any=any(b))
-    if (!identical(s, s2)){
+    if (!identical(s, s2)) {
       message("\nregression test difference between logical summaries")
       message(s)
       message("and bit summaries")
@@ -94,7 +94,7 @@ regtest.bit <- function(N = 50) {
       OK <- FALSE
     }
     # summary functions with integer return
-    if (any(l)){
+    if (any(l)) {
       s <- c(
         min=min(as.which(l)),
         max=max(as.which(l)),
@@ -107,7 +107,7 @@ regtest.bit <- function(N = 50) {
           Max.=max(as.which(l))
         )
       )
-    }else{
+    } else {
       s <- c(
         min=NA_integer_,
         max=NA_integer_,
@@ -169,7 +169,7 @@ regtest.bit <- function(N = 50) {
       , NEQ = identical(l!=l2, as.logical(b!=b2))
       , EQ = identical(l==l2, as.logical(b==b2))
     )
-    if (!all(ops)){
+    if (!all(ops)) {
       message("\nbit differs for boolean operators(s)")
       message(ops)
       message(cbind(l=l, l2=l))
@@ -185,7 +185,7 @@ regtest.bit <- function(N = 50) {
       , NEQ = identical(l!=l2, as.logical(w!=w2))
       , EQ = identical(l==l2, as.logical(w==w2))
     )
-    if (!all(ops)){
+    if (!all(ops)) {
       message("\nbitwhich differs for boolean operators(s)")
       message(ops)
       message(cbind(l=l, l2=l))
@@ -195,7 +195,7 @@ regtest.bit <- function(N = 50) {
     # check extractors
     n2 <- sample(1:n, 1)
     j <- sample(1:n, n2)
-    if (!identical(l[j], unattr(b[j]))){
+    if (!identical(l[j], unattr(b[j]))) {
       message("\nregression test difference when extracting")
       OK <- FALSE
     }
@@ -203,20 +203,20 @@ regtest.bit <- function(N = 50) {
     new_value <- sample(pool, n2, TRUE)
     l[j] <- new_value
     b[j] <- new_value
-    if (!identical(l, unattr(b[]))){
+    if (!identical(l, unattr(b[]))) {
       message("\nregression test difference when replacing with index")
       OK <- FALSE
     }
     # check replacement (recycle)
-    if (n%%2){
+    if (n%%2) {
       new_value <- sample(pool, 1)
       l[] <- new_value
       b[] <- new_value
-    }else{
+    } else {
       l[] <- pool
       b[] <- pool
     }
-    if (!identical(l, as.logical(b))){
+    if (!identical(l, as.logical(b))) {
       message("\nregression test difference when replacing with recylcling")
       OK <- FALSE
     }
@@ -323,10 +323,10 @@ regtest.bit <- function(N = 50) {
   N <- 2L*.BITS
   l <- logical(N)
   b <- bit(N)
-  for (i in 1:N){
+  for (i in 1:N) {
     l[i] <- TRUE
     b[i] <- TRUE
-    if (!identical(l, as.logical(b))){
+    if (!identical(l, as.logical(b))) {
       message("\nregression test difference when replacing at position", i, "")
       OK <- FALSE
     }

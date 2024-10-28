@@ -95,14 +95,14 @@ tim <- array(NA,
   dim=c(booltype=length(B), metric=length(M), data=length(G)),
   dimnames=list(booltype=names(B), metric=M, data=names(G))
 )
-for (g in names(G)){
+for (g in names(G)) {
   x <- G[[g]](Sample[["big"]])
   if (g %in% c("coin", "often", "rare"))
     w <- as.which(as.logical(x))
-  for (b in B){
-    if (booltypes[[b]] < 'ri' || (b == 'ri' && g=='chunk')){
+  for (b in B) {
+    if (booltypes[[b]] < 'ri' || (b == 'ri' && g=='chunk')) {
       X[[b, g]] <- as.booltype(x, b)
-      if (g %in% c("coin", "often", "rare") && b %in% c("logical", "bit", "bitwhich")){
+      if (g %in% c("coin", "often", "rare") && b %in% c("logical", "bit", "bitwhich")) {
         l <- as.booltype(logical(Sample[["big"]]), b)
         tim[b, "[which]", g] <- median(microbenchmark(l[w], times=times)$time)
         tim[b, "[which]<-TRUE", g] <- median(microbenchmark(l[w]<-TRUE, times=times)$time)
@@ -113,10 +113,10 @@ for (g in names(G)){
     }
   }
 }
-for (g in names(G)){
-  for (b in c("logical", "bit", "bitwhich")){
+for (g in names(G)) {
+  for (b in c("logical", "bit", "bitwhich")) {
     x <- X[[b, g]]
-    if (!is.null(x)){
+    if (!is.null(x)) {
       tim[b, "!", g] <- median(microbenchmark(!x, times=times)$time)
       tim[b, "&", g] <- median(microbenchmark(x & x, times=times)$time)
       tim[b, "|", g] <- median(microbenchmark(x | x, times=times)$time)
@@ -289,15 +289,15 @@ timsort <- array(NA_integer_,
 for (n in names(Domain)) {
   x <- sample(Domain[[n]], Sample[[n]], replace = TRUE)
   d <- "unsorted"
-  for (m in c("R", "bit")){
-    for (g in G){
+  for (m in c("R", "bit")) {
+    for (g in G) {
       timsort[m, g, d, n] <- median(microbenchmark(sortM[[m, g]](x), times=times)$time)
     }
   }
   x <- bit_sort(x)
   d <- "sorted"
-  for (m in 1:2){
-    for (g in G){
+  for (m in 1:2) {
+    for (g in G) {
       timsort[m, g, d, n] <- median(microbenchmark(sortM[[m, g]](x), times=times)$time)
     }
   }
@@ -375,16 +375,16 @@ for (n in names(binaryDomain)) {
   y <- sample(binaryDomain[[n]][2], binarySample[[n]][2], replace = FALSE)
   d <- "unsorted"
   if (length(x)==length(y)) {
-    for (u in unaryU){
-      for (m in setdiff(M, "merge")){
+    for (u in unaryU) {
+      for (m in setdiff(M, "merge")) {
         f <- unaryM[[m, u]]
         if (!is.null(f))
           tim[m, u, n, d] <- median(microbenchmark(f(x), times=times)$time)
       }
     }
   }
-  for (u in binaryU){
-    for (m in setdiff(M, "merge")){
+  for (u in binaryU) {
+    for (m in setdiff(M, "merge")) {
       f <- binaryM[[m, u]]
       if (!is.null(f))
         tim[m, u, n, d] <- median(microbenchmark(f(x, y), times=times)$time)
@@ -513,7 +513,7 @@ knitr::kable(x[, s, ], caption=paste(s, "data relative to R's sort"), digits=1)
 ### % time for unique
 
 ```{r, echo=FALSE, results='asis'}
-f <- function(u){
+f <- function(u) {
   n <- c("smallsmall", "bigbig")
   x <- tim[c("bit", "merge", "merge"), u, n, ]
   dimnames(x)$M[3] <- "sort"

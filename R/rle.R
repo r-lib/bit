@@ -61,7 +61,7 @@
 # integer only
 # returns rle object only if n>2 && rle is efficient (length(values)+lengths(lengths))<=length(x)
 # returns NULL if n<3 || rle is inefficient
-intrle <- function(x){
+intrle <- function(x) {
   stopifnot(is.integer(x))
   .Call(C_R_int_rle, x)
 }
@@ -71,7 +71,7 @@ intrle <- function(x){
 
 #' @describeIn intrle check whether integer vector is ascending
 #' @export
-intisasc <- function(x, na.method=c("none", "break", "skip")[2]){
+intisasc <- function(x, na.method=c("none", "break", "skip")[2]) {
   stopifnot(is.integer(x))
   if (na.method=="break")
     .Call(C_R_int_is_asc_break, x)
@@ -83,7 +83,7 @@ intisasc <- function(x, na.method=c("none", "break", "skip")[2]){
 
 #' @describeIn intrle check whether integer vector is descending
 #' @export
-intisdesc <- function(x, na.method=c("none", "break", "skip")[1]){
+intisdesc <- function(x, na.method=c("none", "break", "skip")[1]) {
   stopifnot(is.integer(x))
   if (na.method=="none")
     .Call(C_R_int_is_desc_none, x)
@@ -152,7 +152,7 @@ rleunpack <- function(x) UseMethod("rleunpack")
 
 #' @rdname rlepack
 #' @export
-rleunpack.rlepack <- function(x){
+rleunpack.rlepack <- function(x) {
   if (inherits(x$dat, "rle"))
     as.integer(cumsum(c(x$first, rep(x$dat$values, x$dat$lengths))))
   else
@@ -162,11 +162,11 @@ rleunpack.rlepack <- function(x){
 
 #' @rdname rlepack
 #' @export
-rev.rlepack <- function(x){
-  if (inherits(x$dat, "rle")){
+rev.rlepack <- function(x) {
+  if (inherits(x$dat, "rle")) {
     x$dat$values <- -rev(x$dat$values)
     x$dat$lengths <- rev(x$dat$lengths)
-  }else{
+  } else {
     x$dat <- rev(x$dat)
   }
   buf <- x$first

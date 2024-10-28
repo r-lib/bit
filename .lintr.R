@@ -3,7 +3,6 @@ linters = all_linters(
   line_length_linter(100L),
   # TODO(org/repo#000) or TODO(#000) allowed as canonical TODO comments.
   todo_comment_linter(except_regex = "TODO\\((?:[a-zA-Z0-9-]+/[a-zA-Z0-9._-]+)?#[0-9]+\\)"),
-  brace_linter = NULL,
   commented_code_linter = NULL,
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,

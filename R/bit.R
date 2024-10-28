@@ -51,7 +51,7 @@ bit_done <- function() .Call(C_R_bit_done)
 #' !bit(12)
 #' str(bit(128))
 #' @export
-bit <- function(length=0L){
+bit <- function(length=0L) {
   length <- as.integer(length)
   if (length %% .BITS)
     n <- length %/% .BITS + 1L
@@ -83,14 +83,14 @@ bit <- function(length=0L){
 #' @examples
 #' print(bit(120))
 #' @export
-print.bit <- function(x, ...){
+print.bit <- function(x, ...) {
   n <- length(x)
   cat("bit length=", n, " occupying only ", length(unclass(x)), " int32\n", sep="")
-  if (n>16){
+  if (n>16) {
     y <- c(x[1:8], "..", x[(n-7L):n])
     names(y) <- c(1:8, "", (n-7L):n)
     print(y, quote=FALSE, ...)
-  }else if (n){
+  } else if (n) {
     y <- c(x[])
     names(y) <- 1:n
     print(y, quote=FALSE, ...)
@@ -105,7 +105,7 @@ print.bit <- function(x, ...){
 #' @examples
 #' as.character(bit(12))
 #' @export
-as.character.bit <- function(x, ...){
+as.character.bit <- function(x, ...) {
   c("0", "1")[1+as.logical(x)]
 }
 
@@ -359,7 +359,7 @@ bitwhich_representation <- function(x) .Call(C_R_bitwhich_representation, x)
 #' @param x a [bitwhich()] object
 #' @param ... ignored
 #' @export
-print.bitwhich <- function(x, ...){
+print.bitwhich <- function(x, ...) {
   n <- length(x)
   cat(sprintf(
     "bitwhich: %d/%d occupying only %d int32 in %s representation\n",
@@ -474,7 +474,7 @@ booltype <- function(x) {
 #'   is.booltype
 #' )
 #' @export
-is.booltype <- function(x){
+is.booltype <- function(x) {
   inherits(x, "booltype") || is.logical(x)
 }
 
@@ -501,7 +501,7 @@ is.ri <- function(x) inherits(x, "ri")
 
 #' @describeIn as.booltype default method for as.booltype
 #' @export
-as.booltype.default <- function(x, booltype="logical", ...){
+as.booltype.default <- function(x, booltype="logical", ...) {
   bt <- match.arg(as.character(booltype), as.character(booltypes))
   f = switch(bt,
     logical="as.logical",
@@ -521,7 +521,7 @@ as.ri.ri <- function(x, ...)x
 
 #' @describeIn as.ri default method to coerce to [ri()]
 #' @export
-as.ri.default <- function(x, ...){
+as.ri.default <- function(x, ...) {
   r <- range.booltype(x)
   n <- maxindex(x)
   ri(r[[1]], r[[2]], n)
@@ -728,7 +728,7 @@ length.bit <- function(x) virtual(x)$Length
   } else {
     ret <- copy_vector(x)
   }
-  if (dn && value<oldvalue){
+  if (dn && value<oldvalue) {
     .Call(C_R_bit_set_logical, ret, FALSE, c(value+1L, n*.BITS))
   }
   attr(vattr, "Length") <- value
@@ -742,8 +742,8 @@ length.bitwhich <- function(x) attr(x, "maxindex")
 
 #' @rdname length.bit
 #' @export
-`length<-.bitwhich` <- function(x, value){
-  if (value!=length(x)){
+`length<-.bitwhich` <- function(x, value) {
+  if (value!=length(x)) {
     value <- as.integer(value)
     a <- attributes(x)
     if (value) {
@@ -809,7 +809,7 @@ length.bitwhich <- function(x) attr(x, "maxindex")
 #'
 #' @export c.booltype
 #' @export
-c.booltype <- function(...){
+c.booltype <- function(...) {
   l <- list(...)
   bt <- sapply(l, booltype)
   # xx TEMPORARY WORKAROND: work around a bug in sapply which destroys ordered levels
@@ -823,7 +823,7 @@ c.booltype <- function(...){
 
 #' @rdname c.booltype
 #' @export
-c.bit <- function(...){
+c.bit <- function(...) {
   l <- list(...)
   nl <- length(l)
   nold <- lengths(l)
@@ -831,7 +831,7 @@ c.bit <- function(...){
   ncum <- cumsum(nold)
   offsets <- c(0L, ncum[-length(ncum)])
   x <- bit(nnew)
-  for (i in seq_len(nl)){
+  for (i in seq_len(nl)) {
     b <- as.bit(l[[i]])
     .Call(C_R_bit_shiftcopy, bsource_=b, btarget_=x, otarget_=offsets[i], n_=nold[i])
   }
@@ -840,7 +840,7 @@ c.bit <- function(...){
 
 #' @rdname c.booltype
 #' @export
-c.bitwhich <- function(...){
+c.bitwhich <- function(...) {
   l <- list(...)
   if (length(l)==1)
     l[[1]]
@@ -867,8 +867,8 @@ NULL
 
 #' @rdname rev.booltype
 #' @export
-rev.bit <- function(x){
-  if (length(x)){
+rev.bit <- function(x) {
+  if (length(x)) {
     x <- .Call(C_R_bit_reverse, x, bit(length(x)))
   }
   x
@@ -876,18 +876,18 @@ rev.bit <- function(x){
 
 #' @rdname rev.booltype
 #' @export
-rev.bitwhich <- function(x){
+rev.bitwhich <- function(x) {
   n <- length(x)
-  if (is.logical(x)){
+  if (is.logical(x)) {
     ret <- bitwhich(n, copy_vector(x), poslength=sum(x))
-  }else{
+  } else {
     y <- bitwhich_representation(x)
-    if (n < .Machine$integer.max){
+    if (n < .Machine$integer.max) {
       if (y[1]<0)
         ret <- bitwhich(n, -(n+1L)-reverse_vector(x), poslength=sum(x))
       else
         ret <- bitwhich(n, (n+1L)-reverse_vector(x), poslength=sum(x))
-    }else{
+    } else {
       # nolint next: unnecessary_nesting_linter. Good parallelism.
       if (y[1]<0)
         ret <- bitwhich(n, -n-reverse_vector(x)-1L, poslength=sum(x))
@@ -922,7 +922,7 @@ NULL
 
 #' @rdname rep.booltype
 #' @export
-rep.bit <- function(x, times = 1L, length.out = NA, ...){
+rep.bit <- function(x, times = 1L, length.out = NA, ...) {
   if (length(times)>1L)
     stop("only scalar times supported")
   if (is.na(length.out))
@@ -935,7 +935,7 @@ rep.bit <- function(x, times = 1L, length.out = NA, ...){
 
 #' @rdname rep.booltype
 #' @export
-rep.bitwhich <- function(x, times = 1L, length.out = NA, ...){
+rep.bitwhich <- function(x, times = 1L, length.out = NA, ...) {
   as.bitwhich(rep(as.bit(x), times=times, length.out=as.integer(length.out), ...))
 }
 
@@ -949,7 +949,7 @@ as.bit.bit <- function(x, ...) x
 
 #' @describeIn as.bit method to coerce to [bit()] from [logical()]
 #' @export
-as.bit.logical <- function(x, ...){
+as.bit.logical <- function(x, ...) {
   n <- length(x)
   b <- bit(n)
   .Call(C_R_bit_set_logical, b, x, c(1L, n))
@@ -960,7 +960,7 @@ as.bit.logical <- function(x, ...){
 #'   everthing else becomes `TRUE`)
 #' @examples as.bit(c(0L, 1L, 2L, -2L, NA))
 #' @export
-as.bit.integer <- function(x, ...){
+as.bit.integer <- function(x, ...) {
   n <- length(x)
   b <- bit(n)
   .Call(C_R_bit_set_integer, b, x, c(1L, n))
@@ -971,7 +971,7 @@ as.bit.integer <- function(x, ...){
 #'   else becomes `TRUE`)
 #' @examples as.bit(c(0, 1, 2, -2, NA))
 #' @export
-as.bit.double <- function(x, ...){
+as.bit.double <- function(x, ...) {
   n <- length(x)
   b <- bit(n)
   .Call(C_R_bit_set_integer, b, as.integer(x), c(1L, n))
@@ -979,25 +979,25 @@ as.bit.double <- function(x, ...){
 
 #' @describeIn as.bit method to coerce to [bit()] from [bitwhich()]
 #' @export
-as.bit.bitwhich <- function(x, ...){
-  if (length(x)){
+as.bit.bitwhich <- function(x, ...) {
+  if (length(x)) {
     b <- bit(length(x))
-    if (is.logical(x)){
+    if (is.logical(x)) {
       if (unclass(x))
         !b
       else
         b
-    }else{
+    } else {
       .Call(C_R_bit_replace, b, x, TRUE)
     }
-  }else{
+  } else {
     bit()
   }
 }
 
 #' @describeIn as.bit method to coerce to [bit()] from [`which()`][as.which]
 #' @export
-as.bit.which <- function(x, length=attr(x, "maxindex"), ...){
+as.bit.which <- function(x, length=attr(x, "maxindex"), ...) {
   if (is.na(length))
     stop("cannot coerce to bit from which object with unknown maxindex")
   b <- bit(length)
@@ -1006,7 +1006,7 @@ as.bit.which <- function(x, length=attr(x, "maxindex"), ...){
 
 #' @describeIn as.bit method to coerce to [bit()] from [ri()]
 #' @export
-as.bit.ri <- function(x, ...){
+as.bit.ri <- function(x, ...) {
   if (is.na(x[3]))
     stop("cannot coerce to bit from ri object with unknown maxindex")
   b <- bit(x[3])
@@ -1055,35 +1055,35 @@ NULL
 
 #' @rdname CoercionToStandard
 #' @export
-as.logical.bit <- function(x, ...){
+as.logical.bit <- function(x, ...) {
   l <- logical(length(x))
   .Call(C_R_bit_get_logical, x, l, c(1L, length(x)))
 }
 
 #' @rdname CoercionToStandard
 #' @export
-as.integer.bit <- function(x, ...){
+as.integer.bit <- function(x, ...) {
   l <- integer(length(x))
   .Call(C_R_bit_get_integer, x, l, c(1L, length(x)))
 }
 
 #' @rdname CoercionToStandard
 #' @export
-as.double.bit <- function(x, ...){
+as.double.bit <- function(x, ...) {
   l <- integer(length(x))
   as.double(.Call(C_R_bit_get_integer, x, l, c(1L, length(x))))
 }
 
 #' @rdname CoercionToStandard
 #' @export
-as.integer.bitwhich <- function(x, ...){
+as.integer.bitwhich <- function(x, ...) {
   n <- length(x)
-  if (is.logical(x)){
+  if (is.logical(x)) {
     if (sum(x)==n)
       rep(1L, n)
     else
       rep(0L, n)
-  }else{
+  } else {
     ret <- integer(n)
     ret[x] <- 1L
     ret
@@ -1092,14 +1092,14 @@ as.integer.bitwhich <- function(x, ...){
 
 #' @rdname CoercionToStandard
 #' @export
-as.double.bitwhich <- function(x, ...){
+as.double.bitwhich <- function(x, ...) {
   n <- length(x)
-  if (is.logical(x)){
+  if (is.logical(x)) {
     if (sum(x)==n)
       rep(1, n)
     else
       rep(0, n)
-  }else{
+  } else {
     ret <- double(n)
     ret[x] <- 1
     ret
@@ -1109,14 +1109,14 @@ as.double.bitwhich <- function(x, ...){
 
 #' @rdname CoercionToStandard
 #' @export
-as.logical.bitwhich <- function(x, ...){
+as.logical.bitwhich <- function(x, ...) {
   n <- length(x)
   p <- sum(x)
-  if (p==0){
+  if (p==0) {
     rep(FALSE, length(x))
-  }else if (p==n){
+  } else if (p==n) {
     rep(TRUE, length(x))
-  }else{
+  } else {
     ret <- logical(length(x))
     ret[x] <- TRUE
     ret
@@ -1125,7 +1125,7 @@ as.logical.bitwhich <- function(x, ...){
 
 #' @rdname CoercionToStandard
 #' @export
-as.logical.ri <- function(x, ...){
+as.logical.ri <- function(x, ...) {
   if (is.na(x[3]))
     stop("cannot coerce to logical from ri object with unknown maxindex")
   ret <- logical(x[3])
@@ -1135,7 +1135,7 @@ as.logical.ri <- function(x, ...){
 
 #' @rdname CoercionToStandard
 #' @export
-as.integer.ri <- function(x, ...){
+as.integer.ri <- function(x, ...) {
   if (is.na(x[3]))
     stop("cannot coerce to integer from ri object with unknown maxindex")
   ret <- integer(x[3])
@@ -1145,7 +1145,7 @@ as.integer.ri <- function(x, ...){
 
 #' @rdname CoercionToStandard
 #' @export
-as.double.ri <- function(x, ...){
+as.double.ri <- function(x, ...) {
   if (is.na(x[3]))
     stop("cannot coerce to integer from ri object with unknown maxindex")
   ret <- double(x[3])
@@ -1156,7 +1156,7 @@ as.double.ri <- function(x, ...){
 
 #' @rdname CoercionToStandard
 #' @export
-as.logical.which <- function(x, length=attr(x, "maxindex"), ...){
+as.logical.which <- function(x, length=attr(x, "maxindex"), ...) {
   if (is.na(length))
     stop("cannot coerce to logical from which object with unknown maxindex")
   l <- logical(length)
@@ -1182,7 +1182,7 @@ as.which.NULL <- function(x, ...) {
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [numeric()]
 #' @export
-as.which.numeric <- function(x, maxindex=NA_integer_, ...){
+as.which.numeric <- function(x, maxindex=NA_integer_, ...) {
   as.which(as.integer(x), maxindex=maxindex, ...)
 }
 
@@ -1217,7 +1217,7 @@ as.which.integer <- function(x, maxindex=NA_integer_, is.unsorted=TRUE, has.dup=
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [logical()]
 #' @export
-as.which.logical <- function(x, ...){
+as.which.logical <- function(x, ...) {
   ret <- which(x)
   setattributes(ret, list(maxindex = as.integer(length(x)), class = c("booltype", "which")))
   ret
@@ -1225,7 +1225,7 @@ as.which.logical <- function(x, ...){
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [ri()]
 #' @export
-as.which.ri <- function(x, ...){
+as.which.ri <- function(x, ...) {
   ret <- x[1]:x[2]
   setattributes(ret, list(maxindex = as.integer(x[3]), class = c("booltype", "which")))
   ret
@@ -1258,7 +1258,7 @@ as.which.bit <- function(x, range=NULL, ...) {
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [bitwhich()]
 #' @export
-as.which.bitwhich <- function(x, ...){
+as.which.bitwhich <- function(x, ...) {
   maxindex <- length(x)
   if (is.logical(x)) {
     if (maxindex && unclass(x))
@@ -1277,13 +1277,13 @@ as.which.bitwhich <- function(x, ...){
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] (zero length) from
 #'   [`NULL`][NULL]
 #' @export
-as.bitwhich.NULL <- function(x, ...){
+as.bitwhich.NULL <- function(x, ...) {
   bitwhich()
 }
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from [bitwhich()]
 #' @export
-as.bitwhich.bitwhich <- function(x, ...){
+as.bitwhich.bitwhich <- function(x, ...) {
   x
 }
 
@@ -1344,7 +1344,7 @@ as.bitwhich.double <- as.bitwhich.integer
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from [logical()]
 #' @export
-as.bitwhich.logical <- function(x, poslength=NULL, ...){
+as.bitwhich.logical <- function(x, poslength=NULL, ...) {
   maxindex <- length(x)
   if (maxindex==0) return(bitwhich())
   if (is.null(poslength))
@@ -1423,25 +1423,25 @@ xor.default <- function(x, y) {
 
 #' @describeIn xor [logical()] method for [xor()]
 #' @export
-xor.logical <- function(x, y){
+xor.logical <- function(x, y) {
   as.logical(x) != as.logical(y)
 }
 
 #' @describeIn xor [bit()] method for [`!`][Logic]
 #' @export
-`!.bit` <- function(x){
-  if (length(x)){
+`!.bit` <- function(x) {
+  if (length(x)) {
     ret <- copy_vector(x)
     setattributes(ret, attributes(x))
     .Call(C_R_bit_not, ret)
-  }else{
+  } else {
     x
   }
 }
 
 #' @describeIn xor [bit()] method for [`&`][Logic]
 #' @export
-`&.bit` <- function(e1, e2){
+`&.bit` <- function(e1, e2) {
   n <- c(length(e1), length(e2))
   if (any(n==0L))
     return(bit())
@@ -1455,7 +1455,7 @@ xor.logical <- function(x, y){
 
 #' @describeIn xor [bit()] method for [`|`][Logic]
 #' @export
-`|.bit` <- function(e1, e2){
+`|.bit` <- function(e1, e2) {
   n <- c(length(e1), length(e2))
   if (any(n==0L))
     return(bit())
@@ -1469,7 +1469,7 @@ xor.logical <- function(x, y){
 
 #' @describeIn xor [bit()] method for [`==`][Comparison]
 #' @export
-`==.bit` <- function(e1, e2){
+`==.bit` <- function(e1, e2) {
   n <- c(length(e1), length(e2))
   if (any(n==0L))
     return(bit())
@@ -1483,7 +1483,7 @@ xor.logical <- function(x, y){
 
 #' @describeIn xor [bit()] method for [`!=`][Comparison]
 #' @export
-`!=.bit` <- function(e1, e2){
+`!=.bit` <- function(e1, e2) {
   n <- c(length(e1), length(e2))
   if (any(n==0L))
     return(bit())
@@ -1497,7 +1497,7 @@ xor.logical <- function(x, y){
 
 #' @describeIn xor [bit()] method for [xor()]
 #' @export
-xor.bit <- function(x, y){
+xor.bit <- function(x, y) {
   n <- c(length(x), length(y))
   if (any(n==0L))
     return(bit())
@@ -1512,15 +1512,15 @@ xor.bit <- function(x, y){
 
 #' @describeIn xor [bitwhich()] method for [`!`][Logic]
 #' @export
-`!.bitwhich` <- function(x){
+`!.bitwhich` <- function(x) {
   n <- length(x)
   p <- sum(x)
   if (is.logical(x)) {
     if (n==0)
       bitwhich()
-    else if (p==n){
+    else if (p==n) {
       bitwhich(maxindex=n, FALSE, poslength=0L)
-    }else{
+    } else {
       bitwhich(maxindex=n, TRUE, poslength=n)
     }
   } else {
@@ -1535,7 +1535,7 @@ xor.bit <- function(x, y){
 
 #' @describeIn xor [bitwhich()] method for [`&`][Logic]
 #' @export
-`&.bitwhich` <- function(e1, e2){
+`&.bitwhich` <- function(e1, e2) {
   e1 <- as.bitwhich(e1)
   e2 <- as.bitwhich(e2)
   n <- c(length(e1), length(e2))
@@ -1552,20 +1552,20 @@ xor.bit <- function(x, y){
     return(e1)
   #negative <- p>(n%/%2L)
   negative <- c(unclass(e1)[1]<0, unclass(e2)[1]<0)
-  if (negative[1]){
-    if (negative[2]){
+  if (negative[1]) {
+    if (negative[2]) {
       ret <- merge_union(e1, e2, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
-    }else{
+    } else {
       ret <- merge_setdiff(e2, e1, revy=TRUE, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
     }
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism.
-    if (negative[2]){
+    if (negative[2]) {
       ret <- merge_setdiff(e1, e2, revy=TRUE, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
-    }else{
+    } else {
       ret <- merge_intersect(e1, e2, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
     }
@@ -1575,7 +1575,7 @@ xor.bit <- function(x, y){
 
 #' @describeIn xor [bitwhich()] method for [`|`][Logic]
 #' @export
-`|.bitwhich` <- function(e1, e2){
+`|.bitwhich` <- function(e1, e2) {
   e1 <- as.bitwhich(e1)
   e2 <- as.bitwhich(e2)
   n <- c(length(e1), length(e2))
@@ -1592,20 +1592,20 @@ xor.bit <- function(x, y){
     return(e1)
   #negative <- p>(n%/%2L)
   negative <- c(unclass(e1)[1]<0, unclass(e2)[1]<0)
-  if (negative[1]){
-    if (negative[2]){
+  if (negative[1]) {
+    if (negative[2]) {
       ret <- merge_intersect(e1, e2, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
-    }else{
+    } else {
       ret <- merge_setdiff(e1, e2, revy=TRUE, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
     }
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism.
-    if (negative[2]){
+    if (negative[2]) {
       ret <- merge_setdiff(e2, e1, revy=TRUE, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
-    }else{
+    } else {
       ret <- merge_union(e1, e2, method="exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
     }
@@ -1614,7 +1614,7 @@ xor.bit <- function(x, y){
 
 #' @describeIn xor [bitwhich()] method for [`==`][Comparison]
 #' @export
-`==.bitwhich` <- function(e1, e2){
+`==.bitwhich` <- function(e1, e2) {
   e1 <- as.bitwhich(e1)
   e2 <- as.bitwhich(e2)
   n <- c(length(e1), length(e2))
@@ -1633,20 +1633,20 @@ xor.bit <- function(x, y){
     return(e1)
   #negative <- p>(n%/%2L)
   negative <- c(unclass(e1)[1]<0, unclass(e2)[1]<0)
-  if (negative[1]){
-    if (negative[2]){
+  if (negative[1]) {
+    if (negative[2]) {
       ret <- merge_symdiff(e1, e2, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
-    }else{
+    } else {
       ret <- merge_symdiff(e1, e2, revx=TRUE, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
     }
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism.
-    if (negative[2]){
+    if (negative[2]) {
       ret <- merge_symdiff(e1, e2, revy=TRUE, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
-    }else{
+    } else {
       ret <- merge_symdiff(e1, e2, revx=TRUE, revy=TRUE, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
     }
@@ -1655,7 +1655,7 @@ xor.bit <- function(x, y){
 
 #' @describeIn xor [bitwhich()] method for [`!=`][Comparison]
 #' @export
-`!=.bitwhich` <- function(e1, e2){
+`!=.bitwhich` <- function(e1, e2) {
   e1 <- as.bitwhich(e1)
   e2 <- as.bitwhich(e2)
   n <- c(length(e1), length(e2))
@@ -1674,20 +1674,20 @@ xor.bit <- function(x, y){
     return(!e1)
   #negative <- p>(n%/%2L)
   negative <- c(unclass(e1)[1]<0, unclass(e2)[1]<0)
-  if (negative[1]){
-    if (negative[2]){
+  if (negative[1]) {
+    if (negative[2]) {
       ret <- merge_symdiff(e1, e2, revx=TRUE, revy=TRUE, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
-    }else{
+    } else {
       ret <- merge_symdiff(e1, e2, revy=TRUE, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
     }
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism.
-    if (negative[2]){
+    if (negative[2]) {
       ret <- merge_symdiff(e1, e2, revx=TRUE, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=n[1]-length(ret))
-    }else{
+    } else {
       ret <- merge_symdiff(e1, e2, method = "exact")
       bitwhich(maxindex=n[1], ret, poslength=length(ret))
     }
@@ -1701,7 +1701,7 @@ xor.bitwhich <- function(x, y) x != y
 #' @describeIn xor [booltype()] method for [`&`][Logic]
 #' @export &.booltype
 #' @export
-`&.booltype` <- function(e1, e2){
+`&.booltype` <- function(e1, e2) {
   # align booltype between logical and bitwhich
   b1 <- booltype(e1)
   b2 <- booltype(e2)
@@ -1711,13 +1711,13 @@ xor.bitwhich <- function(x, y) x != y
   # align length
   n1 <- length(e1)
   n2 <- length(e2)
-  if (n1 && n2){
-    if (n1 < n2){
+  if (n1 && n2) {
+    if (n1 < n2) {
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
       e1 <- rep(e1, length.out=n2)
       n1 <- n2
-    }else if (n2 < n1){
+    } else if (n2 < n1) {
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
       e2 <- rep(e2, length.out=n1)
@@ -1734,7 +1734,7 @@ xor.bitwhich <- function(x, y) x != y
 #' @describeIn xor [booltype()] method for [`|`][Logic]
 #' @export |.booltype
 #' @export
-`|.booltype` <- function(e1, e2){
+`|.booltype` <- function(e1, e2) {
   # align booltype between logical and bitwhich
   b1 <- booltype(e1)
   b2 <- booltype(e2)
@@ -1744,13 +1744,13 @@ xor.bitwhich <- function(x, y) x != y
   # align length
   n1 <- length(e1)
   n2 <- length(e2)
-  if (n1 && n2){
-    if (n1 < n2){
+  if (n1 && n2) {
+    if (n1 < n2) {
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
       e1 <- rep(e1, length.out=n2)
       n1 <- n2
-    }else if (n2 < n1){
+    } else if (n2 < n1) {
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
       e2 <- rep(e2, length.out=n1)
@@ -1767,7 +1767,7 @@ xor.bitwhich <- function(x, y) x != y
 #' @describeIn xor [booltype()] method for [`==`][Comparison]
 #' @export ==.booltype
 #' @export
-`==.booltype` <- function(e1, e2){
+`==.booltype` <- function(e1, e2) {
   # align booltype between logical and bitwhich
   b1 <- booltype(e1)
   b2 <- booltype(e2)
@@ -1777,13 +1777,13 @@ xor.bitwhich <- function(x, y) x != y
   # align length
   n1 <- length(e1)
   n2 <- length(e2)
-  if (n1 && n2){
-    if (n1 < n2){
+  if (n1 && n2) {
+    if (n1 < n2) {
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
       e1 <- rep(e1, length.out=n2)
       n1 <- n2
-    }else if (n2 < n1){
+    } else if (n2 < n1) {
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
       e2 <- rep(e2, length.out=n1)
@@ -1800,7 +1800,7 @@ xor.bitwhich <- function(x, y) x != y
 #' @describeIn xor [booltype()] method for [`!=`][Comparison]
 #' @export !=.booltype
 #' @export
-`!=.booltype` <- function(e1, e2){
+`!=.booltype` <- function(e1, e2) {
   # align booltype between logical and bitwhich
   b1 <- booltype(e1)
   b2 <- booltype(e2)
@@ -1810,13 +1810,13 @@ xor.bitwhich <- function(x, y) x != y
   # align length
   n1 <- length(e1)
   n2 <- length(e2)
-  if (n1 && n2){
-    if (n1 < n2){
+  if (n1 && n2) {
+    if (n1 < n2) {
       if (n2%%n1)
         warning("longer object length is not a multiple of shorter object length")
       e1 <- rep(e1, length.out=n2)
       n1 <- n2
-    }else if (n2 < n1){
+    } else if (n2 < n1) {
       if (n1%%n2)
         warning("longer object length is not a multiple of shorter object length")
       e2 <- rep(e2, length.out=n1)
@@ -1833,7 +1833,7 @@ xor.bitwhich <- function(x, y) x != y
 #' @describeIn xor [booltype()] method for [xor()]
 #' @export xor.booltype
 #' @export
-xor.booltype <- function(x, y){
+xor.booltype <- function(x, y) {
   x != y
 }
 
@@ -1997,7 +1997,7 @@ summary.bit <- function(object, range=NULL, ...) {
 
 #' @rdname Summaries
 #' @export
-all.bitwhich <- function(x, range=NULL, ...){
+all.bitwhich <- function(x, range=NULL, ...) {
   if (is.null(range)) return(attr(x, "poslength") == attr(x, "maxindex"))
   y <- bitwhich_representation(x)
   range <- as.integer(range)
@@ -2015,7 +2015,7 @@ all.bitwhich <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-any.bitwhich <- function(x, range=NULL, ...){
+any.bitwhich <- function(x, range=NULL, ...) {
   if (is.null(range)) return(attr(x, "poslength") > 0L)
   y <- bitwhich_representation(x)
   range <- as.integer(range)
@@ -2055,9 +2055,9 @@ sum.bitwhich <- function(x, range=NULL, ...) {
 
 #' @rdname Summaries
 #' @export
-min.bitwhich <- function(x, range=NULL, ...){
+min.bitwhich <- function(x, range=NULL, ...) {
   y <- bitwhich_representation(x)
-  if (is.logical(y)){
+  if (is.logical(y)) {
     if (length(y) && y)
       1L
     else
@@ -2080,9 +2080,9 @@ min.bitwhich <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-max.bitwhich <- function(x, range=NULL, ...){
+max.bitwhich <- function(x, range=NULL, ...) {
   y <- bitwhich_representation(x)
-  if (is.logical(y)){
+  if (is.logical(y)) {
     if (length(y) && y)
       length(x)
     else
@@ -2105,13 +2105,13 @@ max.bitwhich <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-range.bitwhich <- function(x, range=NULL, ...){
+range.bitwhich <- function(x, range=NULL, ...) {
   c(min(x, range=range, ...), max(x, range=range, ...))
 }
 
 #' @rdname Summaries
 #' @export
-summary.bitwhich <- function(object, range=NULL, ...){
+summary.bitwhich <- function(object, range=NULL, ...) {
   n <- attr(object, "maxindex")
   p <- attr(object, "poslength")
   r <- range(object)
@@ -2149,10 +2149,10 @@ sum.which <- function(x, range=NULL, ...) {
 
 #' @rdname Summaries
 #' @export
-min.which <- function(x, range=NULL, ...){
-  if (is.null(range)){
+min.which <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     merge_first(x)
-  }else{
+  } else {
     range <- as.integer(range)
     merge_firstin(range, x)
   }
@@ -2160,10 +2160,10 @@ min.which <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-max.which <- function(x, range=NULL, ...){
-  if (is.null(range)){
+max.which <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     merge_last(x)
-  }else{
+  } else {
     range <- as.integer(range)
     merge_lastin(range, x)
   }
@@ -2171,13 +2171,13 @@ max.which <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-range.which <- function(x, range=NULL, ...){
+range.which <- function(x, range=NULL, ...) {
   c(min(x, range=range, ...), max(x, range=range, ...))
 }
 
 #' @rdname Summaries
 #' @export
-summary.which <- function(object, range=NULL, ...){
+summary.which <- function(object, range=NULL, ...) {
   n <- attr(object, "maxindex")
   p <- attr(object, "poslength")
   r <- range(object)
@@ -2187,7 +2187,7 @@ summary.which <- function(object, range=NULL, ...){
 #' @rdname Summaries
 #' @export all.booltype
 #' @export
-all.booltype <- function(x, range=NULL, ...){
+all.booltype <- function(x, range=NULL, ...) {
   switch(as.character(booltype(x)),
     nobool=all.bit(as.bit(x), range=range, ...),
     logical=all.bit(as.bit(x), range=range, ...),
@@ -2202,7 +2202,7 @@ all.booltype <- function(x, range=NULL, ...){
 #' @rdname Summaries
 #' @export any.booltype
 #' @export
-any.booltype <- function(x, range=NULL, ...){
+any.booltype <- function(x, range=NULL, ...) {
   switch(as.character(booltype(x)),
     nobool=any.bit(as.bit(x), range=range, ...),
     logical=any.bit(as.bit(x), range=range, ...),
@@ -2233,7 +2233,7 @@ anyNA.booltype <- function(x, ...) {
 #' @rdname Summaries
 #' @export sum.booltype
 #' @export
-sum.booltype <- function(x, range=NULL, ...){
+sum.booltype <- function(x, range=NULL, ...) {
   switch(as.character(booltype(x)),
     nobool=sum.bit(as.bit(x), range=range, ...),
     logical=sum.bit(as.bit(x), range=range, ...),
@@ -2248,7 +2248,7 @@ sum.booltype <- function(x, range=NULL, ...){
 #' @rdname Summaries
 #' @export min.booltype
 #' @export
-min.booltype <- function(x, range=NULL, ...){
+min.booltype <- function(x, range=NULL, ...) {
   switch(as.character(booltype(x)),
     nobool=min.bit(as.bit(x), range=range, ...),
     logical=min.bit(as.bit(x), range=range, ...),
@@ -2263,7 +2263,7 @@ min.booltype <- function(x, range=NULL, ...){
 #' @rdname Summaries
 #' @export max.booltype
 #' @export
-max.booltype <- function(x, range=NULL, ...){
+max.booltype <- function(x, range=NULL, ...) {
   switch(as.character(booltype(x)),
     nobool=max.bit(as.bit(x), range=range, ...),
     logical=max.bit(as.bit(x), range=range, ...),
@@ -2278,7 +2278,7 @@ max.booltype <- function(x, range=NULL, ...){
 #' @rdname Summaries
 #' @export range.booltype
 #' @export
-range.booltype <- function(x, range=NULL, ...){
+range.booltype <- function(x, range=NULL, ...) {
   switch(as.character(booltype(x)),
     nobool=range.bit(as.bit(x), range=range, ...),
     logical=range.bit(as.bit(x), range=range, ...),
@@ -2293,7 +2293,7 @@ range.booltype <- function(x, range=NULL, ...){
 #' @rdname Summaries
 #' @export summary.booltype
 #' @export
-summary.booltype <- function(object, range=NULL, ...){
+summary.booltype <- function(object, range=NULL, ...) {
   switch(as.character(booltype(object)),
     nobool=summary.bit(as.bit(object), range=range, ...),
     logical=summary.bit(as.bit(object), range=range, ...),
@@ -2346,7 +2346,7 @@ NULL
 
 #' @rdname Extract
 #' @export
-`[[.bit` <- function(x, i){
+`[[.bit` <- function(x, i) {
   if (length(i)!=1L)
     stop("subscript length not 1")
   if (!is.numeric(i))
@@ -2361,7 +2361,7 @@ NULL
 
 #' @rdname Extract
 #' @export
-`[[<-.bit` <- function(x, i, value){
+`[[<-.bit` <- function(x, i, value) {
   if (length(i)!=1L)
     stop("subscript length not 1")
   if (length(value)!=1)
@@ -2379,7 +2379,7 @@ NULL
 
 #' @rdname Extract
 #' @export
-`[.bit` <- function(x, i){
+`[.bit` <- function(x, i) {
   nx <- length(x)
   if (missing(i)) {
     ret <- logical(nx)
@@ -2443,7 +2443,7 @@ NULL
 
 #' @rdname Extract
 #' @export
-`[<-.bit` <- function(x, i, value){
+`[<-.bit` <- function(x, i, value) {
   nx <- length(x)
   value <- as.logical(value)
   nv <- length(value)
@@ -2503,7 +2503,7 @@ NULL
           }
         }
       }
-      if (nv != ni){
+      if (nv != ni) {
         if (nv==0L)
           stop("replacement has length zero")
         if (ni %% nv)
@@ -2535,25 +2535,25 @@ NULL
 #' x[3] <- TRUE
 #' in.bitwhich(c(NA, 2, 3), x)
 #' @export
-in.bitwhich <- function(x, table, is.unsorted=NULL){
+in.bitwhich <- function(x, table, is.unsorted=NULL) {
   x <- as.integer(x)
   if (is.null(is.unsorted))
     is.unsorted <- !is.bitwhich(table)
-  if (is.logical(table)){
-    if (length(table) && table){
+  if (is.logical(table)) {
+    if (length(table) && table) {
       1L <= x & x <= length(table)
-    }else{
+    } else {
       rep(FALSE, length(x))
     }
-  }else{
+  } else {
     y <- bitwhich_representation(table)
-    if (length(x)>1L && is.unsorted){
+    if (length(x)>1L && is.unsorted) {
       if (y[1]>0L)
         !is.na(match(x, table))
       else
         is.na(match(-x, table))
 
-    }else{
+    } else {
       # nolint next: unnecessary_nesting_linter. Good parallelism.
       if (y[1]>0L)
         merge_in(x, table)
@@ -2566,7 +2566,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 
 #' @rdname Extract
 #' @export
-`[[.bitwhich` <- function(x, i){
+`[[.bitwhich` <- function(x, i) {
   if (length(i)!=1L)
     stop("subscript length not 1")
   if (!is.numeric(i))
@@ -2585,7 +2585,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 
 #' @rdname Extract
 #' @export
-`[[<-.bitwhich` <- function(x, i, value){
+`[[<-.bitwhich` <- function(x, i, value) {
   if (length(i)!=1L)
     stop("subscript length not 1")
   if (length(value)!=1L)
@@ -2604,7 +2604,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
   y <- bitwhich_representation(x)
   if (is.logical(y)) {
     if (length(y)) {
-      if (value == y){
+      if (value == y) {
         if (i>n)
           length(x) <- i
         return(x)
@@ -2643,7 +2643,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 
 #' @rdname Extract
 #' @export
-`[.bitwhich` <- function(x, i){
+`[.bitwhich` <- function(x, i) {
   nx <- length(x)
   if (missing(i)) {
     ret <- as.logical(x)
@@ -2707,7 +2707,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 
 #' @rdname Extract
 #' @export
-`[<-.bitwhich` <- function(x, i, value){
+`[<-.bitwhich` <- function(x, i, value) {
   nx <- length(x)
   value <- as.logical(value)
   if (anyNA(value))
@@ -2742,7 +2742,7 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
       return(x)
     }
   } else if (is.numeric(i)) {
-    if (nv>1L){
+    if (nv>1L) {
       b <- as.bit(x)
       b[i] <- value
       ret <- as.bitwhich(b)
@@ -2784,13 +2784,13 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
       }
       if (nv==0L)
         stop("replacement has length zero")
-      if (biggest_mentioned_index>nx){
+      if (biggest_mentioned_index>nx) {
         length(x) <- biggest_mentioned_index
         nx <- biggest_mentioned_index
       }
       y <- bitwhich_representation(x)
-      if (is.logical(y)){
-        if (value == y){
+      if (is.logical(y)) {
+        if (value == y) {
           # assignment doesn't change anything
           return(x)
         } else if (value) {
@@ -2933,10 +2933,10 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 #'  bit(12)[ri(1, 6)]
 #'
 #' @export ri
-ri <- function(from, to=NULL, maxindex=NA){
-  if (is.null(to)){
+ri <- function(from, to=NULL, maxindex=NA) {
+  if (is.null(to)) {
     x <- as.integer(c(from, maxindex))
-  }else{
+  } else {
     x <- as.integer(c(from, to, maxindex))
   }
   maxindex = maxindex
@@ -2965,8 +2965,8 @@ length.ri <- function(x)x[[3]]
 
 #' @rdname Summaries
 #' @export
-all.ri <- function(x, range=NULL, ...){
-  if (is.null(range)){
+all.ri <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range[[1]] <- 1L
     range[[2]] <- x[[3]]
   }
@@ -2975,8 +2975,8 @@ all.ri <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-any.ri <- function(x, range=NULL, ...){
-  if (is.null(range)){
+any.ri <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range[[1]] <- 1L
     range[[2]] <- x[[3]]
   }
@@ -2989,7 +2989,7 @@ anyNA.ri <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
-sum.ri <- function(x, ...){
+sum.ri <- function(x, ...) {
   if (any(names(match.call(expand.dots = TRUE))=="range") && !is.null(list(...)$range))
     stop("parameter 'range' allowed only for 'bit' but not for 'ri'")
   x[[2]] - x[[1]] + 1L
@@ -2997,7 +2997,7 @@ sum.ri <- function(x, ...){
 
 #' @rdname Summaries
 #' @export
-min.ri <- function(x, ...){
+min.ri <- function(x, ...) {
   if (any(names(match.call(expand.dots = TRUE))=="range") && !is.null(list(...)$range))
     stop("parameter 'range' allowed only for 'bit' but not for 'ri'")
   x[[1]]
@@ -3005,7 +3005,7 @@ min.ri <- function(x, ...){
 
 #' @rdname Summaries
 #' @export
-max.ri <- function(x, ...){
+max.ri <- function(x, ...) {
   if (any(names(match.call(expand.dots = TRUE))=="range") && !is.null(list(...)$range))
     stop("parameter 'range' allowed only for 'bit' but not for 'ri'")
   x[[2]]
@@ -3013,7 +3013,7 @@ max.ri <- function(x, ...){
 
 #' @rdname Summaries
 #' @export
-range.ri <- function(x, ...){
+range.ri <- function(x, ...) {
   if (any(names(match.call(expand.dots = TRUE))=="range") && !is.null(list(...)$range))
     stop("parameter 'range' allowed only for 'bit' but not for 'ri'")
   x[1:2]
@@ -3021,7 +3021,7 @@ range.ri <- function(x, ...){
 
 #' @rdname Summaries
 #' @export
-summary.ri <- function(object, ...){
+summary.ri <- function(object, ...) {
   if (any(names(match.call(expand.dots = TRUE))=="range") && !is.null(list(...)$range))
     stop("parameter 'range' allowed only for 'bit' but not for 'ri'")
   s <- object[[2]] - object[[1]] + 1L
@@ -3031,34 +3031,34 @@ summary.ri <- function(object, ...){
 # this version without vmode() will be overwritte by the version in package ff
 #' @rdname PhysVirt
 #' @export
-physical.default <- function(x){
+physical.default <- function(x) {
   p <- attributes(attr(x, "physical"))
   p <- p[is.na(match(names(p), "class"))]
   p
 }
 #' @rdname PhysVirt
 #' @export
-`physical<-.default` <- function(x, value){
+`physical<-.default` <- function(x, value) {
   attributes(attr(x, "physical")) <- c(value, list(class="physical"))
   x
 }
 
 #' @rdname PhysVirt
 #' @export
-virtual.default <- function(x){
+virtual.default <- function(x) {
   v <- attributes(attr(x, "virtual"))
   v[is.na(match(names(v), "class"))]
 }
 #' @rdname PhysVirt
 #' @export
-`virtual<-.default` <- function(x, value){
+`virtual<-.default` <- function(x, value) {
   attributes(attr(x, "virtual")) <- c(value, list(class="virtual"))
   x
 }
 
 #' @rdname PhysVirt
 #' @export
-print.physical <- function(x, ...){
+print.physical <- function(x, ...) {
   cat(
     "(hidden, use physical(x) to access the physical attributes and vmode(x) for accessing vmode)\n"
   )
@@ -3067,7 +3067,7 @@ print.physical <- function(x, ...){
 
 #' @rdname PhysVirt
 #' @export
-print.virtual <- function(x, ...){
+print.virtual <- function(x, ...) {
   cat("(hidden, use virtual(x) to access the virtual attributes)\n")
   invisible()
 }

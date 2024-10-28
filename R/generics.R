@@ -26,7 +26,7 @@
 #' l <- as.logical(r)
 #' u <- which(l)      # unclassed which
 #'
-#' sapply(list(r=r, u=u, i=i, w=w, b=b, l=l), function(x){
+#' sapply(list(r=r, u=u, i=i, w=w, b=b, l=l), function(x) {
 #'   c(length=length(x), sum=sum(x), maxindex=maxindex(x), poslength=poslength(x))
 #' })
 #' @export

@@ -22,9 +22,9 @@
 ## z <- x
 ## get_refcnt(x)
 ##
-#get_refcnt <- function(x){
+#get_refcnt <- function(x) {
 #  y <- substitute(x)
-#  if (is.name(y)){
+#  if (is.name(y)) {
 #    .Call(C_R_get_refcnt, get(as.character(y), envir=parent.frame()))
 #  } else
 #    stop("x must be the name of an object")
@@ -51,7 +51,7 @@
 ## get_refcnt(x)
 ## z <- x
 ## get_refcnt(x)
-#set_refcnt <- function(x, refcnt=1L){
+#set_refcnt <- function(x, refcnt=1L) {
 #  invisible(.Call(C_R_set_refcnt, x, as.integer(refcnt)))
 #}
 
@@ -76,13 +76,13 @@
 ## f(x)
 ## f(0)
 ## try(get_parent_refcnt(0))
-#get_parent_refcnt <- function(x){
+#get_parent_refcnt <- function(x) {
 #  y <- substitute(x)
-#  if (is.name(y)){
+#  if (is.name(y)) {
 #    z <- eval(call("substitute", y), parent.frame())
-#    if (is.name(z)){
+#    if (is.name(z)) {
 #      .Call(C_R_get_refcnt, get(as.character(z), envir=parent.frame(2)))
-#    }else
+#    } else
 #      0L
 #  } else
 #    stop("x must be the name of an object")
@@ -106,7 +106,7 @@
 #' length(bit(12))
 #' get_length(bit(12))
 #' @export
-get_length <- function(x){
+get_length <- function(x) {
   .Call(C_R_get_length, x)
 }
 
@@ -123,7 +123,7 @@ get_length <- function(x){
 #' still.identical(y, x)
 #' still.identical(z, x)
 #' @export
-still.identical <- function(x, y){
+still.identical <- function(x, y) {
   .Call(C_R_still_identical, x = x, y = y)
 }
 
@@ -148,7 +148,7 @@ still.identical <- function(x, y){
 #' str(y)
 #' str(z)
 #' @export
-copy_vector <- function(x, revx=FALSE){
+copy_vector <- function(x, revx=FALSE) {
   .Call(C_R_copy_vector, x, as.logical(revx))
 }
 
@@ -172,7 +172,7 @@ copy_vector <- function(x, revx=FALSE){
 #' system.time(reverse_vector(x))
 #' }
 #' @export
-reverse_vector <- function(x){
+reverse_vector <- function(x) {
   .Call(C_R_reverse_vector, x)
 }
 
@@ -193,6 +193,6 @@ reverse_vector <- function(x){
 #' system.time(reverse_vector(x))
 #' }
 #' @export
-firstNA <- function(x){
+firstNA <- function(x) {
   .Call(C_R_firstNA, x)
 }

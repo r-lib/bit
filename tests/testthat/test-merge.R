@@ -1,5 +1,5 @@
 # map NAs to position 1
-NAtab <- function(x, nbins=max(1L, x, na.rm = TRUE)){
+NAtab <- function(x, nbins=max(1L, x, na.rm = TRUE)) {
   force(nbins)
   x <- x + 1L
   x[is.na(x)] <- 1L
@@ -98,15 +98,15 @@ test_that("positive merging is OK with NAs", {
 
 test_that("reversed merging is OK (without NAs)", {
   set.seed(1)
-  for (i in 1:24){
+  for (i in 1:24) {
     x <- sort.int(sample(9, replace=TRUE), na.last=FALSE, method="quick")
     y <- sort.int(sample(9, replace=TRUE), na.last=FALSE, method="quick")
-    for (revx in c(FALSE, TRUE)){
+    for (revx in c(FALSE, TRUE)) {
       if (revx)
         rx <- rev(-x)
       else
         rx <- x
-      for (revy in c(FALSE, TRUE)){
+      for (revy in c(FALSE, TRUE)) {
         if (revy)
           ry <- rev(-y)
         else
@@ -159,20 +159,20 @@ test_that("for-looped merging is OK (without NAs)", {
   nx <- 9
   x <- 1:nx
   set.seed(1)
-  for (i in 1:12){
+  for (i in 1:12) {
     y <- sort.int(sample(nx, replace=TRUE), na.last=FALSE, method="quick")
-    for (revx in c(FALSE, TRUE)){
-      if (revx){
+    for (revx in c(FALSE, TRUE)) {
+      if (revx) {
         rx <- rev(-x)
         rnx <- c(-nx, -1L)
-      }else{
+      } else {
         rx <- x
         rnx <- c(1L, nx)
       }
-      for (revy in c(FALSE, TRUE)){
-        if (revy){
+      for (revy in c(FALSE, TRUE)) {
+        if (revy) {
           ry <- rev(-y)
-        }else{
+        } else {
           ry <- y
         }
         eval(substitute(expect_identical(
