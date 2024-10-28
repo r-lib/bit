@@ -67,7 +67,7 @@
 ## @seealso [get_refcnt()], [set_refcnt()]
 ##
 ## @examples
-## f <- function(x)c(refcnt=get_refcnt(x), parent_refcnt=get_parent_refcnt(x))
+## f <- function(x) c(refcnt=get_refcnt(x), parent_refcnt=get_parent_refcnt(x))
 ## x <- integer()
 ## f(x)
 ## y <- x

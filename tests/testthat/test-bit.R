@@ -275,7 +275,7 @@ test_that("boolean operations work", {
   N <- c(1L, .BITS-1L, .BITS, .BITS+1L)
   X <- c(rev(-N), N)
   N <- c(0L, N)
-  fx <- function(x, n)as.integer(sign(x))*sample(n, abs(x))
+  fx <- function(x, n) as.integer(sign(x))*sample(n, abs(x))
   for (n in N) {
     for (x1 in X[abs(X)<=abs(n)]) {
       for (x2 in X[abs(X)<=abs(n)]) {
@@ -528,7 +528,7 @@ test_that("aggregation functions work", {
     bit=as.bit,
     bitwhich=as.bitwhich,
     which=as.which,
-    ri=function(x)x
+    ri=function(x) x
   )
   S1 <- list(any=any, all=all, sum=sum)
   S2 <- list(

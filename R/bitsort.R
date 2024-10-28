@@ -255,7 +255,7 @@ bitsort <- function(x, na.last=NA, depth=1) {
 #   dimnames(x) <- dimnames(tim[, , 1])
 #   y <- tim[cbind(as.vector(row(x)), as.vector(col(x)), match(as.vector(x), M))]
 #   attributes(y) <- attributes(x)
-#   apply(tim, 1:2, function(x) {i <- which.min(x); if (length(i))M[i] else "."}) |>
+#   apply(tim, 1:2, function(x) {i <- which.min(x); if (length(i)) M[i] else "."}) |>
 #     print(quote=FALSE)
 #   print(x, quote=F)
 #   round(y / apply(tim[, , -4], 1:2, min, na.rm=T), 1)

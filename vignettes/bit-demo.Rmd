@@ -112,7 +112,7 @@ as.which(b1, range=c(1, 1000))
 for filtered chunked looping
 
 ```{r}
-lapply(chunk(from=1, to=n, length=10), function(i)as.which(b1, range=i))
+lapply(chunk(from=1, to=n, length=10), function(i) as.which(b1, range=i))
 ```
 
 over large ff vectors
@@ -121,7 +121,7 @@ over large ff vectors
 options(ffbatchbytes=1024^3)
 x <- ff(vmode="single", length=n)
 x[1:1000] <- runif(1000)
-lapply(chunk(x, length.out = 10), function(i)sum(x[as.hi(b1, range=i)]))
+lapply(chunk(x, length.out = 10), function(i) sum(x[as.hi(b1, range=i)]))
 ```
 
 and wrap-up
