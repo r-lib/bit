@@ -239,7 +239,7 @@ test_that("coercions work", {
   }
 
   set.seed(1)
-  for (k in 0:(3*.BITS)){
+  for (k in 0:(3*.BITS)) {
     l <- sample(c(FALSE, TRUE), k, TRUE)
     expect_identical(as.logical(as.bit(l)), l)
     expect_identical(as.logical(as.bit(as.bit(l))), l)
@@ -248,7 +248,7 @@ test_that("coercions work", {
     expect_identical(as.logical(as.bitwhich(as.bitwhich(l))), l)
   }
   set.seed(1)
-  for (k in 0:(3*.BITS)){
+  for (k in 0:(3*.BITS)) {
     l <- sample(c(NA, FALSE, TRUE), k, TRUE)
     b <- as.bit(l)
     expect_identical(as.bit(as.bit(l)), b)
@@ -258,7 +258,7 @@ test_that("coercions work", {
     expect_identical(as.bit(as.bitwhich(as.bitwhich(l))), b)
   }
   set.seed(1)
-  for (k in 0:(3*.BITS)){
+  for (k in 0:(3*.BITS)) {
     i <- sample(-2:2, k, TRUE)
     expect_identical(as.logical(as.bit(i)), as.logical(i))
     expect_identical(as.logical(as.bitwhich(i)), as.logical(i))
@@ -276,9 +276,9 @@ test_that("boolean operations work", {
   X <- c(rev(-N), N)
   N <- c(0L, N)
   fx <- function(x, n)as.integer(sign(x))*sample(n, abs(x))
-  for (n in N){
-    for (x1 in X[abs(X)<=abs(n)]){
-      for (x2 in X[abs(X)<=abs(n)]){
+  for (n in N) {
+    for (x1 in X[abs(X)<=abs(n)]) {
+      for (x2 in X[abs(X)<=abs(n)]) {
         set.seed(1)
         w1 <- bitwhich(n, fx(x1, n))
         w2 <- bitwhich(n, fx(x2, n))
@@ -286,7 +286,7 @@ test_that("boolean operations work", {
         l2 <- as.logical(w2)
         b1 <- as.bit(l1)
         b2 <- as.bit(l2)
-        fun <- function(x1, x2, f){
+        fun <- function(x1, x2, f) {
           eval(substitute(
             expect_identical(f(!x1), !f(x1)),
             list(x1=x1, f=f)
@@ -314,7 +314,7 @@ test_that("boolean operations work", {
         }
         fun(w1, w2, as.logical)
         fun(b1, b2, as.logical)
-        fun <- function(x1, x2, f){
+        fun <- function(x1, x2, f) {
           eval(substitute(
             expect_identical(x1 & x2, f(x1) & f(x2)),
             list(x1=x1, x2=x2, f=f)
@@ -414,7 +414,7 @@ test_that("subscript operations work", {
         I <- J[abs(J)<=n]
         I <- lapply(I, fi, n=n)
         I <- c(list(FALSE, TRUE), I, lapply(I, as.which, maxindex=n))
-        for (i in I){
+        for (i in I) {
           v <- l[i]
           eval(substitute(expect_identical(b[i], v, ignore_attr="vmode"), list(b=b, i=i, v=v)))
           eval(substitute(expect_identical(w[i], v, ignore_attr="vmode"), list(w=w, i=i, v=v)))
@@ -430,7 +430,7 @@ test_that("subscript operations work", {
             w2[i] <- !v
             expect_identical(w2, as.bitwhich(l2))
           }))
-          if (length(v)>1 && (length(v)%%2L) == 0){
+          if (length(v)>1 && (length(v)%%2L) == 0) {
             v2 <- !v[seq_len(ceiling(length(v)/2))]
             l2 <- l
             l2[i] <- v2
@@ -446,11 +446,11 @@ test_that("subscript operations work", {
             }))
           }
         }
-        I <- lapply(1:1, function(x){
+        I <- lapply(1:1, function(x) {
           i <- quicksort2(sample(n, 2, TRUE))
           ri(i[1], i[2], n)
         })
-        for (i in I){
+        for (i in I) {
           i2 <- i[1]:i[2]
           v <- l[i2]
           eval(substitute(expect_identical(b[i], v, ignore_attr="vmode"), list(b=b, i=i, v=v)))
@@ -468,7 +468,7 @@ test_that("subscript operations work", {
             w2[i] <- !v
             expect_identical(w2, as.bitwhich(l2))
           }))
-          if (length(v)>1 && (length(v)%%2L) == 0){
+          if (length(v)>1 && (length(v)%%2L) == 0) {
             v2 <- !v[seq_len(ceiling(length(v)/2))]
             l2[i2] <- v2
             eval(substitute(env = list(b=b, i=i, v2=v2, l2=l2), {

@@ -53,7 +53,7 @@ delete the non-names attributes like \code{\link[=attributes]{attributes()}} doe
   # restart R
   library(bit)
 
-  mysingle <- function(length = 0){
+  mysingle <- function(length = 0) {
     ret <- double(length)
     setattr(ret, "Csingle", TRUE)
     ret
@@ -88,11 +88,11 @@ delete the non-names attributes like \code{\link[=attributes]{attributes()}} doe
   # restart R
   library(bit)
 
-  simplefactor <- function(n){
+  simplefactor <- function(n) {
     factor(rep(1:2, length.out=n))
   }
 
-  mysimplefactor <- function(n){
+  mysimplefactor <- function(n) {
     ret <- rep(1:2, length.out=n)
     setattr(ret, "levels", as.character(1:2))
     setattr(ret, "class", "factor")

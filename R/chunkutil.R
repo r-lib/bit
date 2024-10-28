@@ -12,25 +12,25 @@
 
 # non-vectorized
 #bbatch <-
-#function(N, B){
+#function(N, B) {
 #  N <- as.integer(N)
 #  B <- as.integer(B)
 #  RB <- N %% B
 #  NB <- N %/% B
-#  if (RB){
+#  if (RB) {
 #    cc <- min((B - RB) %/% NB, (B - RB) %/% (NB + 1L))
-#    if (cc){
+#    if (cc) {
 #      rb <- RB + cc * NB
 #      b <- B - cc
-#      if (rb==b){
+#      if (rb==b) {
 #        return(list(b=b, nb=NB+1L, rb=0L))
-#      }else{
+#      } else {
 #        return(list(b=b, nb=NB, rb=rb))
 #      }
-#    }else{
+#    } else {
 #      return(list(b=B, nb=NB, rb=RB))
 #    }
-#  }else{
+#  } else {
 #    return(list(b=B, nb=NB, rb=RB))
 #  }
 #}
@@ -58,7 +58,7 @@
 #'   bbatch(100, 24)
 #'
 #' @export
-bbatch <- function(N, B){
+bbatch <- function(N, B) {
   if (any(B<1))
     stop("B too small")
   if (any(N<0))
@@ -107,7 +107,7 @@ bbatch <- function(N, B){
 #'   repfromto(0:9, 11, 20)
 #'
 #' @export
-repfromto <- function(x, from, to){
+repfromto <- function(x, from, to) {
   nx <- length(x)
   if (!nx) {
     return(NA[from:to])
@@ -139,22 +139,22 @@ repfromto <- function(x, from, to){
 
 #' @rdname repfromto
 #' @export
-`repfromto<-` <- function(x, from, to, value){
+`repfromto<-` <- function(x, from, to, value) {
   x[from:to] <- value
   x
 }
 
 
-if (FALSE){
+if (FALSE) {
   x <- 1:10
   for (n in 1:20)
-  for (i1 in 1:30){
+  for (i1 in 1:30) {
     i2 <- i1+n-1
     cat(i1, i2, "|", repfromto(x, i1, i2), "\n")
   }
 }
 
-if (FALSE){
+if (FALSE) {
   intseq <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL) {
     if (is.null(from)) {
       if (is.null(to))
@@ -189,8 +189,8 @@ if (FALSE){
       }
     }
 
-    if (is.null(length.out)){
-      if (is.null(along.with)){
+    if (is.null(length.out)) {
+      if (is.null(along.with)) {
         if (is.null(to) || is.null(from))
           stop("not enough info to guess the length.out")
         length.out <- n %/% by + 1L
@@ -257,7 +257,7 @@ if (FALSE){
 #' z
 #'
 #' z <- 0L; n <- m*k;
-#' print(system.time(for (ch in chunks(1, n, by=m)){for (i in ch[1]:ch[2])z <- i}))
+#' print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2])z <- i}))
 #' z
 #'
 #' message("Seven ways to calculate sum(1:n).
@@ -275,11 +275,11 @@ if (FALSE){
 #' print(system.time(sum(as.double(1:n))))
 #'
 #' z <- 0; n <- m*k
-#' print(system.time(for (ch in chunks(1, n, by=m)){for (i in ch[1]:ch[2])z <- z + i}))
+#' print(system.time(for (ch in chunks(1, n, by=m)) {for (i in ch[1]:ch[2])z <- z + i}))
 #' z
 #'
 #' z <- 0; n <- m*k
-#' print(system.time(for (ch in chunks(1, n, by=m)){z <- z+sum(as.double(ch[1]:ch[2]))}))
+#' print(system.time(for (ch in chunks(1, n, by=m)) {z <- z+sum(as.double(ch[1]:ch[2]))}))
 #' z
 #'    }
 #'
@@ -295,7 +295,7 @@ chunks <- function(
   maxindex = NA
 ) {
   method <- match.arg(method)
-  if (!is.null(along.with)){
+  if (!is.null(along.with)) {
     if (is.null(from))
       from <- 1L
     else if (length(from)==1)
@@ -395,7 +395,7 @@ chunks <- function(
 #'   chunk(from=1, to=100, by=10)
 #'
 #' @export
-chunk <- function(x = NULL, ...){
+chunk <- function(x = NULL, ...) {
   if (is.null(x))
     return(chunks(...))
   UseMethod("chunk")
@@ -417,15 +417,15 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
   if (is.na(RECORDBYTES) || RECORDBYTES == 0L)
     stop("RECORDBYTES not above zero, probably due to unknown type resp. vmode")
   n <- length(x)
-  if (n){
+  if (n) {
     l <- list(...)
     if (is.null(l$from))
       l$from <- 1L
     if (is.null(l$to))
       l$to <- n
-    if (is.null(l$by) && is.null(l$len)){
+    if (is.null(l$by) && is.null(l$len)) {
       b <- pmin(BATCHBYTES %/% RECORDBYTES, .Machine$integer.max)
-      if (b==0L){
+      if (b==0L) {
         b <- 1L
         warning("single record does not fit into BATCHBYTES")
       }
@@ -433,7 +433,7 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
     }
     l$maxindex <- n
     ret <- do.call("chunks", l)
-  }else{
+  } else {
     ret <- list()
   }
   ret
@@ -474,7 +474,7 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
 #'   vecseq(c(1, 11), c(5, 15), concat=TRUE, eval=TRUE)
 #'
 #' @export
-vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
+vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE) {
   if (missing(y)) {
     y <- x
     x <- 1L
