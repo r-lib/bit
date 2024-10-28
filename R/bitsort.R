@@ -233,7 +233,8 @@ bitsort <- function(x, na.last=NA, depth=1) {
 #         #tim[di, ni, "r"] <- microbenchmark(radixsort(copy_vector(x)), times = 1)$time
 #       }
 #     }
-#     apply(tim[, 1:ni, , drop=FALSE], 1:2, \(x) {i <- which.min(x); if (length(i))M[i] else "."}) |>
+#     tim[, 1:ni, , drop=FALSE] |>
+#       apply(1:2, \(x) {i <- which.min(x); if (length(i)) M[i] else "."}) |>
 #       print(quote=FALSE)
 #   }
 #
@@ -254,7 +255,8 @@ bitsort <- function(x, na.last=NA, depth=1) {
 #   dimnames(x) <- dimnames(tim[, , 1])
 #   y <- tim[cbind(as.vector(row(x)), as.vector(col(x)), match(as.vector(x), M))]
 #   attributes(y) <- attributes(x)
-#   print(apply(tim, 1:2, function(x) {i <- which.min(x); if (length(i))M[i] else "."}), quote=FALSE)
+#   apply(tim, 1:2, function(x) {i <- which.min(x); if (length(i))M[i] else "."}) |>
+#     print(quote=FALSE)
 #   print(x, quote=F)
 #   round(y / apply(tim[, , -4], 1:2, min, na.rm=T), 1)
 #   round(y / tim[, , 1], 1)
