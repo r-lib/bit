@@ -427,12 +427,13 @@ bit_sort_unique <- function(x, decreasing = FALSE, na.last=NA, has.dup=TRUE, ran
       reverse_vector(ret)
     else
       ret
-  } else
+  } else {
     .Call(C_R_bit_sort_unique,
       tmp=bit(nr), x, range_na,
       as.logical(na.last),
       as.logical(decreasing)
     )
+  }
 }
 
 

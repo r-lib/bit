@@ -155,8 +155,8 @@ if (FALSE){
 }
 
 if (FALSE){
-  intseq <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL){
-    if (is.null(from)){
+  intseq <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL) {
+    if (is.null(from)) {
       if (is.null(to))
         stop("need 'from' or 'to'")
       else
@@ -165,28 +165,26 @@ if (FALSE){
         by <- 1L
       else
         by <- as.integer(by)
-    }else{
+    } else {
       from <- as.integer(from)
-      if (is.null(to)){
+      if (is.null(to)) {
         if (is.null(by))
           by <- 1L
         else
           by <- as.integer(by)
-      }else{
+      } else {
         to <- as.integer(to)
         n <- to - from
-        if (is.null(by)){
-          if (to<from)
+        if (is.null(by)) {
+          if (to < from)
             by = -1L
           else
             by = 1L
-        }else{
+        } else {
           by <- as.integer(by)
-          if (n){
-            if (sign(n) != sign(by))
-              stop("wrong sign of by")
-          }else
-            return(from)  # to == from
+          if (!n) return(from) # to == from
+          if (sign(n) != sign(by))
+            stop("wrong sign of by")
         }
       }
     }
@@ -195,22 +193,21 @@ if (FALSE){
       if (is.null(along.with)){
         if (is.null(to) || is.null(from))
           stop("not enough info to guess the length.out")
-        else{
-          length.out <- n %/% by + 1L
-        }
-      }else{
+        length.out <- n %/% by + 1L
+      } else {
         length.out <- length(along.with)
       }
-    }else{
+    } else {
       length.out <- as.integer(length.out)
     }
-    if (length.out){
+    if (length.out) {
       if (length.out==1L)
         from
       else
         cumsum(c(from, rep(by, length.out-1L)))
-    }else
+    } else {
       integer()
+    }
   }
 }
 
@@ -339,8 +336,9 @@ chunks <- function(
     if (by<1)
       stop("'by' must be > 0")
     length.out <- (N - 1L) %/% by + 1L
-  } else
+  } else {
     stop("'by' must be scalar")
+  }
 
   if (method=="bbatch")
     by <- as.integer(bbatch(N, by)$b)
@@ -492,8 +490,9 @@ vecseq <- function(x, y=NULL, concat=TRUE, eval=TRUE){
       if (ny<nx)
         y <- rep(as.integer(y), length.out=nx)
       .Call(C_R_bit_vecseq, as.integer(x),  as.integer(y))
-    }else
+    } else {
       parse(text=paste("c(", paste(x, y, sep=":", collapse=", "), ")"))[[1]]
+    }
   } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism.
     if (eval)

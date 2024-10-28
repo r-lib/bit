@@ -265,8 +265,9 @@ bitwhich <- function(
               stop("mixed negative and positive subscripts not allowed")
             if (-r[1] > maxindex)
               stop("index value outside -maxindex..-1")
-          } else if (r[2] > maxindex)
+          } else if (r[2] > maxindex) {
             stop("index value outside 1..maxindex")
+          }
           if (is.unsorted)
             ret <- bit_sort_unique(ret, na.last=NA, range_na=r)
           else if (has.dup)
@@ -290,11 +291,11 @@ bitwhich <- function(
           }
         } else {
           poslength <- as.integer(poslength)
-          if (poslength==0L)
+          if (poslength==0L) {
             ret <- copy_vector(FALSE)
-          else if (poslength==maxindex)
+          } else if (poslength==maxindex) {
             ret <- copy_vector(TRUE)
-          else{
+          } else {
             if (length(x) > 2 && x[1] >= x[2])
               stop("x is not sorted unique")
             if (x[1]<0L) {
@@ -437,7 +438,7 @@ names(booltypes) <- booltypes
 #'   booltype
 #' )
 #' @export
-booltype <- function(x){
+booltype <- function(x) {
   if (is.ri(x))
     booltypes[["ri"]]
   else if (is.hi(x))
@@ -450,15 +451,12 @@ booltype <- function(x){
     booltypes[["bit"]]
   else if (is.logical(x))
     booltypes[["logical"]]
-  else {
+  else { # nolint: brace_linter.
     ret <- booltypes[["nobool"]]
     names(ret) <- typeof(x)
     ret
   }
 }
-
-
-
 
 #' Testing for boolean types
 #'
@@ -707,36 +705,35 @@ length.bit <- function(x) virtual(x)$Length
 
 #' @rdname length.bit
 #' @export
-`length<-.bit` <- function(x, value){
+`length<-.bit` <- function(x, value) {
   value <- as.integer(value)
   vattr <- attr(x, "virtual")
   oldvalue <- attr(vattr, "Length")
-  if (value!=oldvalue){
-    pattr <- attr(x, "physical")
-    cl <- oldClass(x)
-    oldn <- get_length(x)
-    dn <- value %% .BITS
-    if (dn){
-      n <- value %/% .BITS + 1L
-    }else{
-      n <- value %/% .BITS
-    }
-    if (oldn<n){
-      ret <- integer(n)
-      ret[seq_len(oldn)] <- x
-    }else if (n<oldn){
-      ret <- unclass(x)[seq_len(n)]
-    }else{
-      ret <- copy_vector(x)
-    }
-    if (dn && value<oldvalue){
-      .Call(C_R_bit_set_logical, ret, FALSE, c(value+1L, n*.BITS))
-    }
-    attr(vattr, "Length") <- value
-    setattributes(ret, list(physical = pattr, virtual = vattr, class = cl))
-    ret
-  }else
-    x
+  if (value == oldvalue)
+    return(x)
+  pattr <- attr(x, "physical")
+  cl <- oldClass(x)
+  oldn <- get_length(x)
+  dn <- value %% .BITS
+  if (dn) {
+    n <- value %/% .BITS + 1L
+  } else {
+    n <- value %/% .BITS
+  }
+  if (oldn<n) {
+    ret <- integer(n)
+    ret[seq_len(oldn)] <- x
+  } else if (n<oldn) {
+    ret <- unclass(x)[seq_len(n)]
+  } else {
+    ret <- copy_vector(x)
+  }
+  if (dn && value<oldvalue){
+    .Call(C_R_bit_set_logical, ret, FALSE, c(value+1L, n*.BITS))
+  }
+  attr(vattr, "Length") <- value
+  setattributes(ret, list(physical = pattr, virtual = vattr, class = cl))
+  ret
 }
 
 #' @rdname length.bit
@@ -1191,21 +1188,22 @@ as.which.numeric <- function(x, maxindex=NA_integer_, ...){
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [integer()]
 #' @export
-as.which.integer <- function(x, maxindex=NA_integer_, is.unsorted=TRUE, has.dup=TRUE, ...){
+as.which.integer <- function(x, maxindex=NA_integer_, is.unsorted=TRUE, has.dup=TRUE, ...) {
   ret <- range_nanozero(as.integer(x))
   r <- getsetattr(ret, "range_na", NULL)
-  if (length(ret)){
+  if (length(ret)) {
     if (r[3]>0L)
       stop("NA positions not allowed (neither positive nor negative)")
-    if (r[1]<0L){
+    if (r[1]<0L) {
       if (r[2]>0L)
         stop("mixed negative and positive subscripts not allowed")
       if (is.na(maxindex))
         stop("need maxindex with negative subscripts")
       else if (-r[1] > maxindex)
         stop("index value outside -maxindex..-1")
-    } else if (!is.na(maxindex) && r[2] > maxindex)
+    } else if (!is.na(maxindex) && r[2] > maxindex) {
       stop("index value outside 1..maxindex")
+    }
     if (is.unsorted)
       ret <- bit_sort_unique(ret, na.last=NA, range_na=r, has.dup=has.dup)
     else if (has.dup)
@@ -1235,24 +1233,25 @@ as.which.ri <- function(x, ...){
 
 #' @describeIn as.which method to coerce to [`which()`][as.which] from [bit()]
 #' @export
-as.which.bit <- function(x, range=NULL, ...){
+as.which.bit <- function(x, range=NULL, ...) {
   maxindex <- length(x)
-  if (is.null(range))
+  if (is.null(range)) {
     range <- c(1L, maxindex)
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>maxindex)
       stop("illegal range")
   }
   s <- sum(x, range=range)
   n <- range[2] - range[1] + 1L
-  if (s==0L){
+  if (s==0L) {
     ret <- integer()
-  }else if (s==n){
+  } else if (s==n) {
     #ret <- as.integer(seq.int(from=range[1], to=range[2], by=1))
     ret <- merge_rangediff(range, integer())
-  }else
+  } else {
     ret <- .Call(C_R_bit_which, x, s, range, negative=FALSE)
+  }
   setattributes(ret, list(maxindex = as.integer(maxindex), class = c("booltype", "which")))
   ret
 }
@@ -1261,19 +1260,19 @@ as.which.bit <- function(x, range=NULL, ...){
 #' @export
 as.which.bitwhich <- function(x, ...){
   maxindex <- length(x)
-  if (is.logical(x)){
+  if (is.logical(x)) {
     if (maxindex && unclass(x))
       ret <- seq_len(maxindex)
     else
       ret <- integer()
-  } else if (unclass(x)[[1]]<0)
+  } else if (unclass(x)[[1]]<0) {
     ret <- merge_rangediff(c(1L, maxindex), x, revx=FALSE, revy=TRUE)
-  else
+  } else {
     ret <- copy_vector(x)
+  }
   setattributes(ret, list(maxindex = as.integer(maxindex), class = c("booltype", "which")))
   ret
 }
-
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] (zero length) from
 #'   [`NULL`][NULL]
@@ -1290,29 +1289,26 @@ as.bitwhich.bitwhich <- function(x, ...){
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from [`which()`][as.which]
 #' @export
-as.bitwhich.which <- function(x, maxindex=attr(x, "maxindex"), ...){
+as.bitwhich.which <- function(x, maxindex=attr(x, "maxindex"), ...) {
   if (is.na(maxindex))
     stop("need maxindex")
-  if (maxindex==0)
-    bitwhich()
-  else{
-    poslength <- length(x)
-    if (poslength==0)
-      bitwhich(maxindex, FALSE, poslength)
-    else if (poslength==maxindex)
-      bitwhich(maxindex, TRUE, poslength)
-    else if (poslength > maxindex%/%2L) {
-      y = merge_rangediff(c(1L, maxindex), x, revx=TRUE, revy=TRUE)
-      bitwhich(maxindex, y, poslength=poslength)
-    }else{
-      bitwhich(maxindex, x, poslength=poslength)
-    }
+  if (maxindex==0) return(bitwhich())
+  poslength <- length(x)
+  if (poslength==0)
+    bitwhich(maxindex, FALSE, poslength)
+  else if (poslength==maxindex)
+    bitwhich(maxindex, TRUE, poslength)
+  else if (poslength > maxindex%/%2L) {
+    y = merge_rangediff(c(1L, maxindex), x, revx=TRUE, revy=TRUE)
+    bitwhich(maxindex, y, poslength=poslength)
+  } else {
+    bitwhich(maxindex, x, poslength=poslength)
   }
 }
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from [ri()]
 #' @export
-as.bitwhich.ri <- function(x, ...){
+as.bitwhich.ri <- function(x, ...) {
   maxindex <- length(x)
   if (is.na(maxindex))
     stop("you must provide maxindex with ri() in as.bitwhich.ri()")
@@ -1325,7 +1321,7 @@ as.bitwhich.ri <- function(x, ...){
     if (x[1]>1L) b <- (-x[1]+1L):(-1) else b <- integer()
     if (x[2]<maxindex) a <- (-maxindex):(-x[2]-1L) else a <- integer()
     bitwhich(maxindex, c(a, b), poslength=poslength)
-  }else{
+  } else {
     bitwhich(maxindex, x[1]:x[2], poslength=poslength)
   }
 }
@@ -1350,60 +1346,53 @@ as.bitwhich.double <- as.bitwhich.integer
 #' @export
 as.bitwhich.logical <- function(x, poslength=NULL, ...){
   maxindex <- length(x)
-  if (maxindex==0)
-    bitwhich()
-  else{
-    if (is.null(poslength))
-      poslength <- sum(x, na.rm=TRUE)
-    else
-      if (poslength>maxindex)
-        stop("poslength > maxindex")
-    if (poslength==0)
-      bitwhich(maxindex, FALSE, poslength=poslength)
-    else if (poslength==maxindex)
-      bitwhich(maxindex, TRUE, poslength=poslength)
-    else if (poslength > maxindex%/%2L){
-      as.bitwhich(as.bit(x), poslength=poslength)
-    }else{
-      bitwhich(maxindex, which(x), poslength=poslength)
-    }
-  }
+  if (maxindex==0) return(bitwhich())
+  if (is.null(poslength))
+    poslength <- sum(x, na.rm=TRUE)
+  else if (poslength>maxindex)
+    stop("poslength > maxindex")
+  if (poslength==0)
+    bitwhich(maxindex, FALSE, poslength=poslength)
+  else if (poslength==maxindex)
+    bitwhich(maxindex, TRUE, poslength=poslength)
+  else if (poslength > maxindex%/%2L)
+    as.bitwhich(as.bit(x), poslength=poslength)
+  else
+    bitwhich(maxindex, which(x), poslength=poslength)
 }
-
 
 #' @describeIn as.bitwhich method to coerce to [bitwhich()] from [bit()]
 #' @export
-as.bitwhich.bit <- function(x, range=NULL, poslength=NULL, ...){
+as.bitwhich.bit <- function(x, range=NULL, poslength=NULL, ...) {
   maxindex <- length(x)
-  if (maxindex){
-    if (is.null(range))
-      range <- c(1L, maxindex)
-    else{
-      range <- as.integer(range[1:2])
-      if (range[1]<1L || range[2]>maxindex)
-        stop("illegal range")
-    }
-    if (is.null(poslength))
-      poslength <- sum(x, range=range, na.rm=TRUE)
-    else
-      if (poslength>maxindex)
-        stop("poslength > maxindex")
-    if (poslength==0)
-      bitwhich(maxindex, FALSE, poslength=poslength)
-    else if (poslength==maxindex)
-      bitwhich(maxindex, TRUE, poslength=poslength)
-    else if (poslength > maxindex%/%2L) {
-      bitwhich(maxindex,
-        .Call(C_R_bit_which, x, maxindex - poslength, range=range, negative=TRUE),
-        poslength=poslength
-      )
-    } else {
-      bitwhich(maxindex,
-        .Call(C_R_bit_which, x, poslength, range=range, negative=FALSE),
-        poslength=poslength
-      )
-    }
-  }else bitwhich()
+  if (!maxindex) return(bitwhich())
+  if (is.null(range)) {
+    range <- c(1L, maxindex)
+  } else {
+    range <- as.integer(range[1:2])
+    if (range[1]<1L || range[2]>maxindex)
+      stop("illegal range")
+  }
+  if (is.null(poslength))
+    poslength <- sum(x, range=range, na.rm=TRUE)
+  else
+    if (poslength>maxindex)
+      stop("poslength > maxindex")
+  if (poslength==0)
+    bitwhich(maxindex, FALSE, poslength=poslength)
+  else if (poslength==maxindex)
+    bitwhich(maxindex, TRUE, poslength=poslength)
+  else if (poslength > maxindex%/%2L) {
+    bitwhich(maxindex,
+      .Call(C_R_bit_which, x, maxindex - poslength, range=range, negative=TRUE),
+      poslength=poslength
+    )
+  } else {
+    bitwhich(maxindex,
+      .Call(C_R_bit_which, x, poslength, range=range, negative=FALSE),
+      poslength=poslength
+    )
+  }
 }
 
 
@@ -1905,10 +1894,10 @@ NULL
 
 #' @rdname Summaries
 #' @export
-all.bit <- function(x, range=NULL, ...){
-  if (is.null(range))
+all.bit <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(x))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(x))
       stop("illegal range")
@@ -1918,10 +1907,10 @@ all.bit <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-any.bit <- function(x, range=NULL, ...){
-  if (is.null(range))
+any.bit <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(x))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(x))
       stop("illegal range")
@@ -1935,10 +1924,10 @@ anyNA.bit <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
-sum.bit <- function(x, range=NULL, ...){
-  if (is.null(range))
+sum.bit <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(x))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(x))
       stop("illegal range")
@@ -1948,10 +1937,10 @@ sum.bit <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-min.bit <- function(x, range=NULL, ...){
-  if (is.null(range))
+min.bit <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(x))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(x))
       stop("illegal range")
@@ -1961,10 +1950,10 @@ min.bit <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-max.bit <- function(x, range=NULL, ...){
-  if (is.null(range))
+max.bit <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(x))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(x))
       stop("illegal range")
@@ -1974,10 +1963,10 @@ max.bit <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-range.bit <- function(x, range=NULL, ...){
-  if (is.null(range))
+range.bit <- function(x, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(x))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(x))
       stop("illegal range")
@@ -1993,10 +1982,10 @@ range.bit <- function(x, range=NULL, ...){
 
 #' @rdname Summaries
 #' @export
-summary.bit <- function(object, range=NULL, ...){
-  if (is.null(range))
+summary.bit <- function(object, range=NULL, ...) {
+  if (is.null(range)) {
     range <- c(1L, length(object))
-  else{
+  } else {
     range <- as.integer(range[1:2])
     if (range[1]<1L || range[2]>length(object))
       stop("illegal range")
@@ -2006,47 +1995,39 @@ summary.bit <- function(object, range=NULL, ...){
   c(`FALSE`=range[2]-range[1]+1L-s, `TRUE`=s, Min.=r[1], Max.=r[2])
 }
 
-
-
 #' @rdname Summaries
 #' @export
 all.bitwhich <- function(x, range=NULL, ...){
-  if (is.null(range))
-    attr(x, "poslength") == attr(x, "maxindex")
-  else{
-    y <- bitwhich_representation(x)
-    range <- as.integer(range)
-    if (is.logical(y)){
-      if (y)
-        TRUE
-      else
-        FALSE
-    } else if (y<0) {
-      all(merge_rangenotin(rx=range, y=x, revx=FALSE, revy=TRUE))
-    } else {
-      all(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
-    }
+  if (is.null(range)) return(attr(x, "poslength") == attr(x, "maxindex"))
+  y <- bitwhich_representation(x)
+  range <- as.integer(range)
+  if (is.logical(y)) {
+    if (y)
+      TRUE
+    else
+      FALSE
+  } else if (y<0) {
+    all(merge_rangenotin(rx=range, y=x, revx=FALSE, revy=TRUE))
+  } else {
+    all(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
   }
 }
 
 #' @rdname Summaries
 #' @export
 any.bitwhich <- function(x, range=NULL, ...){
-  if (is.null(range))
-    attr(x, "poslength") > 0L
-  else{
-    y <- bitwhich_representation(x)
-    range <- as.integer(range)
-    if (is.logical(y)){
-      if (y)
-        TRUE
-      else
-        FALSE
-    } else if (y<0) {
-      any(merge_rangenotin(rx=range, y=x, revx=FALSE, revy=TRUE))
-    } else {
-      any(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
-    }
+  if (is.null(range)) return(attr(x, "poslength") > 0L)
+  y <- bitwhich_representation(x)
+  range <- as.integer(range)
+  if (is.logical(y)) {
+    if (y)
+      TRUE
+    else
+      FALSE
+  } else if (y < 0) {
+    any(merge_rangenotin(rx=range, y=x, revx=FALSE, revy=TRUE))
+  } else {
+    any(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
   }
 }
 
@@ -2056,22 +2037,19 @@ anyNA.bitwhich <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
-sum.bitwhich <- function(x, range=NULL, ...){
-  if (is.null(range))
-    attr(x, "poslength")
-  else{
-    y <- bitwhich_representation(x)
-    range <- as.integer(range)
-    if (is.logical(y)){
-      if (y)
-        range[2] - range[1] + 1L
-      else
-        0L
-    } else if (y<0) {
-      sum(merge_rangenotin(rx=range, y=x, revx=FALSE, revy=TRUE))
-    } else {
-      sum(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
-    }
+sum.bitwhich <- function(x, range=NULL, ...) {
+  if (is.null(range)) return(attr(x, "poslength"))
+  y <- bitwhich_representation(x)
+  range <- as.integer(range)
+  if (is.logical(y)) {
+    if (y)
+      range[2] - range[1] + 1L
+    else
+      0L
+  } else if (y<0) {
+    sum(merge_rangenotin(rx=range, y=x, revx=FALSE, revy=TRUE))
+  } else {
+    sum(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
   }
 }
 
@@ -2140,29 +2118,20 @@ summary.bitwhich <- function(object, range=NULL, ...){
   c(`FALSE`=n-p, `TRUE`=p, Min.=r[1], Max.=r[2])
 }
 
-
-
-
 #' @rdname Summaries
 #' @export
-all.which <- function(x, range=NULL, ...){
-  if (is.null(range))
-    length(x) == attr(x, "maxindex")
-  else{
-    range <- as.integer(range)
-    all(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
-  }
+all.which <- function(x, range=NULL, ...) {
+  if (is.null(range)) return(length(x) == attr(x, "maxindex"))
+  range <- as.integer(range)
+  all(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
 }
 
 #' @rdname Summaries
 #' @export
-any.which <- function(x, range=NULL, ...){
-  if (is.null(range))
-    length(x) > 0L
-  else{
-    range <- as.integer(range)
-    any(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
-  }
+any.which <- function(x, range=NULL, ...) {
+  if (is.null(range)) return(length(x) > 0L)
+  range <- as.integer(range)
+  any(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
 }
 
 #' @rdname Summaries
@@ -2171,12 +2140,11 @@ anyNA.which <- function(x, recursive = FALSE) FALSE
 
 #' @rdname Summaries
 #' @export
-sum.which <- function(x, range=NULL, ...){
+sum.which <- function(x, range=NULL, ...) {
   if (is.null(range))
     length(x)
-  else{
+  else
     sum(merge_rangein(rx=range, y=x, revx=FALSE, revy=FALSE))
-  }
 }
 
 #' @rdname Summaries
@@ -2381,15 +2349,14 @@ NULL
 `[[.bit` <- function(x, i){
   if (length(i)!=1L)
     stop("subscript length not 1")
-  if (is.numeric(i)){
-    i <- as.integer(i)
-    if (is.na(i) || i<1L || i>length(x))
-      stop("subscript must be positive integer (or double) within length")
-    ret <- .Call(C_R_bit_extract, x, i)
-    setattr(ret, "vmode", "boolean")
-    ret
-  }else
+  if (!is.numeric(i))
     stop("subscript must be positive integer (or double) within length")
+  i <- as.integer(i)
+  if (is.na(i) || i<1L || i>length(x))
+    stop("subscript must be positive integer (or double) within length")
+  ret <- .Call(C_R_bit_extract, x, i)
+  setattr(ret, "vmode", "boolean")
+  ret
 }
 
 #' @rdname Extract
@@ -2399,18 +2366,16 @@ NULL
     stop("subscript length not 1")
   if (length(value)!=1)
     stop("value length not 1")
-  if (is.numeric(i)){
-    i <- as.integer(i)
-    if (is.na(i) || i<1L)
-      stop("subscript must be positive integer (or double)")
-    if ((mi <- max(i))>length(x))
-      length(x) <- mi
-    value <- as.logical(value)
-    .Call(C_R_bit_replace, x, i, value)
-  }else
+  if (!is.numeric(i))
     stop("subscript must be positive integer (or double) within length")
+  i <- as.integer(i)
+  if (is.na(i) || i<1L)
+    stop("subscript must be positive integer (or double)")
+  if ((mi <- max(i))>length(x))
+    length(x) <- mi
+  value <- as.logical(value)
+  .Call(C_R_bit_replace, x, i, value)
 }
-
 
 #' @rdname Extract
 #' @export
@@ -2457,8 +2422,9 @@ NULL
       } else {
         if (inherits(i, "bitwhich")) {
           i <- unclass(i)
-        } else if (length(i)!=1 || is.na(i))
+        } else if (length(i)!=1 || is.na(i)) {
           stop("only scalar TRUE or FALSE allowed")
+        }
         if (i) {
           ret <- logical(nx)
           .Call(C_R_bit_get_logical, x, ret, range=c(1L, nx))
@@ -2466,8 +2432,9 @@ NULL
           ret <- logical()
         }
       }
-    } else
+    } else {
       stop("subscript must be ri or integer (or double) or  TRUE (or missing) or FALSE")
+    }
   }
   setattr(ret, "vmode", "boolean")
   ret
@@ -2545,7 +2512,9 @@ NULL
       }
       .Call(C_R_bit_replace, x, i, value)
     }
-  }else  stop("subscript must be integer (or double) or ri or bitwhich or TRUE or FALSE or missing")
+  } else {
+    stop("subscript must be integer (or double) or ri or bitwhich or TRUE or FALSE or missing")
+  }
 }
 
 
@@ -2600,23 +2569,19 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
 `[[.bitwhich` <- function(x, i){
   if (length(i)!=1L)
     stop("subscript length not 1")
-  if (is.numeric(i)){
-    i <- as.integer(i)
-    if (is.na(i) || i<1L || i>length(x))
-      stop("subscript must be positive integer (or double) within length")
-    y <- bitwhich_representation(x)
-    if (is.logical(y))
-      ret <- as.vector(x)
-    else{
-      ret <- in.bitwhich(i, x)
-    }
-    setattr(ret, "vmode", "boolean")
-    ret
-  }else
+  if (!is.numeric(i))
     stop("subscript must be positive integer (or double) within length")
+  i <- as.integer(i)
+  if (is.na(i) || i<1L || i>length(x))
+    stop("subscript must be positive integer (or double) within length")
+  y <- bitwhich_representation(x)
+  if (is.logical(y))
+    ret <- as.vector(x)
+  else
+    ret <- in.bitwhich(i, x)
+  setattr(ret, "vmode", "boolean")
+  ret
 }
-
-
 
 #' @rdname Extract
 #' @export
@@ -2631,43 +2596,44 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
   n <- length(x)
   if (i>n)
     warning("increasing length of bitwhich, which has non-standard semantics")
-  if (is.numeric(i)){
-    i <- as.integer(i)
-    if (is.na(i) || i<1L || i>.Machine$integer.max)
-      stop("subscript must be positive integer (or double)")
-    y <- bitwhich_representation(x)
-    if (is.logical(y)){
-      if (length(y)){
-        if (value == y){
-          if (i>n)
-            length(x) <- i
-          return(x)
-        }else if (value)
-          ret <- bitwhich(max(n, i), i, poslength=1L)
-        else
-          ret <- bitwhich(max(n, i), -i, poslength=n-1L)
-      } else if (value)
-        ret <- bitwhich(i, i, poslength=1L)
-      else
-        ret <- bitwhich(i, -i, poslength=n-1L)
-    }else{
-      if (i>n){
-        n <- i
-        length(x) <- i
-      }
-      oldvalue <- in.bitwhich(i, x)
-      if (value == oldvalue)
-        return(x)
-      if (value == (y>0)) {
-        ret <-
-          bitwhich(n, merge_union(x, y*i, method = "all"), poslength=attr(x, "poslength")+y)
-      } else {
-        ret <-
-          bitwhich(n, merge_setdiff(x, y*i, method = "exact"), poslength=attr(x, "poslength")-y)
-      }
-    }
-  }else
+  if (!is.numeric(i))
     stop("subscript must be positive integer (or double) within length")
+  i <- as.integer(i)
+  if (is.na(i) || i<1L || i>.Machine$integer.max)
+    stop("subscript must be positive integer (or double)")
+  y <- bitwhich_representation(x)
+  if (is.logical(y)) {
+    if (length(y)) {
+      if (value == y){
+        if (i>n)
+          length(x) <- i
+        return(x)
+      } else if (value) {
+        ret <- bitwhich(max(n, i), i, poslength=1L)
+      } else {
+        ret <- bitwhich(max(n, i), -i, poslength=n-1L)
+      }
+    } else if (value) {
+      ret <- bitwhich(i, i, poslength=1L)
+    } else {
+      ret <- bitwhich(i, -i, poslength=n-1L)
+    }
+  } else {
+    if (i>n) {
+      n <- i
+      length(x) <- i
+    }
+    oldvalue <- in.bitwhich(i, x)
+    if (value == oldvalue)
+      return(x)
+    if (value == (y>0)) {
+      ret <-
+        bitwhich(n, merge_union(x, y*i, method = "all"), poslength=attr(x, "poslength")+y)
+    } else {
+      ret <-
+        bitwhich(n, merge_setdiff(x, y*i, method = "exact"), poslength=attr(x, "poslength")-y)
+    }
+  }
   a <- attributes(x)
   a$poslength <- attr(ret, "poslength")
   setattributes(ret, a)
@@ -2722,16 +2688,17 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
         i <- range_nanozero(as.integer(i))
         r <- getsetattr(i, "range_na", NULL)
         n <- length(i)
-        if (r[3]==n) # if allNA
+        if (r[3]==n) { # if allNA
           ret <- rep(NA, n)
-        else {
+        } else {
           if (r[1] < 0L && r[2] > 0L)
             stop("only 0's may be mixed with negative subscripts")
           ret <- as.bit(x)[i]
         }
       }
-    } else
+    } else {
       stop("subscript must be integer (or double) or ri or bitwhich or TRUE or FALSE or missing")
+    }
   }
   setattr(ret, "vmode", "boolean")
   ret
@@ -2752,198 +2719,196 @@ in.bitwhich <- function(x, table, is.unsorted=NULL){
     stop("please use as.which(bit) for subscripting with bit")
   if (inherits(i, "bitwhich"))
     stop("please use unclass(bitwhich) or as.which(bitwhich) to clarify what you want")
-  if (length(i)) {
-    if (is.logical(i)) {
-      if (length(i)!=1L || is.na(i))
-        stop("logical only scalar TRUE or FALSE allowed")
-      if (i) {
-        if (nv==1L) {
-          ret <- bitwhich(nx, value)
-        } else {
-          b <- as.bit(value)
-          if (nv==nx) {
-            ret <- as.bitwhich(b)
-          } else {
-            if (nv==0L)
-              stop("replacement has length zero")
-            if (nx%%nv)
-              warning("number of items to replace is not a multiple of replacement length")
-            ret <- as.bitwhich(rep(b, length.out=nx))
-          }
-        }
+  if (!length(i)) return(x)
+  if (is.logical(i)) {
+    if (length(i)!=1L || is.na(i))
+      stop("logical only scalar TRUE or FALSE allowed")
+    if (i) {
+      if (nv==1L) {
+        ret <- bitwhich(nx, value)
       } else {
+        b <- as.bit(value)
+        if (nv==nx) {
+          ret <- as.bitwhich(b)
+        } else {
+          if (nv==0L)
+            stop("replacement has length zero")
+          if (nx%%nv)
+            warning("number of items to replace is not a multiple of replacement length")
+          ret <- as.bitwhich(rep(b, length.out=nx))
+        }
+      }
+    } else {
+      return(x)
+    }
+  } else if (is.numeric(i)) {
+    if (nv>1L){
+      b <- as.bit(x)
+      b[i] <- value
+      ret <- as.bitwhich(b)
+    } else {
+      if (inherits(i, "ri")) {
+        if (i[1]<1L)
+          stop("illegal range index 'ri'")
+        biggest_mentioned_index <- max(abs(i[1:2]))
+        i <- i[1]:i[2]
+        ni <- length(i)
+      } else if (inherits(i, "which")) {
+        ni <- length(i)
+        biggest_mentioned_index <- i[length(i)]
+      } else {
+        i <- range_nanozero(as.integer(i))
+        r <- getsetattr(i, "range_na", NULL)
+        if (length(i)) {
+          if (r[3]>0L)
+            stop("NAs are not allowed in subscripted assignments")
+          if (r[1]>0L) {
+            # since value is a scalar removing duplicates does not harm and speeds up
+            i <- bit_sort_unique(i, range_na = r)
+            ni <- length(i)
+          } else {
+            if (r[2] > 0L)
+              stop("only 0's may be mixed with negative subscripts")
+            i <- bit_sort_unique(i, range_na = r)
+            ni <- nx - length(i)
+          }
+          # since value is a scalar removing duplicates does not harm and speeds up
+          biggest_mentioned_index <- max(abs(i[1:2]), na.rm=TRUE)
+        } else {
+          ni <- 0L
+          biggest_mentioned_index <- 0L
+        }
+      }
+      if (!ni) {
         return(x)
       }
-    } else if (is.numeric(i)) {
-      if (nv>1L){
-        b <- as.bit(x)
-        b[i] <- value
-        ret <- as.bitwhich(b)
-      } else {
-        if (inherits(i, "ri")) {
-          if (i[1]<1L)
-            stop("illegal range index 'ri'")
-          biggest_mentioned_index <- max(abs(i[1:2]))
-          i <- i[1]:i[2]
-          ni <- length(i)
-        } else if (inherits(i, "which")) {
-          ni <- length(i)
-          biggest_mentioned_index <- i[length(i)]
-        } else {
-          i <- range_nanozero(as.integer(i))
-          r <- getsetattr(i, "range_na", NULL)
-          if (length(i)) {
-            if (r[3]>0L)
-              stop("NAs are not allowed in subscripted assignments")
-            if (r[1]>0L) {
-              # since value is a scalar removing duplicates does not harm and speeds up
-              i <- bit_sort_unique(i, range_na = r)
-              ni <- length(i)
-            } else {
-              if (r[2] > 0L)
-                stop("only 0's may be mixed with negative subscripts")
-              i <- bit_sort_unique(i, range_na = r)
-              ni <- nx - length(i)
-            }
-            # since value is a scalar removing duplicates does not harm and speeds up
-            biggest_mentioned_index <- max(abs(i[1:2]), na.rm=TRUE)
-          } else {
-            ni <- 0L
-            biggest_mentioned_index <- 0L
-          }
-        }
-        if (!ni){
+      if (nv==0L)
+        stop("replacement has length zero")
+      if (biggest_mentioned_index>nx){
+        length(x) <- biggest_mentioned_index
+        nx <- biggest_mentioned_index
+      }
+      y <- bitwhich_representation(x)
+      if (is.logical(y)){
+        if (value == y){
+          # assignment doesn't change anything
           return(x)
-        }
-        if (nv==0L)
-          stop("replacement has length zero")
-        if (biggest_mentioned_index>nx){
-          length(x) <- biggest_mentioned_index
-          nx <- biggest_mentioned_index
-        }
-        y <- bitwhich_representation(x)
-        if (is.logical(y)){
-          if (value == y){
-            # assignment doesn't change anything
-            return(x)
-          } else if (value) {
-            # assignment has first inclusions
-            if (i[1]<0) {
-              # assignment enumerates those not included
-              ret <- bitwhich(nx, i, poslength=nx-length(i))
-            } else {
-              # assignment enumerates those included
-              ret <- bitwhich(nx, i, poslength=length(i))
-            }
-          } else {
-            # assignment has first exclusions
-            # nolint next: unnecessary_nesting_linter. Good parallelism.
-            if (i[1]<0) {
-              # assignment enumerates those not excluded
-              ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=length(i))
-            } else {
-              # assignment enumerates those excluded
-              ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=nx-length(i))
-            }
-          }
-        } else if (y<0) {
-          # object maintains exclusions
-          if (value) {
-            # assignment has inclusions
-            if (i[1]<0) {
-              # assignment enumerates those not included
-              # w2 = w = bitwhich(12, -(1:3)); w2[-(3:5)] = TRUE
-              # cbind(as.logical(w), as.logical(w2))
-              ret <- bitwhich(nx,
-                merge_intersect(x, i, method='exact'),
-                xempty=TRUE,
-                is.unsorted = FALSE,
-                has.dup = FALSE
-              )
-            } else {
-              # assignment enumerates those included
-              # w2 = w = bitwhich(12, -(1:3)); w2[3:5] = TRUE; cbind(as.logical(w), as.logical(w2))
-              ret <- bitwhich(nx,
-                merge_setdiff(x, i, revy=TRUE, method='exact'),
-                xempty=TRUE,
-                is.unsorted = FALSE,
-                has.dup = FALSE
-              )
-            }
-          } else {
-            # assignment has exclusions
-            # nolint next: unnecessary_nesting_linter. Good parallelism.
-            if (i[1]<0) {
-              # assignment enumerates those not excluded
-              # w2 = w = bitwhich(12, -(1:3)); w2[-(3:5)] = FALSE;
-              # cbind(as.logical(w), as.logical(w2))
-              ret <- bitwhich(nx,
-                merge_setdiff(i, x, revx=TRUE, revy=TRUE, method='exact'),
-                xempty=FALSE,
-                is.unsorted = FALSE,
-                has.dup = FALSE
-              )
-            } else {
-              # assignment enumerates those excluded
-              # w2 = w = bitwhich(12, -(1:3)); w2[3:5] = FALSE; cbind(as.logical(w), as.logical(w2))
-              ret <- bitwhich(nx,
-                merge_union(x, i, revy=TRUE, method='exact'),
-                is.unsorted = FALSE,
-                has.dup = FALSE
-              )
-            }
-          }
-          # object maintains inclusions
         } else if (value) {
+          # assignment has first inclusions
+          if (i[1]<0) {
+            # assignment enumerates those not included
+            ret <- bitwhich(nx, i, poslength=nx-length(i))
+          } else {
+            # assignment enumerates those included
+            ret <- bitwhich(nx, i, poslength=length(i))
+          }
+        } else {
+          # assignment has first exclusions
+          # nolint next: unnecessary_nesting_linter. Good parallelism.
+          if (i[1]<0) {
+            # assignment enumerates those not excluded
+            ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=length(i))
+          } else {
+            # assignment enumerates those excluded
+            ret <- bitwhich(nx, copy_vector(i, revx=TRUE), poslength=nx-length(i))
+          }
+        }
+      } else if (y<0) {
+        # object maintains exclusions
+        if (value) {
           # assignment has inclusions
           if (i[1]<0) {
             # assignment enumerates those not included
-            # w2 = w = bitwhich(12, (1:3)); w2[-(3:5)] = TRUE; cbind(as.logical(w), as.logical(w2))
+            # w2 = w = bitwhich(12, -(1:3)); w2[-(3:5)] = TRUE
+            # cbind(as.logical(w), as.logical(w2))
             ret <- bitwhich(nx,
-              merge_setdiff(i, x, revy = TRUE, method='exact'),
+              merge_intersect(x, i, method='exact'),
               xempty=TRUE,
               is.unsorted = FALSE,
               has.dup = FALSE
             )
           } else {
             # assignment enumerates those included
-            # w2 = w = bitwhich(12, (1:3)); w2[(3:5)] = TRUE; cbind(as.logical(w), as.logical(w2))
-            ret <-
-              bitwhich(nx, merge_union(x, i, method='exact'), is.unsorted = FALSE, has.dup = FALSE)
+            # w2 = w = bitwhich(12, -(1:3)); w2[3:5] = TRUE; cbind(as.logical(w), as.logical(w2))
+            ret <- bitwhich(nx,
+              merge_setdiff(x, i, revy=TRUE, method='exact'),
+              xempty=TRUE,
+              is.unsorted = FALSE,
+              has.dup = FALSE
+            )
           }
         } else {
           # assignment has exclusions
           # nolint next: unnecessary_nesting_linter. Good parallelism.
           if (i[1]<0) {
             # assignment enumerates those not excluded
-            # w2 = w = bitwhich(12, (1:3)); w2[-(3:5)] = FALSE; cbind(as.logical(w), as.logical(w2))
+            # w2 = w = bitwhich(12, -(1:3)); w2[-(3:5)] = FALSE;
+            # cbind(as.logical(w), as.logical(w2))
             ret <- bitwhich(nx,
-              merge_intersect(x, i, revy=TRUE, method='exact'),
+              merge_setdiff(i, x, revx=TRUE, revy=TRUE, method='exact'),
               xempty=FALSE,
               is.unsorted = FALSE,
               has.dup = FALSE
             )
           } else {
             # assignment enumerates those excluded
-            # w2 = w = bitwhich(12, (1:3)); w2[(3:5)] = FALSE; cbind(as.logical(w), as.logical(w2))
+            # w2 = w = bitwhich(12, -(1:3)); w2[3:5] = FALSE; cbind(as.logical(w), as.logical(w2))
             ret <- bitwhich(nx,
-              merge_setdiff(x, i, method='exact'),
-              xempty=FALSE,
+              merge_union(x, i, revy=TRUE, method='exact'),
               is.unsorted = FALSE,
               has.dup = FALSE
             )
           }
         }
+        # object maintains inclusions
+      } else if (value) {
+        # assignment has inclusions
+        if (i[1]<0) {
+          # assignment enumerates those not included
+          # w2 = w = bitwhich(12, (1:3)); w2[-(3:5)] = TRUE; cbind(as.logical(w), as.logical(w2))
+          ret <- bitwhich(nx,
+            merge_setdiff(i, x, revy = TRUE, method='exact'),
+            xempty=TRUE,
+            is.unsorted = FALSE,
+            has.dup = FALSE
+          )
+        } else {
+          # assignment enumerates those included
+          # w2 = w = bitwhich(12, (1:3)); w2[(3:5)] = TRUE; cbind(as.logical(w), as.logical(w2))
+          ret <-
+            bitwhich(nx, merge_union(x, i, method='exact'), is.unsorted = FALSE, has.dup = FALSE)
+        }
+      } else {
+        # assignment has exclusions
+        # nolint next: unnecessary_nesting_linter. Good parallelism.
+        if (i[1]<0) {
+          # assignment enumerates those not excluded
+          # w2 = w = bitwhich(12, (1:3)); w2[-(3:5)] = FALSE; cbind(as.logical(w), as.logical(w2))
+          ret <- bitwhich(nx,
+            merge_intersect(x, i, revy=TRUE, method='exact'),
+            xempty=FALSE,
+            is.unsorted = FALSE,
+            has.dup = FALSE
+          )
+        } else {
+          # assignment enumerates those excluded
+          # w2 = w = bitwhich(12, (1:3)); w2[(3:5)] = FALSE; cbind(as.logical(w), as.logical(w2))
+          ret <- bitwhich(nx,
+            merge_setdiff(x, i, method='exact'),
+            xempty=FALSE,
+            is.unsorted = FALSE,
+            has.dup = FALSE
+          )
+        }
       }
-    } else {
-      stop("subscript must be integer (or double) or ri or bitwhich or TRUE or FALSE or missing")
     }
-    a <- attributes(x)
-    a$poslength <- sum(ret)
-    setattributes(ret, a)
-    ret
-  }else
-    x
+  } else {
+    stop("subscript must be integer (or double) or ri or bitwhich or TRUE or FALSE or missing")
+  }
+  a <- attributes(x)
+  a$poslength <- sum(ret)
+  setattributes(ret, a)
+  ret
 }
 
 
