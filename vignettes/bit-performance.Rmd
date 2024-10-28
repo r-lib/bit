@@ -120,8 +120,8 @@ for (g in names(G)) {
       tim[b, "!", g] <- median(microbenchmark(!x, times=times)$time)
       tim[b, "&", g] <- median(microbenchmark(x & x, times=times)$time)
       tim[b, "|", g] <- median(microbenchmark(x | x, times=times)$time)
-      tim[b, " == ", g] <- median(microbenchmark(x == x, times=times)$time)
-      tim[b, " != ", g] <- median(microbenchmark(x != x, times=times)$time)
+      tim[b, "==", g] <- median(microbenchmark(x == x, times=times)$time)
+      tim[b, "!=", g] <- median(microbenchmark(x != x, times=times)$time)
       tim[b, "summary", g] <- median(microbenchmark(summary.booltype(x), times=times)$time)
     }
   }
@@ -234,12 +234,12 @@ knitr::kable(round(tim[, "|", ], 1), caption="% time for Boolean |")
 ### % time Boolean EQUALITY
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[, " == ", ], 1), caption="% time for Boolean ==")
+knitr::kable(round(tim[, "==", ], 1), caption="% time for Boolean ==")
 ```
 
 ### % time Boolean XOR
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(round(tim[, " != ", ], 1), caption="% time for Boolean !=")
+knitr::kable(round(tim[, "!=", ], 1), caption="% time for Boolean !=")
 ```
 
 ### % time Boolean SUMMARY
