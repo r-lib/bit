@@ -204,7 +204,7 @@ static void bit_get(bitint *b, int *l, int from, int to){
     }
     k=0;
   }
-  if (j==j1){
+  if (j==j1 && k<=k1){
     word = b[j];
     for(; k<=k1 ;k++){
       l[i++] = word & mask1[k] ? 1 : 0;
@@ -243,7 +243,7 @@ static void bit_set(bitint *b, int *l, int from, int to){
       }
       k = 0;
     }
-    if (j==j1){
+    if (j==j1 && k<=k1){
       word = b[j];
       for(; k<=k1 ;k++,i++){
         if (l[i]==FALSE || l[i]==NA_INTEGER)
@@ -293,7 +293,7 @@ static void bit_set_recycle(bitint *b, int *l, int from, int to, int nl){
       }
       k = 0;
     }
-    if (j==j1){
+    if (j==j1 && k<=k1){
       word = b[j];
       for(; k<=k1 ;k++){
         if (l[il]==FALSE || l[il]==NA_INTEGER)
@@ -348,7 +348,7 @@ static void bit_set_one(bitint *b, int l, int from, int to){
       }
       k = 0;
     }
-    if (j==j1){
+    if (j==j1 && k<=k1){
       word = b[j];
       for(; k<=k1 ;k++){
         if (l==FALSE)
@@ -395,7 +395,7 @@ static void bit_which_positive(bitint *b, int *l, int from, int to
     }
     k=0;
   }
-  if (j==j1){
+  if (j==j1 && k<=k1){
     word = b[j];
     for(; k<=k1 ;k++){
       if (word & mask1[k])
@@ -433,7 +433,7 @@ static void bit_which_negative(bitint *b, int *l, int from, int to){
     }
     k = LASTBIT;
   }
-  if (j==j0){
+  if (j==j0 && k>=k0){
     word = b[j];
     for( ;k>=k0 ;k--){
       if (!(word & mask1[k]))
@@ -2001,7 +2001,7 @@ static int bit_sum(bitint *b, int from, int to){
     }
     k=0;
   }
-  if (j==j1){
+  if (j==j1 && k<=k1){
     word = b[j];
     for(; k<=k1; k++){
       if (word & mask1[k])
@@ -2032,7 +2032,7 @@ static int bit_all(bitint *b, int from, int to){
     }
     k=0;
   }
-  if (j==j1){
+  if (j==j1 && k<=k1){
     word = b[j];
     for(; k<=k1; k++){
       if (!(word & mask1[k]))
@@ -2064,7 +2064,7 @@ static int bit_any(bitint *b, int from, int to){
     }
     k=0;
   }
-  if (j==j1){
+  if (j==j1 && k<=k1){
     word = b[j];
     for(; k<=k1; k++){
       if(b[j])
@@ -2104,7 +2104,7 @@ static int bit_min(bitint *b, int from, int to){
     }
     k=0;
   }
-  if (j==j1){
+  if (j==j1 && k<=k1){
     word = b[j];
     if (word)
       for(; k<=k1; k++){
@@ -2146,7 +2146,7 @@ static int bit_max(bitint *b, int from, int to){
     }
     k=LASTBIT;
   }
-  if (j==j0){
+  if (j==j0 && k>=k0){
     word = b[j];
     if (word){
       for(; k>=k0; k--){
@@ -2781,7 +2781,7 @@ if (j<j1){
   }
   k=0;
 }
-if (!ln && j==j1){
+if (!ln && j==j1 && k<=k1){
   word = b[j];
   for(; k<=k1; k++){
     //Rprintf("post1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
