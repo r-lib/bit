@@ -407,8 +407,8 @@ chunk.default <- function(x = NULL, ..., RECORDBYTES = NULL, BATCHBYTES = NULL) 
     BATCHBYTES <- getOption("ffbatchbytes", 16777216L)
   }
   if (is.null(RECORDBYTES)) {
-    if ("ff" %in% loadedNamespaces())
-      RECORDBYTES = get(".rambytes")[get("vmode")(x)]
+    if (isNamespaceLoaded("ff"))
+      RECORDBYTES = ff::.rambytes[ff::vmode(x)]
     else
       RECORDBYTES =
         switch(typeof(x), raw=1L, character=4L, logical=4L, integer=4L, double=8L, complex=16L)
