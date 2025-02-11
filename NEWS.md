@@ -2,6 +2,8 @@
 
 ## BUG FIXES
 
+1. Corrected the function prototype for a C function, #36. Thanks @aitap for investigating and suggesting a fix.
+
 1. `chunk()` works if {ff} is loaded but not attached, #3. Thanks @dschlaep for the report.
 
 ## NOTES
