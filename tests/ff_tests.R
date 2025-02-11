@@ -14,7 +14,8 @@ if (!requireNamespace("ff")) {
 }
 chunk(1)
 
-if (!require("ff")) { # nolint: undesirable_function_linter, unused_import_linter. It is used, by chunk().
+# nolint next: undesirable_function_linter, unused_import_linter. It is used, by chunk().
+if (!require("ff")) {
   cat("ff failed to attach\n")
   q("n")
 }
