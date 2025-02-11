@@ -8,13 +8,13 @@ if (isNamespaceLoaded("ff")) {
 }
 chunk(1)
 
-if (!requireNamespace("ff")) {
+if (!requireNamespace("ff")) { # nolint: undesirable_function_linter. Good usage.
   cat("ff failed to load\n")
   q("n")
 }
 chunk(1)
 
-if (!require("ff")) {
+if (!require("ff")) { # nolint: unused_import_linter. It is used, by chunk().
   cat("ff failed to attach\n")
   q("n")
 }
