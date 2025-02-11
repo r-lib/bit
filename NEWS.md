@@ -4,6 +4,8 @@
 
 1. Corrected the function prototype for a C function, #36. Thanks @aitap for investigating and suggesting a fix.
 
+1. `chunk()` works if {ff} is loaded but not attached, #3. Thanks @dschlaep for the report.
+
 ## NOTES
 
 1. After creating, developing, and maintaining {bit} for about 16 years, Jens Oehlschlägel has decided to step down as maintainer of the package. As with {bit64}, Michael Chirico will take over in this duty. Thank you Jens for creating such a wonderful & important part of the R ecosystem!
