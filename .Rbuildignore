@@ -4,6 +4,7 @@
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
+^NEWS\.0$
 README.md
 ^codecov\.yml$
 ^\.devcontainer$

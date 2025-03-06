@@ -1,4 +1,4 @@
-# bit 4.5.99
+# bit 4.6.0
 
 ## BUG FIXES
 
