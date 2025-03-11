@@ -2390,62 +2390,75 @@ NULL
   if (missing(i)) {
     ret <- logical(nx)
     .Call(C_R_bit_get_logical, x, ret, range=c(1L, nx))
-  } else {
-    if (inherits(i, "bit")) {
-      i <- as.bitwhich(i)
-    }
-    if (inherits(i, "bitwhich")) {
-      i <- unclass(i)
-    }
-    if (is.numeric(i)) {
-      if (inherits(i, "ri")) {
-        if (i[1] < 1L || i[2] > nx)
-          stop("illegal range index 'ri'")
-        ret <- logical(i[2] - i[1] + 1L)
-        .Call(C_R_bit_get_logical, x, ret, range=i)
-      } else {
-        i <- as.integer(i)
-        r <- range_na(i)
-        if (is.na(r[1])) {
-          ret <- logical()
-        } else if (r[1] < 0L) {
-          # check for positive or NA mixed with negative
-          if (r[2] > 0L || r[3] > 0L)
-            stop("only 0's may be mixed with negative subscripts")
-          isasc <- intisasc(i, "none") # NAs checked already, early terminate on FALSE
-          if (!isasc) {
-            if ((length(i) / (r[2] - r[1])) < 0.05)
-              i <- sort.int(i, method="quick")
-            else
-              i <- bit_sort_unique(i)
-          }
-        } # is positive, hence no sorting
-        ret <- .Call(C_R_bit_extract, x, i)
-      }
-    } else if (is.logical(i)) {
-      if (poslength(i) == 0L) {
-        ret <- logical()
-      } else {
-        if (inherits(i, "bitwhich")) {
-          i <- unclass(i)
-        } else if (length(i) != 1 || is.na(i)) {
-          stop("only scalar TRUE or FALSE allowed")
-        }
-        if (i) {
-          ret <- logical(nx)
-          .Call(C_R_bit_get_logical, x, ret, range=c(1L, nx))
-        } else {
-          ret <- logical()
-        }
-      }
-    } else {
-      stop("subscript must be ri or integer (or double) or  TRUE (or missing) or FALSE")
-    }
+    return(as_vmode_boolean(ret))
   }
-  setattr(ret, "vmode", "boolean")
-  ret
+
+  if (inherits(i, "bit")) {
+    i <- as.bitwhich(i)
+  }
+  if (inherits(i, "bitwhich")) {
+    i <- unclass(i)
+  }
+  if (is.numeric(i)) {
+    return(extract_bit_by_index(x, i, nx))
+  } else if (is.logical(i)) {
+    return(extract_bit_by_filter(x, i, nx))
+  }
+  stop("subscript must be ri or integer (or double) or  TRUE (or missing) or FALSE")
 }
 
+as_vmode_boolean <- function(x) {
+  setattr(x, "vmode", "boolean")
+  x
+}
+
+extract_bit_by_index <- function(x, i, nx) {
+  if (inherits(i, "ri")) {
+    if (i[1L] < 1L || i[2L] > nx)
+      stop("illegal range index 'ri'")
+    ret <- logical(i[2] - i[1] + 1L)
+    .Call(C_R_bit_get_logical, x, ret, range=i)
+    return(as_vmode_boolean(ret))
+  }
+
+  i <- as.integer(i)
+  r <- range_na(i)
+  if (is.na(r[1L])) {
+    ret <- logical()
+  } else if (r[1L] < 0L) {
+    # check for positive or NA mixed with negative
+    if (r[2L] > 0L || r[3L] > 0L)
+      stop("only 0's may be mixed with negative subscripts")
+    isasc <- intisasc(i, "none") # NAs checked already, early terminate on FALSE
+    if (!isasc) {
+      if ((length(i) / (r[2L] - r[1L])) < 0.05)
+        i <- sort.int(i, method="quick")
+      else
+        i <- bit_sort_unique(i)
+    }
+  } # is positive, hence no sorting
+  ret <- .Call(C_R_bit_extract, x, i)
+  as_vmode_boolean(ret)
+}
+
+extract_bit_by_filter <- function(x, i, nx) {
+  if (poslength(i) == 0L) {
+    ret <- logical()
+  } else {
+    if (inherits(i, "bitwhich")) {
+      i <- unclass(i)
+    } else if (length(i) != 1 || is.na(i)) {
+      stop("only scalar TRUE or FALSE allowed")
+    }
+    if (i) {
+      ret <- logical(nx)
+      .Call(C_R_bit_get_logical, x, ret, range=c(1L, nx))
+    } else {
+      ret <- logical()
+    }
+  }
+  as_vmode_boolean(ret)
+}
 
 #' @rdname Extract
 #' @export
