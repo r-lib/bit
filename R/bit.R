@@ -530,19 +530,13 @@ as.ri.default <- function(x, ...) {
 #' @describeIn maxindex default method for `maxindex`
 #' @export
 maxindex.default <- function(x, ...) {
-  mi <- attr(x, "maxindex")
-  if (is.null(mi))
-    NA_integer_
-  else mi
+  attr(x, "maxindex") %||% NA_integer_
 }
 
 #' @describeIn maxindex default method for `poslength`
 #' @export
 poslength.default <- function(x, ...) {
-  pl <- attr(x, "poslength")
-  if (is.null(pl))
-    NA_integer_
-  else pl
+  attr(x, "poslength") %||% NA_integer_
 }
 
 #' @describeIn maxindex `maxindex` method for class [logical()]

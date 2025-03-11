@@ -147,10 +147,11 @@ repfromto <- function(x, from, to) {
 
 if (FALSE) {
   x <- 1:10
-  for (n in 1:20)
-  for (i1 in 1:30) {
-    i2 <- i1 + n - 1
-    cat(i1, i2, "|", repfromto(x, i1, i2), "\n")
+  for (n in 1:20) {
+    for (i1 in 1:30) {
+      i2 <- i1 + n - 1
+      cat(i1, i2, "|", repfromto(x, i1, i2), "\n")
+    }
   }
 }
 

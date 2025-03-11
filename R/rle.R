@@ -137,7 +137,7 @@ rlepack.integer <- function(x, pack = TRUE, ...) {
       r <- intrle(diff(x))
     else
       r <- NULL
-    out = list(first=x[1], dat=if (is.null(r)) x else r, last=x[n])
+    out = list(first=x[1], dat=r %||% x, last=x[n])
   } else if (n == 1) {
     out = list(first=x[1], dat=x, last=x[1])
   } else {
