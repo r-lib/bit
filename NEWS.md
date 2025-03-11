@@ -1,3 +1,5 @@
+# bit 4.6.99 (in development)
+
 # bit 4.6.0
 
 ## BUG FIXES

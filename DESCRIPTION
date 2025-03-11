@@ -1,6 +1,6 @@
 Package: bit
 Title: Classes and Methods for Fast Memory-Efficient Boolean Selections
-Version: 4.6.0
+Version: 4.6.99
 Authors@R: c(
     person("Michael", "Chirico", email = "MichaelChirico4@gmail.com", role = c("aut", "cre")),
     person("Jens", "Oehlschlägel", role = "aut"),
