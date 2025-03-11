@@ -234,111 +234,123 @@ bitwhich <- function(
       stop("maxindex=0 given with poslength or x")
     poslength <- 0L
     ret <- logical()
-  } else {
-    stopifnot(maxindex > 0L)
-    if (length(x)) {
-      if (is.logical(x)) {
-        if (length(x) != 1L || is.na(x)) {
-          stop("logical x should be scalar FALSE or TRUE")
-        } else if (x) {
-          if (is.null(poslength))
-            poslength <- maxindex
-          else if (poslength != maxindex)
-            stop("x == TRUE implies poslength == maxindex")
-          ret <- copy_vector(TRUE)
-        } else {
-          if (is.null(poslength))
-            poslength <- 0L
-          else if (poslength != 0L)
-            stop("x == FALSE implies poslength == 0")
-          ret <- copy_vector(FALSE)
-        }
-      } else {
-        x <- as.integer(x)
-        if (is.null(poslength)) {
-          ret <- range_nanozero(x)
-          r <- getsetattr(ret, "range_na", NULL)
-          if (r[3] > 0L)
-            stop("NA positions not allowed (neither positive nor negative)")
-          if (r[1] < 0L) {
-            if (r[2] > 0L)
-              stop("mixed negative and positive subscripts not allowed")
-            if (-r[1] > maxindex)
-              stop("index value outside -maxindex..-1")
-          } else if (r[2] > maxindex) {
-            stop("index value outside 1..maxindex")
-          }
-          if (is.unsorted)
-            ret <- bit_sort_unique(ret, na.last=NA, range_na=r)
-          else if (has.dup)
-            ret <- bit_unique(ret, na.rm = FALSE, range_na=r)
-          if (ret[1] < 0) {
-            poslength <- maxindex - length(ret)
-            if (poslength) {
-              if (poslength <= maxindex %/% 2L)
-                ret <- merge_rangediff(c(1L, maxindex), ret, revx=FALSE, revy=TRUE)
-            } else {
-              ret <- copy_vector(FALSE)
-            }
-          } else {
-            poslength <- length(ret)
-            if (poslength < maxindex) {
-              if (poslength > maxindex %/% 2L)
-                ret <- merge_rangediff(c(1L, maxindex), ret, revx=TRUE, revy=TRUE)
-            } else {
-              ret <- copy_vector(TRUE)
-            }
-          }
-        } else {
-          poslength <- as.integer(poslength)
-          if (poslength == 0L) {
-            ret <- copy_vector(FALSE)
-          } else if (poslength == maxindex) {
-            ret <- copy_vector(TRUE)
-          } else {
-            if (length(x) > 2 && x[1] >= x[2])
-              stop("x is not sorted unique")
-            if (x[1] < 0L) {
-              if (poslength != maxindex - length(x))
-                stop("wrong poslength")
-              if (poslength <= maxindex %/% 2L)
-                ret <- merge_rangediff(c(1L, maxindex), x, revx=FALSE, revy=TRUE)
-              else
-                ret <- copy_vector(x)
-            } else {
-              if (poslength != length(x))
-                stop("wrong poslength")
-              if (poslength > maxindex %/% 2L)
-                ret <- merge_rangediff(c(1L, maxindex), x, revx=TRUE, revy=TRUE)
-              else
-                ret <- copy_vector(x)
-            }
+    setattributes(ret,
+      list(maxindex = maxindex, poslength = poslength, class = c("booltype", "bitwhich"))
+    )
+    return(ret)
+  }
+  stopifnot(maxindex > 0L)
 
-          }
-        }
-      }
-    } else if (is.null(poslength)) {
-      if (!is.logical(xempty) || length(xempty) != 1 || is.na(xempty))
-        stop("xempty must be FALSE or TRUE")
-      if (xempty)
-        poslength <- maxindex
-      else
-        poslength <- 0L
-      ret <- copy_vector(xempty)
+  if (length(x)) {
+    if (is.logical(x)) {
+      ret <- bitwhich_logical_(x, poslength, maxindex)
     } else {
-      poslength <- as.integer(poslength)
-      if (poslength == 0)
-        ret <- copy_vector(FALSE)
-      else if (poslength == maxindex)
-        ret <- copy_vector(TRUE)
-      else
-        stop("need x with extreme poslength")
+      ret <- bitwhich_integer_(as.integer(x), poslength, maxindex)
     }
+  } else if (is.null(poslength)) {
+    if (!is.logical(xempty) || length(xempty) != 1 || is.na(xempty))
+      stop("xempty must be FALSE or TRUE")
+    if (xempty)
+      poslength <- maxindex
+    else
+      poslength <- 0L
+    ret <- copy_vector(xempty)
+  } else {
+    poslength <- as.integer(poslength)
+    if (poslength == 0)
+      ret <- copy_vector(FALSE)
+    else if (poslength == maxindex)
+      ret <- copy_vector(TRUE)
+    else
+      stop("need x with extreme poslength")
   }
   setattributes(ret,
     list(maxindex = maxindex, poslength = poslength, class = c("booltype", "bitwhich"))
   )
   ret
+}
+
+bitwhich_logical_ <- function(x, poslength, maxindex) {
+  if (length(x) != 1L || is.na(x)) {
+    stop("logical x should be scalar FALSE or TRUE")
+  }
+  if (x) {
+    if (is.null(poslength))
+      poslength <- maxindex
+    else if (poslength != maxindex)
+      stop("x == TRUE implies poslength == maxindex")
+    ret <- copy_vector(TRUE)
+  } else {
+    if (is.null(poslength))
+      poslength <- 0L
+    else if (poslength != 0L)
+      stop("x == FALSE implies poslength == 0")
+    ret <- copy_vector(FALSE)
+  }
+  ret
+}
+
+bitwhich_integer_ <- function(x, poslength, maxindex) {
+  if (is.null(poslength)) {
+    ret <- range_nanozero(x)
+    r <- getsetattr(ret, "range_na", NULL)
+    if (r[3L] > 0L)
+      stop("NA positions not allowed (neither positive nor negative)")
+    if (r[1L] < 0L) {
+      if (r[2L] > 0L)
+        stop("mixed negative and positive subscripts not allowed")
+      if (-r[1L] > maxindex)
+        stop("index value outside -maxindex..-1")
+    } else if (r[2L] > maxindex) {
+      stop("index value outside 1..maxindex")
+    }
+    if (is.unsorted)
+      ret <- bit_sort_unique(ret, na.last=NA, range_na=r)
+    else if (has.dup)
+      ret <- bit_unique(ret, na.rm = FALSE, range_na=r)
+    if (ret[1] < 0) {
+      poslength <- maxindex - length(ret)
+      if (poslength) {
+        if (poslength <= maxindex %/% 2L)
+          ret <- merge_rangediff(c(1L, maxindex), ret, revx=FALSE, revy=TRUE)
+      } else {
+        ret <- copy_vector(FALSE)
+      }
+    } else {
+      poslength <- length(ret)
+      if (poslength < maxindex) {
+        if (poslength > maxindex %/% 2L)
+          ret <- merge_rangediff(c(1L, maxindex), ret, revx=TRUE, revy=TRUE)
+      } else {
+        ret <- copy_vector(TRUE)
+      }
+    }
+  } else {
+    poslength <- as.integer(poslength)
+    if (poslength == 0L) {
+      ret <- copy_vector(FALSE)
+    } else if (poslength == maxindex) {
+      ret <- copy_vector(TRUE)
+    } else {
+      if (length(x) > 2 && x[1] >= x[2])
+        stop("x is not sorted unique")
+      if (x[1] < 0L) {
+        if (poslength != maxindex - length(x))
+          stop("wrong poslength")
+        if (poslength <= maxindex %/% 2L)
+          ret <- merge_rangediff(c(1L, maxindex), x, revx=FALSE, revy=TRUE)
+        else
+          ret <- copy_vector(x)
+      } else {
+        if (poslength != length(x))
+          stop("wrong poslength")
+        if (poslength > maxindex %/% 2L)
+          ret <- merge_rangediff(c(1L, maxindex), x, revx=TRUE, revy=TRUE)
+        else
+          ret <- copy_vector(x)
+      }
+    }
+  }
 }
 
 #' Diagnose representation of bitwhich
