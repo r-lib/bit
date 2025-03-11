@@ -10,7 +10,6 @@ Depends:
     R (>= 3.4.0)
 Suggests:
     testthat (>= 3.0.0),
-    roxygen2,
     knitr,
     markdown,
     rmarkdown,
@@ -30,4 +29,5 @@ VignetteBuilder: knitr,
     rmarkdown
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
+Config/wants/development: roxygen2
 Config/testthat/edition: 3

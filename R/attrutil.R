@@ -137,7 +137,7 @@ setattr <- function(x, which, value) {
 #' @export
 setattributes <- function(x, attributes) {
   nam <- names(attributes)
-  for (i in seq_len(length(attributes))) {
+  for (i in seq_along(attributes)) {
     .Call(C_R_bit_set_attr, x, nam[[i]], attributes[[i]])
   }
   invisible()
