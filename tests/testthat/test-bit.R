@@ -569,7 +569,6 @@ test_that("aggregation functions work", {
       }
     }
   }
-
 })
 
 test_that("rev() methods work", {
