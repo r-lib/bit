@@ -29,4 +29,5 @@ VignetteBuilder: knitr,
     rmarkdown
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
+Config/wants/development: roxygen2
 Config/testthat/edition: 3
