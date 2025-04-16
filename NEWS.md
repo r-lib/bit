@@ -1,5 +1,9 @@
 # bit 4.6.99 (in development)
 
+## BUG FIXES
+
+1. Avoid some 0-length accesses in coercions to/from bit, #44.
+
 # bit 4.6.0
 
 ## BUG FIXES

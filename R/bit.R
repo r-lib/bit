@@ -946,6 +946,7 @@ as.bit.bit <- function(x, ...) x
 as.bit.logical <- function(x, ...) {
   n <- length(x)
   b <- bit(n)
+  if (!n) return(b)
   .Call(C_R_bit_set_logical, b, x, c(1L, n))
 }
 
@@ -957,6 +958,7 @@ as.bit.logical <- function(x, ...) {
 as.bit.integer <- function(x, ...) {
   n <- length(x)
   b <- bit(n)
+  if (!n) return(b)
   .Call(C_R_bit_set_integer, b, x, c(1L, n))
 }
 
@@ -965,11 +967,7 @@ as.bit.integer <- function(x, ...) {
 #'   else becomes `TRUE`)
 #' @examples as.bit(c(0, 1, 2, -2, NA))
 #' @export
-as.bit.double <- function(x, ...) {
-  n <- length(x)
-  b <- bit(n)
-  .Call(C_R_bit_set_integer, b, as.integer(x), c(1L, n))
-}
+as.bit.double <- function(x, ...) as.bit.integer(as.integer(x), ...)
 
 #' @describeIn as.bit method to coerce to [bit()] from [bitwhich()]
 #' @export
@@ -1050,23 +1048,24 @@ NULL
 #' @rdname CoercionToStandard
 #' @export
 as.logical.bit <- function(x, ...) {
-  l <- logical(length(x))
-  .Call(C_R_bit_get_logical, x, l, c(1L, length(x)))
+  n <- length(x)
+  l <- logical(n)
+  if (!n) return(l)
+  .Call(C_R_bit_get_logical, x, l, c(1L, n))
 }
 
 #' @rdname CoercionToStandard
 #' @export
 as.integer.bit <- function(x, ...) {
-  l <- integer(length(x))
-  .Call(C_R_bit_get_integer, x, l, c(1L, length(x)))
+  n <- length(x)
+  i <- integer(n)
+  if (!n) return(i)
+  .Call(C_R_bit_get_integer, x, i, c(1L, n))
 }
 
 #' @rdname CoercionToStandard
 #' @export
-as.double.bit <- function(x, ...) {
-  l <- integer(length(x))
-  as.double(.Call(C_R_bit_get_integer, x, l, c(1L, length(x))))
-}
+as.double.bit <- function(x, ...) as.double(as.integer.bit(x, ...))
 
 #' @rdname CoercionToStandard
 #' @export
