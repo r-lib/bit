@@ -2724,6 +2724,7 @@ if (d==ld){                             \
 SEXP R_bit_as_hi(SEXP b_, SEXP range_, SEXP offset_)
 {
   bitint *b = (bitint*) INTEGER(b_);
+  R_len_t b_length = LENGTH(b_);
   int *range = INTEGER(range_);
   int offset = asInteger(offset_);
   SEXP ret_, first_, dat_, last_, len_, retnames_, rlepackclass_;
@@ -2737,221 +2738,221 @@ SEXP R_bit_as_hi(SEXP b_, SEXP range_, SEXP offset_)
   int first = NA_INTEGER;
   int last = -1;  /* setting this to NA_INTEGER means: abort rle */
 
-int  c = 0;               /* rle position */
-register int  i = NA_INTEGER;       /* position     */
-register int li = NA_INTEGER;       /* last position */
-register int  d = NA_INTEGER;       /* difference */
-register int ld = NA_INTEGER;       /* last difference */
-register int ln = 0;                /* counter of last difference */
-int s = 1; /* sum of TRUE */
+  int  c = 0;                   /* rle position */
+  register int  i = NA_INTEGER; /* position     */
+  register int li = NA_INTEGER; /* last position */
+  register int  d = NA_INTEGER; /* difference */
+  register int ld = NA_INTEGER; /* last difference */
+  register int ln = 0;          /* counter of last difference */
+  int s = 1;                    /* sum of TRUE */
 
-/* begin determine first and first increment d (stored in last_diff ld) */
-if (j<j1){
-  word = b[j];
-  for(; k<BITS; k++){
-    //Rprintf(" pre1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
-    if (word & mask1[k]){
-      if (first==NA_INTEGER)
-        first = j*BITS + k;
-      else{
-        li = j*BITS + k;
-        ld = li - first;
-        ln = 1;
-        break;
+  /* begin determine first and first increment d (stored in last_diff ld) */
+  if (b_length > 0 && j < j1) {
+    word = b[j];
+    for(; k<BITS; k++){
+      //Rprintf(" pre1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
+      if (word & mask1[k]){
+        if (first==NA_INTEGER)
+          first = j*BITS + k;
+        else{
+          li = j*BITS + k;
+          ld = li - first;
+          ln = 1;
+          break;
+        }
       }
     }
-  }
-  if (!ln){
-    for (j++; j<j1; j++){
-      word = b[j];
-      for(k=0; k<BITS; k++){
-        //Rprintf("main1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
-        if (word & mask1[k]){
-          if (first==NA_INTEGER)
-            first = j*BITS + k;
-          else{
-            li = j*BITS + k;
-            ld = li - first;
-            ln = 1;
-            j = j1 + 1; break;;
+    if (!ln){
+      for (j++; j<j1; j++){
+        word = b[j];
+        for(k=0; k<BITS; k++){
+          //Rprintf("main1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
+          if (word & mask1[k]){
+            if (first==NA_INTEGER)
+              first = j*BITS + k;
+            else{
+              li = j*BITS + k;
+              ld = li - first;
+              ln = 1;
+              j = j1 + 1; break;;
+            }
           }
         }
       }
     }
+    k=0;
   }
-  k=0;
-}
-if (!ln && j==j1 && k<=k1){
-  word = b[j];
-  for(; k<=k1; k++){
-    //Rprintf("post1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
-    if (word & mask1[k]){
-      if (first==NA_INTEGER)
-        first = j*BITS + k;
-      else{
-        li = j*BITS + k;
-        ld = li - first;
-        ln = 1;
-        break;
-      }
-    }
-  }
-}
-/* end determine first and first increment d */
-
-
-if (first!=NA_INTEGER){  /* we have found at least one TRUE position */
-int n = range[1] - first;
-  
-  //Rprintf("CHECK: first=%d last=%d range[0]=%d range[1]=%d n=%d ln=%d\n", first, last, range[0], range[1], n, ln);
-  
-  if (ln && n>=3){
-    /* see function intrle in package ff:
-    max RAM requirement 2x, but rle only if at least 2/3 savings,
-    using 2 instead of 3 would need 50% more time,
-    have max RAM requirement 2.5x for savings of any size
-    NOTE that n is a fuzzy worst case estimate of the number of TRUEs
-    i.e. in some cases we miss the rle abort and use rle although simple positions would cost less RAM
-    */
-    int *val, *len;
-    int n2 = n / 3;
-    val = R_Calloc(n2, int);
-    len = R_Calloc(n2, int);
-    
-    i=first+ld;
-    k=(i+1)%BITS;
-    j=(i+1)/BITS;
-    
-    //Rprintf("first=%d li=%d\n", first, li);
-    
-    
-    /* begin determine increments */
-    if (j<j1){
-      word = b[j];
-      for(; k<BITS; k++){
-        i++;
-        //Rprintf(" pre2 j=%d k=%d j*BITS+k=%d i=%d\n", j, k, j*BITS+k, i);
-        if (word & mask1[k]){
-          HANDLE_TRUE
-        }
-      }
-      if (last!=NA_INTEGER){ /* not aborted rle */
-    for (j++; j<j1; j++){
-      word = b[j];
-      for(k=0; k<BITS ;k++){
-        i++;
-        //Rprintf("main2 j=%d k=%d j*BITS+k=%d i=%d\n", j, k, j*BITS+k, i);
-        if (word & mask1[k]){
-          HANDLE_TRUE
-        }
-      }
-    }
-      }
-      k = 0;
-    }
-    if (last!=NA_INTEGER && j==j1){ /* not aborted rle */
+  if (b_length > 0 && !ln && j==j1 && k<=k1) {
     word = b[j];
-      for(; k<=k1; k++){
-        i++;
-        //Rprintf("post2 j=%d k=%d j*BITS+k=%d i=%d\n", j, k, j*BITS+k, i);
-        if (word & mask1[k]){
-          HANDLE_TRUE
+    for(; k<=k1; k++){
+      //Rprintf("post1 j=%d k=%d i=%d\n", j,k, j*BITS+k);
+      if (word & mask1[k]){
+        if (first==NA_INTEGER)
+          first = j*BITS + k;
+        else{
+          li = j*BITS + k;
+          ld = li - first;
+          ln = 1;
+          break;
         }
       }
     }
-    if (last!=NA_INTEGER){ /* not aborted rle */
-    int *values, *lengths;
-      SEXP lengths_, values_, datnames_, rleclass_;
-      s += ln;
-      val[c] = ld;
-      len[c] = ln;
-      c++;
-      first++;
-      last = range[1] - (i-li);
-      /* end determine increments */
-      PROTECT( values_ = allocVector(INTSXP, c) );
-      values = INTEGER(values_);
-      for (i=0;i<c;i++)
-        values[i] = val[i];
-      R_Free(val);
-      PROTECT( lengths_ = allocVector(INTSXP, c) );
-      lengths = INTEGER(lengths_);
-      for (i=0;i<c;i++)
-        lengths[i] = len[i];
-      R_Free(len);
-      
-      PROTECT( dat_ = allocVector(VECSXP, 2) );
-      PROTECT( datnames_ = allocVector(STRSXP, 2));
-      PROTECT( rleclass_ = allocVector(STRSXP, 1));
-      
-      SET_STRING_ELT(datnames_, 0, mkChar("lengths"));
-      SET_STRING_ELT(datnames_, 1, mkChar("values"));
-      SET_STRING_ELT(rleclass_, 0, mkChar("rle"));
-      SET_VECTOR_ELT(dat_, 0, lengths_);
-      SET_VECTOR_ELT(dat_, 1, values_);
-      setAttrib(dat_, R_NamesSymbol, datnames_);
-      classgets(dat_, rleclass_);
-      
-      protectcount += 5;
-    }
-    
-  }else{
-    last = NA_INTEGER; /* abort rle */
   }
+  /* end determine first and first increment d */
+
+
+  if (first!=NA_INTEGER) {  /* we have found at least one TRUE position */
+    int n = range[1] - first;
   
-  /* if rle aborted, do the simple positions */
+    //Rprintf("CHECK: first=%d last=%d range[0]=%d range[1]=%d n=%d ln=%d\n", first, last, range[0], range[1], n, ln);
   
-  if (last==NA_INTEGER){
-    int *dat;
+    if (ln && n >= 3) {
+      /* see function intrle in package ff:
+      max RAM requirement 2x, but rle only if at least 2/3 savings,
+      using 2 instead of 3 would need 50% more time,
+      have max RAM requirement 2.5x for savings of any size
+      NOTE that n is a fuzzy worst case estimate of the number of TRUEs
+      i.e. in some cases we miss the rle abort and use rle although simple positions would cost less RAM
+      */
+      int *val, *len;
+      int n2 = n / 3;
+      val = R_Calloc(n2, int);
+      len = R_Calloc(n2, int);
+      
+      i=first+ld;
+      k=(i+1)%BITS;
+      j=(i+1)/BITS;
+      
+      //Rprintf("first=%d li=%d\n", first, li);
+      
+      
+      /* begin determine increments */
+      if (b_length > 0 && j < j1) {
+        word = b[j];
+        for(; k<BITS; k++) {
+          i++;
+          //Rprintf(" pre2 j=%d k=%d j*BITS+k=%d i=%d\n", j, k, j*BITS+k, i);
+          if (word & mask1[k]){
+            HANDLE_TRUE
+          }
+        }
+        if (last!=NA_INTEGER) { /* not aborted rle */
+          for (j++; j<j1; j++){
+            word = b[j];
+            for(k=0; k<BITS ;k++) {
+              i++;
+              //Rprintf("main2 j=%d k=%d j*BITS+k=%d i=%d\n", j, k, j*BITS+k, i);
+              if (word & mask1[k]) {
+                HANDLE_TRUE
+              }
+            }
+          }
+        }
+        k = 0;
+      }
+      if (b_length > 0 && last != NA_INTEGER && j == j1) { /* not aborted rle */
+        word = b[j];
+        for(; k<=k1; k++) {
+          i++;
+          //Rprintf("post2 j=%d k=%d j*BITS+k=%d i=%d\n", j, k, j*BITS+k, i);
+          if (word & mask1[k]){
+            HANDLE_TRUE
+          }
+        }
+      }
+      if (last != NA_INTEGER) { /* not aborted rle */
+        int *values, *lengths;
+        SEXP lengths_, values_, datnames_, rleclass_;
+        s += ln;
+        val[c] = ld;
+        len[c] = ln;
+        c++;
+        first++;
+        last = range[1] - (i-li);
+        /* end determine increments */
+        PROTECT( values_ = allocVector(INTSXP, c) );
+        values = INTEGER(values_);
+        for (i=0;i<c;i++)
+          values[i] = val[i];
+        R_Free(val);
+        PROTECT( lengths_ = allocVector(INTSXP, c) );
+        lengths = INTEGER(lengths_);
+        for (i=0;i<c;i++)
+          lengths[i] = len[i];
+        R_Free(len);
+        
+        PROTECT( dat_ = allocVector(VECSXP, 2) );
+        PROTECT( datnames_ = allocVector(STRSXP, 2));
+        PROTECT( rleclass_ = allocVector(STRSXP, 1));
+        
+        SET_STRING_ELT(datnames_, 0, mkChar("lengths"));
+        SET_STRING_ELT(datnames_, 1, mkChar("values"));
+        SET_STRING_ELT(rleclass_, 0, mkChar("rle"));
+        SET_VECTOR_ELT(dat_, 0, lengths_);
+        SET_VECTOR_ELT(dat_, 1, values_);
+        setAttrib(dat_, R_NamesSymbol, datnames_);
+        classgets(dat_, rleclass_);
+        
+        protectcount += 5;
+      }
+      
+    } else {
+      last = NA_INTEGER; /* abort rle */
+    }
+
+    /* if rle aborted, do the simple positions */
     
-    first++;
-    s = bit_sum(b, first, range[1]);
-    PROTECT( dat_ = allocVector(INTSXP, s) );
-    dat = INTEGER(dat_);
-    //Rprintf("1: offset=%d first=%d last=%d\n", offset, first, last);
-    bit_which_positive(b, dat, first, range[1], offset);
-    last = dat[s-1] - offset;
-    //Rprintf("2: offset=%d first=%d last=%d\n", offset, first, last);
-    
+    if (last == NA_INTEGER) {
+      int *dat;
+      
+      first++;
+      s = bit_sum(b, first, range[1]);
+      PROTECT( dat_ = allocVector(INTSXP, s) );
+      dat = INTEGER(dat_);
+      //Rprintf("1: offset=%d first=%d last=%d\n", offset, first, last);
+      bit_which_positive(b, dat, first, range[1], offset);
+      last = dat[s-1] - offset;
+      //Rprintf("2: offset=%d first=%d last=%d\n", offset, first, last);
+      
+      protectcount++;
+    }
+  
+  } else {
+    /* all FALSE */
+    last = NA_INTEGER;
+    s = 0;
+    PROTECT( dat_ = allocVector(INTSXP,0) );
     protectcount++;
   }
-  
-}else{
-  /* all FALSE */
-  last = NA_INTEGER;
-  s = 0;
-  PROTECT( dat_ = allocVector(INTSXP,0) );
-  protectcount++;
-}
 
-PROTECT( first_ = allocVector(INTSXP, 1) );
-PROTECT( last_ = allocVector(INTSXP, 1) );
-PROTECT( len_ = allocVector(INTSXP, 1) );
-//Rprintf("3: offset=%d first=%d last=%d\n", offset, first, last);
-INTEGER(first_)[0] = offset + first;
-INTEGER(last_)[0] = offset + last;
-INTEGER(len_)[0] = s;
-PROTECT( ret_ = allocVector(VECSXP, 4) );
+  PROTECT(first_ = allocVector(INTSXP, 1));
+  PROTECT(last_ = allocVector(INTSXP, 1));
+  PROTECT(len_ = allocVector(INTSXP, 1));
+  //Rprintf("3: offset=%d first=%d last=%d\n", offset, first, last);
+  INTEGER(first_)[0] = offset + first;
+  INTEGER(last_)[0] = offset + last;
+  INTEGER(len_)[0] = s;
+  PROTECT(ret_ = allocVector(VECSXP, 4));
 
-PROTECT( retnames_ = allocVector(STRSXP, 4));
-SET_STRING_ELT(retnames_, 0, mkChar("first"));
-SET_STRING_ELT(retnames_, 1, mkChar("dat"));
-SET_STRING_ELT(retnames_, 2, mkChar("last"));
-SET_STRING_ELT(retnames_, 3, mkChar("len"));
-SET_VECTOR_ELT(ret_, 0, first_);
-SET_VECTOR_ELT(ret_, 1, dat_);
-SET_VECTOR_ELT(ret_, 2, last_);
-SET_VECTOR_ELT(ret_, 3, len_);
-setAttrib(ret_, R_NamesSymbol, retnames_);
+  PROTECT(retnames_ = allocVector(STRSXP, 4));
+  SET_STRING_ELT(retnames_, 0, mkChar("first"));
+  SET_STRING_ELT(retnames_, 1, mkChar("dat"));
+  SET_STRING_ELT(retnames_, 2, mkChar("last"));
+  SET_STRING_ELT(retnames_, 3, mkChar("len"));
+  SET_VECTOR_ELT(ret_, 0, first_);
+  SET_VECTOR_ELT(ret_, 1, dat_);
+  SET_VECTOR_ELT(ret_, 2, last_);
+  SET_VECTOR_ELT(ret_, 3, len_);
+  setAttrib(ret_, R_NamesSymbol, retnames_);
 
-PROTECT( rlepackclass_ = allocVector(STRSXP, 1));
-SET_STRING_ELT(rlepackclass_, 0, mkChar("rlepack"));
-classgets(ret_, rlepackclass_);
+  PROTECT(rlepackclass_ = allocVector(STRSXP, 1));
+  SET_STRING_ELT(rlepackclass_, 0, mkChar("rlepack"));
+  classgets(ret_, rlepackclass_);
 
-protectcount += 6;
+  protectcount += 6;
 
-UNPROTECT(protectcount);
-return ret_;
+  UNPROTECT(protectcount);
+  return ret_;
 }
 
 
