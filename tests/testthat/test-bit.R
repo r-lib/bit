@@ -581,3 +581,7 @@ test_that("rev() methods work", {
 test_that("as.integer method for bit works", {
   expect_identical(as.integer(as.bit(0:1)), 0:1)
 })
+
+test_that("sum() works for bits", {
+  expect_identical(sum(bit()), 0L)
+})
