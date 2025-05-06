@@ -43,9 +43,9 @@ static bitint *mask0, *mask1;
 
 static void bit_init(int   bits){
   if (bits != BITS)
-    Rf_error("R .BITS and C BITS are not in sync");
+    Rf_error("R .BITS and C BITS are not in sync"); // # nocov
   if (bits-1 != LASTBIT)
-    Rf_error("R .BITS and C LASTBIT are not in sync");
+    Rf_error("R .BITS and C LASTBIT are not in sync"); // # nocov
   mask0 = calloc(BITS, sizeof(bitint));
   mask1 = calloc(BITS, sizeof(bitint));
   bitint b = 1;
