@@ -10,6 +10,10 @@
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
+#include <R_ext/Arith.h>
+#include <R_ext/Error.h>
+#include <R_ext/RS.h>
+#include <stdlib.h>
 
 #include "merge.h"
 #include "sort.h"
@@ -39,9 +43,9 @@ static bitint *mask0, *mask1;
 
 static void bit_init(int   bits){
   if (bits != BITS)
-    error("R .BITS and C BITS are not in sync");
+    Rf_error("R .BITS and C BITS are not in sync"); // # nocov
   if (bits-1 != LASTBIT)
-    error("R .BITS and C LASTBIT are not in sync");
+    Rf_error("R .BITS and C LASTBIT are not in sync"); // # nocov
   mask0 = calloc(BITS, sizeof(bitint));
   mask1 = calloc(BITS, sizeof(bitint));
   bitint b = 1;
@@ -677,8 +681,6 @@ static void bit_replace_but_sorted(bitint *b, int nb, int *i, int ni, int *l){
         b[j] |= mask1[k];
       il++;
     }
-    
-    return;
 }
 
 
@@ -767,8 +769,6 @@ static void bit_replace_but_sorted_recycle(bitint *b, int nb, int *i, int ni, in
       if (++il>=nl)
         il -= nl;  // recycle l
     }
-    
-    return;
 }
 
 
@@ -841,8 +841,6 @@ static void bit_replace_but_sorted_one(bitint *b, int nb, int *i, int ni, int l)
       else
         b[j] |= mask1[k];
     }
-    
-    return;
 }
 
 
@@ -2191,7 +2189,7 @@ SEXP R_bit_reverse(
   int nt = asInteger(tleng);
   UNPROTECT(6);
   if (ns!= nt)
-    error("source and target must have same length in R_bit_reverse");
+    Rf_error("source and target must have same length in R_bit_reverse");
   bit_reverse(bsource, btarget, ns);
   return(btarget_);
 }
