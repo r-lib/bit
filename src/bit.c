@@ -2721,6 +2721,7 @@ if (d==ld){                             \
 
 /* last=0 means aborting rle */
 
+// # nocov start: only intended to be covered by {ff} tests
 SEXP R_bit_as_hi(SEXP b_, SEXP range_, SEXP offset_)
 {
   bitint *b = (bitint*) INTEGER(b_);
@@ -2954,7 +2955,7 @@ SEXP R_bit_as_hi(SEXP b_, SEXP range_, SEXP offset_)
   UNPROTECT(protectcount);
   return ret_;
 }
-
+// # nocov end
 
 #undef HANDLE_TRUE
 
