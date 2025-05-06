@@ -1925,6 +1925,7 @@ sum.bit <- function(x, range=NULL, ...) {
     if (range[1] < 1L || range[2] > length(x))
       stop("illegal range")
   }
+  if (length(x) == 0L) return(0L)
   .Call(C_R_bit_sum, x, range)
 }
 
